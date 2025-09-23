@@ -105,6 +105,8 @@ If Ruby is not installed, install it using your system's package manager.
    bundle install
    ```
 
+   Bundle is a package manager. It is like uv for python, npm for JS.
+
    <div markdown="span" class="alert alert-info">:information_source: **Note:**
    
    If you encounter permission errors, you can install gems locally instead of system-wide:
