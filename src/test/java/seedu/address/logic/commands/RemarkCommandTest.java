@@ -1,4 +1,7 @@
 @Test
 public void execute() {
-    assertCommandFailure(new RemarkCommand(), model, MESSAGE_NOT_IMPLEMENTED_YET);
+    final String remark = "Some remark";
+
+    assertCommandFailure(new RemarkCommand(INDEX_FIRST_PERSON, remark), model,
+        String.format(MESSAGE_ARGUMENTS, INDEX_FIRST_PERSON.getOneBased(), remark));
 }
