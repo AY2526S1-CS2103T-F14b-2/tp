@@ -10,6 +10,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Remark;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 /**
  * Changes the remark of an existing person in the address book.
@@ -21,7 +22,7 @@ public class RemarkCommand extends Command {
     public static final String MESSAGE_ARGUMENTS = "Index: %1$d, Remark: %2$s";
 
     private final Index index;
-    private final String remark;
+    private final Remark remark;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the remark of the person identified "
@@ -43,7 +44,7 @@ public class RemarkCommand extends Command {
         requireAllNonNull(index, remark);
 
         this.index = index;
-        this.remark = remark;
+        this.remark = new Remark(remark);
     }
 
     @Override
