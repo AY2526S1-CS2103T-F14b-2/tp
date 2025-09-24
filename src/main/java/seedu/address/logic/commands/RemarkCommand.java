@@ -1,11 +1,20 @@
 package seedu.address.logic.commands;
 
-import seedu.address.model.Model;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.List;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.person.Person;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 /**
  * Changes the remark of an existing person in the address book.
  */
-public class RemarkCommand extends Command throws CommandException {
+public class RemarkCommand extends Command {
 
     public static final String COMMAND_WORD = "remark";
 
