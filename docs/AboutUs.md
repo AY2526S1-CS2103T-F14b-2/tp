@@ -9,15 +9,19 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Chua Kai Jie, Emerson
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/fatbolster.png" width="200px">
 
 [[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
+[[github](https://github.com/fatbolster)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Project Advisor
+* Role: Testing Lead
+* Responsibilities:
+  * Define and maintain project's testing strategy (unit, integration and system)
+  * In charge of approving testing-related pull requests
+  * Come up with test cases and ensure new versions pass them before release
 
 ### Jane Doe
 
