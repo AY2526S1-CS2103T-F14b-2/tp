@@ -9,6 +9,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
+
 ### Chua Kai Jie, Emerson
 
 <img src="images/fatbolster.png" width="200px">
@@ -22,15 +23,39 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
   * In charge of approving testing-related pull requests
   * Come up with test cases and ensure new versions pass them before release
 
-### Jane Doe
+### Or Fu Xiang
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/tofuuu67.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[homepage](http://www.comp.nus.edu.sg/~damithch)]
+[[github](https://github.com/tofuuu67)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Developer
+* Responsibilities: UI
+
+
+### Hao Jun Mah
+
+<img src="images/haojun-mah.png" width="200px">
+
+[[homepage](http://www.comp.nus.edu.sg/~damithch)]
+[[github](https://github.com/haojun-mah)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Developer 
+* Responsibility: Code Quality & Integration
+
+
+### Chen Kaiwen
+
+<img src="images/ckwflash.png" width="200px">
+
+[[github](http://github.com/ckwflash)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Team Lead
-* Responsibilities: UI
+* Responsibilities: Oversees coordiation, schedule tasks and monitor team progress
 
 ### Johnny Doe
 
