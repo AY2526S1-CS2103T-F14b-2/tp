@@ -9,6 +9,17 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
+### Chen Kaiwen
+
+<img src="images/ckwflash.png" width="200px">
+
+[[github](http://github.com/ckwflash)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Team Lead
+* Oversees coordiation, schedule tasks and monitor team progress
+
+
 ### Pek Yiheng
 
 <img src="images/pekyiheng.png" width="200px">
@@ -19,41 +30,40 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibility: Documentation
 
-### Jane Doe
 
-<img src="images/johndoe.png" width="200px">
+### Chua Kai Jie, Emerson
 
-[[github](http://github.com/johndoe)]
+<img src="images/fatbolster.png" width="200px">
+
+[[github](https://github.com/fatbolster)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: Testing Lead
+* Responsibilities:
+    * Define and maintain project's testing strategy (unit, integration and system)
+    * In charge of approving testing-related pull requests
+    * Come up with test cases and ensure new versions pass them before release
 
-### Johnny Doe
 
-<img src="images/johndoe.png" width="200px">
+### Or Fu Xiang
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+<img src="images/tofuuu67.png" width="200px">
 
-* Role: Developer
-* Responsibilities: Data
-
-### Jean Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
-
-### James Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
+[[homepage](http://www.comp.nus.edu.sg/~damithch)]
+[[github](https://github.com/tofuuu67)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Developer
 * Responsibilities: UI
+
+
+### Hao Jun Mah
+
+<img src="images/haojun-mah.png" width="200px">
+
+[[homepage](http://www.comp.nus.edu.sg/~damithch)]
+[[github](https://github.com/haojun-mah)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Developer
+* Responsibility: Code Quality & Integration
