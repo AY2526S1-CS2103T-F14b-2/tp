@@ -10,6 +10,19 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 ## Project team
 
 
+### Chua Kai Jie, Emerson
+
+<img src="images/fatbolster.png" width="200px">
+
+[[github](https://github.com/fatbolster)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Testing Lead
+* Responsibilities:
+  * Define and maintain project's testing strategy (unit, integration and system)
+  * In charge of approving testing-related pull requests
+  * Come up with test cases and ensure new versions pass them before release
+
 ### Or Fu Xiang
 
 <img src="images/tofuuu67.png" width="200px">
@@ -20,6 +33,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: UI
+
 
 ### Hao Jun Mah
 
