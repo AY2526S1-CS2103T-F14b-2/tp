@@ -9,6 +9,18 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
+
+### Or Fu Xiang
+
+<img src="images/tofuuu67.png" width="200px">
+
+[[homepage](http://www.comp.nus.edu.sg/~damithch)]
+[[github](https://github.com/tofuuu67)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Developer
+* Responsibilities: UI
+
 ### Hao Jun Mah
 
 <img src="images/haojun-mah.png" width="200px">
@@ -19,6 +31,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer 
 * Responsibility: Code Quality & Integration
+
 
 ### Chen Kaiwen
 
