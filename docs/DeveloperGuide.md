@@ -289,16 +289,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `MediSaveContact` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case 1: Delete a person**
 
 **MSS**
 
 1.  User requests to list persons
-2.  AddressBook shows a list of persons
+2.  MediSaveContact shows a list of persons
 3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+4.  MediSaveContact deletes the person
 
     Use case ends.
 
@@ -310,7 +310,71 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case 2: Add an appointment to a patient**
+
+**MSS**
+
+1. User requests to list persons
+2. MediSaveContact shows a list of persons
+3. User requests to update a specific person's appointment
+4. MediSaveContact updates the information
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The given date is invalid.
+
+    * 3b1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case 3: Add a medical note to a patient**
+
+**MSS**
+
+1. User requests to list persons
+2. MediSaveContact shows a list of persons
+3. User requests to update a specific person's medical note
+4. MediSaveContact updates the information
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The given note is empty.
+
+    * 3b1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3c. The given note is too long.
+
+    * 3c1. MediSaveContact shows an error message.
 
       Use case resumes at step 2.
 
