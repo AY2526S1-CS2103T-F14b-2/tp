@@ -13,7 +13,7 @@ jobs:
   assign_reviewers:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug: show PR author
+      - name: "Debug: show PR author"
         run: |
           echo "PR by: ${{ github.event.pull_request.user.login }}"
 
