@@ -316,11 +316,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 *{More to be added}*
 
 ### Non-Functional Requirements
+### Business 
+1. Single nurse profile can support <= 5000 patients
+2. A nurse cannot creates two appointments that overlap for the same patient
 #### Constraints
 1. Release is one JAR <= 100 MB, runs via java -jar
 2. Features work 100% offline, no dependency on external servers
 #### Performance
-1. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+1. Listing up to 1000 patients render first screen in <300 ms and filter/search updates re-render in <150 ms 
+2. Prompt can be typed in <2.5s from java -jar 
 #### Quality 
 1. User can perform commands without using a mouse
 2. Proper response to invalid commands (showing epected syntax, reason why comamnds are invalid, etc)
