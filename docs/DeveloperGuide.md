@@ -325,8 +325,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
+
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **JAR**: Java Archive -- A package file format used to aggregate many Java class files, associated metadata, and resources into a single file for distribution
+* **GUI**: Graphical User Interface -- A form of user interface that allows users to interact with their devices through graphical icons and visual indicators
+* **Patient records**: Information related to a patient (personal details, notes, appointments)
+* **Medical note**: A string field with a maximum length of 200 characters, intended for storing patient specific notes such as diagnosis and medications
+* **Appointment**: Patient's next appointment. Stores a DateTime object, and cannot be set to the past
 
 --------------------------------------------------------------------------------------------------------------------
 
