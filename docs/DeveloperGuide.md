@@ -318,7 +318,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 ### Business 
 1. Single nurse profile can support <= 5000 patients
-2. A nurse cannot creates two appointments that overlap for the same patient
+2. A nurse cannot create two appointments that overlap for the same patient
 #### Constraints
 1. Release is one JAR <= 100 MB, runs via java -jar
 2. Features work 100% offline, no dependency on external servers
@@ -333,9 +333,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 #### Process 
 1. Project to be conducted in Brownfield increments, by every week, a new release of the product is made available 
 #### Notes about project scope 
-1. The product should maintain a single local profile, no access to the same data file by another user 
-
-
+1. The product should maintain a single local profile, no access to the same data file by another user
 
 ### Glossary
 
