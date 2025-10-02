@@ -275,16 +275,34 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
+| Priority | As a …​             | I want to …​                                          | So that I can…​                                          |
+|----------|---------------------|-------------------------------------------------------|----------------------------------------------------------|
+| `* * *`  | home-visiting nurse | view the records without needing internet             | work at places with no cellular signal                   |
+| `* * *`  | new user            | view all the commands of the Medi Save Contact        | onboarding in the application is easy                    |
+| `* * *`  | nurse               | add a new patient with personal details               | I can keep track of who I’m caring for                   | 
+| `* * *`  | nurse               | view a patient’s details quickly                      | I can recall important info during visits                |
+| `* * *`  | nurse               | delete a patient’s record                             | I can remove patients I no longer manage                 |
+| `* * *`  | nurse               | list all patients                                     | I can get an overview of my caseload                     |
+| `* * *`  | nurse               | add medical notes to a patient                        | I can record observations and treatment history          |
+| `* * *`  | nurse               | add an appointment for a patient                      | I can remember when to visit them                        |
+| `* *`    | nurse               | receive reminders for appointments                    | I won’t forget important visits                          |
+| `* *`    | nurse               | filter patients by condition/notes                    | I can prioritize certain groups of patients              |
+| `* *`    | nurse               | undo my last action                                   | I can recover from mistakes                              |
+| `*`      | new user            | view detailed error message                           | I know if I am using the product wrongly and how to fix  |
+| `*`      | nurse               | update a patient's details                            | I can keep information accurate                          |
+| `*`      | nurse               | search for a patient by name                          | I can find records quickly                               |
+| `*`      | nurse               | view upcoming appointments                            | I can plan my schedule efficiently                       |
+| `*`      | nurse               | delete an appointment                                 | I can manage changes in patient schedules                |
+| `*`      | nurse               | mark an appointment as completed                      | I can track which visits I've done                       |
+| `*`      | nurse               | sort patients by name                                 | I can find them more easily                              |
+| `*`      | nurse               | add medication info to a patient                      | I can track prescriptions and dosages                    |
+| `*`      | nurse               | view patients with ongoing medication                 | I can check who needs regular follow-ups                 |
+| `*`      | nurse               | export patient records to a text file                 | I can back up my data                                    |
+| `*`      | nurse               | import patient records from a text file               | I can restore data if needed                             |
+| `*`      | nurse               | tag patients with labels (e.g., "diabetes", "rehab")  | I can organise them by heaklth needs                     |
+| `*`      | nurse               | search patients by tag                                | I can quickly find patients with similar conditions      |
 
-*{More to be added}*
+
 
 ### Use cases
 
