@@ -399,12 +399,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 *{More to be added}*
 
 ### Non-Functional Requirements
-
+### Business 
+1. Single nurse profile can support <= 5000 patients
+2. A nurse cannot create two appointments that overlap for the same patient
+#### Constraints
+1. Release is one JAR <= 100 MB, runs via java -jar
+2. Features work 100% offline, no dependency on external servers
+#### Performance
+1. Listing up to 1000 patients render first screen in <300 ms and filter/search updates re-render in <150 ms 
+2. Prompt can be typed in <2.5s from java -jar 
+#### Quality 
+1. User can perform commands without using a mouse
+2. Proper response to invalid commands (showing epected syntax, reason why comamnds are invalid, etc)
+#### Technical 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
+#### Process 
+1. Project to be conducted in Brownfield increments, by every week, a new release of the product is made available 
+#### Notes about project scope 
+1. The product should maintain a single local profile, no access to the same data file by another user
 
 ### Glossary
 
