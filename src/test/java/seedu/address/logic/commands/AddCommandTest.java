@@ -54,7 +54,7 @@ public class AddCommandTest {
     }
 
     @Test
-    public void execute_duplicatePerson_sameNameDifferentPhone_throwsCommandException() {
+    public void execute_duplicateName_throwsCommandException() {
         // existing person in model
         Person existing = new PersonBuilder()
                 .withName("Alice Pauline")
