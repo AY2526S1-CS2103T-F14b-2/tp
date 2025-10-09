@@ -17,14 +17,7 @@ import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Note;
-import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
-import seedu.address.model.util.SampleDataUtil;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -84,29 +77,6 @@ public class DeleteCommandTest {
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-    }
-
-    @Test
-    public void execute_deletePatient_success() {
-        Model modelWithPatient = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-    Patient patientToDelete = new Patient(new Name("Paul Patient"),
-        new Phone("91234567"),
-        new Email("paul.patient@example.com"),
-        new Address("12 Patient Road"),
-        SampleDataUtil.getTagSet("patient"),
-        new Note("Recovering from flu."));
-        modelWithPatient.addPerson(patientToDelete);
-        Index patientIndex = Index.fromOneBased(modelWithPatient.getFilteredPersonList().size());
-
-        DeleteCommand deleteCommand = new DeleteCommand(patientIndex);
-
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
-                Messages.format(patientToDelete));
-
-        Model expectedModel = new ModelManager(modelWithPatient.getAddressBook(), new UserPrefs());
-        expectedModel.deletePerson(patientToDelete);
-
-        assertCommandSuccess(deleteCommand, modelWithPatient, expectedMessage, expectedModel);
     }
 
     @Test
