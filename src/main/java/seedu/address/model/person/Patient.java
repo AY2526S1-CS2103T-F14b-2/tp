@@ -19,16 +19,16 @@ public class Patient extends Person {
     /**
      * Allows Patient to be instantiated without accompanying note.
      */
-    public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        super(name, phone, email, address, tags);
+    public Patient(Name name, Phone phone, Address address, Set<Tag> tags) {
+        super(name, phone, address, tags);
         this.note = new Note("NIL");
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Note note) {
-        super(name, phone, email, address, tags);
+    public Patient(Name name, Phone phone, Address address, Set<Tag> tags, Note note) {
+        super(name, phone, address, tags);
         requireAllNonNull(note);
         this.note = note;
     }
@@ -55,7 +55,6 @@ public class Patient extends Person {
         Person otherPatient = (Patient) other;
         return this.getName().equals(otherPatient.getName())
                 && this.getPhone().equals(otherPatient.getPhone())
-                && this.getEmail().equals(otherPatient.getEmail())
                 && this.getAddress().equals(otherPatient.getAddress())
                 && this.getTags().equals(otherPatient.getTags());
     }
@@ -63,7 +62,7 @@ public class Patient extends Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(this.getName(), this.getPhone(), this.getEmail(), this.getAddress(),
+        return Objects.hash(this.getName(), this.getPhone(), this.getAddress(),
                     this.getTags(), this.getNote());
     }
 
@@ -72,7 +71,6 @@ public class Patient extends Person {
         return new ToStringBuilder(this)
                 .add("name", this.getName())
                 .add("phone", this.getPhone())
-                .add("email", this.getEmail())
                 .add("address", this.getAddress())
                 .add("tags", this.getTags())
                 .add("note", this.getNote())
