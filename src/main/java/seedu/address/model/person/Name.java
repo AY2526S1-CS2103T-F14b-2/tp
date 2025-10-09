@@ -13,7 +13,8 @@ public class Name {
             "Name cannot be blank";
 
     public static final String INVALID_CHARS =
-            "Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.";
+            "Name contains invalid characters. "
+                    + "Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.";
 
     public static final String MESSAGE_CONSTRAINTS =
             "String is in invalid format";

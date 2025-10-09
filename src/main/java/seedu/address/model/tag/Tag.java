@@ -36,7 +36,9 @@ public class Tag {
      * Returns true if a given string is a valid tag name.
      */
     public static boolean isValidTagName(String test) {
-        if (test == null) return false;
+        if (test == null) {
+            return false;
+        }
         return ALLOWED.contains(test.toLowerCase(Locale.ROOT));
     }
 
