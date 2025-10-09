@@ -15,7 +15,6 @@ import static seedu.address.testutil.TypicalPatients.BOB;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.testutil.PatientBuilder;
-import seedu.address.testutil.PersonBuilder;
 
 public class PatientTest {
 
