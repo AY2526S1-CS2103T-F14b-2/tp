@@ -2,8 +2,10 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -19,7 +21,7 @@ public class Patient extends Person {
      */
     public Patient(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         super(name, phone, email, address, tags);
-        this.note = null;
+        this.note = new Note("NIL");
     }
 
     /**
@@ -33,5 +35,47 @@ public class Patient extends Person {
 
     public Note getNote() {
         return note;
+    }
+
+    /**
+     * Returns true if both persons have the same identity and data fields.
+     * This defines a stronger notion of equality between two persons.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof Patient)) {
+            return false;
+        }
+
+        Person otherPatient = (Patient) other;
+        return this.getName().equals(otherPatient.getName())
+                && this.getPhone().equals(otherPatient.getPhone())
+                && this.getEmail().equals(otherPatient.getEmail())
+                && this.getAddress().equals(otherPatient.getAddress())
+                && this.getTags().equals(otherPatient.getTags());
+    }
+
+    @Override
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(this.getName(), this.getPhone(), this.getEmail(), this.getAddress(),
+                    this.getTags(), this.getNote());
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("name", this.getName())
+                .add("phone", this.getPhone())
+                .add("email", this.getEmail())
+                .add("address", this.getAddress())
+                .add("tags", this.getTags())
+                .add("note", this.getNote())
+                .toString();
     }
 }
