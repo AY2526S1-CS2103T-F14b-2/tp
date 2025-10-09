@@ -75,7 +75,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 Shows all commands available in the application.
 
-![help message](images/helpMessage.png)
+<img src="images/helpMessage.png" alt="help message" width="50%">
 
 Format: `help *`
 
