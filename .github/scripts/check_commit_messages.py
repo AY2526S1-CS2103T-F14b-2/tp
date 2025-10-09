@@ -58,6 +58,7 @@ IMPERATIVE_HINTS = [
     "add", "remove", "fix", "update", "create", "delete", "refactor", "rename",
     "move", "improve", "implement", "change", "merge"
 ]
+MERGE_SUBJECT_PATTERN = re.compile(r"^Merge\\b", re.IGNORECASE)
 
 errors_found = False
 
@@ -71,6 +72,10 @@ for commit_block in commits.split("\n\ncommit "):
     if " " not in first_line:
         continue
     commit_hash, subject = first_line.split(" ", 1)
+
+    if MERGE_SUBJECT_PATTERN.match(subject):
+        print(f"Skipping merge commit {commit_hash[:7]}: {subject}")
+        continue
 
     print(f"Checking commit {commit_hash[:7]}: {subject}")
 
