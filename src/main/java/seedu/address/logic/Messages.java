@@ -39,13 +39,23 @@ public class Messages {
         builder.append(person.getName())
                 .append("; Phone: ")
                 .append(person.getPhone())
-                .append("; Email: ")
-                .append(person.getEmail())
                 .append("; Address: ")
                 .append(person.getAddress())
                 .append("; Tags: ");
-        person.getTags().forEach(builder::append);
+
+        String priorityTags = person.getTags().stream()
+                .map(tag -> tag.toString())
+                .map(tag -> Messages.capitalise(tag))
+                .map(s -> s + " Priority")
+                .collect(java.util.stream.Collectors.joining(", "));
+
+        builder.append(priorityTags);
         return builder.toString();
+    }
+
+    private static String capitalise(String s) {
+        String lower = s.toLowerCase();
+        return Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
     }
 
 }
