@@ -58,7 +58,7 @@ The *Sequence Diagram* below shows how the components interact with each other f
 Each of the four main components (also shown in the diagram above),
 
 * defines its *API* in an `interface` with the same name as the Component.
-* implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
+* implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point).
 
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
 
@@ -276,32 +276,32 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​             | I want to …​                                          | So that I can…​                                          |
-|----------|---------------------|-------------------------------------------------------|----------------------------------------------------------|
-| `* * *`  | home-visiting nurse | view the records without needing internet             | work at places with no cellular signal                   |
-| `* * *`  | new user            | view all the commands of the Medi Save Contact        | onboarding in the application is easy                    |
-| `* * *`  | nurse               | add a new patient with personal details               | I can keep track of who I’m caring for                   | 
-| `* * *`  | nurse               | view a patient’s details quickly                      | I can recall important info during visits                |
-| `* * *`  | nurse               | delete a patient’s record                             | I can remove patients I no longer manage                 |
-| `* * *`  | nurse               | list all patients                                     | I can get an overview of my caseload                     |
-| `* * *`  | nurse               | add medical notes to a patient                        | I can record observations and treatment history          |
-| `* * *`  | nurse               | add an appointment for a patient                      | I can remember when to visit them                        |
-| `* *`    | nurse               | receive reminders for appointments                    | I won’t forget important visits                          |
-| `* *`    | nurse               | filter patients by condition/notes                    | I can prioritize certain groups of patients              |
-| `* *`    | nurse               | undo my last action                                   | I can recover from mistakes                              |
-| `*`      | new user            | view detailed error message                           | I know if I am using the product wrongly and how to fix  |
-| `*`      | nurse               | update a patient's details                            | I can keep information accurate                          |
-| `*`      | nurse               | search for a patient by name                          | I can find records quickly                               |
-| `*`      | nurse               | view upcoming appointments                            | I can plan my schedule efficiently                       |
-| `*`      | nurse               | delete an appointment                                 | I can manage changes in patient schedules                |
-| `*`      | nurse               | mark an appointment as completed                      | I can track which visits I've done                       |
-| `*`      | nurse               | sort patients by name                                 | I can find them more easily                              |
-| `*`      | nurse               | add medication info to a patient                      | I can track prescriptions and dosages                    |
-| `*`      | nurse               | view patients with ongoing medication                 | I can check who needs regular follow-ups                 |
-| `*`      | nurse               | export patient records to a text file                 | I can back up my data                                    |
-| `*`      | nurse               | import patient records from a text file               | I can restore data if needed                             |
-| `*`      | nurse               | tag patients with labels (e.g., "diabetes", "rehab")  | I can organise them by heaklth needs                     |
-| `*`      | nurse               | search patients by tag                                | I can quickly find patients with similar conditions      |
+| Priority | As a …​             | I want to …​                                         | So that I can…​                                         |
+|----------|---------------------|------------------------------------------------------|---------------------------------------------------------|
+| `* * *`  | home-visiting nurse | view the records without needing internet            | work at places with no cellular signal                  |
+| `* * *`  | new user            | view all the commands of the MediSaveContact         | onboarding in the application is easy                   |
+| `* * *`  | nurse               | add a new patient with personal details              | I can keep track of who I’m caring for                  | 
+| `* * *`  | nurse               | view a patient’s details quickly                     | I can recall important info during visits               |
+| `* * *`  | nurse               | delete a patient’s record                            | I can remove patients I no longer manage                |
+| `* * *`  | nurse               | list all patients                                    | I can get an overview of my caseload                    |
+| `* * *`  | nurse               | add medical notes to a patient                       | I can record observations and treatment history         |
+| `* * *`  | nurse               | add an appointment for a patient                     | I can remember when to visit them                       |
+| `* *`    | nurse               | receive reminders for appointments                   | I won’t forget important visits                         |
+| `* *`    | nurse               | filter patients by condition/notes                   | I can prioritize certain groups of patients             |
+| `* *`    | nurse               | undo my last action                                  | I can recover from mistakes                             |
+| `*`      | new user            | view detailed error message                          | I know if I am using the product wrongly and how to fix |
+| `*`      | nurse               | update a patient's details                           | I can keep information accurate                         |
+| `*`      | nurse               | search for a patient by name                         | I can find records quickly                              |
+| `*`      | nurse               | view upcoming appointments                           | I can plan my schedule efficiently                      |
+| `*`      | nurse               | delete an appointment                                | I can manage changes in patient schedules               |
+| `*`      | nurse               | mark an appointment as completed                     | I can track which visits I've done                      |
+| `*`      | nurse               | sort patients by name                                | I can find them more easily                             |
+| `*`      | nurse               | add medication info to a patient                     | I can track prescriptions and dosages                   |
+| `*`      | nurse               | view patients with ongoing medication                | I can check who needs regular follow-ups                |
+| `*`      | nurse               | export patient records to a text file                | I can back up my data                                   |
+| `*`      | nurse               | import patient records from a text file              | I can restore data if needed                            |
+| `*`      | nurse               | tag patients with labels (e.g., "diabetes", "rehab") | I can organise them by health needs                     |
+| `*`      | nurse               | search patients by tag                               | I can quickly find patients with similar conditions     |
 
 
 
@@ -410,7 +410,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 2. Prompt can be typed in <2.5s from java -jar 
 #### Quality 
 1. User can perform commands without using a mouse
-2. Proper response to invalid commands (showing epected syntax, reason why comamnds are invalid, etc)
+2. Proper response to invalid commands (showing expected syntax, reason why commands are invalid, etc.)
 #### Technical 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 #### Process 
@@ -421,7 +421,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Glossary
 
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
+* **Mainstream OS**: Windows, Linux, Unix, macOS
 * **JAR**: Java Archive -- A package file format used to aggregate many Java class files, associated metadata, and resources into a single file for distribution
 * **GUI**: Graphical User Interface -- A form of user interface that allows users to interact with their devices through graphical icons and visual indicators
 * **Patient records**: Information related to a patient (personal details, notes, appointments)
