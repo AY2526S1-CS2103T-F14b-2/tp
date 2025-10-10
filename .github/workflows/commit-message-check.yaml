@@ -1,0 +1,25 @@
+name: Commit Message Convention Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check_commit_messages:
+    name: Validate Commit Messages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed to fetch all commits in PR
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Run commit message checker
+        run: |
+          python .github/scripts/check_commit_messages.py

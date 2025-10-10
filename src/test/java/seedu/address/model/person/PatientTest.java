@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_LOW;
@@ -72,10 +71,6 @@ public class PatientTest {
         editedAlice = new PatientBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different email -> returns false
-        editedAlice = new PatientBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
-        assertFalse(ALICE.equals(editedAlice));
-
         // different address -> returns false
         editedAlice = new PatientBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
@@ -88,7 +83,7 @@ public class PatientTest {
     @Test
     public void toStringMethod() {
         String expected = Patient.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
+                + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
                 + ", note=" + ALICE.getNote() + "}";
         assertEquals(expected, ALICE.toString());
     }
