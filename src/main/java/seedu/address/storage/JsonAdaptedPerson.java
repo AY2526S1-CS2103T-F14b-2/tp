@@ -26,6 +26,7 @@ class JsonAdaptedPerson {
     private final String name;
     private final String phone;
     private final String address;
+    private final String email;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -50,6 +51,7 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         address = source.getAddress().value;
+        email = source.getEmail().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -82,6 +84,7 @@ class JsonAdaptedPerson {
         }
         final Phone modelPhone = new Phone(phone);
 
+
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
         }
@@ -91,7 +94,7 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelAddress, modelTags);
+        return new Person(modelName, modelPhone, new Email("loleelmao@gmail.com"), modelAddress, modelTags);
     }
 
 }

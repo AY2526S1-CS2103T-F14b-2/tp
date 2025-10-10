@@ -33,9 +33,35 @@ public class Patient extends Person {
         this.note = note;
     }
 
+    public static Patient of(Name name, Phone phone, Address address, Set<Tag> tags) {
+        return new Patient(name, phone, new Email("loleelmao@gmail.com"), address, tags);
+    }
+
     public Note getNote() {
         return note;
     }
+
+    @Override
+    public boolean isSamePerson(Person other) {
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof Patient)) {
+            return false;
+        }
+
+        Patient p = (Patient) other;
+
+        String thisPhone = this.getPhone().value.trim();
+        String otherPhone = p.getPhone().value.trim();
+
+        String thisName = this.getName().toString().trim();
+        String otherName = p.getName().toString().trim();
+
+        return thisPhone.equals(otherPhone)
+                && thisName.equalsIgnoreCase(otherName);
+    }
+
 
     /**
      * Returns true if both persons have the same identity and data fields.

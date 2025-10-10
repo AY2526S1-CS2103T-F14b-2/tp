@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_LOW;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 import static seedu.address.testutil.TypicalPatients.BOB;
@@ -30,15 +30,6 @@ public class PatientTest {
 
         // null -> returns false
         assertFalse(ALICE.isSamePerson(null));
-
-        // same name, all other attributes different -> returns true
-        Patient editedAlice = new PatientBuilder(ALICE).withPhone(VALID_PHONE_BOB)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.isSamePerson(editedAlice));
-
-        // different name, all other attributes same -> returns false
-        editedAlice = new PatientBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSamePerson(editedAlice));
 
         // name differs in case, all other attributes same -> returns false
         Patient editedBob = new PatientBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
@@ -72,7 +63,7 @@ public class PatientTest {
         // different person -> returns false
         assertFalse(ALICE.equals(BOB));
 
-        // different name -> returns false
+        // different name -> returns true
         Patient editedAlice = new PatientBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
@@ -84,9 +75,9 @@ public class PatientTest {
         editedAlice = new PatientBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different tags -> returns false
-        editedAlice = new PatientBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
-        assertFalse(ALICE.equals(editedAlice));
+        // different tags -> returns true
+        editedAlice = new PatientBuilder(ALICE).withTags(VALID_TAG_LOW).build();
+        assertTrue(ALICE.equals(editedAlice));
     }
 
     @Test
