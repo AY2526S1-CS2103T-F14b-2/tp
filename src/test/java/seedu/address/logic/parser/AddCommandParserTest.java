@@ -153,11 +153,11 @@ public class AddCommandParserTest {
 
         // invalid phone
         assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + ADDRESS_DESC_BOB
-                + TAG_DESC_LOW + TAG_DESC_HIGH, Phone.MESSAGE_CONSTRAINTS);
+                + TAG_DESC_LOW + TAG_DESC_HIGH, Phone.INVALID_DIGITS);
 
         // invalid address
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_ADDRESS_DESC
-                + TAG_DESC_LOW + TAG_DESC_HIGH, Address.MESSAGE_CONSTRAINTS);
+                + TAG_DESC_LOW + TAG_DESC_HIGH, Address.BLANK_ADDRESS);
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + ADDRESS_DESC_BOB
