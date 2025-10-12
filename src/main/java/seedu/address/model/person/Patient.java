@@ -14,7 +14,7 @@ import seedu.address.model.tag.Tag;
 public class Patient extends Person {
 
     private final Note note;
-    private Appointment appointment = null;
+    private final Appointment appointment;
 
     /**
      * Allows Patient to be instantiated without accompanying note.
@@ -22,6 +22,7 @@ public class Patient extends Person {
     public Patient(Name name, Phone phone, Address address, Set<Tag> tags) {
         super(name, phone, address, tags);
         this.note = new Note("NIL");
+        this.appointment = null;
     }
 
     /**
@@ -31,7 +32,19 @@ public class Patient extends Person {
         super(name, phone, address, tags);
         requireAllNonNull(note);
         this.note = note;
+        this.appointment = null;
     }
+
+   /**
+     * Every field must be present and not null.
+     */
+    public Patient(Name name, Phone phone, Address address, Set<Tag> tags, Note note, Appointment appointment) {
+        super(name, phone, address, tags);
+        requireAllNonNull(note);
+        this.note = note;
+        this.appointment = appointment;
+    }
+
 
     /**
      * Returns the note of the patient.
@@ -41,13 +54,11 @@ public class Patient extends Person {
         return note;
     }
 
-    /**
-     * Adds an appointment to the patient.
-     * @param appointment the appointment to be added.
-     */
-    public void addAppointment(Appointment appointment) {
-        this.appointment = appointment;
+    public Patient addAppointment(Appointment appointment) {
+        return new Patient(this.getName(), this.getPhone(), this.getAddress(),
+                this.getTags(), this.getNote(), this.appointment);
     }
+
 
     /**
      * Returns true if both persons have the same identity and data fields.
@@ -64,18 +75,21 @@ public class Patient extends Person {
             return false;
         }
 
-        Person otherPatient = (Patient) other;
+        Patient otherPatient = (Patient) other;
         return this.getName().equals(otherPatient.getName())
                 && this.getPhone().equals(otherPatient.getPhone())
                 && this.getAddress().equals(otherPatient.getAddress())
-                && this.getTags().equals(otherPatient.getTags());
+                && this.getTags().equals(otherPatient.getTags())
+                && this.note.equals(otherPatient.note)
+                && this.appointment.equals(otherPatient.appointment);
+
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(this.getName(), this.getPhone(), this.getAddress(),
-                    this.getTags(), this.getNote());
+                    this.getTags(), this.note, this.appointment);
     }
 
     @Override
