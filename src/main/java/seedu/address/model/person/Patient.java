@@ -63,8 +63,9 @@ public class Patient extends Person {
     }
 
     public Patient addAppointment(Appointment appointment) {
+        requireAllNonNull(appointment);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
-                this.getTags(), this.getNote(), this.getAppointment());
+                this.getTags(), this.getNote(), appointment);
     }
 
 
