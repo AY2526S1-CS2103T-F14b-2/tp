@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -21,13 +22,13 @@ class JsonSerializableAddressBook {
 
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
 
-    private final List<JsonAdaptedPerson> persons = new ArrayList<>();
+    private final List<JsonAdaptedPatient> persons = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons.
      */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
+    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPatient> persons) {
         this.persons.addAll(persons);
     }
 
@@ -37,7 +38,9 @@ class JsonSerializableAddressBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+    persons.addAll(source.getPersonList().stream()
+        .map(JsonSerializableAddressBook::toJsonAdaptedPatient)
+        .collect(Collectors.toList()));
     }
 
     /**
@@ -47,7 +50,7 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
-        for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
+        for (JsonAdaptedPatient jsonAdaptedPerson : persons) {
             Person person = jsonAdaptedPerson.toModelType();
             if (addressBook.hasPerson(person)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
@@ -55,6 +58,17 @@ class JsonSerializableAddressBook {
             addressBook.addPerson(person);
         }
         return addressBook;
+    }
+
+    private static JsonAdaptedPatient toJsonAdaptedPatient(Person source) {
+        if (source instanceof Patient patient) {
+            return new JsonAdaptedPatient(patient);
+        }
+
+        // Fallback: treat non-patient person as patient with default note and no appointment.
+        Patient converted = new Patient(source.getName(), source.getPhone(), source.getAddress(),
+                source.getTags());
+        return new JsonAdaptedPatient(converted);
     }
 
 }
