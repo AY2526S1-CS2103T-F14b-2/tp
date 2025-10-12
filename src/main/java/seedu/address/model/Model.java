@@ -59,7 +59,7 @@ public interface Model {
 
     /**
      * Returns true if the person has an appointment.
-     * @param person person to check for appointment
+     * @param person person object
      * @return true if the person has an appointment, false otherwise.
      */
     boolean hasAppointment(Person person);
@@ -78,9 +78,10 @@ public interface Model {
 
     /**
      * Adds an appointment to the given person.
-     * @param person person to add appointment to 
-     * @param date date of the appointment
-     * @param time time of the appointment
+     * @param person 
+     * @param date
+     * @param time
+     * @throws IllegalArgumentException if the person is not a patient.
      */
     void addAppointment(Person person, String date, String time);
 

@@ -1,9 +1,7 @@
 package seedu.address.model;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.nio.file.Path;
+import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -11,6 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -94,6 +95,15 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasAppointment(Person person) {
+        requireNonNull(person);
+        if (!(person instanceof Patient patient)) {
+            return false;
+        }
+        return patient.getAppointment() != null;
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
     }
@@ -102,6 +112,16 @@ public class ModelManager implements Model {
     public void addPerson(Person person) {
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
+    public void addAppointment(Person person, String date, String time) {
+        requireAllNonNull(person, date, time);
+        if (!(person instanceof Patient patient)) {
+            throw new IllegalArgumentException("Appointments can only be added to patients.");
+        }
+        Patient updatedPatient = patient.addAppointment(new Appointment(date, time));
+        addressBook.setPerson(patient, updatedPatient);
     }
 
     @Override

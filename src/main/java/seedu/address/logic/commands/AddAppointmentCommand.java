@@ -60,8 +60,13 @@ public class AddAppointmentCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_APPOINTMENT);
         }
 
-        model.addAppointment(personToAddAppointment, date, time);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(personToAddAppointment)));
+        try {
+            model.addAppointment(personToAddAppointment, date, time);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(personToAddAppointment)));
+        } catch (IllegalArgumentException e) {
+            throw new CommandException(e.getMessage());
+        }
+
     }
 
     @Override
