@@ -59,7 +59,7 @@ public interface Model {
 
     /**
      * Returns true if the person has an appointment.
-     * @param person
+     * @param person person to check for appointment
      * @return true if the person has an appointment, false otherwise.
      */
     boolean hasAppointment(Person person);
@@ -75,6 +75,14 @@ public interface Model {
      * {@code person} must not already exist in the address book.
      */
     void addPerson(Person person);
+
+    /**
+     * Adds an appointment to the given person.
+     * @param person person to add appointment to 
+     * @param date date of the appointment
+     * @param time time of the appointment
+     */
+    void addAppointment(Person person, String date, String time);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
