@@ -3,7 +3,9 @@ layout: page
 title: User Guide
 ---
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings. 
+The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage 
+patient information during busy schedules.
 
 * Table of Contents
 {:toc}
@@ -83,7 +85,7 @@ Note: Any other format would be considered invalid.
 
 ### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+Shows a list of all persons in MediSaveContact, even if it is empty.
 
 Format: `list`
 
