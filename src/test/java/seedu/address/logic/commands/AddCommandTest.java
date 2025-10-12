@@ -59,14 +59,12 @@ public class AddCommandTest {
         Person existing = new PersonBuilder()
                 .withName("Alice Pauline")
                 .withPhone("94351253")
-                .withEmail("alice@example.com")
                 .withAddress("123, Jurong West Ave 6").build();
         ModelStub modelStub = new ModelStubWithPerson(existing);
 
         Person dup = new PersonBuilder()
                 .withName("Alice Pauline")
                 .withPhone("99999999")
-                .withEmail("alice2@othermail.com")
                 .withAddress("Somewhere else")
                 .withTags("friend").build();
 
