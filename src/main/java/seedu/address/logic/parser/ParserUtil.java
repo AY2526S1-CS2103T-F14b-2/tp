@@ -1,9 +1,8 @@
 package seedu.address.logic.parser;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.Collection;
 import java.util.HashSet;
+import static java.util.Objects.requireNonNull;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -92,6 +91,18 @@ public class ParserUtil {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
         return new Tag(trimmedTag);
+    }
+
+    public static String parseDate(String date) throws ParseException {
+        requireNonNull(date);
+        String trimmedDate = date.trim();
+        return trimmedDate;
+    }
+
+    public static String parseTime(String time) throws ParseException {
+        requireNonNull(time);
+        String trimmedTime = time.trim();
+        return trimmedTime;
     }
 
     /**
