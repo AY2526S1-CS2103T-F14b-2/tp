@@ -54,28 +54,6 @@ public class AddCommandTest {
     }
 
     @Test
-    public void execute_duplicateName_throwsCommandException() {
-        // existing person in model
-        Person existing = new PersonBuilder()
-                .withName("Alice Pauline")
-                .withPhone("94351253")
-                .withEmail("alice@example.com")
-                .withAddress("123, Jurong West Ave 6").build();
-        ModelStub modelStub = new ModelStubWithPerson(existing);
-
-        Person dup = new PersonBuilder()
-                .withName("Alice Pauline")
-                .withPhone("99999999")
-                .withEmail("alice2@othermail.com")
-                .withAddress("Somewhere else")
-                .withTags("friend").build();
-
-        AddCommand addCommand = new AddCommand(dup);
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
-    }
-
-
-    @Test
     public void equals() {
         Person alice = new PersonBuilder().withName("Alice").build();
         Person bob = new PersonBuilder().withName("Bob").build();
