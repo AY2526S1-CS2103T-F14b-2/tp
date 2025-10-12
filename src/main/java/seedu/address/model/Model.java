@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -83,7 +84,7 @@ public interface Model {
      * @param time
      * @throws IllegalArgumentException if the person is not a patient.
      */
-    void addAppointment(Person person, String date, String time);
+    Patient addAppointment(Person person, String date, String time);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.

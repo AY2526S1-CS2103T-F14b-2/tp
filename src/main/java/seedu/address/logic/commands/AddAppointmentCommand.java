@@ -11,6 +11,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import seedu.address.model.Model;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -61,8 +62,9 @@ public class AddAppointmentCommand extends Command {
         }
 
         try {
-            model.addAppointment(personToAddAppointment, date, time);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(personToAddAppointment)));
+            Patient updatedPatient = model.addAppointment(personToAddAppointment, date, time);
+            String successMessage = String.format(MESSAGE_SUCCESS, updatedPatient.getName().toString() + " at " + updatedPatient.getAppointment().toString());
+            return new CommandResult(successMessage);
         } catch (IllegalArgumentException e) {
             throw new CommandException(e.getMessage());
         }

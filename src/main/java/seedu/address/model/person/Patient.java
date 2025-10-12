@@ -109,6 +109,7 @@ public class Patient extends Person {
                 .add("address", this.getAddress())
                 .add("tags", this.getTags())
                 .add("note", this.getNote())
+                .add("appointment", this.getAppointment())
                 .toString();
     }
 }

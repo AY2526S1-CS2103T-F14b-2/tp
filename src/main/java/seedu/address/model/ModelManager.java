@@ -115,13 +115,14 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addAppointment(Person person, String date, String time) {
+    public Patient addAppointment(Person person, String date, String time) {
         requireAllNonNull(person, date, time);
         if (!(person instanceof Patient patient)) {
             throw new IllegalArgumentException("Appointments can only be added to patients.");
         }
         Patient updatedPatient = patient.addAppointment(new Appointment(date, time));
         addressBook.setPerson(patient, updatedPatient);
+        return updatedPatient;
     }
 
     @Override
