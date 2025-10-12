@@ -1,6 +1,7 @@
 package seedu.address.model.person;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -14,6 +15,7 @@ import static java.util.Objects.requireNonNull;
 public class Appointment {
 
     public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format dd-MM-yyyy HH:mm";
+    public static final String MESSAGE_PAST_APPOINTMENT = "Appointment must be set in the future.";
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
@@ -30,10 +32,14 @@ public class Appointment {
     public Appointment(String date, String time) {
         requireNonNull(date);
         requireNonNull(time);
-        if (isValidAppointment(date, time)) {
+        try {
             this.date = LocalDate.parse(date, DATE_FORMATTER);
             this.time = LocalTime.parse(time, TIME_FORMATTER);
-        } else {
+            LocalDateTime appointmentDateTime = LocalDateTime.of(this.date, this.time);
+            if (appointmentDateTime.isBefore(LocalDateTime.now())) {
+                throw new IllegalArgumentException(MESSAGE_PAST_APPOINTMENT);
+            }
+        } catch (DateTimeParseException e) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }
     }
@@ -41,11 +47,13 @@ public class Appointment {
     /**
      * Returns true if date and time are in valid format.
      */
-    public static boolean isValidAppointment(String date, String time) {
+    public static boolean isValidAppointment(Appointment appointment) {
         try {
-            LocalDate.parse(date, DATE_FORMATTER);
-            LocalTime.parse(time, TIME_FORMATTER);
-            return true;
+            LocalDateTime appointmentDateTime =
+                    LocalDateTime.of(appointment.date, appointment.time);
+            LocalDate.parse(appointment.date.format(DATE_FORMATTER), DATE_FORMATTER);
+            LocalTime.parse(appointment.time.format(TIME_FORMATTER), TIME_FORMATTER);
+            return !appointmentDateTime.isBefore(LocalDateTime.now());
         } catch (DateTimeParseException e) {
             return false;
         }
