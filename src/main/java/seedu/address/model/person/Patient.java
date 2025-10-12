@@ -54,9 +54,17 @@ public class Patient extends Person {
         return note;
     }
 
+    /**
+     * Returns the appointment of the patient.
+     * @return the appointment of the patient.
+     */
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
     public Patient addAppointment(Appointment appointment) {
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
-                this.getTags(), this.getNote(), this.appointment);
+                this.getTags(), this.getNote(), this.getAppointment());
     }
 
 
