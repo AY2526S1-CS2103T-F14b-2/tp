@@ -1,10 +1,9 @@
 package seedu.address.model.person;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.util.Objects;
 import java.util.Set;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -15,6 +14,7 @@ import seedu.address.model.tag.Tag;
 public class Patient extends Person {
 
     private final Note note;
+    private Appointment appointment = null;
 
     /**
      * Allows Patient to be instantiated without accompanying note.
@@ -33,8 +33,20 @@ public class Patient extends Person {
         this.note = note;
     }
 
+    /**
+     * Returns the note of the patient.
+     * @return the note of the patient.
+     */
     public Note getNote() {
         return note;
+    }
+
+    /**
+     * Adds an appointment to the patient.
+     * @param appointment the appointment to be added.
+     */
+    public void addAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 
     /**
