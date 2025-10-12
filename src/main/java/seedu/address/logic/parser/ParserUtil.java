@@ -93,12 +93,22 @@ public class ParserUtil {
         return new Tag(trimmedTag);
     }
 
+    /**
+     * Parses a {@code String date} into a {@code String}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     */
     public static String parseDate(String date) throws ParseException {
         requireNonNull(date);
         String trimmedDate = date.trim();
         return trimmedDate;
     }
 
+    /**
+     * Parses a {@code String time} into a {@code String}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     */
     public static String parseTime(String time) throws ParseException {
         requireNonNull(time);
         String trimmedTime = time.trim();

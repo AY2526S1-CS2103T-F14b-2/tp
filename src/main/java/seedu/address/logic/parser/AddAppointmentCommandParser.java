@@ -29,14 +29,7 @@ public class AddAppointmentCommandParser implements Parser<AddAppointmentCommand
                     AddAppointmentCommand.MESSAGE_USAGE));
         }
 
-        Index index;
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    AddAppointmentCommand.MESSAGE_USAGE), pe);
-        }
-
+        Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
         String date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
         String time = ParserUtil.parseTime(argMultimap.getValue(PREFIX_TIME).get());
 
