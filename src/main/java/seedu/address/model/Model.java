@@ -58,6 +58,13 @@ public interface Model {
     boolean hasPerson(Person person);
 
     /**
+     * Returns true if the person has an appointment.
+     * @param person
+     * @return true if the person has an appointment, false otherwise.
+     */
+    boolean hasAppointment(Person person);
+
+    /**
      * Deletes the given person.
      * The person must exist in the address book.
      */
