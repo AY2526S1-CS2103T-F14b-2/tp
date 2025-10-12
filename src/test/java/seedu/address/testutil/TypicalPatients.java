@@ -19,7 +19,7 @@ public class TypicalPatients {
             .withTags("low").build();
     public static final Patient BOB = new PatientBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25")
-            .withEmail("johnd@example.com").withPhone("98765432")
+            .withPhone("98765432")
             .withTags("low", "high")
             .withNote("No peanuts").build();
 

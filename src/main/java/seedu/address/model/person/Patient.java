@@ -33,9 +33,7 @@ public class Patient extends Person {
         this.note = note;
     }
 
-    public static Patient of(Name name, Phone phone, Address address, Set<Tag> tags) {
-        return new Patient(name, phone, new Email("loleelmao@gmail.com"), address, tags);
-    }
+
 
     public Note getNote() {
         return note;

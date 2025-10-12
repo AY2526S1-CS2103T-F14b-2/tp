@@ -41,7 +41,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Patient patient = Patient.of(name, phone, address, tagList);
+        Patient patient = new Patient(name, phone, address, tagList);
 
         return new AddCommand(patient);
     }

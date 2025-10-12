@@ -18,7 +18,6 @@ public class PatientBuilder {
 
     public static final String DEFAULT_NAME = "Betty Bee";
     public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "loleelmao@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_NOTE = "Seafood allergy";
 
