@@ -63,7 +63,7 @@ public class AddAppointmentCommand extends Command {
 
         try {
             Patient updatedPatient = model.addAppointment(personToAddAppointment, date, time);
-            String successMessage = String.format(MESSAGE_SUCCESS, updatedPatient.getName().toString() + " at " + updatedPatient.getAppointment().toString());
+            String successMessage = String.format(MESSAGE_SUCCESS, Messages.format(updatedPatient));
             return new CommandResult(successMessage);
         } catch (IllegalArgumentException e) {
             throw new CommandException(e.getMessage());

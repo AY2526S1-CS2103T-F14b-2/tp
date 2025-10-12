@@ -4,10 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Note;
-import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -21,14 +18,10 @@ public class PersonBuilder {
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
-    public static final String DEFAULT_NOTE = "NIL";
-
     private Name name;
     private Phone phone;
     private Address address;
     private Set<Tag> tags;
-    private Note note;
-    private Appointment appointment;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -38,8 +31,6 @@ public class PersonBuilder {
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
-        note = new Note(DEFAULT_NOTE);
-        appointment = null;
     }
 
     /**
@@ -50,13 +41,6 @@ public class PersonBuilder {
         phone = personToCopy.getPhone();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
-        if (personToCopy instanceof Patient patientToCopy) {
-            note = patientToCopy.getNote();
-            appointment = patientToCopy.getAppointment();
-        } else {
-            note = new Note(DEFAULT_NOTE);
-            appointment = null;
-        }
     }
 
     /**
@@ -91,18 +75,8 @@ public class PersonBuilder {
         return this;
     }
 
-    public PersonBuilder withNote(String note) {
-        this.note = new Note(note);
-        return this;
-    }
-
-    public PersonBuilder withAppointment(String date, String time) {
-        this.appointment = new Appointment(date, time);
-        return this;
-    }
-
     public Person build() {
-        return new Patient(name, phone, address, tags, note, appointment);
+        return new Person(name, phone, address, tags);
     }
 
 }

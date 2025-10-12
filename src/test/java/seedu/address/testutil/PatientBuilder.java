@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
@@ -26,6 +27,7 @@ public class PatientBuilder {
     private Address address;
     private Set<Tag> tags;
     private Note note;
+    private Appointment appointment;
 
     /**
      * Creates a {@code PatientBuilder} with the default details.
@@ -36,6 +38,7 @@ public class PatientBuilder {
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
         note = new Note(DEFAULT_NOTE);
+    appointment = null;
     }
 
     /**
@@ -47,6 +50,7 @@ public class PatientBuilder {
         address = patientToCopy.getAddress();
         tags = new HashSet<>(patientToCopy.getTags());
         note = patientToCopy.getNote();
+    appointment = patientToCopy.getAppointment();
     }
 
     /**
@@ -89,8 +93,13 @@ public class PatientBuilder {
         return this;
     }
 
+    public PatientBuilder withAppointment(String date, String time) {
+        this.appointment = new Appointment(date, time);
+        return this;
+    }
+
     public Patient build() {
-        return new Patient(name, phone, address, tags, note);
+        return new Patient(name, phone, address, tags, note, appointment);
     }
 
 }

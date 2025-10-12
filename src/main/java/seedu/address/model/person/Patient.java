@@ -80,25 +80,25 @@ public class Patient extends Person {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof Patient)) {
+        if (!(other instanceof Person)) {
             return false;
         }
 
+        if (!(other instanceof Patient)) {
+            return super.equals(other);
+        }
+
         Patient otherPatient = (Patient) other;
-        return this.getName().equals(otherPatient.getName())
-                && this.getPhone().equals(otherPatient.getPhone())
-                && this.getAddress().equals(otherPatient.getAddress())
-                && this.getTags().equals(otherPatient.getTags())
-                && this.note.equals(otherPatient.note)
-                && this.appointment.equals(otherPatient.appointment);
+        return super.equals(otherPatient)
+                && note.equals(otherPatient.note)
+                && Objects.equals(appointment, otherPatient.appointment);
 
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(this.getName(), this.getPhone(), this.getAddress(),
-                    this.getTags(), this.note, this.appointment);
+    return Objects.hash(super.hashCode(), note, appointment);
     }
 
     @Override
