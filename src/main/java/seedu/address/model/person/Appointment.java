@@ -13,10 +13,10 @@ import static java.util.Objects.requireNonNull;
  */
 public class Appointment {
 
-    public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format DD-MM-YYYY HH:MM";
+    public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format dd-MM-yyyy HH:mm";
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("DD-MM-YYYY");
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:MM");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     private final LocalDate date;
     private final LocalTime time;
