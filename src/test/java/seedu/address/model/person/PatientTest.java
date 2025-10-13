@@ -23,7 +23,7 @@ public class PatientTest {
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Patient patient = new PatientBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> patient.getTags().add(new Tag("test")));
+        assertThrows(UnsupportedOperationException.class, () -> patient.getTags().add(new Tag("high")));
     }
 
     @Test
