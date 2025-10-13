@@ -4,18 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import seedu.address.model.tag.Tag;
 import static seedu.address.testutil.Assert.assertThrows;
+import seedu.address.testutil.PatientBuilder;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 import static seedu.address.testutil.TypicalPatients.BOB;
-
-import org.junit.jupiter.api.Test;
-
-import seedu.address.model.tag.Tag;
-import seedu.address.testutil.PatientBuilder;
 
 
 
@@ -49,9 +48,9 @@ public class PatientTest {
         Patient editedBob = new PatientBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
         assertFalse(BOB.isSamePerson(editedBob));
 
-    // different note, all other attributes same -> returns true
-    editedBob = new PatientBuilder(BOB).withNote("Different note").build();
-    assertTrue(BOB.isSamePerson(editedBob));
+        // different note, all other attributes same -> returns true
+        editedBob = new PatientBuilder(BOB).withNote("Different note").build();
+        assertTrue(BOB.isSamePerson(editedBob));
 
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
@@ -69,7 +68,7 @@ public class PatientTest {
         assertTrue(ALICE.equals(ALICE));
 
         // null -> returns false
-    assertNotEquals(ALICE, null);
+        assertNotEquals(ALICE, null);
 
         // different type -> returns false
         assertFalse(ALICE.equals(5));
@@ -89,15 +88,15 @@ public class PatientTest {
         editedAlice = new PatientBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-    // different tags -> returns false
+        // different tags -> returns false
         editedAlice = new PatientBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
 
-    // different note -> returns false
-    editedAlice = new PatientBuilder(ALICE).withNote("Different note").build();
-    assertFalse(ALICE.equals(editedAlice));
+        // different note -> returns false
+        editedAlice = new PatientBuilder(ALICE).withNote("Different note").build();
+        assertFalse(ALICE.equals(editedAlice));
 
-    // different appointment -> returns false
+        // different appointment -> returns false
     editedAlice = new PatientBuilder(ALICE).withAppointment("31-12-2099", "15:30").build();
     assertFalse(ALICE.equals(editedAlice));
     }

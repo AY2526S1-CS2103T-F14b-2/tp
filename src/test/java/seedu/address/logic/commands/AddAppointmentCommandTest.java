@@ -1,23 +1,21 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT;
-import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_SUCCESS;
-import static seedu.address.testutil.Assert.assertThrows;
-
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
+import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT;
+import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_SUCCESS;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
+import static seedu.address.testutil.Assert.assertThrows;
 import seedu.address.testutil.PatientBuilder;
 
 
