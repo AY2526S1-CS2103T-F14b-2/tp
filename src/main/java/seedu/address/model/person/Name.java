@@ -9,9 +9,15 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Name {
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "Names should only contain alphanumeric characters and spaces, and it should not be blank";
+    public static final String BLANK_NAME =
+            "Name cannot be blank";
 
+    public static final String INVALID_CHARS =
+            "Name contains invalid characters. "
+                    + "Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.";
+
+    public static final String MESSAGE_CONSTRAINTS =
+            "String is in invalid format";
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
@@ -27,9 +33,29 @@ public class Name {
      */
     public Name(String name) {
         requireNonNull(name);
+        final String trimmedName = name.trim();
         checkArgument(isValidName(name), MESSAGE_CONSTRAINTS);
-        fullName = name;
+        fullName = toTitleCase(trimmedName).trim();
     }
+
+    private static String toTitleCase(String s) {
+        if (s.isEmpty()) {
+            return s;
+        }
+        StringBuilder sb = new StringBuilder();
+        String[] parts = s.toLowerCase().split("\\s+");
+        for (int i = 0; i < parts.length; i++) {
+            String word = parts[i];
+            sb.append(Character.toUpperCase(word.charAt(0)));
+            if (word.length() > 1) {
+                sb.append(word.substring(1));
+            }
+            sb.append(' ');
+        }
+        return sb.toString();
+    }
+
+
 
     /**
      * Returns true if a given string is a valid name.
