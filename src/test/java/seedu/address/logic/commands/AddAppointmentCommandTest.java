@@ -21,6 +21,8 @@ import seedu.address.model.person.Person;
 import seedu.address.testutil.PatientBuilder;
 
 
+
+
 public class AddAppointmentCommandTest {
 
     private static final String FUTURE_DATE = "31-12-2099";
