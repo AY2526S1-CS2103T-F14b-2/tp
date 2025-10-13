@@ -41,7 +41,7 @@ public class PatientBuilder {
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
         note = new Note(DEFAULT_NOTE);
-    appointment = null;
+        appointment = null;
     }
 
     /**
@@ -53,7 +53,7 @@ public class PatientBuilder {
         address = patientToCopy.getAddress();
         tags = new HashSet<>(patientToCopy.getTags());
         note = patientToCopy.getNote();
-    appointment = patientToCopy.getAppointment();
+        appointment = patientToCopy.getAppointment();
     }
 
     /**
@@ -96,6 +96,12 @@ public class PatientBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Appointment} of the {@code Patient} that we are building.
+     * @param date
+     * @param time
+     * @return
+     */
     public PatientBuilder withAppointment(String date, String time) {
         this.appointment = new Appointment(date, time);
         return this;

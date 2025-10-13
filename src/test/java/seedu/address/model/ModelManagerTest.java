@@ -1,18 +1,22 @@
 package seedu.address.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Name;
@@ -21,11 +25,7 @@ import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.testutil.AddressBookBuilder;
-import static seedu.address.testutil.Assert.assertThrows;
 import seedu.address.testutil.PatientBuilder;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
-
 
 
 
@@ -149,8 +149,8 @@ public class ModelManagerTest {
         addressBook.addPerson(nonPatient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
 
-        assertThrows(IllegalArgumentException.class,
-                () -> manager.addAppointment(nonPatient, FUTURE_DATE, FUTURE_TIME));
+        assertThrows(IllegalArgumentException.class, () ->
+            manager.addAppointment(nonPatient, FUTURE_DATE, FUTURE_TIME));
     }
 
     @Test
