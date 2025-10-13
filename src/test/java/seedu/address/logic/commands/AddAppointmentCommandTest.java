@@ -1,22 +1,25 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT;
+import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_SUCCESS;
+import static seedu.address.testutil.Assert.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
-import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT;
-import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_SUCCESS;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
-import static seedu.address.testutil.Assert.assertThrows;
 import seedu.address.testutil.PatientBuilder;
+
 
 public class AddAppointmentCommandTest {
 
@@ -25,15 +28,15 @@ public class AddAppointmentCommandTest {
 
     @Test
     public void execute_patientWithoutAppointment_success() throws Exception {
-    Patient patient = new PatientBuilder().withName("Alice").build();
+        Patient patient = new PatientBuilder().withName("Alice").build();
         ModelStubAcceptingAppointment modelStub = new ModelStubAcceptingAppointment(patient);
         AddAppointmentCommand command = new AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, FUTURE_TIME);
 
-    CommandResult result = command.execute(modelStub);
+        CommandResult result = command.execute(modelStub);
 
-    Patient updatedPatient = (Patient) modelStub.getFilteredPersonList().get(0);
-    assertEquals(String.format(MESSAGE_SUCCESS, Messages.format(updatedPatient)),
-        result.getFeedbackToUser());
+        Patient updatedPatient = (Patient) modelStub.getFilteredPersonList().get(0);
+        assertEquals(String.format(MESSAGE_SUCCESS, Messages.format(updatedPatient)),
+                result.getFeedbackToUser());
         assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updatedPatient.getAppointment());
     }
 
@@ -54,8 +57,8 @@ public class AddAppointmentCommandTest {
         AddAppointmentCommand command = new AddAppointmentCommand(Index.fromOneBased(2), FUTURE_DATE, FUTURE_TIME);
 
         assertThrows(CommandException.class,
-                seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
-                () -> command.execute(modelStub));
+                seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () ->
+                command.execute(modelStub));
     }
 
     private static class ModelStubAcceptingAppointment implements Model {
@@ -83,19 +86,56 @@ public class AddAppointmentCommandTest {
         }
 
         // The remaining methods are unsupported for this stub
-        @Override public void setUserPrefs(seedu.address.model.ReadOnlyUserPrefs userPrefs) { throw new AssertionError(); }
-        @Override public seedu.address.model.ReadOnlyUserPrefs getUserPrefs() { throw new AssertionError(); }
-        @Override public seedu.address.commons.core.GuiSettings getGuiSettings() { throw new AssertionError(); }
-        @Override public void setGuiSettings(seedu.address.commons.core.GuiSettings guiSettings) { throw new AssertionError(); }
-        @Override public java.nio.file.Path getAddressBookFilePath() { throw new AssertionError(); }
-        @Override public void setAddressBookFilePath(java.nio.file.Path addressBookFilePath) { throw new AssertionError(); }
-        @Override public void setAddressBook(ReadOnlyAddressBook newData) { throw new AssertionError(); }
-        @Override public ReadOnlyAddressBook getAddressBook() { throw new AssertionError(); }
-        @Override public boolean hasPerson(Person person) { throw new AssertionError(); }
-        @Override public void deletePerson(Person target) { throw new AssertionError(); }
-        @Override public void addPerson(Person person) { throw new AssertionError(); }
-        @Override public void setPerson(Person target, Person editedPerson) { throw new AssertionError(); }
-        @Override public void updateFilteredPersonList(java.util.function.Predicate<Person> predicate) {
+        @Override
+        public void setUserPrefs(seedu.address.model.ReadOnlyUserPrefs userPrefs) {
+            throw new AssertionError();
+        }
+        @Override
+        public seedu.address.model.ReadOnlyUserPrefs getUserPrefs() {
+            throw new AssertionError();
+        }
+        @Override
+        public seedu.address.commons.core.GuiSettings getGuiSettings() {
+            throw new AssertionError();
+        }
+        @Override
+        public void setGuiSettings(seedu.address.commons.core.GuiSettings guiSettings) {
+            throw new AssertionError();
+        }
+        @Override
+        public java.nio.file.Path getAddressBookFilePath() {
+            throw new AssertionError();
+        }
+        @Override
+        public void setAddressBookFilePath(java.nio.file.Path addressBookFilePath) {
+            throw new AssertionError();
+        }
+        @Override
+        public void setAddressBook(ReadOnlyAddressBook newData) {
+            throw new AssertionError();
+        }
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            throw new AssertionError();
+        }
+        @Override
+        public boolean hasPerson(Person person) {
+            throw new AssertionError();
+        }
+        @Override
+        public void deletePerson(Person target) {
+            throw new AssertionError();
+        }
+        @Override
+        public void addPerson(Person person) {
+            throw new AssertionError();
+        }
+        @Override
+        public void setPerson(Person target, Person editedPerson) {
+            throw new AssertionError();
+        }
+        @Override
+        public void updateFilteredPersonList(java.util.function.Predicate<Person> predicate) {
             throw new AssertionError();
         }
     }

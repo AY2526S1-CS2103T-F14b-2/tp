@@ -25,6 +25,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import seedu.address.testutil.PersonBuilder;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 
+
 public class AddCommandTest {
 
     @Test
@@ -71,7 +72,7 @@ public class AddCommandTest {
         assertFalse(addAliceCommand.equals(1));
 
         // null -> returns false
-    assertNotEquals(null, addAliceCommand);
+        assertNotEquals(null, addAliceCommand);
 
         // different person -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));
