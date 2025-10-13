@@ -1,11 +1,13 @@
 package seedu.address.model.person;
 
+import static java.util.Objects.requireNonNull;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import static java.util.Objects.requireNonNull;
+
 
 /**
  * Represents a Person's appointment in the address book.

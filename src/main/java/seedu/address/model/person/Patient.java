@@ -1,9 +1,10 @@
 package seedu.address.model.person;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Objects;
 import java.util.Set;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -35,7 +36,7 @@ public class Patient extends Person {
         this.appointment = null;
     }
 
-   /**
+    /**
      * Every field must be present and not null.
      */
     public Patient(Name name, Phone phone, Address address, Set<Tag> tags, Note note, Appointment appointment) {
@@ -62,6 +63,11 @@ public class Patient extends Person {
         return appointment;
     }
 
+    /**
+     * Adds an appointment to this patient.
+     * @param appointment the appointment to add
+     * @return a new Patient with the appointment added
+     */
     public Patient addAppointment(Appointment appointment) {
         requireAllNonNull(appointment);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
@@ -98,7 +104,7 @@ public class Patient extends Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-    return Objects.hash(super.hashCode(), note, appointment);
+        return Objects.hash(super.hashCode(), note, appointment);
     }
 
     @Override

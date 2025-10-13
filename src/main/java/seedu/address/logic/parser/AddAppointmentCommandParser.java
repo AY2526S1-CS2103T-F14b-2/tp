@@ -1,13 +1,15 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
+
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import seedu.address.logic.commands.AddAppointmentCommand;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import seedu.address.logic.parser.exceptions.ParseException;
+
 
 /**
  * Parses input arguments and creates a new {@code AddAppointmentCommand} object.
