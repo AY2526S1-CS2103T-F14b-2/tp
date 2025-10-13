@@ -1,0 +1,55 @@
+# .github/workflows/auto-assign-reviewers.yml
+name: Auto Assign Reviewers
+
+on:
+  pull_request_target:
+    types: [opened, ready_for_review]
+
+permissions:
+  pull-requests: write    # allow requesting reviews
+  contents: read
+
+jobs:
+  assign_reviewers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Debug: show PR author"
+        run: |
+          echo "PR by: ${{ github.event.pull_request.user.login }}"
+
+
+
+
+      - name: Request reviewers via REST API
+        env:
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Map authors to desired reviewers
+          declare -A reviewers_map
+          reviewers_map["ckwflash"]="haojun-mah,tofuuu67"
+          reviewers_map["haojun-mah"]="tofuuu67,pekyiheng"
+          reviewers_map["tofuuu67"]="pekyiheng,fatbolster"
+          reviewers_map["pekyiheng"]="fatbolster,ckwflash"
+          reviewers_map["fatbolster"]="ckwflash,haojun-mah"
+
+          # Look up reviewers for this author
+          rv=${reviewers_map[$PR_AUTHOR]}
+
+          if [ -z "$rv" ]; then
+            echo "No reviewers configured for author $PR_AUTHOR — skipping"
+            exit 0
+          fi
+
+          echo "Requesting reviews from: $rv"
+
+          # Call GitHub REST API to request reviewers
+          curl -s -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$OWNER/$REPO/pulls/$PR_NUMBER/requested_reviewers" \
+            -d "{ \"reviewers\": [$(echo $rv | sed 's/,/\",\"/g' | sed 's/^/\"/; s/$/\"/') ] }" \
+            | jq .

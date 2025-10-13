@@ -53,6 +53,8 @@ public class AddCommandTest {
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
     }
 
+
+
     @Test
     public void equals() {
         Person alice = new PersonBuilder().withName("Alice").build();

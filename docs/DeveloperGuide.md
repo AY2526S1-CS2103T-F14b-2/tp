@@ -58,7 +58,7 @@ The *Sequence Diagram* below shows how the components interact with each other f
 Each of the four main components (also shown in the diagram above),
 
 * defines its *API* in an `interface` with the same name as the Component.
-* implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
+* implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point).
 
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
 
@@ -262,42 +262,61 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
+* nurses who support patients outside of hospital settings
+* juggle multiple patients, each with unique care needs
+* rely on quick access to essential information
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: manage patient records faster than a typical mouse/GUI driven app
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
+| Priority | As a …​             | I want to …​                                         | So that I can…​                                         |
+|----------|---------------------|------------------------------------------------------|---------------------------------------------------------|
+| `* * *`  | home-visiting nurse | view the records without needing internet            | work at places with no cellular signal                  |
+| `* * *`  | new user            | view all the commands of the MediSaveContact         | onboarding in the application is easy                   |
+| `* * *`  | nurse               | add a new patient with personal details              | I can keep track of who I’m caring for                  | 
+| `* * *`  | nurse               | view a patient’s details quickly                     | I can recall important info during visits               |
+| `* * *`  | nurse               | delete a patient’s record                            | I can remove patients I no longer manage                |
+| `* * *`  | nurse               | list all patients                                    | I can get an overview of my caseload                    |
+| `* * *`  | nurse               | add medical notes to a patient                       | I can record observations and treatment history         |
+| `* * *`  | nurse               | add an appointment for a patient                     | I can remember when to visit them                       |
+| `* *`    | nurse               | receive reminders for appointments                   | I won’t forget important visits                         |
+| `* *`    | nurse               | filter patients by condition/notes                   | I can prioritize certain groups of patients             |
+| `* *`    | nurse               | undo my last action                                  | I can recover from mistakes                             |
+| `*`      | new user            | view detailed error message                          | I know if I am using the product wrongly and how to fix |
+| `*`      | nurse               | update a patient's details                           | I can keep information accurate                         |
+| `*`      | nurse               | search for a patient by name                         | I can find records quickly                              |
+| `*`      | nurse               | view upcoming appointments                           | I can plan my schedule efficiently                      |
+| `*`      | nurse               | delete an appointment                                | I can manage changes in patient schedules               |
+| `*`      | nurse               | mark an appointment as completed                     | I can track which visits I've done                      |
+| `*`      | nurse               | sort patients by name                                | I can find them more easily                             |
+| `*`      | nurse               | add medication info to a patient                     | I can track prescriptions and dosages                   |
+| `*`      | nurse               | view patients with ongoing medication                | I can check who needs regular follow-ups                |
+| `*`      | nurse               | export patient records to a text file                | I can back up my data                                   |
+| `*`      | nurse               | import patient records from a text file              | I can restore data if needed                            |
+| `*`      | nurse               | tag patients with labels (e.g., "diabetes", "rehab") | I can organise them by health needs                     |
+| `*`      | nurse               | search patients by tag                               | I can quickly find patients with similar conditions     |
 
-*{More to be added}*
+
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `MediSaveContact` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case 1: Delete a person**
 
 **MSS**
 
 1.  User requests to list persons
-2.  AddressBook shows a list of persons
+2.  MediSaveContact shows a list of persons
 3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+4.  MediSaveContact deletes the person
 
     Use case ends.
 
@@ -309,24 +328,105 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case 2: Add an appointment to a patient**
+
+**MSS**
+
+1. User requests to list persons
+2. MediSaveContact shows a list of persons
+3. User requests to update a specific person's appointment
+4. MediSaveContact updates the information
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The given date is invalid.
+
+    * 3b1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case 3: Add a medical note to a patient**
+
+**MSS**
+
+1. User requests to list persons
+2. MediSaveContact shows a list of persons
+3. User requests to update a specific person's medical note
+4. MediSaveContact updates the information
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The given note is empty.
+
+    * 3b1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3c. The given note is too long.
+
+    * 3c1. MediSaveContact shows an error message.
 
       Use case resumes at step 2.
 
 *{More to be added}*
 
 ### Non-Functional Requirements
-
+### Business 
+1. Single nurse profile can support <= 5000 patients
+2. A nurse cannot create two appointments that overlap for the same patient
+#### Constraints
+1. Release is one JAR <= 100 MB, runs via java -jar
+2. Features work 100% offline, no dependency on external servers
+#### Performance
+1. Listing up to 1000 patients render first screen in <300 ms and filter/search updates re-render in <150 ms 
+2. Prompt can be typed in <2.5s from java -jar 
+#### Quality 
+1. User can perform commands without using a mouse
+2. Proper response to invalid commands (showing expected syntax, reason why commands are invalid, etc.)
+#### Technical 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
+#### Process 
+1. Project to be conducted in Brownfield increments, by every week, a new release of the product is made available 
+#### Notes about project scope 
+1. The product should maintain a single local profile, no access to the same data file by another user
 
 ### Glossary
 
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+
+* **Mainstream OS**: Windows, Linux, Unix, macOS
+* **JAR**: Java Archive -- A package file format used to aggregate many Java class files, associated metadata, and resources into a single file for distribution
+* **GUI**: Graphical User Interface -- A form of user interface that allows users to interact with their devices through graphical icons and visual indicators
+* **Patient records**: Information related to a patient (personal details, notes, appointments)
+* **Medical note**: A string field with a maximum length of 200 characters, intended for storing patient specific notes such as diagnosis and medications
+* **Appointment**: Patient's next appointment. Stores a DateTime object, and cannot be set to the past
 
 --------------------------------------------------------------------------------------------------------------------
 
