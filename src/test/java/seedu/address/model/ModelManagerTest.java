@@ -154,6 +154,17 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void hasAppointment_nonPatient_returnsFalse() {
+        Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
+                new Address("Somewhere"), new HashSet<>());
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(nonPatient);
+        ModelManager manager = new ModelManager(addressBook, new UserPrefs());
+
+        assertFalse(manager.hasAppointment(nonPatient));
+    }
+
+    @Test
     public void equals() {
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
         AddressBook differentAddressBook = new AddressBook();

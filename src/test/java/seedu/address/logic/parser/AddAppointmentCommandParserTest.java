@@ -49,4 +49,6 @@ public class AddAppointmentCommandParserTest {
         assertParseFailure(parser, userInput,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAppointmentCommand.MESSAGE_USAGE));
     }
+
+
 }
