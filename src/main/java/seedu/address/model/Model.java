@@ -79,9 +79,9 @@ public interface Model {
 
     /**
      * Adds an appointment to the given person.
-     * @param person 
-     * @param date
-     * @param time
+     * @param person the person to add the appointment to.
+     * @param date the date of the appointment
+     * @param time the time of the appointment
      * @throws IllegalArgumentException if the person is not a patient.
      */
     Patient addAppointment(Person person, String date, String time);
