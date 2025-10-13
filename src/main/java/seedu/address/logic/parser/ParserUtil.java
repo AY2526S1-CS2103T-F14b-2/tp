@@ -45,6 +45,9 @@ public class ParserUtil {
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
+        if (name.isEmpty()) {
+            throw new ParseException(Name.BLANK_NAME);
+        }
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
@@ -60,8 +63,14 @@ public class ParserUtil {
     public static Phone parsePhone(String phone) throws ParseException {
         requireNonNull(phone);
         String trimmedPhone = phone.trim();
+        if (phone.isEmpty()) {
+            throw new ParseException(Phone.BLANK_PHONE);
+        }
+        if (phone.length() < 3 || phone.length() > 15) {
+            throw new ParseException(Phone.LENGTH_CONSTRAINTS);
+        }
         if (!Phone.isValidPhone(trimmedPhone)) {
-            throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Phone.INVALID_DIGITS);
         }
         return new Phone(trimmedPhone);
     }
@@ -76,8 +85,9 @@ public class ParserUtil {
         requireNonNull(address);
         String trimmedAddress = address.trim();
         if (!Address.isValidAddress(trimmedAddress)) {
-            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Address.BLANK_ADDRESS);
         }
+
         return new Address(trimmedAddress);
     }
 

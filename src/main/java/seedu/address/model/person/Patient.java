@@ -56,6 +56,28 @@ public class Patient extends Person {
         return note;
     }
 
+    @Override
+    public boolean isSamePerson(Person other) {
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof Patient)) {
+            return false;
+        }
+
+        Patient p = (Patient) other;
+
+        String thisPhone = this.getPhone().value.trim();
+        String otherPhone = p.getPhone().value.trim();
+
+        String thisName = this.getName().toString().trim();
+        String otherName = p.getName().toString().trim();
+
+        return thisPhone.equals(otherPhone)
+                && thisName.equalsIgnoreCase(otherName);
+    }
+
+
     /**
      * Returns the appointment of the patient.
      * @return the appointment of the patient.
