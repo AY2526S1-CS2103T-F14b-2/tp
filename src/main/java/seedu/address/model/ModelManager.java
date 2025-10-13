@@ -19,7 +19,7 @@ import seedu.address.model.person.Person;
  * Represents the in-memory model of the address book data.
  */
 public class ModelManager implements Model {
-    private static final Logger logger = LogsCenter.getLogger(ModelManager.java);
+    private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
@@ -92,6 +92,16 @@ public class ModelManager implements Model {
     public boolean hasPerson(Person person) {
         requireNonNull(person);
         return addressBook.hasPerson(person);
+    }
+
+    @Override
+    public boolean hasAppointment(Person person) {
+        requireNonNull(person);
+        if (!(person instanceof Patient)) {
+            return false;
+        }
+        Patient patient = (Patient) person;
+        return patient.getAppointment() != null;
     }
 
     @Override
