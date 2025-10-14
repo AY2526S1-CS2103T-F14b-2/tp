@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -34,6 +35,8 @@ public class ParserUtilTest {
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_TAG_1 = "low";
     private static final String VALID_TAG_2 = "medium";
+    private static final String VALID_NOTE = "Patient has diabetes";
+    private static final String INVALID_NOTE = "a".repeat(201); // exceeds max length
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -187,5 +190,44 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parseNote_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseNote((String) null));
+    }
+
+    @Test
+    public void parseNote_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseNote(INVALID_NOTE));
+    }
+
+    @Test
+    public void parseNote_validValueWithoutWhitespace_returnsNote() throws Exception {
+        Note expectedNote = new Note(VALID_NOTE);
+        assertEquals(expectedNote, ParserUtil.parseNote(VALID_NOTE));
+    }
+
+    @Test
+    public void parseNote_validValueWithWhitespace_returnsTrimmedNote() throws Exception {
+        String noteWithWhitespace = WHITESPACE + VALID_NOTE + WHITESPACE;
+        Note expectedNote = new Note(VALID_NOTE);
+        assertEquals(expectedNote, ParserUtil.parseNote(noteWithWhitespace));
+    }
+
+    @Test
+    public void parseNote_emptyString_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseNote(""));
+    }
+
+    @Test
+    public void parseNote_whitespaceOnly_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseNote("   "));
+    }
+
+    @Test
+    public void parseNote_tooLong_throwsParseException() {
+        String longNote = "a".repeat(201); // exceeds MAX_LENGTH of 200
+        assertThrows(ParseException.class, () -> ParserUtil.parseNote(longNote));
     }
 }

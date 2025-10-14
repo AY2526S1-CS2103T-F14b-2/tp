@@ -30,7 +30,11 @@ public class NoteCommandParser implements Parser<NoteCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, NoteCommand.MESSAGE_USAGE), pe);
         }
 
-        String noteValue = argMultimap.getValue(PREFIX_NOTE).orElse("");
+        if (!argMultimap.getValue(PREFIX_NOTE).isPresent()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, NoteCommand.MESSAGE_USAGE));
+        }
+
+        String noteValue = argMultimap.getValue(PREFIX_NOTE).get();
 
         if (noteValue.trim().isEmpty()) {
             throw new ParseException(NoteCommand.MESSAGE_EMPTY_NOTE);
@@ -40,7 +44,7 @@ public class NoteCommandParser implements Parser<NoteCommand> {
         try {
             note = ParserUtil.parseNote(noteValue);
         } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, NoteCommand.MESSAGE_USAGE), pe);
+            throw pe; // Let the specific error message bubble up
         }
 
         return new NoteCommand(index, note);
