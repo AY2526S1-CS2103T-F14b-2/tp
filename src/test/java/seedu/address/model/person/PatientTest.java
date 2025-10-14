@@ -2,25 +2,28 @@ package seedu.address.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_LOW;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HIGH;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 import static seedu.address.testutil.TypicalPatients.BOB;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PatientBuilder;
+
 
 public class PatientTest {
 
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Patient patient = new PatientBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> patient.getTags().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> patient.getTags().add(new Tag("high")));
     }
 
     @Test
@@ -35,9 +38,9 @@ public class PatientTest {
         Patient editedBob = new PatientBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
         assertFalse(BOB.isSamePerson(editedBob));
 
-        // different note, all other attributes same -> returns false
-        editedBob = new PatientBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        // different note, all other attributes same -> returns true
+        editedBob = new PatientBuilder(BOB).withNote("Different note").build();
+        assertTrue(BOB.isSamePerson(editedBob));
 
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
@@ -55,7 +58,7 @@ public class PatientTest {
         assertTrue(ALICE.equals(ALICE));
 
         // null -> returns false
-        assertFalse(ALICE.equals(null));
+        assertNotEquals(ALICE, null);
 
         // different type -> returns false
         assertFalse(ALICE.equals(5));
@@ -75,16 +78,24 @@ public class PatientTest {
         editedAlice = new PatientBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different tags -> returns true
-        editedAlice = new PatientBuilder(ALICE).withTags(VALID_TAG_LOW).build();
-        assertTrue(ALICE.equals(editedAlice));
+        // different tags -> returns false
+        editedAlice = new PatientBuilder(ALICE).withTags(VALID_TAG_HIGH).build();
+        assertFalse(ALICE.equals(editedAlice));
+
+        // different note -> returns false
+        editedAlice = new PatientBuilder(ALICE).withNote("Different note").build();
+        assertFalse(ALICE.equals(editedAlice));
+
+        // different appointment -> returns false
+        editedAlice = new PatientBuilder(ALICE).withAppointment("31-12-2099", "15:30").build();
+        assertFalse(ALICE.equals(editedAlice));
     }
 
     @Test
     public void toStringMethod() {
         String expected = Patient.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
-                + ", note=" + ALICE.getNote() + "}";
+            + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
+            + ", note=" + ALICE.getNote() + ", appointment=" + ALICE.getAppointment() + "}";
         assertEquals(expected, ALICE.toString());
     }
 }
