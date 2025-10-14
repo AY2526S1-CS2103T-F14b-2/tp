@@ -35,6 +35,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label address;
     @FXML
+    private Label note;
+    @FXML
     private Label appointment;
     @FXML
     private FlowPane tags;
@@ -50,13 +52,30 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         if (person instanceof Patient patient) {
-            if (patient.getAppointment() != null) {
-                appointment.setText("Appointment: " + patient.getAppointment());
+            // Set note for patients
+            if (patient.getNote() != null && !patient.getNote().value.equals("NIL")) {
+                note.setText("Note: " + patient.getNote().value);
+                note.setVisible(true);
+                note.setManaged(true);
             } else {
-                appointment.setText("Appointment: -");
+                note.setVisible(false);
+                note.setManaged(false);
+            }
+            // Set appointment for patients
+            if (patient.getAppointment() != null && patient.getAppointment().toString().trim().length() > 0) {
+                appointment.setText("Appointment: " + patient.getAppointment());
+                appointment.setVisible(true);
+                appointment.setManaged(true);
+            } else {
+                appointment.setVisible(false);
+                appointment.setManaged(false);
             }
         } else {
-            appointment.setText("Appointment: -");
+            // For non-patients, hide note and appointment
+            note.setVisible(false);
+            note.setManaged(false);
+            appointment.setVisible(false);
+            appointment.setManaged(false);
         }
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
