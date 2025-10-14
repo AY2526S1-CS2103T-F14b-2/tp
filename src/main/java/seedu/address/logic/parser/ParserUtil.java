@@ -11,6 +11,7 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -102,6 +103,25 @@ public class ParserUtil {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
         return new Tag(trimmedTag);
+    }
+
+    /**
+     * Parses a {@code String note} into a {@code Note}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code note} is invalid.
+     */
+    public static Note parseNote(String note) throws ParseException {
+        requireNonNull(note);
+        String trimmedNote = note.trim();
+        if (!Note.isValidNote(trimmedNote)) {
+            if (trimmedNote.length() > Note.MAX_LENGTH) {
+                throw new ParseException(Note.MESSAGE_LENGTH_CONSTRAINTS);
+            } else {
+                throw new ParseException(Note.MESSAGE_CONSTRAINTS);
+            }
+        }
+        return new Note(trimmedNote);
     }
 
     /**
