@@ -12,6 +12,9 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 import static seedu.address.testutil.TypicalPatients.BOB;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.tag.Tag;
@@ -97,5 +100,178 @@ public class PatientTest {
             + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
             + ", note=" + ALICE.getNote() + ", appointment=" + ALICE.getAppointment() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+    @Test
+    public void constructor_withNilNote_doesNotAddNoteToList() {
+        Note nilNote = new Note("NIL");
+        Patient patient = new PatientBuilder().withNote("NIL").build();
+        assertTrue(patient.getNotes().isEmpty());
+        assertEquals(nilNote, patient.getNote());
+    }
+
+    @Test
+    public void constructor_withValidNote_addsNoteToList() {
+        Patient patient = new PatientBuilder().withNote("Valid note").build();
+        assertEquals(1, patient.getNotes().size());
+        assertEquals("Valid note", patient.getNotes().get(0).value);
+    }
+
+    @Test
+    public void constructor_withMultipleNotes_storesAllNotes() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(new Note("First note"));
+        notes.add(new Note("Second note"));
+        notes.add(new Note("Third note"));
+
+        Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                ALICE.getTags(), notes);
+
+        assertEquals(3, patient.getNotes().size());
+        assertEquals("First note", patient.getNotes().get(0).value);
+        assertEquals("Second note", patient.getNotes().get(1).value);
+        assertEquals("Third note", patient.getNotes().get(2).value);
+    }
+
+    @Test
+    public void constructor_withMultipleNotesAndAppointment_storesCorrectly() {
+        List<Note> notes = new ArrayList<>();
+        notes.add(new Note("Note with appointment"));
+        Appointment appointment = new Appointment("31-12-2025", "14:30");
+
+        Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                ALICE.getTags(), notes, appointment);
+
+        assertEquals(1, patient.getNotes().size());
+        assertEquals("Note with appointment", patient.getNotes().get(0).value);
+        assertEquals(appointment, patient.getAppointment());
+    }
+
+    @Test
+    public void constructor_nullNotes_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new Patient(ALICE.getName(), ALICE.getPhone(),
+                ALICE.getAddress(), ALICE.getTags(), (List<Note>) null));
+    }
+
+    @Test
+    public void constructor_nullNote_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new Patient(ALICE.getName(), ALICE.getPhone(),
+                ALICE.getAddress(), ALICE.getTags(), (Note) null));
+    }
+
+    @Test
+    public void addNote_validNote_returnsNewPatientWithAddedNote() {
+        Patient originalPatient = new PatientBuilder().build();
+        Note newNote = new Note("New note");
+        Patient updatedPatient = originalPatient.addNote(newNote);
+
+        // Original patient should be unchanged
+        assertTrue(originalPatient.getNotes().isEmpty());
+
+        // Updated patient should have the new note
+        assertEquals(1, updatedPatient.getNotes().size());
+        assertEquals("New note", updatedPatient.getNotes().get(0).value);
+    }
+
+    @Test
+    public void addNote_toPatientWithExistingNotes_appendsNote() {
+        Patient patientWithNote = new PatientBuilder().withNote("Existing note").build();
+        Note additionalNote = new Note("Additional note");
+        Patient updatedPatient = patientWithNote.addNote(additionalNote);
+
+        assertEquals(2, updatedPatient.getNotes().size());
+        assertEquals("Existing note", updatedPatient.getNotes().get(0).value);
+        assertEquals("Additional note", updatedPatient.getNotes().get(1).value);
+    }
+
+    @Test
+    public void addNote_nullNote_throwsNullPointerException() {
+        Patient patient = new PatientBuilder().build();
+        assertThrows(NullPointerException.class, () -> patient.addNote(null));
+    }
+
+    @Test
+    public void addAppointment_validAppointment_returnsNewPatientWithAppointment() {
+        Patient originalPatient = new PatientBuilder().build();
+        Appointment appointment = new Appointment("31-12-2025", "14:30");
+        Patient updatedPatient = originalPatient.addAppointment(appointment);
+
+        // Original patient should be unchanged
+        assertEquals(null, originalPatient.getAppointment());
+
+        // Updated patient should have the new appointment
+        assertEquals(appointment, updatedPatient.getAppointment());
+    }
+
+    @Test
+    public void addAppointment_nullAppointment_throwsNullPointerException() {
+        Patient patient = new PatientBuilder().build();
+        assertThrows(NullPointerException.class, () -> patient.addAppointment(null));
+    }
+
+    @Test
+    public void getNotes_returnsDefensiveCopy() {
+        List<Note> originalNotes = new ArrayList<>();
+        originalNotes.add(new Note("Original note"));
+        Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                ALICE.getTags(), originalNotes);
+
+        List<Note> returnedNotes = patient.getNotes();
+
+        // Should not be able to modify the returned list
+        assertThrows(UnsupportedOperationException.class, () -> returnedNotes.add(new Note("Should not work")));
+    }
+
+    @Test
+    public void getNote_withNotes_returnsFirstNote() {
+        Patient patient = new PatientBuilder().withNote("First note").build();
+        patient = patient.addNote(new Note("Second note"));
+
+        assertEquals("First note", patient.getNote().value);
+    }
+
+    @Test
+    public void getNote_withoutNotes_returnsNilNote() {
+        Patient patient = new PatientBuilder().build();
+        assertEquals("NIL", patient.getNote().value);
+    }
+
+    @Test
+    public void isSamePerson_withNonPatient_returnsFalse() {
+        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(), ALICE.getTags());
+        assertFalse(ALICE.isSamePerson(person));
+    }
+
+    @Test
+    public void isSamePerson_sameNameAndPhoneDifferentCase_returnsTrue() {
+        Patient patient1 = new PatientBuilder().withName("John Doe").withPhone("12345678").build();
+        Patient patient2 = new PatientBuilder().withName("JOHN DOE").withPhone("12345678").build();
+        assertTrue(patient1.isSamePerson(patient2));
+    }
+
+    @Test
+    public void isSamePerson_differentPhoneNumbers_returnsFalse() {
+        Patient patient1 = new PatientBuilder().withName("John Doe").withPhone("12345678").build();
+        Patient patient2 = new PatientBuilder().withName("John Doe").withPhone("87654321").build();
+        assertFalse(patient1.isSamePerson(patient2));
+    }
+
+    @Test
+    public void hashCode_equalPatients_sameHashCode() {
+        Patient patient1 = new PatientBuilder(ALICE).build();
+        Patient patient2 = new PatientBuilder(ALICE).build();
+        assertEquals(patient1.hashCode(), patient2.hashCode());
+    }
+
+    @Test
+    public void hashCode_differentPatients_differentHashCode() {
+        assertNotEquals(ALICE.hashCode(), BOB.hashCode());
+    }
+
+    @Test
+    public void equals_comparePatientWithPerson_returnsTrue() {
+        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(), ALICE.getTags());
+        // Patient equals method calls super.equals() for Person objects that aren't Patients
+        assertTrue(ALICE.equals(person));
     }
 }

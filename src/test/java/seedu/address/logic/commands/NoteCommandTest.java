@@ -176,4 +176,33 @@ public class NoteCommandTest {
         String expected = NoteCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + ", note=" + note + "}";
         assertEquals(expected, noteCommand.toString());
     }
+
+    @Test
+    public void constructor_nullIndex_throwsNullPointerException() {
+        Note note = new Note("Some note");
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> new NoteCommand(null, note));
+    }
+
+    @Test
+    public void constructor_nullNote_throwsNullPointerException() {
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () ->
+            new NoteCommand(INDEX_FIRST_PERSON, null));
+    }
+
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        Note note = new Note("Some note");
+        NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, note);
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> noteCommand.execute(null));
+    }
+
+    @Test
+    public void equals_differentNote_returnsFalse() {
+        Note note1 = new Note("First note");
+        Note note2 = new Note("Second note");
+        NoteCommand noteCommand1 = new NoteCommand(INDEX_FIRST_PERSON, note1);
+        NoteCommand noteCommand2 = new NoteCommand(INDEX_FIRST_PERSON, note2);
+
+        assertFalse(noteCommand1.equals(noteCommand2));
+    }
 }
