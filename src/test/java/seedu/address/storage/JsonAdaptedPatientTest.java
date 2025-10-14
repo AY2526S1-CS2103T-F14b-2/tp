@@ -30,7 +30,7 @@ public class JsonAdaptedPatientTest {
     @Test
     public void toModelType_validPatientDetails_returnsPatient() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                VALID_APPOINTMENT, VALID_NOTE, VALID_TAGS);
+                VALID_APPOINTMENT, VALID_NOTE, null, VALID_TAGS);
         Patient expectedPatient = new Patient(new Name(VALID_NAME), new Phone(VALID_PHONE),
                 new Address(VALID_ADDRESS), patient.toModelType().getTags(),
                 new Note(VALID_NOTE), new Appointment("31-12-2025", "14:30"));
@@ -40,7 +40,7 @@ public class JsonAdaptedPatientTest {
     @Test
     public void toModelType_nullAppointment_returnsPatientWithNullAppointment() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                null, VALID_NOTE, VALID_TAGS);
+                null, VALID_NOTE, null, VALID_TAGS);
         Patient result = patient.toModelType();
         assertNull(result.getAppointment());
     }
@@ -48,7 +48,7 @@ public class JsonAdaptedPatientTest {
     @Test
     public void toModelType_nullNote_returnsPatientWithDefaultNote() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                VALID_APPOINTMENT, null, VALID_TAGS);
+                VALID_APPOINTMENT, null, null, VALID_TAGS);
         Patient result = patient.toModelType();
         assertEquals(new Note("NIL"), result.getNote());
     }
@@ -56,28 +56,28 @@ public class JsonAdaptedPatientTest {
     @Test
     public void toModelType_emptyAppointment_throwsIllegalValueException() {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                "   ", VALID_NOTE, VALID_TAGS);
+                "   ", VALID_NOTE, null, VALID_TAGS);
         assertThrows(IllegalValueException.class, patient::toModelType);
     }
 
     @Test
     public void toModelType_invalidAppointmentFormat_throwsIllegalValueException() {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                "invalid-appointment", VALID_NOTE, VALID_TAGS);
+                "invalid-appointment", VALID_NOTE, null, VALID_TAGS);
         assertThrows(IllegalValueException.class, patient::toModelType);
     }
 
     @Test
     public void toModelType_appointmentOnlyDate_throwsIllegalValueException() {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                "31-12-2025", VALID_NOTE, VALID_TAGS);
+                "31-12-2025", VALID_NOTE, null, VALID_TAGS);
         assertThrows(IllegalValueException.class, patient::toModelType);
     }
 
     @Test
     public void toModelType_invalidAppointmentDateTime_throwsIllegalValueException() {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                "invalid-date invalid-time", VALID_NOTE, VALID_TAGS);
+                "invalid-date invalid-time", VALID_NOTE, null, VALID_TAGS);
         assertThrows(IllegalValueException.class, patient::toModelType);
     }
 
