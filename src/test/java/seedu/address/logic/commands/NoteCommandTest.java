@@ -205,4 +205,23 @@ public class NoteCommandTest {
 
         assertFalse(noteCommand1.equals(noteCommand2));
     }
+
+    @Test
+    public void execute_emptyFilteredList_throwsCommandException() {
+        // Create a model with an empty filtered list
+        Model emptyModel = new ModelManager(new AddressBook(), new UserPrefs());
+        NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
+
+        assertCommandFailure(noteCommand, emptyModel, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_indexExactlyAtBoundaryFiltered_throwsCommandException() {
+        // Filter to show only first person, then try to access second
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        Index indexOutOfBounds = INDEX_SECOND_PERSON;
+
+        NoteCommand noteCommand = new NoteCommand(indexOutOfBounds, new Note(NOTE_STUB));
+        assertCommandFailure(noteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
 }

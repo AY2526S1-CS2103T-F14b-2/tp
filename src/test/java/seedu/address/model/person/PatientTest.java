@@ -274,4 +274,28 @@ public class PatientTest {
         // Patient equals method calls super.equals() for Person objects that aren't Patients
         assertTrue(ALICE.equals(person));
     }
+
+    @Test
+    public void equals_bothPatientsNullAppointments_returnsTrue() {
+        Patient patient1 = new PatientBuilder().withName("John").build();
+        Patient patient2 = new PatientBuilder().withName("John").build();
+        // Both should have null appointments by default
+        assertTrue(patient1.equals(patient2));
+    }
+
+    @Test
+    public void equals_onePatientNullAppointmentOtherHasAppointment_returnsFalse() {
+        Patient patientWithoutAppointment = new PatientBuilder().build();
+        Patient patientWithAppointment = new PatientBuilder().withAppointment("31-12-2025", "14:30").build();
+        assertFalse(patientWithoutAppointment.equals(patientWithAppointment));
+    }
+
+    @Test
+    public void constructor_emptyNotesListAndNullAppointment_successful() {
+        List<Note> emptyNotes = new ArrayList<>();
+        Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                ALICE.getTags(), emptyNotes, null);
+        assertTrue(patient.getNotes().isEmpty());
+        assertEquals(null, patient.getAppointment());
+    }
 }
