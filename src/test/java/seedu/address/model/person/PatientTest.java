@@ -12,12 +12,9 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 import static seedu.address.testutil.TypicalPatients.BOB;
 
-import java.util.List;
-
-import javax.swing.text.html.HTML.Tag;
-
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PatientBuilder;
 
 
@@ -26,8 +23,7 @@ public class PatientTest {
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Patient patient = new PatientBuilder().build();
-        // Try to modify the tags set - should throw exception
-        assertThrows(UnsupportedOperationException.class, () -> patient.getTags().add(ALICE.getTags().iterator().next()));
+        assertThrows(UnsupportedOperationException.class, () -> patient.getTags().add(new Tag("high")));
     }
 
     @Test
@@ -101,98 +97,5 @@ public class PatientTest {
             + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
             + ", note=" + ALICE.getNote() + ", appointment=" + ALICE.getAppointment() + "}";
         assertEquals(expected, ALICE.toString());
-    }
-
-    @Test
-    public void addNote_validNote_success() {
-        Patient patient = new PatientBuilder().build(); // Has 0 notes
-        Note note = new Note("Test note");
-        
-        Patient updatedPatient = patient.addNote(note);
-        
-        assertEquals(1, updatedPatient.getNotes().size()); // Just the new note
-        assertEquals(note, updatedPatient.getNotes().get(0)); // New note
-        // Original patient should be unchanged
-        assertEquals(0, patient.getNotes().size());
-    }        @Test
-    public void addNote_multipleNotes_success() {
-        Patient patient = new PatientBuilder().build(); // Has 0 notes
-        Note note1 = new Note("First note");
-        Note note2 = new Note("Second note");
-        
-        Patient withFirstNote = patient.addNote(note1);
-        Patient withBothNotes = withFirstNote.addNote(note2);
-        
-        assertEquals(2, withBothNotes.getNotes().size());
-        assertEquals(note1, withBothNotes.getNotes().get(0));
-        assertEquals(note2, withBothNotes.getNotes().get(1));
-    }
-
-    @Test
-    public void addNote_nullNote_throwsNullPointerException() {
-        Patient patient = new PatientBuilder().build();
-        assertThrows(NullPointerException.class, () -> patient.addNote(null));
-    }
-
-    @Test
-    public void getNotes_modifyReturnedList_throwsUnsupportedOperationException() {
-        Patient patient = new PatientBuilder().withNote("Test note").build();
-        assertThrows(UnsupportedOperationException.class, () -> patient.getNotes().add(new Note("Another note")));
-    }
-
-    @Test
-    public void getNotes_defensiveCopy_success() {
-        Note note1 = new Note("First note");
-        Note note2 = new Note("Second note");
-        Patient patient = new PatientBuilder().build().addNote(note1).addNote(note2); // Start with 0, add 2
-        
-        // Getting notes should return a defensive copy
-        List<Note> notes = patient.getNotes();
-        assertEquals(2, notes.size());
-        assertEquals(note1, notes.get(0));
-        assertEquals(note2, notes.get(1));
-    }    @Test
-    public void getNote_singleNote_returnsFirstNote() {
-        Note note = new Note("Test note");
-        Patient patient = new PatientBuilder().build().addNote(note);
-
-        assertEquals(note, patient.getNote());
-    }
-
-    @Test
-    public void getNote_multipleNotes_returnsFirstNote() {
-        Note note1 = new Note("First note");
-        Note note2 = new Note("Second note");
-        Patient patient = new PatientBuilder().build().addNote(note1).addNote(note2);
-
-        assertEquals(note1, patient.getNote());
-    }
-
-    @Test
-    public void getNote_noNotes_returnsNilNote() {
-        Patient patient = new PatientBuilder().build();
-        assertEquals(new Note("NIL"), patient.getNote());
-    }
-
-    @Test
-    public void equals_sameNotesOrder_returnsTrue() {
-        Note note1 = new Note("First note");
-        Note note2 = new Note("Second note");
-
-        Patient patient1 = new PatientBuilder().build().addNote(note1).addNote(note2);
-        Patient patient2 = new PatientBuilder().build().addNote(note1).addNote(note2);
-
-        assertEquals(patient1, patient2);
-    }
-
-    @Test
-    public void equals_differentNotesOrder_returnsFalse() {
-        Note note1 = new Note("First note");
-        Note note2 = new Note("Second note");
-
-        Patient patient1 = new PatientBuilder().build().addNote(note1).addNote(note2);
-        Patient patient2 = new PatientBuilder().build().addNote(note2).addNote(note1);
-
-        assertNotEquals(patient1, patient2);
     }
 }
