@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -11,15 +12,27 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Patient;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.PatientBuilder;
+
+
 
 public class ModelManagerTest {
 
+    private static final String FUTURE_DATE = "31-12-2099";
+    private static final String FUTURE_TIME = "15:30";
     private ModelManager modelManager = new ModelManager();
 
     @Test
@@ -94,6 +107,64 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void hasAppointment_patientWithAppointment_returnsTrue() {
+        Patient patientWithAppointment = new PatientBuilder()
+                .withAppointment(FUTURE_DATE, FUTURE_TIME).build();
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(patientWithAppointment);
+        ModelManager manager = new ModelManager(addressBook, new UserPrefs());
+
+        assertTrue(manager.hasAppointment(patientWithAppointment));
+    }
+
+    @Test
+    public void hasAppointment_patientWithoutAppointment_returnsFalse() {
+        Patient patient = new PatientBuilder().build();
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(patient);
+        ModelManager manager = new ModelManager(addressBook, new UserPrefs());
+
+        assertFalse(manager.hasAppointment(patient));
+    }
+
+    @Test
+    public void addAppointment_patientWithoutAppointment_appointmentAdded() {
+        Patient patient = new PatientBuilder().build();
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(patient);
+        ModelManager manager = new ModelManager(addressBook, new UserPrefs());
+
+        Patient updated = manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME);
+
+        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updated.getAppointment());
+        Patient storedPatient = (Patient) manager.getFilteredPersonList().get(0);
+        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), storedPatient.getAppointment());
+    }
+
+    @Test
+    public void addAppointment_nonPatient_throwsIllegalArgumentException() {
+        Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
+                new Address("Somewhere"), new HashSet<>());
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(nonPatient);
+        ModelManager manager = new ModelManager(addressBook, new UserPrefs());
+
+        assertThrows(IllegalArgumentException.class, () ->
+            manager.addAppointment(nonPatient, FUTURE_DATE, FUTURE_TIME));
+    }
+
+    @Test
+    public void hasAppointment_nonPatient_returnsFalse() {
+        Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
+                new Address("Somewhere"), new HashSet<>());
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(nonPatient);
+        ModelManager manager = new ModelManager(addressBook, new UserPrefs());
+
+        assertFalse(manager.hasAppointment(nonPatient));
+    }
+
+    @Test
     public void equals() {
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
         AddressBook differentAddressBook = new AddressBook();
@@ -108,7 +179,7 @@ public class ModelManagerTest {
         assertTrue(modelManager.equals(modelManager));
 
         // null -> returns false
-        assertFalse(modelManager.equals(null));
+        assertNotEquals(null, modelManager);
 
         // different types -> returns false
         assertFalse(modelManager.equals(5));

@@ -11,6 +11,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -18,7 +20,6 @@ import seedu.address.model.person.Person;
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
@@ -94,6 +95,16 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasAppointment(Person person) {
+        requireNonNull(person);
+        if (!(person instanceof Patient)) {
+            return false;
+        }
+        Patient patient = (Patient) person;
+        return patient.getAppointment() != null;
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
     }
@@ -102,6 +113,24 @@ public class ModelManager implements Model {
     public void addPerson(Person person) {
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
+    public Patient addAppointment(Person person, String date, String time) {
+        requireAllNonNull(person, date, time);
+
+        if (!(person instanceof Patient)) {
+            throw new IllegalArgumentException("Person must be a patient");
+        }
+
+        Patient patient = (Patient) person;
+        Appointment appointment = new Appointment(date, time);
+
+        Patient updatedPatient = patient.addAppointment(appointment);
+
+        setPerson(patient, updatedPatient);
+
+        return updatedPatient;
     }
 
     @Override
