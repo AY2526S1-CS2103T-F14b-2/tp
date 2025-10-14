@@ -42,8 +42,18 @@ public class NoteCommandTest {
         }
 
         Patient firstPatient = (Patient) firstPerson;
+
+        // Calculate expected combined note
+        Note expectedNote;
+        if (firstPatient.getNote() != null && !firstPatient.getNote().value.equals("NIL")) {
+            String combinedNoteValue = firstPatient.getNote().value + " | " + NOTE_STUB;
+            expectedNote = new Note(combinedNoteValue);
+        } else {
+            expectedNote = new Note(NOTE_STUB);
+        }
+
         Patient editedPatient = new Patient(firstPatient.getName(), firstPatient.getPhone(),
-                firstPatient.getAddress(), firstPatient.getTags(), new Note(NOTE_STUB));
+                firstPatient.getAddress(), firstPatient.getTags(), expectedNote, firstPatient.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
@@ -51,6 +61,41 @@ public class NoteCommandTest {
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(firstPatient, editedPatient);
+
+        assertCommandSuccess(noteCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_appendNoteToExistingNote_success() {
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        // Skip test if first person is not a patient
+        if (!(firstPerson instanceof Patient)) {
+            return;
+        }
+
+        Patient firstPatient = (Patient) firstPerson;
+
+        // First, add an initial note to ensure we have an existing note
+        Note initialNote = new Note("Initial note");
+        Patient patientWithInitialNote = new Patient(firstPatient.getName(), firstPatient.getPhone(),
+                firstPatient.getAddress(), firstPatient.getTags(), initialNote, firstPatient.getAppointment());
+
+        model.setPerson(firstPatient, patientWithInitialNote);
+
+        // Now add a second note which should be appended
+        String secondNoteText = "Second note";
+        Note expectedCombinedNote = new Note("Initial note | " + secondNoteText);
+        Patient expectedPatient = new Patient(patientWithInitialNote.getName(), patientWithInitialNote.getPhone(),
+                patientWithInitialNote.getAddress(), patientWithInitialNote.getTags(), expectedCombinedNote,
+                patientWithInitialNote.getAppointment());
+
+        NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(secondNoteText));
+
+        String expectedMessage = String.format(NoteCommand.MESSAGE_SUCCESS, Messages.format(expectedPatient));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(patientWithInitialNote, expectedPatient);
 
         assertCommandSuccess(noteCommand, model, expectedMessage, expectedModel);
     }
