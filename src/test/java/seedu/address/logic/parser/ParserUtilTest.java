@@ -19,7 +19,11 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
+
+
 public class ParserUtilTest {
+    private static final String BLANK = "  ";
+
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
@@ -28,8 +32,8 @@ public class ParserUtilTest {
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
-    private static final String VALID_TAG_1 = "friend";
-    private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_TAG_1 = "low";
+    private static final String VALID_TAG_2 = "medium";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -51,6 +55,11 @@ public class ParserUtilTest {
 
         // Leading and trailing whitespaces
         assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+    }
+
+    @Test
+    public void parseName_blank_throwsParseException() throws Exception {
+        assertThrows(ParseException.class, Phone.LENGTH_CONSTRAINTS, () -> ParserUtil.parsePhone(BLANK));
     }
 
     @Test
@@ -82,8 +91,18 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parsePhone_invalidValue_throwsParseException() {
+    public void parsePhone_invalidChars_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parsePhone(INVALID_PHONE));
+    }
+
+    @Test
+    public void parsePhone_lengthExceedFifteen_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parsePhone("929292929292929292922"));
+    }
+
+    @Test
+    public void parsePhone_lengthBelowThree_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parsePhone("33"));
     }
 
     @Test
@@ -99,10 +118,12 @@ public class ParserUtilTest {
         assertEquals(expectedPhone, ParserUtil.parsePhone(phoneWithWhitespace));
     }
 
+
     @Test
     public void parseAddress_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseAddress((String) null));
     }
+
 
     @Test
     public void parseAddress_invalidValue_throwsParseException() {

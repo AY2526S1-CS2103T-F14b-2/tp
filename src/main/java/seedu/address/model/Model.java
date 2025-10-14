@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -58,6 +59,13 @@ public interface Model {
     boolean hasPerson(Person person);
 
     /**
+     * Returns true if the person has an appointment.
+     * @param person person object
+     * @return true if the person has an appointment, false otherwise.
+     */
+    boolean hasAppointment(Person person);
+
+    /**
      * Deletes the given person.
      * The person must exist in the address book.
      */
@@ -68,6 +76,15 @@ public interface Model {
      * {@code person} must not already exist in the address book.
      */
     void addPerson(Person person);
+
+    /**
+     * Adds an appointment to the given person.
+     * @param person the person to add the appointment to.
+     * @param date the date of the appointment
+     * @param time the time of the appointment
+     * @throws IllegalArgumentException if the person is not a patient.
+     */
+    Patient addAppointment(Person person, String date, String time);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.

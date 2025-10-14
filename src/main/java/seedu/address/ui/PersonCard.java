@@ -5,8 +5,8 @@ import java.util.Comparator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -27,8 +27,6 @@ public class PersonCard extends UiPart<Region> {
     public final Person person;
 
     @FXML
-    private HBox cardPane;
-    @FXML
     private Label name;
     @FXML
     private Label id;
@@ -36,6 +34,8 @@ public class PersonCard extends UiPart<Region> {
     private Label phone;
     @FXML
     private Label address;
+    @FXML
+    private Label appointment;
     @FXML
     private FlowPane tags;
 
@@ -49,6 +49,15 @@ public class PersonCard extends UiPart<Region> {
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
+        if (person instanceof Patient patient) {
+            if (patient.getAppointment() != null) {
+                appointment.setText("Appointment: " + patient.getAppointment());
+            } else {
+                appointment.setText("Appointment: -");
+            }
+        } else {
+            appointment.setText("Appointment: -");
+        }
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
