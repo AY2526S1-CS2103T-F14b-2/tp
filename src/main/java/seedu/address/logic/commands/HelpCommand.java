@@ -16,7 +16,7 @@ public class HelpCommand extends Command {
 
     public static final String HELP_MESSAGE = "1. Add Patient\n"
             + "   Purpose: Add a new patient with personal details\n"
-            + "   Format: add n/NAME p/PHONE a/ADDRESS [t/TAG]\n"
+            + "   Format: add n/NAME p/PHONE a/ADDRESS [tag/TAG]\n"
             + "   Notes: TAG optional, values = high/medium/low (case-insensitive)\n\n"
             + "2. Find Patient\n"
             + "   Purpose: Search for patients by keyword(s)\n"
@@ -36,7 +36,7 @@ public class HelpCommand extends Command {
             + "   Notes: DATE = DD-MM-YYYY, TIME = HH:MM 24-hour, cannot be in past\n\n"
             + "6. Add Medical Notes\n"
             + "   Purpose: Add notes to a patient’s record\n"
-            + "   Format: note INDEX n/NOTES\n"
+            + "   Format: note INDEX note/NOTES\n"
             + "   Notes: NOTES max 200 characters\n\n";
 
     @Override
