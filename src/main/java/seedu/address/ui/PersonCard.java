@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
@@ -35,7 +37,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label address;
     @FXML
-    private Label note;
+    private VBox notesContainer;
     @FXML
     private Label appointment;
     @FXML
@@ -52,14 +54,18 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         if (person instanceof Patient patient) {
-            // Set note for patients
-            if (patient.getNote() != null && !patient.getNote().value.equals("NIL")) {
-                note.setText("Note: " + patient.getNote().value);
-                note.setVisible(true);
-                note.setManaged(true);
+            // Set notes for patients
+            if (!patient.getNotes().isEmpty()) {
+                notesContainer.setVisible(true);
+                notesContainer.setManaged(true);
+                for (Note note : patient.getNotes()) {
+                    Label noteLabel = new Label("• " + note.value);
+                    noteLabel.getStyleClass().add("cell_small_label");
+                    notesContainer.getChildren().add(noteLabel);
+                }
             } else {
-                note.setVisible(false);
-                note.setManaged(false);
+                notesContainer.setVisible(false);
+                notesContainer.setManaged(false);
             }
             // Set appointment for patients
             if (patient.getAppointment() != null && patient.getAppointment().toString().trim().length() > 0) {
@@ -71,9 +77,9 @@ public class PersonCard extends UiPart<Region> {
                 appointment.setManaged(false);
             }
         } else {
-            // For non-patients, hide note and appointment
-            note.setVisible(false);
-            note.setManaged(false);
+            // For non-patients, hide notes and appointment
+            notesContainer.setVisible(false);
+            notesContainer.setManaged(false);
             appointment.setVisible(false);
             appointment.setManaged(false);
         }
