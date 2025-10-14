@@ -59,7 +59,7 @@ public class Patient extends Person {
     /**
      * Constructs a Patient with multiple notes but no appointment.
      * Creates a defensive copy of the provided notes list to ensure immutability.
-     * 
+     *
      * @param name the patient's name, must not be null
      * @param phone the patient's phone number, must not be null
      * @param address the patient's address, must not be null
@@ -78,7 +78,7 @@ public class Patient extends Person {
      * Constructs a Patient with multiple notes and an appointment.
      * Creates a defensive copy of the provided notes list to ensure immutability.
      * This is the most comprehensive constructor supporting all patient data fields.
-     * 
+     *
      * @param name the patient's name, must not be null
      * @param phone the patient's phone number, must not be null
      * @param address the patient's address, must not be null
