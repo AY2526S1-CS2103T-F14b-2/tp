@@ -62,32 +62,7 @@ public class NoteCommand extends Command {
         }
 
         Patient patientToAddNote = (Patient) personToAddNote;
-
-        // Combine existing note with new note
-        Note combinedNote;
-        if (patientToAddNote.getNote() != null && !patientToAddNote.getNote().value.equals("NIL")) {
-            String existingNote = patientToAddNote.getNote().value;
-            String newNoteValue = existingNote + " | " + note.value;
-
-            // Check if combined note exceeds maximum length
-            if (newNoteValue.length() > Note.MAX_LENGTH) {
-                throw new CommandException("Combined note exceeds maximum length of " + Note.MAX_LENGTH
-                        + " characters. Current note length: " + existingNote.length()
-                        + ", new note length: " + note.value.length());
-            }
-
-            combinedNote = new Note(newNoteValue);
-        } else {
-            combinedNote = note;
-        }
-        Patient updatedPatient = new Patient(
-            patientToAddNote.getName(),
-            patientToAddNote.getPhone(),
-            patientToAddNote.getAddress(),
-            patientToAddNote.getTags(),
-            combinedNote,
-            patientToAddNote.getAppointment()
-        );
+        Patient updatedPatient = patientToAddNote.addNote(note);
 
         model.setPerson(patientToAddNote, updatedPatient);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(updatedPatient)));
