@@ -38,7 +38,7 @@ class JsonAdaptedPerson {
         this.name = name;
         this.phone = phone;
         this.address = address;
-        this.tag = null;
+        this.tag = tag;
     }
 
     /**

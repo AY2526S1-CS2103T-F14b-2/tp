@@ -15,6 +15,7 @@ import java.util.List;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Patient;
 
 
 
@@ -28,7 +29,7 @@ public class TypicalPersons {
             .withTag("low").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25").withPhone("98765432")
-            .withTag("medium").build();
+            .withTag("high").build();
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withAddress("wall street").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
@@ -63,9 +64,18 @@ public class TypicalPersons {
     public static AddressBook getTypicalAddressBook() {
         AddressBook ab = new AddressBook();
         for (Person person : getTypicalPersons()) {
-            ab.addPerson(person);
+            ab.addPerson(toPatient(person));
         }
         return ab;
+    }
+
+    private static Patient toPatient(Person p) {
+        return new Patient(
+                p.getName(),
+                p.getPhone(),
+                p.getAddress(),
+                p.getTag().orElse(null),
+                List.of());
     }
 
     public static List<Person> getTypicalPersons() {
