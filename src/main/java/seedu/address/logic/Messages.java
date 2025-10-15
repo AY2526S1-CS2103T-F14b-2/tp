@@ -41,16 +41,13 @@ public class Messages {
                 .append("; Phone: ")
                 .append(person.getPhone())
                 .append("; Address: ")
-                .append(person.getAddress())
-                .append("; Tags: ");
+                .append(person.getAddress());
 
-        String priorityTags = person.getTags().stream()
-                .map(tag -> tag.toString())
-                .map(tag -> Messages.capitalise(tag))
-                .map(s -> s + " Priority")
-                .collect(java.util.stream.Collectors.joining(", "));
+        person.getTag().ifPresent(t ->
+                builder.append("; Tags: ")
+                        .append(Messages.capitalise(t.toString()))
+                        .append(" Priority"));
 
-        builder.append(priorityTags);
         return builder.toString();
     }
 

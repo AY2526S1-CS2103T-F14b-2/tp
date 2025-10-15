@@ -88,8 +88,11 @@ public class PersonCard extends UiPart<Region> {
             appointmentContainer.setVisible(false);
             appointmentContainer.setManaged(false);
         }
-        person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        tags.getChildren().clear();
+
+        person.getTag().ifPresent(tag ->
+                tags.getChildren().add(new Label(tag.tagName)));
+
     }
 }

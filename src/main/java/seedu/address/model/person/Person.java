@@ -2,10 +2,7 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -22,17 +19,17 @@ public class Person {
 
     // Data fields
     private final Address address;
-    private final Set<Tag> tags = new HashSet<>();
+    private final Tag tag;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, address, tags);
+    public Person(Name name, Phone phone, Address address, Tag tag) {
+        requireAllNonNull(name, phone, address);
         this.name = name;
         this.phone = phone;
         this.address = address;
-        this.tags.addAll(tags);
+        this.tag = tag;
     }
 
     public Name getName() {
@@ -48,11 +45,10 @@ public class Person {
     }
 
     /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
+     * Returns an {@link Optional} with the tag if present else return an {@link Optional#empty()}
      */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
+    public Optional<Tag> getTag() {
+        return Optional.ofNullable(tag);
     }
 
     /**
@@ -84,26 +80,28 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
+
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && tag.equals(otherPerson.tag);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, address, tags);
+        return Objects.hash(name, phone, address, tag);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        ToStringBuilder sb = new ToStringBuilder(this)
                 .add("name", name)
                 .add("phone", phone)
-                .add("address", address)
-                .add("tags", tags)
-                .toString();
+                .add("address", address);
+
+        getTag().ifPresent(tag -> sb.add("tag", tag));
+        return sb.toString();
     }
 
 }

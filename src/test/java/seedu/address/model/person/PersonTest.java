@@ -19,11 +19,6 @@ import seedu.address.testutil.PersonBuilder;
 
 public class PersonTest {
 
-    @Test
-    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Person person = new PersonBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
-    }
 
     @Test
     public void isSamePerson() {
@@ -35,7 +30,7 @@ public class PersonTest {
 
         // same name, all other attributes different -> returns true
         Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_LOW).build();
+                .withAddress(VALID_ADDRESS_BOB).withTag(VALID_TAG_LOW).build();
         assertTrue(ALICE.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
@@ -83,14 +78,14 @@ public class PersonTest {
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns true
-        editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_LOW).build();
+        editedAlice = new PersonBuilder(ALICE).withTag(VALID_TAG_LOW).build();
         assertTrue(ALICE.equals(editedAlice));
     }
 
     @Test
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags() + "}";
+                + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTag().map(t -> t.tagName)+ "}";
         assertEquals(expected, ALICE.toString());
     }
 }

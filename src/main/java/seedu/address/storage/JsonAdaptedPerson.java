@@ -26,7 +26,7 @@ class JsonAdaptedPerson {
     private final String name;
     private final String phone;
     private final String address;
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final JsonAdaptedTag tag;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -34,13 +34,11 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("address") String address,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("tags") JsonAdaptedTag tag) {
         this.name = name;
         this.phone = phone;
         this.address = address;
-        if (tags != null) {
-            this.tags.addAll(tags);
-        }
+        this.tag = null;
     }
 
     /**
@@ -50,9 +48,8 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         address = source.getAddress().value;
-        tags.addAll(source.getTags().stream()
-                .map(JsonAdaptedTag::new)
-                .collect(Collectors.toList()));
+        tag = source.getTag().map(t -> new JsonAdaptedTag(t)).orElse(null);
+
     }
 
     /**
@@ -62,9 +59,6 @@ class JsonAdaptedPerson {
      */
     public Person toModelType() throws IllegalValueException {
         final List<Tag> personTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tags) {
-            personTags.add(tag.toModelType());
-        }
 
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
@@ -91,9 +85,9 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
-        final Set<Tag> modelTags = new HashSet<>(personTags);
+        final Tag modelTag = (tag == null) ? null: tag.toModelType();
 
-        return new Person(modelName, modelPhone, modelAddress, modelTags);
+        return new Person(modelName, modelPhone, modelAddress, modelTag);
     }
 
 }

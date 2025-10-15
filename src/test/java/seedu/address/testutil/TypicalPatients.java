@@ -18,11 +18,11 @@ public class TypicalPatients {
     public static final Patient ALICE = new PatientBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111")
             .withPhone("94351253")
-            .withTags("low").build();
+            .withTag("high").build();
     public static final Patient BOB = new PatientBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25")
             .withPhone("98765432")
-            .withTags("low", "high")
+            .withTag("low")
             .withNote("No peanuts").build();
 
     private TypicalPatients() {} // prevents instantiation

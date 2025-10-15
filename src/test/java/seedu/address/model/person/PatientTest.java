@@ -23,11 +23,6 @@ import seedu.address.testutil.PatientBuilder;
 
 public class PatientTest {
 
-    @Test
-    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Patient patient = new PatientBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> patient.getTags().add(new Tag("high")));
-    }
 
     @Test
     public void isSamePatient() {
@@ -82,7 +77,7 @@ public class PatientTest {
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns false
-        editedAlice = new PatientBuilder(ALICE).withTags(VALID_TAG_HIGH).build();
+        editedAlice = new PatientBuilder(ALICE).withTag(VALID_TAG_HIGH).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different note -> returns false
@@ -97,7 +92,7 @@ public class PatientTest {
     @Test
     public void toStringMethod() {
         String expected = Patient.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-            + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags()
+            + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTag().orElse(null)
             + ", note=" + ALICE.getNote() + ", appointment=" + ALICE.getAppointment() + "}";
         assertEquals(expected, ALICE.toString());
     }
@@ -125,7 +120,7 @@ public class PatientTest {
         notes.add(new Note("Third note"));
 
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTags(), notes);
+                ALICE.getTag().orElse(null), notes);
 
         assertEquals(3, patient.getNotes().size());
         assertEquals("First note", patient.getNotes().get(0).value);
@@ -140,7 +135,7 @@ public class PatientTest {
         Appointment appointment = new Appointment("31-12-2025", "14:30");
 
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTags(), notes, appointment);
+                ALICE.getTag().orElse(null), notes, appointment);
 
         assertEquals(1, patient.getNotes().size());
         assertEquals("Note with appointment", patient.getNotes().get(0).value);
@@ -150,13 +145,13 @@ public class PatientTest {
     @Test
     public void constructor_nullNotes_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new Patient(ALICE.getName(), ALICE.getPhone(),
-                ALICE.getAddress(), ALICE.getTags(), (List<Note>) null));
+                ALICE.getAddress(), ALICE.getTag().orElse(null), (List<Note>) null));
     }
 
     @Test
     public void constructor_nullNote_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new Patient(ALICE.getName(), ALICE.getPhone(),
-                ALICE.getAddress(), ALICE.getTags(), (Note) null));
+                ALICE.getAddress(), ALICE.getTag().orElse(null), (Note) null));
     }
 
     @Test
@@ -214,7 +209,7 @@ public class PatientTest {
         List<Note> originalNotes = new ArrayList<>();
         originalNotes.add(new Note("Original note"));
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTags(), originalNotes);
+                ALICE.getTag().orElse(null), originalNotes);
 
         List<Note> returnedNotes = patient.getNotes();
 
@@ -238,7 +233,8 @@ public class PatientTest {
 
     @Test
     public void isSamePerson_withNonPatient_returnsFalse() {
-        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(), ALICE.getTags());
+        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                ALICE.getTag().orElse(null));
         assertFalse(ALICE.isSamePerson(person));
     }
 
@@ -270,7 +266,8 @@ public class PatientTest {
 
     @Test
     public void equals_comparePatientWithPerson_returnsTrue() {
-        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(), ALICE.getTags());
+        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                ALICE.getTag().orElse(null));
         // Patient equals method calls super.equals() for Person objects that aren't Patients
         assertTrue(ALICE.equals(person));
     }
@@ -294,7 +291,7 @@ public class PatientTest {
     public void constructor_emptyNotesListAndNullAppointment_successful() {
         List<Note> emptyNotes = new ArrayList<>();
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTags(), emptyNotes, null);
+                ALICE.getTag().orElse(null), emptyNotes, null);
         assertTrue(patient.getNotes().isEmpty());
         assertEquals(null, patient.getAppointment());
     }

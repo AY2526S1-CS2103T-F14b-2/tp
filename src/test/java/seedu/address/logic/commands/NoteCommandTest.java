@@ -53,7 +53,7 @@ public class NoteCommandTest {
         }
 
         Patient editedPatient = new Patient(firstPatient.getName(), firstPatient.getPhone(),
-                firstPatient.getAddress(), firstPatient.getTags(), expectedNote, firstPatient.getAppointment());
+                firstPatient.getAddress(), firstPatient.getTag().orElse(null), expectedNote, firstPatient.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
@@ -79,7 +79,7 @@ public class NoteCommandTest {
         // First, add an initial note to ensure we have an existing note
         Note initialNote = new Note("Initial note");
         Patient patientWithInitialNote = new Patient(firstPatient.getName(), firstPatient.getPhone(),
-                firstPatient.getAddress(), firstPatient.getTags(), initialNote, firstPatient.getAppointment());
+                firstPatient.getAddress(), firstPatient.getTag().orElse(null), initialNote, firstPatient.getAppointment());
 
         model.setPerson(firstPatient, patientWithInitialNote);
 
@@ -87,7 +87,8 @@ public class NoteCommandTest {
         String secondNoteText = "Second note";
         Note expectedCombinedNote = new Note("Initial note | " + secondNoteText);
         Patient expectedPatient = new Patient(patientWithInitialNote.getName(), patientWithInitialNote.getPhone(),
-                patientWithInitialNote.getAddress(), patientWithInitialNote.getTags(), expectedCombinedNote,
+                patientWithInitialNote.getAddress(), patientWithInitialNote.getTag().orElse(null),
+                expectedCombinedNote,
                 patientWithInitialNote.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(secondNoteText));

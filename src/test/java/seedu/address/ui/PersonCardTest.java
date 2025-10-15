@@ -43,14 +43,11 @@ public class PersonCardTest {
     }
 
     @Test
-    public void constructor_personWithTags_sortsTags() {
-        Patient patient = new PatientBuilder().withTags("high", "low", "medium").build();
+    public void constructor_patientWithTag_setsTag() {
+        Patient patient = new PatientBuilder().withTag("high").build();
 
-        // Verify that the patient has the expected tags
-        assertEquals(3, patient.getTags().size());
-        assertTrue(patient.getTags().stream().anyMatch(tag -> tag.tagName.equals("high")));
-        assertTrue(patient.getTags().stream().anyMatch(tag -> tag.tagName.equals("low")));
-        assertTrue(patient.getTags().stream().anyMatch(tag -> tag.tagName.equals("medium")));
+        assertTrue(patient.getTag().isPresent());
+        assertEquals("high", patient.getTag().get().tagName);
     }
 
     @Test
