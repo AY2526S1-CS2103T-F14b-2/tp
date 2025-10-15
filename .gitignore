@@ -7,8 +7,6 @@ src/main/resources/docs/
 /.idea/
 /out/
 /*.iml
-.vscode/
-bin/
 
 # Storage/log files
 /data/

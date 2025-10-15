@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -188,41 +187,5 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
-    }
-
-    @Test
-    public void parseNote_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseNote(null));
-    }
-
-    @Test
-    public void parseNote_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseNote(""));
-        assertThrows(ParseException.class, () -> ParserUtil.parseNote("  "));
-    }
-
-    @Test
-    public void parseNote_validValueWithoutWhitespace_returnsNote() throws Exception {
-        Note expectedNote = new Note("Valid note");
-        assertEquals(expectedNote, ParserUtil.parseNote("Valid note"));
-    }
-
-    @Test
-    public void parseNote_validValueWithWhitespace_returnsTrimmedNote() throws Exception {
-        Note expectedNote = new Note("Valid note");
-        assertEquals(expectedNote, ParserUtil.parseNote("  Valid note  "));
-    }
-
-    @Test
-    public void parseNote_noteTooLong_throwsParseExceptionWithLengthMessage() {
-        String tooLongNote = "a".repeat(201);
-        assertThrows(ParseException.class, Note.MESSAGE_LENGTH_CONSTRAINTS, () ->
-            ParserUtil.parseNote(tooLongNote));
-    }
-
-    @Test
-    public void parseNote_noteBlank_throwsParseExceptionWithConstraintsMessage() {
-        assertThrows(ParseException.class, Note.MESSAGE_CONSTRAINTS, () ->
-            ParserUtil.parseNote("   "));
     }
 }

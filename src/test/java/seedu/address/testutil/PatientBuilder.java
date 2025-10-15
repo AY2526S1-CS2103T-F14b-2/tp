@@ -23,6 +23,7 @@ public class PatientBuilder {
     public static final String DEFAULT_NAME = "Betty Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_NOTE = "Seafood allergy";
 
     private Name name;
     private Phone phone;
@@ -39,7 +40,7 @@ public class PatientBuilder {
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
-        note = new Note("NIL"); // No actual note content
+        note = new Note(DEFAULT_NOTE);
         appointment = null;
     }
 
