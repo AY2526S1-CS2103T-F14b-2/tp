@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -50,6 +51,41 @@ public class Messages {
                 .collect(java.util.stream.Collectors.joining(", "));
 
         builder.append(priorityTags);
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code patient} for display to the user.
+     */
+    public static String format(Patient patient) {
+        final StringBuilder builder = new StringBuilder();
+        String appointment = patient.getAppointment() == null ? "-" : patient.getAppointment().toString();
+        builder.append(patient.getName())
+                .append("; Phone: ")
+                .append(patient.getPhone())
+                .append("; Address: ")
+                .append(patient.getAddress())
+                .append("; Tags: ");
+
+        String priorityTags = patient.getTags().stream()
+                .map(tag -> tag.toString())
+                .map(tag -> Messages.capitalise(tag))
+                .map(s -> s + " Priority")
+                .collect(java.util.stream.Collectors.joining(", "));
+
+        builder.append(priorityTags);
+
+        builder.append("; Appointment: ")
+                .append(appointment);
+
+        if (patient.getNotes() != null && !patient.getNotes().isEmpty()) {
+            String notesString = patient.getNotes().stream()
+                    .map(note -> note.toString())
+                    .collect(java.util.stream.Collectors.joining(", "));
+
+            builder.append("; Notes: ").append(notesString);
+        }
+
         return builder.toString();
     }
 
