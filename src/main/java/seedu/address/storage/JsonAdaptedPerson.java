@@ -35,7 +35,11 @@ class JsonAdaptedPerson {
         this.name = name;
         this.phone = phone;
         this.address = address;
+<<<<<<< HEAD
         this.tag = tag;
+=======
+        this.tag = null;
+>>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
     }
 
     /**
@@ -83,7 +87,11 @@ class JsonAdaptedPerson {
 
         final Address modelAddress = new Address(address);
 
+<<<<<<< HEAD
         final Tag modelTag = (tag == null) ? null : tag.toModelType();
+=======
+        final Tag modelTag = (tag == null) ? null: tag.toModelType();
+>>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
 
         return new Person(modelName, modelPhone, modelAddress, modelTag);
     }

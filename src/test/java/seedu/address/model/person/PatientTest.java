@@ -78,7 +78,11 @@ public class PatientTest {
 
         // different tags -> returns false
         editedAlice = new PatientBuilder(ALICE).withTag(VALID_TAG_HIGH).build();
+<<<<<<< HEAD
         assertTrue(ALICE.equals(editedAlice));
+=======
+        assertFalse(ALICE.equals(editedAlice));
+>>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
 
         // different note -> returns false
         editedAlice = new PatientBuilder(ALICE).withNote("Different note").build();
@@ -92,7 +96,11 @@ public class PatientTest {
     @Test
     public void toStringMethod() {
         String expected = Patient.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
+<<<<<<< HEAD
             + ", address=" + ALICE.getAddress() + ", tag=" + ALICE.getTag().orElse(null)
+=======
+            + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTag().orElse(null)
+>>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
             + ", note=" + ALICE.getNote() + ", appointment=" + ALICE.getAppointment() + "}";
         assertEquals(expected, ALICE.toString());
     }
@@ -235,7 +243,11 @@ public class PatientTest {
     public void isSamePerson_withNonPatient_returnsFalse() {
         Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
                 ALICE.getTag().orElse(null));
+<<<<<<< HEAD
         assertTrue(ALICE.isSamePerson(person));
+=======
+        assertFalse(ALICE.isSamePerson(person));
+>>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
     }
 
     @Test

@@ -85,8 +85,12 @@ public class NoteCommandTest {
 
         // First, add an initial note to ensure we have an existing note
         Patient patientWithInitialNote = new Patient(firstPatient.getName(), firstPatient.getPhone(),
+<<<<<<< HEAD
                 firstPatient.getAddress(), firstPatient.getTag().orElse(null),
                 initialNotes, firstPatient.getAppointment());
+=======
+                firstPatient.getAddress(), firstPatient.getTag().orElse(null), initialNote, firstPatient.getAppointment());
+>>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
 
         model.setPerson(firstPatient, patientWithInitialNote);
 
@@ -100,7 +104,11 @@ public class NoteCommandTest {
 
         Patient expectedPatient = new Patient(patientWithInitialNote.getName(), patientWithInitialNote.getPhone(),
                 patientWithInitialNote.getAddress(), patientWithInitialNote.getTag().orElse(null),
+<<<<<<< HEAD
                 expectedNotes,
+=======
+                expectedCombinedNote,
+>>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
                 patientWithInitialNote.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(secondNoteText));
