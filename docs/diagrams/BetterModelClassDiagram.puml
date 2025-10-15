@@ -26,7 +26,7 @@ Person *--> "1" Name
 Person *--> "1" Phone
 Person *--> "1" Address
 Patient *--> "*" Note
-Patient *--> "*" Appointment
+Patient *--> "0..1" Appointment
 
 
 @enduml
