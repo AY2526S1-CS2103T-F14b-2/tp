@@ -10,6 +10,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Note {
 
     public static final String MESSAGE_CONSTRAINTS = "Notes can take any values, and it should not be blank";
+    public static final String MESSAGE_LENGTH_CONSTRAINTS = "Note exceeds maximum length of 200 characters.";
+    public static final int MAX_LENGTH = 200;
 
     /*
      * The first character of the note must not be a whitespace,
@@ -34,7 +36,7 @@ public class Note {
      * Returns true if a given string is a valid note.
      */
     public static boolean isValidNote(String test) {
-        return test.matches(VALIDATION_REGEX);
+        return test.matches(VALIDATION_REGEX) && test.length() <= MAX_LENGTH;
     }
 
     @Override

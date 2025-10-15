@@ -2,6 +2,9 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,7 +18,7 @@ import seedu.address.model.tag.Tag;
  */
 public class Patient extends Person {
 
-    private final Note note;
+    private final List<Note> notes;
     private final Appointment appointment;
 
     /**
@@ -23,37 +26,89 @@ public class Patient extends Person {
      */
     public Patient(Name name, Phone phone, Address address, Set<Tag> tags) {
         super(name, phone, address, tags);
-        this.note = new Note("NIL");
+        this.notes = new ArrayList<>();
         this.appointment = null;
     }
 
     /**
-     * Every field must be present and not null.
+     * Constructor with single note for backward compatibility.
      */
     public Patient(Name name, Phone phone, Address address, Set<Tag> tags, Note note) {
         super(name, phone, address, tags);
         requireAllNonNull(note);
-        this.note = note;
+        this.notes = new ArrayList<>();
+        if (!note.value.equals("NIL")) {
+            this.notes.add(note);
+        }
         this.appointment = null;
     }
 
     /**
-     * Every field must be present and not null.
+     * Constructor with single note and appointment for backward compatibility.
      */
     public Patient(Name name, Phone phone, Address address, Set<Tag> tags, Note note, Appointment appointment) {
         super(name, phone, address, tags);
         requireAllNonNull(note);
-        this.note = note;
+        this.notes = new ArrayList<>();
+        if (!note.value.equals("NIL")) {
+            this.notes.add(note);
+        }
+        this.appointment = appointment;
+    }
+
+    /**
+     * Constructs a Patient with multiple notes but no appointment.
+     * Creates a defensive copy of the provided notes list to ensure immutability.
+     *
+     * @param name the patient's name, must not be null
+     * @param phone the patient's phone number, must not be null
+     * @param address the patient's address, must not be null
+     * @param tags the set of tags associated with the patient, must not be null
+     * @param notes the list of notes for the patient, must not be null (can be empty)
+     * @throws NullPointerException if any parameter is null
+     */
+    public Patient(Name name, Phone phone, Address address, Set<Tag> tags, List<Note> notes) {
+        super(name, phone, address, tags);
+        requireAllNonNull(notes);
+        this.notes = new ArrayList<>(notes);
+        this.appointment = null;
+    }
+
+    /**
+     * Constructs a Patient with multiple notes and an appointment.
+     * Creates a defensive copy of the provided notes list to ensure immutability.
+     * This is the most comprehensive constructor supporting all patient data fields.
+     *
+     * @param name the patient's name, must not be null
+     * @param phone the patient's phone number, must not be null
+     * @param address the patient's address, must not be null
+     * @param tags the set of tags associated with the patient, must not be null
+     * @param notes the list of notes for the patient, must not be null (can be empty)
+     * @param appointment the patient's appointment, can be null if no appointment is scheduled
+     * @throws NullPointerException if any required parameter is null
+     */
+    public Patient(Name name, Phone phone, Address address, Set<Tag> tags, List<Note> notes, Appointment appointment) {
+        super(name, phone, address, tags);
+        requireAllNonNull(notes);
+        this.notes = new ArrayList<>(notes);
         this.appointment = appointment;
     }
 
 
     /**
-     * Returns the note of the patient.
-     * @return the note of the patient.
+     * Returns the notes of the patient.
+     * @return the notes of the patient.
+     */
+    public List<Note> getNotes() {
+        return Collections.unmodifiableList(notes);
+    }
+
+    /**
+     * Returns the first note of the patient, or a "NIL" note if no notes exist.
+     * @return the first note of the patient.
      */
     public Note getNote() {
-        return note;
+        return notes.isEmpty() ? new Note("NIL") : notes.get(0);
     }
 
     @Override
@@ -94,7 +149,20 @@ public class Patient extends Person {
     public Patient addAppointment(Appointment appointment) {
         requireAllNonNull(appointment);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
-                this.getTags(), this.getNote(), appointment);
+                this.getTags(), this.notes, appointment);
+    }
+
+    /**
+     * Adds a note to this patient.
+     * @param note the note to add
+     * @return a new Patient with the note added
+     */
+    public Patient addNote(Note note) {
+        requireAllNonNull(note);
+        List<Note> newNotes = new ArrayList<>(this.notes);
+        newNotes.add(note);
+        return new Patient(this.getName(), this.getPhone(), this.getAddress(),
+                this.getTags(), newNotes, this.appointment);
     }
 
 
@@ -119,7 +187,7 @@ public class Patient extends Person {
 
         Patient otherPatient = (Patient) other;
         return super.equals(otherPatient)
-                && note.equals(otherPatient.note)
+                && notes.equals(otherPatient.notes)
                 && Objects.equals(appointment, otherPatient.appointment);
 
     }
@@ -127,7 +195,7 @@ public class Patient extends Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(super.hashCode(), note, appointment);
+        return Objects.hash(super.hashCode(), notes, appointment);
     }
 
     @Override

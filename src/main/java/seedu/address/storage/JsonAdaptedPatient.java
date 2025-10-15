@@ -1,7 +1,9 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,7 +20,7 @@ import seedu.address.model.person.Person;
 class JsonAdaptedPatient extends JsonAdaptedPerson {
 
     private final String appointment;
-    private final String note;
+    private final List<String> notes;
 
     @JsonCreator
     public JsonAdaptedPatient(@JsonProperty("name") String name,
@@ -26,16 +28,28 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
                               @JsonProperty("address") String address,
                               @JsonProperty("appointment") String appointment,
                               @JsonProperty("note") String note,
+                              @JsonProperty("notes") List<String> notes,
                               @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         super(name, phone, address, tags);
         this.appointment = appointment;
-        this.note = note;
+
+        // Handle backward compatibility: if notes list is provided, use it; otherwise convert single note
+        if (notes != null && !notes.isEmpty()) {
+            this.notes = new ArrayList<>(notes);
+        } else if (note != null) {
+            this.notes = new ArrayList<>();
+            this.notes.add(note);
+        } else {
+            this.notes = new ArrayList<>();
+        }
     }
 
     public JsonAdaptedPatient(Patient source) {
         super(source);
         this.appointment = source.getAppointment() == null ? null : source.getAppointment().toString();
-        this.note = source.getNote() == null ? null : source.getNote().value;
+        this.notes = source.getNotes().stream()
+                .map(note -> note.value)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -59,9 +73,16 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
             }
         }
 
-        Note modelNote = note == null ? new Note("NIL") : new Note(note);
+        List<Note> modelNotes = new ArrayList<>();
+        if (notes != null) {
+            for (String noteValue : notes) {
+                if (noteValue != null && !noteValue.equals("NIL")) {
+                    modelNotes.add(new Note(noteValue));
+                }
+            }
+        }
 
         return new Patient(base.getName(), base.getPhone(), base.getAddress(),
-                new HashSet<>(base.getTags()), modelNote, modelAppointment);
+                new HashSet<>(base.getTags()), modelNotes, modelAppointment);
     }
 }

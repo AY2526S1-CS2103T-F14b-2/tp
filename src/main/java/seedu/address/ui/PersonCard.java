@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
@@ -35,6 +37,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label address;
     @FXML
+    private VBox notesContainer;
+    @FXML
     private Label appointment;
     @FXML
     private FlowPane tags;
@@ -50,13 +54,34 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         if (person instanceof Patient patient) {
-            if (patient.getAppointment() != null) {
-                appointment.setText("Appointment: " + patient.getAppointment());
+            // Set notes for patients
+            if (!patient.getNotes().isEmpty()) {
+                notesContainer.setVisible(true);
+                notesContainer.setManaged(true);
+                for (Note note : patient.getNotes()) {
+                    Label noteLabel = new Label("• " + note.value);
+                    noteLabel.getStyleClass().add("cell_small_label");
+                    notesContainer.getChildren().add(noteLabel);
+                }
             } else {
-                appointment.setText("Appointment: -");
+                notesContainer.setVisible(false);
+                notesContainer.setManaged(false);
+            }
+            // Set appointment for patients
+            if (patient.getAppointment() != null && patient.getAppointment().toString().trim().length() > 0) {
+                appointment.setText("Appointment: " + patient.getAppointment());
+                appointment.setVisible(true);
+                appointment.setManaged(true);
+            } else {
+                appointment.setVisible(false);
+                appointment.setManaged(false);
             }
         } else {
-            appointment.setText("Appointment: -");
+            // For non-patients, hide notes and appointment
+            notesContainer.setVisible(false);
+            notesContainer.setManaged(false);
+            appointment.setVisible(false);
+            appointment.setManaged(false);
         }
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
