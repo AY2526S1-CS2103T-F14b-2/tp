@@ -39,7 +39,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private VBox notesContainer;
     @FXML
-    private Label appointment;
+    private VBox appointmentContainer;
     @FXML
     private FlowPane tags;
 
@@ -60,6 +60,7 @@ public class PersonCard extends UiPart<Region> {
                 notesContainer.setManaged(true);
                 for (Note note : patient.getNotes()) {
                     Label noteLabel = new Label("• " + note.value);
+                    noteLabel.setWrapText(true);
                     noteLabel.getStyleClass().add("cell_small_label");
                     notesContainer.getChildren().add(noteLabel);
                 }
@@ -68,20 +69,24 @@ public class PersonCard extends UiPart<Region> {
                 notesContainer.setManaged(false);
             }
             // Set appointment for patients
-            if (patient.getAppointment() != null && patient.getAppointment().toString().trim().length() > 0) {
-                appointment.setText("Appointment: " + patient.getAppointment());
-                appointment.setVisible(true);
-                appointment.setManaged(true);
+            if (patient.getAppointment() != null) {
+                appointmentContainer.setVisible(true);
+                appointmentContainer.setManaged(true);
+                appointmentContainer.getChildren().clear();
+
+                Label apptLabel = new Label("• " + patient.getAppointment().toString());
+                apptLabel.getStyleClass().add("cell_small_label");
+                appointmentContainer.getChildren().add(apptLabel);
             } else {
-                appointment.setVisible(false);
-                appointment.setManaged(false);
+                appointmentContainer.setVisible(false);
+                appointmentContainer.setManaged(false);
             }
         } else {
             // For non-patients, hide notes and appointment
             notesContainer.setVisible(false);
             notesContainer.setManaged(false);
-            appointment.setVisible(false);
-            appointment.setManaged(false);
+            appointmentContainer.setVisible(false);
+            appointmentContainer.setManaged(false);
         }
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
