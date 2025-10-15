@@ -82,7 +82,7 @@ public class AddressBookParser {
             return new ExitCommand();
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommandParser().parse(arguments);
+            return new HelpCommand();
 
         case NoteCommand.COMMAND_WORD:
             return new NoteCommandParser().parse(arguments);
