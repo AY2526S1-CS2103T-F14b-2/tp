@@ -91,17 +91,57 @@ Format: `list`
 
 ### Adding a patient `add`
 
-Adds a person to the address book.
+Adds a patient to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER a/ADDRESS [t/TAG]`
+#### Command Format 
+`add n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can 0 or 1 tag
-</div>
+#### Example Commands
+`add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 t/high  `
 
-Examples:
-* `add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 t/High`
-* `add n/Amy Lee p/82345678 a/456 Bedok North Street 2`
+`add n/Amy Lee p/82345678 a/456 Bedok North Street 2`
+
+Note: A patient can have 0 or 1 tag
+#### Perimeters 
+| Parameter      | Validation Rules                                                                                                                                                                                                                                        | Rationale | 
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| NAME           | - Cannot be blank<br/> - Must be alphanumeric (letters, numbers, spaces) <br/> -Hyphens (-) and apostrophes (') allowed (e.g., O’Connor, Mary-Anne) <br/> - Leading/trailing spaces are trimmed <br/> - Case-insensitive for equality (John Doe = john doe) | Ensures consistent, clean names; avoids malformed entries
+| PHONE          | - Digits only <br/>  At least 3 digits (configurable, usually 3–15) <br/> No spaces, +, -, or brackets                                                                                                                                                  | Keeps phone numbers simple and valid          |
+| ADDRESS        | - Cannot be blank <br/> - Any characters allowed (letters, numbers, punctuation) <br/> - Leading/trailing spaces trimmed                                                                                                                                | Allows flexibility for varied address formats| 
+| TAG (optional) | - Optional <br/>- Only allowed values: "high", "medium", "low" (case-insensitive) <br/>- Multiple tags allowed, each must be one of the three values | Tags are lightweight labels for filtering/searching
+
+#### Validation Rules 
+| Parameter      | Validation Rule      | Error Message if Invalid                                                                                      | 
+|----------------|----------------------|---------------------------------------------------------------------------------------------------------------| 
+| NAME           | Cannot be blank      | Name cannot be blank.                                                                                         | 
+| NAME           | Invalid characters   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed. |                      |
+| PHONE          | Cannot be blank      | Phone number cannot be blank                                                                                  |
+| PHONE          | Non-digit characters | Phone number must contain digits only                                                                         |
+| PHONE          | Too short / too long | Phone number must be between 3 and 15 digits                                                                  |
+| ADDRESS        | Cannot be blank      | Address cannot be blank.                                                                                      |
+| TAG (optional) | Invalid character s  | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed" |
+
+#### Outputs 
+
+#### Success 
+- In GUI: New Patient appears in Patient list 
+- In Command feedback box: **New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority**
+
+#### Failure 
+
+#### Missing required field(s): 
+- Missing parameter(s): Invalid command format!
+  add: **Adds a person to the address book. Parameters: n/NAME p/PHONE a/ADDRESS [tag/TAG]
+  Example: add n/John Doe p/98765432 a/311, Clementi Ave 2, #02-25 tag/high**
+- Invalid field: Show specific error message (see above) 
+#### Repeated parameters (eg: two names given)
+- Multiple values specified for the following single-valued field(s): a/ (dependent on what fields were repeated)
+
+#### Duplicate handling
+- Patients are duplicates if both name and phone number match (case-insensitive). 
+- If attempting to add a duplicate patient: **This person already exists in the address book**
+
+
 
 ### Adding an appointment `appointment`
 
