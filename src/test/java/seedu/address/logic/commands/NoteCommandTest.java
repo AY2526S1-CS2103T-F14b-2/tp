@@ -10,10 +10,11 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.model.AddressBook;
@@ -23,6 +24,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
+
 
 
 /**
@@ -55,7 +57,8 @@ public class NoteCommandTest {
         }
 
         Patient editedPatient = new Patient(firstPatient.getName(), firstPatient.getPhone(),
-                firstPatient.getAddress(), firstPatient.getTag().orElse(null), expectedNote, firstPatient.getAppointment());
+                firstPatient.getAddress(), firstPatient.getTag().orElse(null),
+                expectedNote, firstPatient.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
@@ -85,12 +88,8 @@ public class NoteCommandTest {
 
         // First, add an initial note to ensure we have an existing note
         Patient patientWithInitialNote = new Patient(firstPatient.getName(), firstPatient.getPhone(),
-<<<<<<< HEAD
                 firstPatient.getAddress(), firstPatient.getTag().orElse(null),
                 initialNotes, firstPatient.getAppointment());
-=======
-                firstPatient.getAddress(), firstPatient.getTag().orElse(null), initialNote, firstPatient.getAppointment());
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
 
         model.setPerson(firstPatient, patientWithInitialNote);
 
@@ -104,11 +103,7 @@ public class NoteCommandTest {
 
         Patient expectedPatient = new Patient(patientWithInitialNote.getName(), patientWithInitialNote.getPhone(),
                 patientWithInitialNote.getAddress(), patientWithInitialNote.getTag().orElse(null),
-<<<<<<< HEAD
                 expectedNotes,
-=======
-                expectedCombinedNote,
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
                 patientWithInitialNote.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(secondNoteText));
@@ -201,7 +196,8 @@ public class NoteCommandTest {
     @Test
     public void constructor_nullIndex_throwsNullPointerException() {
         Note note = new Note("Some note");
-        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> new NoteCommand(null, note));
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () ->
+                new NoteCommand(null, note));
     }
 
     @Test
@@ -214,7 +210,8 @@ public class NoteCommandTest {
     public void execute_nullModel_throwsNullPointerException() {
         Note note = new Note("Some note");
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, note);
-        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> noteCommand.execute(null));
+        org.junit.jupiter.api.Assertions
+                .assertThrows(NullPointerException.class, () -> noteCommand.execute(null));
     }
 
     @Test

@@ -7,7 +7,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_LOW;
-import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
@@ -31,11 +30,9 @@ public class PersonTest {
         // same name, all other attributes different -> returns true
         Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withTag(VALID_TAG_LOW).build();
-<<<<<<< HEAD
+
         assertFalse(ALICE.isSamePerson(editedAlice));
-=======
-        assertTrue(ALICE.isSamePerson(editedAlice));
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
+
 
         // different name, all other attributes same -> returns false
         editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
@@ -89,11 +86,8 @@ public class PersonTest {
     @Test
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-<<<<<<< HEAD
                 + ", address=" + ALICE.getAddress() + ", tag=" + ALICE.getTag().orElse(null) + "}";
-=======
-                + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTag().map(t -> t.tagName)+ "}";
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
+
         assertEquals(expected, ALICE.toString());
     }
 }

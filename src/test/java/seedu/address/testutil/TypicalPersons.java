@@ -14,8 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.AddressBook;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Patient;
+import seedu.address.model.person.Person;
+
 
 
 
@@ -29,11 +30,7 @@ public class TypicalPersons {
             .withTag("low").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25").withPhone("98765432")
-<<<<<<< HEAD
             .withTag("high").build();
-=======
-            .withTag("medium").build();
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withAddress("wall street").build();
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")

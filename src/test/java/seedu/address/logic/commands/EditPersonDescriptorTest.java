@@ -57,22 +57,16 @@ public class EditPersonDescriptorTest {
     @Test
     public void toStringMethod() {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
-<<<<<<< HEAD
+
         String expected =
                 EditPersonDescriptor.class.getCanonicalName()
-                        + "{name="   + editPersonDescriptor.getName().orElse(null)
+                        + "{name=" + editPersonDescriptor.getName().orElse(null)
                         + ", phone=" + editPersonDescriptor.getPhone().orElse(null)
                         + ", address=" + editPersonDescriptor.getAddress().orElse(null)
-                        + editPersonDescriptor.getTag().map(t -> ", tag=" + t).orElse("")
                         + "}";
 
-=======
-        String expected = EditPersonDescriptor.class.getCanonicalName() + "{name="
-                + editPersonDescriptor.getName().orElse(null) + ", phone="
-                + editPersonDescriptor.getPhone().orElse(null) + ", address="
-                + editPersonDescriptor.getAddress().orElse(null) + ", tags="
-                + editPersonDescriptor.getTag().orElse(null) + "}";
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
+
+
         assertEquals(expected, editPersonDescriptor.toString());
     }
 }

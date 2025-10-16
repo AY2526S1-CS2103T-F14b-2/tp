@@ -174,12 +174,4 @@ public class EditCommandParserTest {
     }
 
 
-<<<<<<< HEAD
-=======
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withTag().build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
 }
