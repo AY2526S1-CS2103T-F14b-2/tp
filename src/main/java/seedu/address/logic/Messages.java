@@ -51,33 +51,6 @@ public class Messages {
     }
 
 
-    /**
-     * Formats the {@code patient} for display to the user.
-     */
-    public static String format(Patient patient) {
-        final StringBuilder builder = new StringBuilder();
-        String appointment = patient.getAppointment() == null ? "-" : patient.getAppointment().toString();
-        builder.append(patient.getName())
-                .append("; Phone: ")
-                .append(patient.getPhone())
-                .append("; Address: ")
-                .append(patient.getAddress());
-
-        patient.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
-
-        builder.append("; Appointment: ")
-                .append(appointment);
-
-        if (patient.getNotes() != null && !patient.getNotes().isEmpty()) {
-            String notesString = patient.getNotes().stream()
-                    .map(note -> note.toString())
-                    .collect(java.util.stream.Collectors.joining(", "));
-
-            builder.append("; Notes: ").append(notesString);
-        }
-
-        return builder.toString();
-    }
 
     private static String capitalise(String s) {
         String lower = s.toLowerCase();
