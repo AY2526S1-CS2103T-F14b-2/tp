@@ -33,25 +33,6 @@ public class Messages {
     }
 
     /**
-     * Formats the {@code person} for display to the user.
-     */
-    public static String format(Person person) {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(person.getName())
-                .append("; Phone: ")
-                .append(person.getPhone())
-                .append("; Address: ")
-                .append(person.getAddress());
-
-        person.getTag().ifPresent(t ->
-                builder.append("; Tags: ")
-                        .append(Messages.capitalise(t.toString()))
-                        .append(" Priority"));
-
-        return builder.toString();
-    }
-
-    /**
      * Formats the {@code patient} for display to the user.
      */
     public static String format(Patient patient) {
@@ -63,7 +44,7 @@ public class Messages {
                 .append("; Address: ")
                 .append(patient.getAddress());
 
-        patient.getTag().ifPresent(t -> builder.append("; Tag: ").append(t + " Priority"));
+        patient.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
 
         builder.append("; Appointment: ")
                 .append(appointment);
