@@ -2,7 +2,8 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Optional;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -56,8 +57,12 @@ public class Person {
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person other) {
-        if (other == this) return true;
-        if (other == null) return false;
+        if (other == this) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
 
         return other.getName().equals(getName())
                 && other.getPhone().equals(getPhone());

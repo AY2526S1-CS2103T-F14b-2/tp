@@ -12,6 +12,8 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.model.AddressBook;
@@ -74,21 +76,31 @@ public class NoteCommandTest {
             return;
         }
 
+        List<Note> initialNotes = new ArrayList<>();
+
+        initialNotes.add(new Note("Initial note"));
+
         Patient firstPatient = (Patient) firstPerson;
 
+
         // First, add an initial note to ensure we have an existing note
-        Note initialNote = new Note("Initial note");
         Patient patientWithInitialNote = new Patient(firstPatient.getName(), firstPatient.getPhone(),
-                firstPatient.getAddress(), firstPatient.getTag().orElse(null), initialNote, firstPatient.getAppointment());
+                firstPatient.getAddress(), firstPatient.getTag().orElse(null),
+                initialNotes, firstPatient.getAppointment());
 
         model.setPerson(firstPatient, patientWithInitialNote);
 
+
         // Now add a second note which should be appended
+
         String secondNoteText = "Second note";
-        Note expectedCombinedNote = new Note("Initial note | " + secondNoteText);
+        List<Note> expectedNotes = new ArrayList<>();
+        expectedNotes.add(new Note("Initial note"));
+        expectedNotes.add(new Note("Second note"));
+
         Patient expectedPatient = new Patient(patientWithInitialNote.getName(), patientWithInitialNote.getPhone(),
                 patientWithInitialNote.getAddress(), patientWithInitialNote.getTag().orElse(null),
-                expectedCombinedNote,
+                expectedNotes,
                 patientWithInitialNote.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(secondNoteText));
