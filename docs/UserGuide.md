@@ -36,7 +36,7 @@ patient information during busy schedules.
 
    * `appointment 1 d/15-11-2025 t/20:03` : Adds a new appointment to patient 1 scheduled at `15-11-2025 20:03`.
    
-   * `note 3 n/Patient is stable` : Add notes `Patient is stable` to patient 3's record.
+   * `note 3 note/Patient is stable` : Add notes `Patient is stable` to patient 3's record.
    
    * `find John` : Finds and displays patients that contains `John` in their names.
    
@@ -132,12 +132,35 @@ Examples:
 
 ### Adding a note `note`
 
-Add notes to a patient’s record.
+Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
 
-Format: `note INDEX n/NOTES`
+Format: `note INDEX note/NOTES`
+
+* Adds a note to the patient at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Notes can only be added to patients, not regular contacts.
+* Each note is appended to the patient's existing notes list, allowing you to build a comprehensive medical history.
+* Notes must not be empty or contain only whitespace.
+* Notes are limited to a maximum of 200 characters to keep entries concise and manageable.
+* Notes can contain any characters including special symbols, numbers, and punctuation.
 
 Examples:
-* `note 1 n/Patient shows improved blood sugar levels today.`
+* `note 1 note/Patient shows improved blood sugar levels today.`
+* `note 3 note/Allergic reaction to penicillin - avoid in future treatments.`
+* `note 2 note/Follow-up appointment scheduled for next week.`
+
+**Possible Error Messages:**
+* `The person at index [INDEX] is not a patient. Notes can only be added to patients.` - Occurs when trying to add a note to a regular contact instead of a patient.
+* `Note cannot be empty.` - Occurs when the note field is left blank or contains only spaces.
+* `Note exceeds maximum length of 200 characters.` - Occurs when the note is too long.
+* `Invalid command format!` - Occurs when the command format is incorrect (e.g., missing `note/` prefix).
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Important:**
+Notes can only be added to patients. If you try to add a note to a regular contact, you will receive an error message.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
+</div>
 
 ### Adding a note `view`
 
@@ -237,7 +260,7 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [a/ADDRESS] [t/TAG]`<br> e.g.,`edit 2 n/James Lee p/99998888`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Appointment** | `appointment INDEX d/DATE t/TIME`<br> e.g., `appointment 1 d/15-11-2025 t/20:03`
-**Note** | `note INDEX n/NOTES`<br> e.g., `note 1 n/Patient shows improved blood sugar levels today.`
+**Note** | `note INDEX note/NOTES`<br> e.g., `note 1 note/Patient shows improved blood sugar levels today.`
 **View** | `view INDEX`<br> e.g., `view 1`
 **List** | `list`
 **Help** | `help *`
