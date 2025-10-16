@@ -61,16 +61,9 @@ public class Messages {
                 .append("; Phone: ")
                 .append(patient.getPhone())
                 .append("; Address: ")
-                .append(patient.getAddress())
-                .append("; Tags: ");
+                .append(patient.getAddress());
 
-        String priorityTags = patient.getTags().stream()
-                .map(tag -> tag.toString())
-                .map(tag -> Messages.capitalise(tag))
-                .map(s -> s + " Priority")
-                .collect(java.util.stream.Collectors.joining(", "));
-
-        builder.append(priorityTags);
+        patient.getTag().ifPresent(t -> builder.append("; Tag: ").append(t + " Priority"));
 
         builder.append("; Appointment: ")
                 .append(appointment);
