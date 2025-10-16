@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -24,8 +23,8 @@ public class Patient extends Person {
     /**
      * Allows Patient to be instantiated without accompanying note.
      */
-    public Patient(Name name, Phone phone, Address address, Set<Tag> tags) {
-        super(name, phone, address, tags);
+    public Patient(Name name, Phone phone, Address address, Tag tag) {
+        super(name, phone, address, tag);
         this.notes = new ArrayList<>();
         this.appointment = null;
     }
@@ -33,8 +32,8 @@ public class Patient extends Person {
     /**
      * Constructor with single note for backward compatibility.
      */
-    public Patient(Name name, Phone phone, Address address, Set<Tag> tags, Note note) {
-        super(name, phone, address, tags);
+    public Patient(Name name, Phone phone, Address address, Tag tag, Note note) {
+        super(name, phone, address, tag);
         requireAllNonNull(note);
         this.notes = new ArrayList<>();
         if (!note.value.equals("NIL")) {
@@ -46,8 +45,8 @@ public class Patient extends Person {
     /**
      * Constructor with single note and appointment for backward compatibility.
      */
-    public Patient(Name name, Phone phone, Address address, Set<Tag> tags, Note note, Appointment appointment) {
-        super(name, phone, address, tags);
+    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment) {
+        super(name, phone, address, tag);
         requireAllNonNull(note);
         this.notes = new ArrayList<>();
         if (!note.value.equals("NIL")) {
@@ -63,12 +62,11 @@ public class Patient extends Person {
      * @param name the patient's name, must not be null
      * @param phone the patient's phone number, must not be null
      * @param address the patient's address, must not be null
-     * @param tags the set of tags associated with the patient, must not be null
      * @param notes the list of notes for the patient, must not be null (can be empty)
      * @throws NullPointerException if any parameter is null
      */
-    public Patient(Name name, Phone phone, Address address, Set<Tag> tags, List<Note> notes) {
-        super(name, phone, address, tags);
+    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes) {
+        super(name, phone, address, tag);
         requireAllNonNull(notes);
         this.notes = new ArrayList<>(notes);
         this.appointment = null;
@@ -82,13 +80,13 @@ public class Patient extends Person {
      * @param name the patient's name, must not be null
      * @param phone the patient's phone number, must not be null
      * @param address the patient's address, must not be null
-     * @param tags the set of tags associated with the patient, must not be null
+     * @param tag the urgency associated with the patient condition, can be null if no tag is given
      * @param notes the list of notes for the patient, must not be null (can be empty)
      * @param appointment the patient's appointment, can be null if no appointment is scheduled
      * @throws NullPointerException if any required parameter is null
      */
-    public Patient(Name name, Phone phone, Address address, Set<Tag> tags, List<Note> notes, Appointment appointment) {
-        super(name, phone, address, tags);
+    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, Appointment appointment) {
+        super(name, phone, address, tag);
         requireAllNonNull(notes);
         this.notes = new ArrayList<>(notes);
         this.appointment = appointment;
@@ -111,26 +109,6 @@ public class Patient extends Person {
         return notes.isEmpty() ? new Note("NIL") : notes.get(0);
     }
 
-    @Override
-    public boolean isSamePerson(Person other) {
-        if (other == this) {
-            return true;
-        }
-        if (!(other instanceof Patient)) {
-            return false;
-        }
-
-        Patient p = (Patient) other;
-
-        String thisPhone = this.getPhone().value.trim();
-        String otherPhone = p.getPhone().value.trim();
-
-        String thisName = this.getName().toString().trim();
-        String otherName = p.getName().toString().trim();
-
-        return thisPhone.equals(otherPhone)
-                && thisName.equalsIgnoreCase(otherName);
-    }
 
 
     /**
@@ -149,7 +127,7 @@ public class Patient extends Person {
     public Patient addAppointment(Appointment appointment) {
         requireAllNonNull(appointment);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
-                this.getTags(), this.notes, appointment);
+                this.getTag().orElse(null), this.notes, appointment);
     }
 
     /**
@@ -162,7 +140,7 @@ public class Patient extends Person {
         List<Note> newNotes = new ArrayList<>(this.notes);
         newNotes.add(note);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
-                this.getTags(), newNotes, this.appointment);
+                this.getTag().orElse(null), newNotes, this.appointment);
     }
 
 
@@ -200,13 +178,16 @@ public class Patient extends Person {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        ToStringBuilder sb = new ToStringBuilder(this)
                 .add("name", this.getName())
                 .add("phone", this.getPhone())
-                .add("address", this.getAddress())
-                .add("tags", this.getTags())
-                .add("note", this.getNote())
-                .add("appointment", this.getAppointment())
-                .toString();
+                .add("address", this.getAddress());
+
+        super.getTag().ifPresent(tag -> sb.add("tag", tag));
+
+        sb.add("note", this.getNote())
+                .add("appointment", this.getAppointment());
+
+        return sb.toString();
     }
 }

@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
-import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -32,6 +31,7 @@ public class Messages {
         return MESSAGE_DUPLICATE_FIELDS + String.join(" ", duplicateFields);
     }
 
+
     /**
      * Formats the {@code person} for display to the user.
      */
@@ -44,50 +44,12 @@ public class Messages {
                 .append(person.getAddress())
                 .append("; Tags: ");
 
-        String priorityTags = person.getTags().stream()
-                .map(tag -> tag.toString())
-                .map(tag -> Messages.capitalise(tag))
-                .map(s -> s + " Priority")
-                .collect(java.util.stream.Collectors.joining(", "));
-
-        builder.append(priorityTags);
-        return builder.toString();
-    }
-
-    /**
-     * Formats the {@code patient} for display to the user.
-     */
-    public static String format(Patient patient) {
-        final StringBuilder builder = new StringBuilder();
-        String appointment = patient.getAppointment() == null ? "-" : patient.getAppointment().toString();
-        builder.append(patient.getName())
-                .append("; Phone: ")
-                .append(patient.getPhone())
-                .append("; Address: ")
-                .append(patient.getAddress())
-                .append("; Tags: ");
-
-        String priorityTags = patient.getTags().stream()
-                .map(tag -> tag.toString())
-                .map(tag -> Messages.capitalise(tag))
-                .map(s -> s + " Priority")
-                .collect(java.util.stream.Collectors.joining(", "));
-
-        builder.append(priorityTags);
-
-        builder.append("; Appointment: ")
-                .append(appointment);
-
-        if (patient.getNotes() != null && !patient.getNotes().isEmpty()) {
-            String notesString = patient.getNotes().stream()
-                    .map(note -> note.toString())
-                    .collect(java.util.stream.Collectors.joining(", "));
-
-            builder.append("; Notes: ").append(notesString);
-        }
+        person.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
 
         return builder.toString();
     }
+
+
 
     private static String capitalise(String s) {
         String lower = s.toLowerCase();

@@ -12,7 +12,6 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +23,7 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PatientBuilder;
 
@@ -144,7 +144,7 @@ public class ModelManagerTest {
     @Test
     public void addAppointment_nonPatient_throwsIllegalArgumentException() {
         Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
-                new Address("Somewhere"), new HashSet<>());
+                new Address("Somewhere"), new Tag("high"));
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(nonPatient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
@@ -156,7 +156,7 @@ public class ModelManagerTest {
     @Test
     public void hasAppointment_nonPatient_returnsFalse() {
         Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
-                new Address("Somewhere"), new HashSet<>());
+                new Address("Somewhere"), new Tag("low"));
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(nonPatient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());

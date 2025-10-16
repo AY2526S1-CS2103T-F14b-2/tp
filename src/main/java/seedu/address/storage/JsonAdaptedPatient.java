@@ -1,7 +1,6 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,8 +28,8 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
                               @JsonProperty("appointment") String appointment,
                               @JsonProperty("note") String note,
                               @JsonProperty("notes") List<String> notes,
-                              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
-        super(name, phone, address, tags);
+                              @JsonProperty("tags") JsonAdaptedTag tag) {
+        super(name, phone, address, tag);
         this.appointment = appointment;
 
         // Handle backward compatibility: if notes list is provided, use it; otherwise convert single note
@@ -83,6 +82,6 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
         }
 
         return new Patient(base.getName(), base.getPhone(), base.getAddress(),
-                new HashSet<>(base.getTags()), modelNotes, modelAppointment);
+                base.getTag().orElse(null), modelNotes, modelAppointment);
     }
 }

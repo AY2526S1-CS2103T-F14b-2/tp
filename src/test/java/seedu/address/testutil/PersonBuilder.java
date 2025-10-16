@@ -1,14 +1,10 @@
 package seedu.address.testutil;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.util.SampleDataUtil;
 
 
 
@@ -23,7 +19,7 @@ public class PersonBuilder {
     private Name name;
     private Phone phone;
     private Address address;
-    private Set<Tag> tags;
+    private Tag tag;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -32,7 +28,7 @@ public class PersonBuilder {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
-        tags = new HashSet<>();
+        tag = null;
     }
 
     /**
@@ -42,7 +38,7 @@ public class PersonBuilder {
         name = personToCopy.getName();
         phone = personToCopy.getPhone();
         address = personToCopy.getAddress();
-        tags = new HashSet<>(personToCopy.getTags());
+        tag = personToCopy.getTag().orElse(null);
     }
 
     /**
@@ -53,11 +49,20 @@ public class PersonBuilder {
         return this;
     }
 
+
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
      */
-    public PersonBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
+    public PersonBuilder withTag(String tag) {
+        this.tag = new Tag(tag);
+        return this;
+    }
+
+    /**
+     * Clear patient by setting his/her tag to null
+     */
+    public PersonBuilder withTag() {
+        this.tag = null;
         return this;
     }
 
@@ -78,7 +83,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, address, tags);
+        return new Person(name, phone, address, tag);
     }
 
 }

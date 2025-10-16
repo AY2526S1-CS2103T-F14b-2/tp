@@ -1,8 +1,5 @@
 package seedu.address.testutil;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Name;
@@ -10,7 +7,7 @@ import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.util.SampleDataUtil;
+
 
 
 
@@ -27,7 +24,7 @@ public class PatientBuilder {
     private Name name;
     private Phone phone;
     private Address address;
-    private Set<Tag> tags;
+    private Tag tag;
     private Note note;
     private Appointment appointment;
 
@@ -38,7 +35,7 @@ public class PatientBuilder {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
-        tags = new HashSet<>();
+        tag = null;
         note = new Note("NIL"); // No actual note content
         appointment = null;
     }
@@ -50,7 +47,7 @@ public class PatientBuilder {
         name = patientToCopy.getName();
         phone = patientToCopy.getPhone();
         address = patientToCopy.getAddress();
-        tags = new HashSet<>(patientToCopy.getTags());
+        tag = patientToCopy.getTag().orElse(null);
         note = patientToCopy.getNote();
         appointment = patientToCopy.getAppointment();
     }
@@ -66,8 +63,8 @@ public class PatientBuilder {
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Patient} that we are building.
      */
-    public PatientBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
+    public PatientBuilder withTag(String tagName) {
+        this.tag = new Tag(tagName);
         return this;
     }
 
@@ -107,7 +104,7 @@ public class PatientBuilder {
     }
 
     public Patient build() {
-        return new Patient(name, phone, address, tags, note, appointment);
+        return new Patient(name, phone, address, tag, note, appointment);
     }
 
 }

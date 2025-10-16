@@ -10,6 +10,9 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -21,6 +24,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
+
 
 
 /**
@@ -53,7 +57,8 @@ public class NoteCommandTest {
         }
 
         Patient editedPatient = new Patient(firstPatient.getName(), firstPatient.getPhone(),
-                firstPatient.getAddress(), firstPatient.getTags(), expectedNote, firstPatient.getAppointment());
+                firstPatient.getAddress(), firstPatient.getTag().orElse(null),
+                expectedNote, firstPatient.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
@@ -74,20 +79,31 @@ public class NoteCommandTest {
             return;
         }
 
+        List<Note> initialNotes = new ArrayList<>();
+
+        initialNotes.add(new Note("Initial note"));
+
         Patient firstPatient = (Patient) firstPerson;
 
+
         // First, add an initial note to ensure we have an existing note
-        Note initialNote = new Note("Initial note");
         Patient patientWithInitialNote = new Patient(firstPatient.getName(), firstPatient.getPhone(),
-                firstPatient.getAddress(), firstPatient.getTags(), initialNote, firstPatient.getAppointment());
+                firstPatient.getAddress(), firstPatient.getTag().orElse(null),
+                initialNotes, firstPatient.getAppointment());
 
         model.setPerson(firstPatient, patientWithInitialNote);
 
+
         // Now add a second note which should be appended
+
         String secondNoteText = "Second note";
-        Note expectedCombinedNote = new Note("Initial note | " + secondNoteText);
+        List<Note> expectedNotes = new ArrayList<>();
+        expectedNotes.add(new Note("Initial note"));
+        expectedNotes.add(new Note("Second note"));
+
         Patient expectedPatient = new Patient(patientWithInitialNote.getName(), patientWithInitialNote.getPhone(),
-                patientWithInitialNote.getAddress(), patientWithInitialNote.getTags(), expectedCombinedNote,
+                patientWithInitialNote.getAddress(), patientWithInitialNote.getTag().orElse(null),
+                expectedNotes,
                 patientWithInitialNote.getAppointment());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(secondNoteText));
@@ -180,7 +196,8 @@ public class NoteCommandTest {
     @Test
     public void constructor_nullIndex_throwsNullPointerException() {
         Note note = new Note("Some note");
-        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> new NoteCommand(null, note));
+        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () ->
+                new NoteCommand(null, note));
     }
 
     @Test
@@ -193,7 +210,8 @@ public class NoteCommandTest {
     public void execute_nullModel_throwsNullPointerException() {
         Note note = new Note("Some note");
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, note);
-        org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class, () -> noteCommand.execute(null));
+        org.junit.jupiter.api.Assertions
+                .assertThrows(NullPointerException.class, () -> noteCommand.execute(null));
     }
 
     @Test

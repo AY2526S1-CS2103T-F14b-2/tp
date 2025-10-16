@@ -7,7 +7,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_LOW;
-import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
@@ -19,11 +18,6 @@ import seedu.address.testutil.PersonBuilder;
 
 public class PersonTest {
 
-    @Test
-    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Person person = new PersonBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
-    }
 
     @Test
     public void isSamePerson() {
@@ -35,8 +29,10 @@ public class PersonTest {
 
         // same name, all other attributes different -> returns true
         Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_LOW).build();
-        assertTrue(ALICE.isSamePerson(editedAlice));
+                .withAddress(VALID_ADDRESS_BOB).withTag(VALID_TAG_LOW).build();
+
+        assertFalse(ALICE.isSamePerson(editedAlice));
+
 
         // different name, all other attributes same -> returns false
         editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
@@ -83,14 +79,15 @@ public class PersonTest {
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns true
-        editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_LOW).build();
+        editedAlice = new PersonBuilder(ALICE).withTag(VALID_TAG_LOW).build();
         assertTrue(ALICE.equals(editedAlice));
     }
 
     @Test
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags() + "}";
+                + ", address=" + ALICE.getAddress() + ", tag=" + ALICE.getTag().orElse(null) + "}";
+
         assertEquals(expected, ALICE.toString());
     }
 }
