@@ -2,12 +2,8 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-<<<<<<< HEAD
 import java.util.Objects;
 import java.util.Optional;
-=======
-import java.util.*;
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -92,11 +88,7 @@ public class Person {
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && address.equals(otherPerson.address)
-<<<<<<< HEAD
                 && Objects.equals(tag, otherPerson.tag);
-=======
-                && tag.equals(otherPerson.tag);
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
     }
 
     @Override

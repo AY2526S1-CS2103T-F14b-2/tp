@@ -2,14 +2,11 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-<<<<<<< HEAD
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-=======
-import java.util.*;
->>>>>>> 41f4ddc4 (Convert patient's format to accept only one tag instead of a set of tags)
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
