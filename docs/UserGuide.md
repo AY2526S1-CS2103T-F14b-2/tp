@@ -131,7 +131,7 @@ Note: A patient can have 0 or 1 tag
 
 #### Missing required field(s): 
 - Missing parameter(s): Invalid command format!
-  add: **Adds a person to the address book. Parameters: n/NAME p/PHONE a/ADDRESS [tag/TAG]...
+  add: **Adds a person to the address book. Parameters: n/NAME p/PHONE a/ADDRESS [tag/TAG]
   Example: add n/John Doe p/98765432 a/311, Clementi Ave 2, #02-25 tag/high**
 - Invalid field: Show specific error message (see above) 
 #### Repeated parameters (eg: two names given)
