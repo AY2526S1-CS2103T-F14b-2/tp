@@ -41,8 +41,8 @@ public class Messages {
                 .append("; Phone: ")
                 .append(person.getPhone())
                 .append("; Address: ")
-                .append(person.getAddress())
-                .append("; Tags: ");
+                .append(person.getAddress());
+
 
         person.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
 
