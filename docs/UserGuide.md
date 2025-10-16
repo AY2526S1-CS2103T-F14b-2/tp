@@ -125,7 +125,7 @@ Note: A patient can have 0 or 1 tag
 
 #### Success 
 - In GUI: New Patient appears in Patient list 
-- In Command feedback box: **New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tags: High Priority**
+- In Command feedback box: **New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority**
 
 #### Failure 
 
