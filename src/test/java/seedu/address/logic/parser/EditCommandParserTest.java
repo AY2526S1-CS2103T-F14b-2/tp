@@ -6,18 +6,13 @@ import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HIGH;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_LOW;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HIGH;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_LOW;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -36,7 +31,6 @@ import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 
@@ -134,10 +128,10 @@ public class EditCommandParserTest {
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
-//        userInput = targetIndex.getOneBased() + TAG_DESC_HIGH;
-//        descriptor = new EditPersonDescriptorBuilder().build();
-//        expectedCommand = new EditCommand(targetIndex, descriptor);
-//        assertParseSuccess(parser, userInput, expectedCommand);
+        //        userInput = targetIndex.getOneBased() + TAG_DESC_HIGH;
+        //        descriptor = new EditPersonDescriptorBuilder().build();
+        //        expectedCommand = new EditCommand(targetIndex, descriptor);
+        //        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
