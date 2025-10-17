@@ -37,15 +37,15 @@ public class Messages {
      * Formats the {@code person} for display to the user.
      */
     public static String format(Person person) {
+        if (person instanceof Patient patient) {
+            return Messages.format(patient);
+        }
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
                 .append("; Phone: ")
                 .append(person.getPhone())
                 .append("; Address: ")
                 .append(person.getAddress());
-
-
-        person.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
 
         return builder.toString();
     }

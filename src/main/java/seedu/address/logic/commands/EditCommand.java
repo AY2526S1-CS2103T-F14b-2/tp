@@ -21,7 +21,6 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -91,9 +90,8 @@ public class EditCommand extends Command {
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Tag updatedTags = editPersonDescriptor.getTag().orElse(personToEdit.getTag().orElse(null));
 
-        return new Person(updatedName, updatedPhone, updatedAddress, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedAddress);
     }
 
     @Override
@@ -128,7 +126,6 @@ public class EditCommand extends Command {
         private Name name;
         private Phone phone;
         private Address address;
-        private Tag tag;
 
         public EditPersonDescriptor() {}
 
@@ -140,14 +137,13 @@ public class EditCommand extends Command {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setAddress(toCopy.address);
-            setTag(toCopy.tag);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, address, tag);
+            return CollectionUtil.isAnyNonNull(name, phone, address);
         }
 
         public void setName(Name name) {
@@ -174,29 +170,6 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
-        /**
-         * Sets {@code tags} to this object's {@code tags}.
-         * A defensive copy of {@code tags} is used internally.
-         */
-        public void setTag(Tag tag) {
-            this.tag = tag;
-        }
-
-        /**
-         * Clears the object's tag and sets it to null
-         */
-        public void setTag() {
-            this.tag = null;
-        }
-
-        /**
-         * Returns a tag, if present
-         * Returns {@code Optional#empty()} if {@code tags} is null.
-         */
-        public Optional<Tag> getTag() {
-            return Optional.ofNullable(tag);
-        }
-
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -211,8 +184,7 @@ public class EditCommand extends Command {
             EditPersonDescriptor otherEditPersonDescriptor = (EditPersonDescriptor) other;
             return Objects.equals(name, otherEditPersonDescriptor.name)
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
-                    && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tag, otherEditPersonDescriptor.tag);
+                    && Objects.equals(address, otherEditPersonDescriptor.address);
         }
 
         @Override
@@ -222,7 +194,6 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("address", address);
 
-            getTag().ifPresent(t -> sb.add("tags", tag));
             return sb.toString();
         }
     }

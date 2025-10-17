@@ -23,7 +23,6 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PatientBuilder;
 
@@ -144,7 +143,7 @@ public class ModelManagerTest {
     @Test
     public void addAppointment_nonPatient_throwsIllegalArgumentException() {
         Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
-                new Address("Somewhere"), new Tag("high"));
+                new Address("Somewhere"));
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(nonPatient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
@@ -156,7 +155,7 @@ public class ModelManagerTest {
     @Test
     public void hasAppointment_nonPatient_returnsFalse() {
         Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
-                new Address("Somewhere"), new Tag("low"));
+                new Address("Somewhere"));
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(nonPatient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());

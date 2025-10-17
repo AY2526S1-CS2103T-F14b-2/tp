@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -19,40 +20,44 @@ public class Patient extends Person {
 
     private final List<Note> notes;
     private final Appointment appointment;
+    private final Tag tag;
 
     /**
      * Allows Patient to be instantiated without accompanying note.
      */
     public Patient(Name name, Phone phone, Address address, Tag tag) {
-        super(name, phone, address, tag);
+        super(name, phone, address);
         this.notes = new ArrayList<>();
         this.appointment = null;
+        this.tag = tag;
     }
 
     /**
      * Constructor with single note for backward compatibility.
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, Note note) {
-        super(name, phone, address, tag);
+        super(name, phone, address);
         requireAllNonNull(note);
         this.notes = new ArrayList<>();
         if (!note.value.equals("NIL")) {
             this.notes.add(note);
         }
         this.appointment = null;
+        this.tag = tag;
     }
 
     /**
      * Constructor with single note and appointment for backward compatibility.
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment) {
-        super(name, phone, address, tag);
+        super(name, phone, address);
         requireAllNonNull(note);
         this.notes = new ArrayList<>();
         if (!note.value.equals("NIL")) {
             this.notes.add(note);
         }
         this.appointment = appointment;
+        this.tag = tag;
     }
 
     /**
@@ -66,10 +71,11 @@ public class Patient extends Person {
      * @throws NullPointerException if any parameter is null
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes) {
-        super(name, phone, address, tag);
+        super(name, phone, address);
         requireAllNonNull(notes);
         this.notes = new ArrayList<>(notes);
         this.appointment = null;
+        this.tag = tag;
     }
 
     /**
@@ -86,10 +92,11 @@ public class Patient extends Person {
      * @throws NullPointerException if any required parameter is null
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, Appointment appointment) {
-        super(name, phone, address, tag);
+        super(name, phone, address);
         requireAllNonNull(notes);
         this.notes = new ArrayList<>(notes);
         this.appointment = appointment;
+        this.tag = tag;
     }
 
 
@@ -143,6 +150,12 @@ public class Patient extends Person {
                 this.getTag().orElse(null), newNotes, this.appointment);
     }
 
+    /**
+     * Returns an {@link Optional} with the tag if present else return an {@link Optional#empty()}
+     */
+    public Optional<Tag> getTag() {
+        return Optional.ofNullable(tag);
+    }
 
     /**
      * Returns true if both persons have the same identity and data fields.
@@ -166,7 +179,8 @@ public class Patient extends Person {
         Patient otherPatient = (Patient) other;
         return super.equals(otherPatient)
                 && notes.equals(otherPatient.notes)
-                && Objects.equals(appointment, otherPatient.appointment);
+                && Objects.equals(appointment, otherPatient.appointment)
+                && Objects.equals(tag, otherPatient.tag);
 
     }
 
@@ -183,7 +197,7 @@ public class Patient extends Person {
                 .add("phone", this.getPhone())
                 .add("address", this.getAddress());
 
-        super.getTag().ifPresent(tag -> sb.add("tag", tag));
+        this.getTag().ifPresent(tag -> sb.add("tag", tag));
 
         sb.add("note", this.getNote())
                 .add("appointment", this.getAppointment());

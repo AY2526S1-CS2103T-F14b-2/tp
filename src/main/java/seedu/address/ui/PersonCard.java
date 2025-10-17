@@ -79,6 +79,11 @@ public class PersonCard extends UiPart<Region> {
                 appointmentContainer.setVisible(false);
                 appointmentContainer.setManaged(false);
             }
+
+            tags.getChildren().clear();
+
+            patient.getTag().ifPresent(tag ->
+                    tags.getChildren().add(new Label(tag.tagName)));
         } else {
             // For non-patients, hide notes and appointment
             notesContainer.setVisible(false);
@@ -86,11 +91,5 @@ public class PersonCard extends UiPart<Region> {
             appointmentContainer.setVisible(false);
             appointmentContainer.setManaged(false);
         }
-
-        tags.getChildren().clear();
-
-        person.getTag().ifPresent(tag ->
-                tags.getChildren().add(new Label(tag.tagName)));
-
     }
 }
