@@ -232,8 +232,7 @@ public class PatientTest {
 
     @Test
     public void isSamePerson_withNonPatient_returnsFalse() {
-        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTag().orElse(null));
+        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress());
         assertTrue(ALICE.isSamePerson(person));
     }
 
@@ -262,14 +261,6 @@ public class PatientTest {
     @Test
     public void hashCode_differentPatients_differentHashCode() {
         assertNotEquals(ALICE.hashCode(), BOB.hashCode());
-    }
-
-    @Test
-    public void equals_comparePatientWithPerson_returnsTrue() {
-        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTag().orElse(null));
-        // Patient equals method calls super.equals() for Person objects that aren't Patients
-        assertTrue(ALICE.equals(person));
     }
 
     @Test

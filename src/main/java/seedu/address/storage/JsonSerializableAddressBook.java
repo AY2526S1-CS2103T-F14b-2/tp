@@ -67,7 +67,7 @@ class JsonSerializableAddressBook {
 
         // Fallback: treat non-patient person as patient with default note and no appointment.
         Patient converted = new Patient(source.getName(), source.getPhone(), source.getAddress(),
-                source.getTag().orElse(null));
+                null);
         return new JsonAdaptedPatient(converted);
     }
 

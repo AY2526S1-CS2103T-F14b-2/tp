@@ -41,9 +41,9 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Patient patient = new PatientBuilder().build();
-        AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(patient));
-        assertEquals(new AddCommand(patient), command);
+        Person person = new PersonBuilder().build();
+        AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
+        assertEquals(new AddCommand(person), command);
     }
 
     @Test

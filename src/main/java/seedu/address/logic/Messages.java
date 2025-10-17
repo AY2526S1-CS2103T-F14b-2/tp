@@ -44,9 +44,6 @@ public class Messages {
                 .append("; Address: ")
                 .append(person.getAddress());
 
-
-        person.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
-
         return builder.toString();
     }
 

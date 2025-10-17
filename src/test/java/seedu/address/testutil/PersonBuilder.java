@@ -28,7 +28,6 @@ public class PersonBuilder {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
-        tag = null;
     }
 
     /**
@@ -38,7 +37,6 @@ public class PersonBuilder {
         name = personToCopy.getName();
         phone = personToCopy.getPhone();
         address = personToCopy.getAddress();
-        tag = personToCopy.getTag().orElse(null);
     }
 
     /**
@@ -46,23 +44,6 @@ public class PersonBuilder {
      */
     public PersonBuilder withName(String name) {
         this.name = new Name(name);
-        return this;
-    }
-
-
-    /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
-     */
-    public PersonBuilder withTag(String tag) {
-        this.tag = new Tag(tag);
-        return this;
-    }
-
-    /**
-     * Clear patient by setting his/her tag to null
-     */
-    public PersonBuilder withTag() {
-        this.tag = null;
         return this;
     }
 
@@ -83,7 +64,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, address, tag);
+        return new Person(name, phone, address);
     }
 
 }

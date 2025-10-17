@@ -48,10 +48,6 @@ public class EditPersonDescriptorTest {
         // different address -> returns false
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
-
-        // different tags -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withTag(VALID_TAG_LOW).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
     }
 
     @Test

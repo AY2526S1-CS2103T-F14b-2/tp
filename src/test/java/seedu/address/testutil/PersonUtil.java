@@ -32,7 +32,7 @@ public class PersonUtil {
         sb.append(PREFIX_NAME + person.getName().fullName + " ");
         sb.append(PREFIX_PHONE + person.getPhone().value + " ");
         sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
-        person.getTag().ifPresent(t -> sb.append(PREFIX_TAG).append(t.tagName));
+        //person.getTag().ifPresent(t -> sb.append(PREFIX_TAG).append(t.tagName));
         return sb.toString();
     }
 
@@ -44,9 +44,9 @@ public class PersonUtil {
         descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
         descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value).append(" "));
-        descriptor.getTag().ifPresent(
-                tag -> sb.append(PREFIX_TAG).append(tag.tagName).append(" ")
-        );
+        //descriptor.getTag().ifPresent(
+        //        tag -> sb.append(PREFIX_TAG).append(tag.tagName).append(" ")
+        //);
         return sb.toString();
     }
 }

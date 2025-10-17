@@ -82,7 +82,7 @@ public class EditCommandParserTest {
         assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.INVALID_DIGITS); // invalid phone
         assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, Address.BLANK_ADDRESS); // invalid address
-        assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
+        //assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
 
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_ADDRESS_DESC + VALID_PHONE_AMY,
                 Name.MESSAGE_CONSTRAINTS);
@@ -91,12 +91,11 @@ public class EditCommandParserTest {
     @Test
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_PERSON;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_LOW
+        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB
                 + ADDRESS_DESC_AMY + NAME_DESC_AMY;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_BOB).withAddress(VALID_ADDRESS_AMY)
-                .withTag(VALID_TAG_LOW).build();
+                .withPhone(VALID_PHONE_BOB).withAddress(VALID_ADDRESS_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -135,10 +134,10 @@ public class EditCommandParserTest {
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
-        userInput = targetIndex.getOneBased() + TAG_DESC_HIGH;
-        descriptor = new EditPersonDescriptorBuilder().withTag(VALID_TAG_HIGH).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
+//        userInput = targetIndex.getOneBased() + TAG_DESC_HIGH;
+//        descriptor = new EditPersonDescriptorBuilder().build();
+//        expectedCommand = new EditCommand(targetIndex, descriptor);
+//        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
@@ -159,11 +158,11 @@ public class EditCommandParserTest {
 
         // mulltiple valid fields repeated
         userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + ADDRESS_DESC_AMY
-                + TAG_DESC_HIGH + PHONE_DESC_AMY + ADDRESS_DESC_AMY + TAG_DESC_HIGH
-                + PHONE_DESC_BOB + ADDRESS_DESC_BOB + TAG_DESC_LOW;
+                + PHONE_DESC_AMY + ADDRESS_DESC_AMY
+                + PHONE_DESC_BOB + ADDRESS_DESC_BOB;
 
         assertParseFailure(parser, userInput,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_TAG, PREFIX_PHONE, PREFIX_ADDRESS));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_ADDRESS));
 
         // multiple invalid values
         userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + INVALID_ADDRESS_DESC

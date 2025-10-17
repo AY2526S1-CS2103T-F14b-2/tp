@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.tag.Tag;
 
 /**
  * Represents a Person in the address book.
@@ -20,17 +19,15 @@ public class Person {
 
     // Data fields
     private final Address address;
-    private final Tag tag;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Address address, Tag tag) {
+    public Person(Name name, Phone phone, Address address) {
         requireAllNonNull(name, phone, address);
         this.name = name;
         this.phone = phone;
         this.address = address;
-        this.tag = tag;
     }
 
     public Name getName() {
@@ -43,13 +40,6 @@ public class Person {
 
     public Address getAddress() {
         return address;
-    }
-
-    /**
-     * Returns an {@link Optional} with the tag if present else return an {@link Optional#empty()}
-     */
-    public Optional<Tag> getTag() {
-        return Optional.ofNullable(tag);
     }
 
     /**
@@ -87,14 +77,13 @@ public class Person {
 
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
-                && address.equals(otherPerson.address)
-                && Objects.equals(tag, otherPerson.tag);
+                && address.equals(otherPerson.address);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, address, tag);
+        return Objects.hash(name, phone, address);
     }
 
     @Override
@@ -104,7 +93,6 @@ public class Person {
                 .add("phone", phone)
                 .add("address", address);
 
-        getTag().ifPresent(tag -> sb.add("tag", tag));
         return sb.toString();
     }
 
