@@ -17,10 +17,8 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
+import seedu.address.model.person.*;
+import seedu.address.model.tag.Tag;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -43,6 +41,9 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
+            + "edit can only be done on Patients.";
+
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -69,7 +70,13 @@ public class EditCommand extends Command {
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
-        Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+
+        if (!(personToEdit instanceof Patient)) {
+            throw new CommandException(String.format(MESSAGE_NOT_PATIENT, index.getOneBased()));
+        }
+
+        Patient patientToEdit = (Patient) personToEdit;
+        Patient editedPatient = createEditedPatient(patientToEdit, editPersonDescriptor);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
@@ -84,14 +91,15 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+    private static Person createEditedPatient(Patient personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+        Tag updatedTag = editPersonDescriptor.ge
 
-        return new Person(updatedName, updatedPhone, updatedAddress);
+        return new Patient(updatedName, updatedPhone, updatedAddress);
     }
 
     @Override
@@ -195,6 +203,52 @@ public class EditCommand extends Command {
                     .add("address", address);
 
             return sb.toString();
+        }
+    }
+
+    public static class EditPatientDescriptor extends EditPersonDescriptor {
+        private Tag tag;
+
+        public EditPatientDescriptor() {}
+
+        /**
+         * Copy constructor.
+         * A defensive copy of {@code tags} is used internally.
+         */
+        public EditPatientDescriptor(EditPatientDescriptor toCopy) {
+            super(toCopy);
+            setTag(toCopy.tag);
+        }
+
+        public void setTag(Tag tag) {
+            this.tag = tag;
+        }
+
+        public Optional<Tag> getTag() {
+            return Optional.ofNullable(tag);
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == this) {
+                return true;
+            }
+
+            // instanceof handles nulls
+            if (!(other instanceof EditPatientDescriptor otherEditPatientDescriptor)) {
+                return false;
+            }
+
+            return super.equals(otherEditPatientDescriptor)
+                    && Objects.equals(tag, otherEditPatientDescriptor.tag);
+        }
+
+        @Override
+        public String toString() {
+            ToStringBuilder sb = new ToStringBuilder(this);
+            sb.add("tag", tag);
+
+            return super.toString() + ", " + sb.toString();
         }
     }
 }
