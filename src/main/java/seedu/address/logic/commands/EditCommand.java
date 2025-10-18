@@ -218,6 +218,15 @@ public class EditCommand extends Command {
 
             return sb.toString();
         }
+
+        public ToStringBuilder getStringBuilder() {
+            ToStringBuilder sb = new ToStringBuilder(this)
+                    .add("name", name)
+                    .add("phone", phone)
+                    .add("address", address);
+
+            return sb;
+        }
     }
 
     public static class EditPatientDescriptor extends EditPersonDescriptor {
@@ -263,10 +272,11 @@ public class EditCommand extends Command {
 
         @Override
         public String toString() {
-            ToStringBuilder sb = new ToStringBuilder(this);
+
+            ToStringBuilder sb = super.getStringBuilder();
             sb.add("tag", tag);
 
-            return super.toString() + ", " + sb.toString();
+            return sb.toString();
         }
     }
 }

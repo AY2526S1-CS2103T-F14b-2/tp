@@ -1,11 +1,19 @@
 package seedu.address.logic.commands;
 
-import org.junit.jupiter.api.Test;
-import seedu.address.logic.commands.EditCommand.EditPatientDescriptor;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY_PATIENT;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static seedu.address.logic.commands.CommandTestUtil.*;
+import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.commands.EditCommand.EditPatientDescriptor;
+import seedu.address.testutil.EditPatientDescriptorBuilder;
 
 
 public class EditPatientDescriptorTest {
@@ -13,47 +21,47 @@ public class EditPatientDescriptorTest {
     @Test
     public void equals() {
         // same values -> returns true
-        EditPatientDescriptor descriptorWithSameValues = new EditPatientDescriptor(DESC_AMY);
-        assertTrue(DESC_AMY.equals(descriptorWithSameValues));
+        EditPatientDescriptor descriptorWithSameValues = new EditPatientDescriptor(DESC_AMY_PATIENT);
+        assertTrue(DESC_AMY_PATIENT.equals(descriptorWithSameValues));
 
         // same object -> returns true
-        assertTrue(DESC_AMY.equals(DESC_AMY));
+        assertTrue(DESC_AMY_PATIENT.equals(DESC_AMY_PATIENT));
 
         // null -> returns false
-        assertFalse(DESC_AMY.equals(null));
+        assertFalse(DESC_AMY_PATIENT.equals(null));
 
         // different types -> returns false
-        assertFalse(DESC_AMY.equals(5));
+        assertFalse(DESC_AMY_PATIENT.equals(5));
 
         // different values -> returns false
-        assertFalse(DESC_AMY.equals(DESC_BOB));
+        assertFalse(DESC_AMY_PATIENT.equals(DESC_BOB));
 
         // different name -> returns false
-        EditPersonDescriptor editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
+        EditPatientDescriptor editedAmy = new EditPatientDescriptorBuilder(DESC_AMY_PATIENT).withName(VALID_NAME_BOB)
+                .build();
+        assertFalse(DESC_AMY_PATIENT.equals(editedAmy));
 
         // different phone -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
+        editedAmy = new EditPatientDescriptorBuilder(DESC_AMY_PATIENT).withPhone(VALID_PHONE_BOB).build();
+        assertFalse(DESC_AMY_PATIENT.equals(editedAmy));
 
         // different address -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
+        editedAmy = new EditPatientDescriptorBuilder(DESC_AMY_PATIENT).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
     }
 
     @Test
     public void toStringMethod() {
-        EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
+        EditPatientDescriptor editPatientDescriptor = new EditPatientDescriptor();
 
         String expected =
-                EditPersonDescriptor.class.getCanonicalName()
-                        + "{name=" + editPersonDescriptor.getName().orElse(null)
-                        + ", phone=" + editPersonDescriptor.getPhone().orElse(null)
-                        + ", address=" + editPersonDescriptor.getAddress().orElse(null)
+                EditCommand.EditPatientDescriptor.class.getCanonicalName()
+                        + "{name=" + editPatientDescriptor.getName().orElse(null)
+                        + ", phone=" + editPatientDescriptor.getPhone().orElse(null)
+                        + ", address=" + editPatientDescriptor.getAddress().orElse(null)
+                        + ", tag=" + editPatientDescriptor.getTag().orElse(null)
                         + "}";
 
-
-
-        assertEquals(expected, editPersonDescriptor.toString());
+        assertEquals(expected, editPatientDescriptor.toString());
     }
 }
