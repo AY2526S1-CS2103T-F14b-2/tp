@@ -17,7 +17,11 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.*;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Patient;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -229,6 +233,10 @@ public class EditCommand extends Command {
         }
     }
 
+    /**
+     * Stores the details to edit the patient with. Each non-empty field value will replace the
+     * corresponding field value of the person.
+     */
     public static class EditPatientDescriptor extends EditPersonDescriptor {
         private Tag tag;
 
