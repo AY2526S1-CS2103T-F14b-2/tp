@@ -46,7 +46,7 @@ public class EditCommand extends Command {
 
 
     private final Index index;
-    private final EditPatientDescriptor editPatientDescriptor;
+    private final EditPersonDescriptor editPersonDescriptor;
 
     /**
      * @param index of the person in the filtered person list to edit
@@ -57,7 +57,19 @@ public class EditCommand extends Command {
         requireNonNull(editPatientDescriptor);
 
         this.index = index;
-        this.editPatientDescriptor = new EditPatientDescriptor(editPatientDescriptor);
+        this.editPersonDescriptor = new EditPatientDescriptor(editPatientDescriptor);
+    }
+
+    /**
+     * @param index of the person in the filtered person list to edit
+     * @param editPersonDescriptor details to edit the person with
+     */
+    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
+        requireNonNull(index);
+        requireNonNull(editPersonDescriptor);
+
+        this.index = index;
+        this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
     @Override
@@ -76,6 +88,7 @@ public class EditCommand extends Command {
         }
 
         Patient patientToEdit = (Patient) personToEdit;
+        EditPatientDescriptor editPatientDescriptor = (EditPatientDescriptor) editPersonDescriptor;
         Patient editedPatient = createEditedPatient(patientToEdit, editPatientDescriptor);
 
         if (!patientToEdit.isSamePerson(editedPatient) && model.hasPerson(editedPatient)) {
@@ -116,14 +129,14 @@ public class EditCommand extends Command {
 
         EditCommand otherEditCommand = (EditCommand) other;
         return index.equals(otherEditCommand.index)
-                && editPatientDescriptor.equals(otherEditCommand.editPatientDescriptor);
+                && editPersonDescriptor.equals(otherEditCommand.editPersonDescriptor);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("index", index)
-                .add("editPatientDescriptor", editPatientDescriptor)
+                .add("editPersonDescriptor", editPersonDescriptor)
                 .toString();
     }
 
@@ -219,6 +232,10 @@ public class EditCommand extends Command {
         public EditPatientDescriptor(EditPatientDescriptor toCopy) {
             super(toCopy);
             setTag(toCopy.tag);
+        }
+
+        public EditPatientDescriptor(EditPersonDescriptor toCopyPerson) {
+            super(toCopyPerson);
         }
 
         public void setTag(Tag tag) {
