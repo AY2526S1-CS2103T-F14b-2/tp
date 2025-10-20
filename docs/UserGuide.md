@@ -87,7 +87,7 @@ Shows a list of all persons in MediSaveContact, even if it is empty.
 
 Format: `list`
 
-### Adding a patient `add`
+### Adding a patient: `add`
 
 Adds a patient to the address book.
 
@@ -141,7 +141,7 @@ Note: A patient can have 0 or 1 tag
 
 
 
-### Adding an appointment `appointment`
+### Adding an appointment: `appointment`
 
 Schedule an appointment for a patient.
 
@@ -150,6 +150,30 @@ Format: `appointment INDEX d/DATE t/TIME`
 Examples:
 * `appointment 1 d/15-11-2025 t/20:03`
 
+#### Parameters & Validation Rules
+
+| Parameter | Validation Rules | Error Message if Invalid | Rationale |
+| --- | --- | --- | --- |
+| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" | Ensures correct patient reference |
+| DATE | Must follow DD-MM-YYYY format<br>Must be today or later | "Invalid date. Must follow DD-MM-YYYY format!"<br>"Appointment cannot be set in the past!" | Prevents scheduling in the past |
+| TIME | Must follow HH:MM 24-hour format<br>If the appointment is today, time must be later than the current time | "Invalid time. Must follow HH:MM 24-hour format!"<br>"Appointment cannot be set in the past!" | Prevents scheduling in the past |
+
+#### Outputs
+
+- Success: Appointment Created at 15-11-2025 20:03!
+
+- Failure: Error messages above
+
+#### Duplicate handling: 
+
+- Not Applicable
+
+#### Possible errors:
+
+- Missing date/time
+- Missing index
+- More than one date/time or index
+- Wong argument order
 
 ### Editing a person : `edit`
 
