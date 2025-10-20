@@ -109,15 +109,15 @@ Note: A patient can have 0 or 1 tag
 | TAG (optional) | - Optional <br/>- Only allowed values: "high", "medium", "low" (case-insensitive) <br/>- Multiple tags allowed, each must be one of the three values | Tags are lightweight labels for filtering/searching
 
 #### Validation Rules 
-| Parameter      | Validation Rule      | Error Message if Invalid                                                                                      | 
-|----------------|----------------------|---------------------------------------------------------------------------------------------------------------| 
-| NAME           | Cannot be blank      | Name cannot be blank.                                                                                         | 
-| NAME           | Invalid characters   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed. |                      |
-| PHONE          | Cannot be blank      | Phone number cannot be blank                                                                                  |
-| PHONE          | Non-digit characters | Phone number must contain digits only                                                                         |
-| PHONE          | Too short / too long | Phone number must be between 3 and 15 digits                                                                  |
-| ADDRESS        | Cannot be blank      | Address cannot be blank.                                                                                      |
-| TAG (optional) | Invalid character s  | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed" |
+| Parameter      | Validation Rule      | Error Message if Invalid                                                                                        | 
+|----------------|----------------------|-----------------------------------------------------------------------------------------------------------------| 
+| NAME           | Cannot be blank      | Name cannot be blank.                                                                                           | 
+| NAME           | Invalid characters   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.  |                      |
+| PHONE          | Cannot be blank      | Phone number cannot be blank                                                                                    |
+| PHONE          | Non-digit characters | Phone number must contain digits only                                                                           |
+| PHONE          | Too short / too long | Phone number must be between 3 and 15 digits                                                                    |
+| ADDRESS        | Cannot be blank      | Address cannot be blank.                                                                                        |
+| TAG (optional) | Invalid character s  | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                       |
 
 #### Outputs 
 
