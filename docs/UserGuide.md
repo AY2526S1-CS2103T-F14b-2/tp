@@ -3,9 +3,14 @@ layout: page
 title: User Guide
 ---
 
+### Rationale
+
 MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings. 
 The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage 
 patient information during busy schedules.
+
+
+## Table of Contents 
 
 * Table of Contents
 {:toc}
@@ -14,15 +19,15 @@ patient information during busy schedules.
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Ensure you have Java 17 or above installed in your Computer, following this [guide](https://se-education.org/guides/tutorials/javaInstallation.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/tags).
+1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+1. Copy the file to the folder you want to use as the _home folder_ for your MediSaveContact.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+1. For **Window** Users: Locate MediSaveContact in your file manager and double click on the application.<br>
+   For **Mac/Linux** users: Open a command terminal, `cd` (change directory) into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+   An application similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png) <br>
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
@@ -30,21 +35,9 @@ patient information during busy schedules.
 
     * `help` : Shows all commands available in the application.
 
-    * `list` : Lists all contacts.
-
    * `add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 [t/High]` : Adds a contact named `John Tan` to the Address Book.
-
-   * `appointment 1 d/15-11-2025 t/20:03` : Adds a new appointment to patient 1 scheduled at `15-11-2025 20:03`.
-   
-   * `note 3 note/Patient is stable` : Add notes `Patient is stable` to patient 3's record.
-   
-   * `find John` : Finds and displays patients that contains `John` in their names.
-   
-   * `view 1` : Views a patient's details
    
    * `delete 3` : Deletes the 3rd contact shown in the current list.
-
-   * `clear` : Deletes all contacts.
 
    * `exit` : Exits the app.
 
