@@ -55,16 +55,35 @@ patient information during busy schedules.
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/High` or as `n/John Doe`.
+  e.g. `n/NAME [tag/TAG]` can be used as: 
+  * `n/John Doe tag/High` ✅
+  * `n/John Doe` ✅
 
 * Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+  * `n/John Doe tag/high` ✅
+  * `tag/high n/John Doe` ✅
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `list 123`, it will be interpreted as `list`.
+* Extra parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+  e.g. if you type `list 123`, it will be interpreted as `list`.
+
+* When a compulsory parameter is not provided, an error message regarding the missing parameter will appear, and the command will not be executed.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
+
+## Command summary
+
+Action | Description
+--------|------------------
+**Add** | Adds a patient to MediSaveContact
+**Clear** | Deletes all patients from MediSaveContact
+**Delete** | Deletes specified patient from MediSaveContact
+**Edit** | Edits specified patient's details
+**Find** | Finds patient(s) with name containing specified keyword
+**Appointment** | Adds an appointment to specified patient
+**Note** | Adds a note to specified patient
+**List** | Shows a list of all patients in MediSaveContact
+**Help** | Shows all commands available
 
 ### Viewing help : `help`
 
@@ -303,20 +322,3 @@ _Details coming soon ..._
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
---------------------------------------------------------------------------------------------------------------------
-
-## Command summary
-
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER a/ADDRESS [t/TAG]` <br> e.g., `add n/James Ho p/22224444 a/123, Clementi Rd, 1234665 t/High`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [a/ADDRESS] [t/TAG]`<br> e.g.,`edit 2 n/James Lee p/99998888`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**Appointment** | `appointment INDEX d/DATE t/TIME`<br> e.g., `appointment 1 d/15-11-2025 t/20:03`
-**Note** | `note INDEX note/NOTES`<br> e.g., `note 1 note/Patient shows improved blood sugar levels today.`
-**View** | `view INDEX`<br> e.g., `view 1`
-**List** | `list`
-**Help** | `help`
