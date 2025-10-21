@@ -83,9 +83,17 @@ Action | Description
 
 Shows all commands available in the application.
 
-<img src="images/helpMessage.png" alt="help message" width="50%">
+#### Command Format:
+```
+help
+```
 
-Format: `help`
+#### Outputs
+- Success: A pop-up box like the one below would appear, listing the commands available, and how to use them. 
+
+<img src="images/helpMessage.png" alt="help message" width="50%" style="margin-left: 15px">
+
+- Failure: Help command would never result in failure
 
 ### Listing all patients : `list`
 {: #list-command }
