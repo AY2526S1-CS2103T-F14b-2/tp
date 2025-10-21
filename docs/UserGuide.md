@@ -101,6 +101,7 @@ Adds a patient to the address book.
 
 Note: A patient can have 0 or 1 tag
 #### Parameters & Validation Rules 
+
 | Parameter      | Validation Rules                                                                                                                                                                                                                                            | Rationale                                                 | 
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
 | NAME           | - Cannot be blank<br/> - Must be alphanumeric (letters, numbers, spaces) <br/> -Hyphens (-) and apostrophes (') allowed (e.g., O’Connor, Mary-Anne) <br/> - Leading/trailing spaces are trimmed <br/> - Case-insensitive for equality (John Doe = john doe) | Ensures consistent, clean names; avoids malformed entries |
@@ -109,6 +110,7 @@ Note: A patient can have 0 or 1 tag
 | TAG (optional) | - Optional <br/>- Only allowed values: "high", "medium", "low" (case-insensitive) <br/>- Multiple tags allowed, each must be one of the three values                                                                                                        | Tags are lightweight labels for filtering/searching       | 
 
 #### Validation Rules 
+
 | Parameter      | Validation Rule      | Error Message if Invalid                                                                                        | 
 |----------------|----------------------|-----------------------------------------------------------------------------------------------------------------| 
 | NAME           | Cannot be blank      | Name cannot be blank.                                                                                           | 
