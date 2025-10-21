@@ -16,7 +16,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 /**
  * Parses input arguments and creates a new EditCommand object
  */
-public class EditCommandParser implements Parser<EditPatientCommand> {
+public class EditPatientCommandParser implements Parser<EditPatientCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
