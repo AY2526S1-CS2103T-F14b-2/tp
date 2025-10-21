@@ -5,12 +5,12 @@ import seedu.address.commons.util.ToStringBuilder;
 import java.util.Objects;
 
 public class Caretaker extends Person {
-    private final String relationship;
+    private final Relationship relationship;
 
     /**
      * Allows Caretaker to be instantiated.
      */
-    public Caretaker(Name name, Phone phone, Address address, String relationship) {
+    public Caretaker(Name name, Phone phone, Address address, Relationship relationship) {
         super(name, phone, address);
         this.relationship = relationship;
     }
@@ -20,7 +20,7 @@ public class Caretaker extends Person {
      *
      * @return the relationship of the caretaker with respect to patient.
      */
-    public String getRelationship() {
+    public Relationship getRelationship() {
         return this.relationship;
     }
 
