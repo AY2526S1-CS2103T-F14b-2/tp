@@ -90,6 +90,11 @@ Shows a list of all patients in MediSaveContact, even if it is empty.
 list
 ```
 
+#### Outputs
+
+- Success: "Listed all persons"
+- Failure: List command would never result in failure
+
 ### Adding a patient: `add`
 
 Adds a patient to the address book.
