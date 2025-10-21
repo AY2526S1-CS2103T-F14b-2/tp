@@ -12,6 +12,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
@@ -29,10 +30,10 @@ public class AddAppointmentCommand extends Command {
         + PREFIX_DATE + "DATE "
         + PREFIX_TIME + "TIME\n"
         + "Example: " + COMMAND_WORD + " 1 "
-        + PREFIX_DATE + "10-10-2023 "
+        + PREFIX_DATE + "10-10-2026 "
         + PREFIX_TIME + "14:00";
 
-    public static final String MESSAGE_SUCCESS = "New appointment added: %1$s";
+    public static final String MESSAGE_SUCCESS = "Appointment Created at %1$s!";
     public static final String MESSAGE_DUPLICATE_APPOINTMENT = "This appointment already exists in the address book";
 
     private final Index targetIndex;
@@ -60,13 +61,14 @@ public class AddAppointmentCommand extends Command {
 
         Person personToAddAppointment = lastShownList.get(targetIndex.getZeroBased());
 
-        if (model.hasAppointment(personToAddAppointment)) {
-            throw new CommandException(MESSAGE_DUPLICATE_APPOINTMENT);
-        }
+        // if (model.hasAppointment(personToAddAppointment)) {
+        //     throw new CommandException(MESSAGE_DUPLICATE_APPOINTMENT);
+        // }
 
         try {
             Patient updatedPatient = model.addAppointment(personToAddAppointment, date, time);
-            String successMessage = String.format(MESSAGE_SUCCESS, Messages.format(updatedPatient));
+            Appointment newAppt = new Appointment(date, time);
+            String successMessage = String.format(MESSAGE_SUCCESS, newAppt);
             return new CommandResult(successMessage);
         } catch (IllegalArgumentException e) {
             throw new CommandException(e.getMessage());
@@ -105,4 +107,3 @@ public class AddAppointmentCommand extends Command {
                 .toString();
     }
 }
-
