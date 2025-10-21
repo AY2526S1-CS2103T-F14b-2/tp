@@ -93,15 +93,15 @@ Adds a patient to the address book.
 
 #### Command Format:
 ```
-`add n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
+`patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
 ```
 
 #### Example Commands: 
 ```
-add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high 
+patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high 
 ```
 ```
-add n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
+patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
 ```
 
 Note: A patient can have 0 or 1 tag
