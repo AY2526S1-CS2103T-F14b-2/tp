@@ -60,9 +60,9 @@ public class AddAppointmentCommand extends Command {
 
         Person personToAddAppointment = lastShownList.get(targetIndex.getZeroBased());
 
-        if (model.hasAppointment(personToAddAppointment)) {
-            throw new CommandException(MESSAGE_DUPLICATE_APPOINTMENT);
-        }
+        // if (model.hasAppointment(personToAddAppointment)) {
+        //     throw new CommandException(MESSAGE_DUPLICATE_APPOINTMENT);
+        // }
 
         try {
             Patient updatedPatient = model.addAppointment(personToAddAppointment, date, time);
@@ -105,4 +105,3 @@ public class AddAppointmentCommand extends Command {
                 .toString();
     }
 }
-

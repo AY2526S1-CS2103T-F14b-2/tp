@@ -1,5 +1,8 @@
 package seedu.address.testutil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Name;
@@ -27,7 +30,7 @@ public class PatientBuilder {
     private Address address;
     private Tag tag;
     private Note note;
-    private Appointment appointment;
+    private List<Appointment> appointments;
 
     /**
      * Creates a {@code PatientBuilder} with the default details.
@@ -37,8 +40,8 @@ public class PatientBuilder {
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
         tag = new Tag(DEFAULT_TAG);
-        note = new Note("NIL"); // No actual note content
-        appointment = null;
+    note = new Note("NIL"); // No actual note content
+    appointments = new ArrayList<>();
     }
 
     /**
@@ -49,8 +52,8 @@ public class PatientBuilder {
         phone = patientToCopy.getPhone();
         address = patientToCopy.getAddress();
         tag = patientToCopy.getTag().orElse(null);
-        note = patientToCopy.getNote();
-        appointment = patientToCopy.getAppointment();
+    note = patientToCopy.getNote();
+    appointments = new ArrayList<>(patientToCopy.getAppointment());
     }
 
     /**
@@ -100,12 +103,15 @@ public class PatientBuilder {
      * @return
      */
     public PatientBuilder withAppointment(String date, String time) {
-        this.appointment = new Appointment(date, time);
+        if (this.appointments == null) {
+            this.appointments = new ArrayList<>();
+        }
+        this.appointments.add(new Appointment(date, time));
         return this;
     }
 
     public Patient build() {
-        return new Patient(name, phone, address, tag, note, appointment);
+        return new Patient(name, phone, address, tag, note, appointments);
     }
 
 }

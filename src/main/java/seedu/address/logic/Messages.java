@@ -55,7 +55,14 @@ public class Messages {
      */
     public static String format(Patient patient) {
         final StringBuilder builder = new StringBuilder();
-        String appointment = patient.getAppointment() == null ? "-" : patient.getAppointment().toString();
+        String appointment;
+        if (patient.getAppointment().isEmpty()) {
+            appointment = "-";
+        } else {
+            appointment = patient.getAppointment().stream()
+                    .map(Object::toString)
+                    .collect(java.util.stream.Collectors.joining(", "));
+        }
         builder.append(patient.getName())
                 .append("; Phone: ")
                 .append(patient.getPhone())
@@ -67,7 +74,7 @@ public class Messages {
 
 
         builder.append("; Appointment: ")
-                .append(appointment);
+            .append(appointment);
 
 
         if (patient.getNotes() != null && !patient.getNotes().isEmpty()) {
@@ -82,7 +89,6 @@ public class Messages {
 
         return builder.toString();
     }
-
 
     private static String capitalise(String s) {
         String lower = s.toLowerCase();

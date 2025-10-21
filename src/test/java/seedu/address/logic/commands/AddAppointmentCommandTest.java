@@ -68,7 +68,7 @@ public class AddAppointmentCommandTest {
         ModelStubThrowingIllegalArgument modelStub = new ModelStubThrowingIllegalArgument(patient);
         AddAppointmentCommand command = new AddAppointmentCommand(Index.fromOneBased(1), "invalid-date", FUTURE_TIME);
 
-        assertThrows(CommandException.class, "Date and time should be in the format dd-MM-yyyy HH:mm", () ->
+        assertThrows(CommandException.class, "Date and time should be in the format DD-MM-YYYY HH:mm", () ->
                 command.execute(modelStub));
     }
 
@@ -144,7 +144,7 @@ public class AddAppointmentCommandTest {
 
         @Override
         public Patient addAppointment(Person person, String date, String time) {
-            throw new IllegalArgumentException("Date and time should be in the format dd-MM-yyyy HH:mm");
+            throw new IllegalArgumentException("Date and time should be in the format DD-MM-YYYY HH:MM");
         }
 
         // The remaining methods are unsupported for this stub

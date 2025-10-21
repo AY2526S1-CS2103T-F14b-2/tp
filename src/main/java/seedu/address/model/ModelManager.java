@@ -101,7 +101,7 @@ public class ModelManager implements Model {
             return false;
         }
         Patient patient = (Patient) person;
-        return patient.getAppointment() != null;
+        return !patient.getAppointment().isEmpty();
     }
 
     @Override
