@@ -244,11 +244,16 @@ find charlotte david
 ```
 returns `Charlotte Oliveiro` and `David Li`<br>
 
+#### Parameters & Validation Rules
+
+| Parameter               | Validation Rules                   | Error Message if Invalid                                                                                                                                                                                                                                                |
+|-------------------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format! <br> find: Finds all persons whose names contain any of the specified keywords (case-insensitive, alphabetic) and displays them as a list with index numbers. <br>Parameters: KEYWORD [MORE_KEYWORDS]... <br> Example: find alice bob charlie" |
+
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Keywords only accept alphabets.
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
