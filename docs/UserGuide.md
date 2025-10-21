@@ -118,8 +118,6 @@ patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high
 patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
 ```
 
-<div id="user-params"></div>
-
 #### Parameters & Validation Rules 
 
 | Parameter      | Validation Rules                                     | Error Message if Invalid                                                                                         | 
