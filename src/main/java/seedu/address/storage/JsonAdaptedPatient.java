@@ -89,7 +89,11 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
                 if (date == null || time == null) {
                     throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
                 }
-                modelAppointment.add(new Appointment(date, time));
+                try {
+                    modelAppointment.add(new Appointment(date, time));
+                } catch (IllegalArgumentException ex) {
+                    throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
+                }
             }
         }
 

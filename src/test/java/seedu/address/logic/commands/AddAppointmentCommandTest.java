@@ -38,7 +38,8 @@ public class AddAppointmentCommandTest {
         Patient updatedPatient = (Patient) modelStub.getFilteredPersonList().get(0);
         assertEquals(String.format(MESSAGE_SUCCESS, Messages.format(updatedPatient)),
                 result.getFeedbackToUser());
-        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updatedPatient.getAppointment());
+    assertEquals(1, updatedPatient.getAppointment().size());
+    assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updatedPatient.getAppointment().get(0));
     }
 
     @Test
@@ -68,7 +69,7 @@ public class AddAppointmentCommandTest {
         ModelStubThrowingIllegalArgument modelStub = new ModelStubThrowingIllegalArgument(patient);
         AddAppointmentCommand command = new AddAppointmentCommand(Index.fromOneBased(1), "invalid-date", FUTURE_TIME);
 
-        assertThrows(CommandException.class, "Date and time should be in the format DD-MM-YYYY HH:mm", () ->
+    assertThrows(CommandException.class, Appointment.MESSAGE_CONSTRAINTS, () ->
                 command.execute(modelStub));
     }
 
@@ -144,7 +145,7 @@ public class AddAppointmentCommandTest {
 
         @Override
         public Patient addAppointment(Person person, String date, String time) {
-            throw new IllegalArgumentException("Date and time should be in the format DD-MM-YYYY HH:MM");
+            throw new IllegalArgumentException(Appointment.MESSAGE_CONSTRAINTS);
         }
 
         // The remaining methods are unsupported for this stub
@@ -215,13 +216,17 @@ public class AddAppointmentCommandTest {
 
         @Override
         public boolean hasAppointment(Person person) {
-            return person instanceof Patient && ((Patient) person).getAppointment() != null;
+            return person instanceof Patient && !((Patient) person).getAppointment().isEmpty();
         }
 
         @Override
         public Patient addAppointment(Person person, String date, String time) {
             Patient patient = (Patient) person;
-            Patient updated = patient.addAppointment(new Appointment(date, time));
+            Appointment appointment = new Appointment(date, time);
+            if (patient.getAppointment().contains(appointment)) {
+                throw new IllegalArgumentException(MESSAGE_DUPLICATE_APPOINTMENT);
+            }
+            Patient updated = patient.addAppointment(appointment);
             persons.set(persons.indexOf(person), updated);
             return updated;
         }

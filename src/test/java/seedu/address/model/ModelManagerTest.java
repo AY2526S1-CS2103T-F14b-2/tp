@@ -135,9 +135,22 @@ public class ModelManagerTest {
 
         Patient updated = manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME);
 
-        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updated.getAppointment());
+    assertEquals(1, updated.getAppointment().size());
+    assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updated.getAppointment().get(0));
         Patient storedPatient = (Patient) manager.getFilteredPersonList().get(0);
-        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), storedPatient.getAppointment());
+    assertEquals(1, storedPatient.getAppointment().size());
+    assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), storedPatient.getAppointment().get(0));
+    }
+
+    @Test
+    public void addAppointment_duplicateAppointment_throwsIllegalArgumentException() {
+        Patient patient = new PatientBuilder().withAppointment(FUTURE_DATE, FUTURE_TIME).build();
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(patient);
+        ModelManager manager = new ModelManager(addressBook, new UserPrefs());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME));
     }
 
     @Test

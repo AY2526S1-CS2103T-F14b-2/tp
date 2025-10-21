@@ -133,12 +133,16 @@ public class PatientTest {
         notes.add(new Note("Note with appointment"));
         Appointment appointment = new Appointment("31-12-2025", "14:30");
 
+    List<Appointment> appointments = new ArrayList<>();
+    appointments.add(appointment);
+
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTag().orElse(null), notes, appointment);
+        ALICE.getTag().orElse(null), notes, appointments);
 
         assertEquals(1, patient.getNotes().size());
         assertEquals("Note with appointment", patient.getNotes().get(0).value);
-        assertEquals(appointment, patient.getAppointment());
+    assertEquals(1, patient.getAppointment().size());
+    assertEquals(appointment, patient.getAppointment().get(0));
     }
 
     @Test
@@ -191,10 +195,11 @@ public class PatientTest {
         Patient updatedPatient = originalPatient.addAppointment(appointment);
 
         // Original patient should be unchanged
-        assertEquals(null, originalPatient.getAppointment());
+    assertTrue(originalPatient.getAppointment().isEmpty());
 
         // Updated patient should have the new appointment
-        assertEquals(appointment, updatedPatient.getAppointment());
+    assertEquals(1, updatedPatient.getAppointment().size());
+    assertEquals(appointment, updatedPatient.getAppointment().get(0));
     }
 
     @Test
@@ -264,15 +269,15 @@ public class PatientTest {
     }
 
     @Test
-    public void equals_bothPatientsNullAppointments_returnsTrue() {
+    public void equals_bothPatientsEmptyAppointments_returnsTrue() {
         Patient patient1 = new PatientBuilder().withName("John").build();
         Patient patient2 = new PatientBuilder().withName("John").build();
-        // Both should have null appointments by default
+        // Both should have no appointments by default
         assertTrue(patient1.equals(patient2));
     }
 
     @Test
-    public void equals_onePatientNullAppointmentOtherHasAppointment_returnsFalse() {
+    public void equals_onePatientWithoutAppointmentOtherHasAppointment_returnsFalse() {
         Patient patientWithoutAppointment = new PatientBuilder().build();
         Patient patientWithAppointment = new PatientBuilder().withAppointment("31-12-2025", "14:30").build();
         assertFalse(patientWithoutAppointment.equals(patientWithAppointment));
@@ -284,7 +289,7 @@ public class PatientTest {
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
                 ALICE.getTag().orElse(null), emptyNotes, null);
         assertTrue(patient.getNotes().isEmpty());
-        assertEquals(null, patient.getAppointment());
+        assertTrue(patient.getAppointment().isEmpty());
     }
 
 }
