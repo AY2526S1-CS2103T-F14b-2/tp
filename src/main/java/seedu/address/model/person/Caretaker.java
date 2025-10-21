@@ -4,6 +4,8 @@ import seedu.address.commons.util.ToStringBuilder;
 
 import java.util.Objects;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 public class Caretaker extends Person {
     private final Relationship relationship;
 
@@ -12,6 +14,7 @@ public class Caretaker extends Person {
      */
     public Caretaker(Name name, Phone phone, Address address, Relationship relationship) {
         super(name, phone, address);
+        requireAllNonNull(relationship);
         this.relationship = relationship;
     }
 

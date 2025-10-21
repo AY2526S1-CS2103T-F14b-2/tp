@@ -1,5 +1,14 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
+
+import java.util.List;
+import java.util.Objects;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -8,12 +17,6 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
-
-import java.util.List;
-import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.*;
 
 public class CaretakerCommand extends Command {
     public static final String COMMAND_WORD = "caretaker";
