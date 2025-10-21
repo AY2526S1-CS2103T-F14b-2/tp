@@ -6,7 +6,10 @@ layout: default
   /* --- Layout Structure --- */
   .page-container {
     display: flex;
-    gap: 2rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 100%;
   }
 
   .sidebar {
@@ -46,6 +49,15 @@ layout: default
 
   .sidebar a:hover {
     text-decoration: underline;
+  }
+
+  /* Highlight currently active section in sidebar */
+  .sidebar a.active {
+    font-weight: bold;
+    color: #d35400; /* a warm orange highlight */
+    border-left: 3px solid #d35400;
+    padding-left: 0.5rem;
+    background-color: #fff7ef;
   }
 
   /* --- Main Content Area --- */
@@ -92,10 +104,11 @@ layout: default
 </article>
 
 <script>
-  // Generate sidebar navigation dynamically from headers
   document.addEventListener("DOMContentLoaded", () => {
     const tocList = document.getElementById("toc-list");
     const headers = document.querySelectorAll(".post-content h2, .post-content h3");
+
+    // --- Populate the sidebar links dynamically ---
     headers.forEach(h => {
       const id = h.id || h.textContent.trim().replace(/\s+/g, "-").toLowerCase();
       h.id = id;
@@ -103,6 +116,38 @@ layout: default
       if (h.tagName === "H3") li.style.marginLeft = "1rem";
       li.innerHTML = `<a href="#${id}">${h.textContent}</a>`;
       tocList.appendChild(li);
+    });
+
+    const navLinks = tocList.querySelectorAll("a");
+
+    // --- Smooth scrolling ---
+    document.documentElement.style.scrollBehavior = "smooth";
+
+    // --- ScrollSpy highlighting ---
+    const observer = new IntersectionObserver(entries => {
+      // Find the first heading that is currently visible
+      let visibleEntry = entries.find(e => e.isIntersecting);
+      if (!visibleEntry) return;
+
+      // Remove active from all
+      navLinks.forEach(link => link.classList.remove("active"));
+
+      // Highlight the link corresponding to the visible section
+      const activeLink = tocList.querySelector(`a[href="#${visibleEntry.target.id}"]`);
+      if (activeLink) activeLink.classList.add("active");
+    }, {
+      rootMargin: "-40% 0px -50% 0px", // highlight section when it's in the middle region of the viewport
+      threshold: [0, 0.25, 0.5, 1.0]
+    });
+
+    headers.forEach(h => observer.observe(h));
+
+    // --- Immediate highlight when clicking links ---
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+      });
     });
   });
 </script>
