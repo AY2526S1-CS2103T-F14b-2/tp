@@ -9,12 +9,6 @@ MediSaveContact is designed for nurses and healthcare workers who provide care o
 The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage 
 patient information during busy schedules.
 
-
-## Table of Contents 
-
-* Table of Contents
-{:toc}
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
