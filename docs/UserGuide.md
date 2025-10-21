@@ -88,6 +88,7 @@ Shows all commands available in the application.
 Format: `help`
 
 ### Listing all patients : `list`
+{: #list-command }
 
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
@@ -142,7 +143,7 @@ Patients are duplicates if both name and phone number match (case-insensitive). 
 
 ### Adding an appointment : `appointment`
 
-Schedule an appointment for a patient.
+Schedule an appointment for a patient using a specified index.
 
 #### Command Format: 
 
@@ -151,7 +152,7 @@ Schedule an appointment for a patient.
 #### Example Commands:
 
 ```
-appointment 1 d/15-11-2026 t/20:03
+appointment 1 d/15/Deleting -11-2026 t/20:03
 ```
 
 #### Parameters & Validation Rules
@@ -258,19 +259,33 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 - Success: "X persons listed!", where X is the number of matching persons
 - Failure: Error messages above
 
-### Deleting a person : `delete`
+### Deleting a patient: `delete`
 
-Deletes the specified person from the address book.
+Deletes a patient at a specified index from the address book. 
+The index refers to the index number shown in the displayed person list.
 
-Format: `delete INDEX`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+#### Command Format: 
 
-Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+```
+delete INDEX`
+```
+
+#### Example Commands:
+
+```
+delete 1
+```
+
+#### Parameters & Validation Rules
+
+| Parameter | Validation Rules | Error Message if Invalid |
+| --- | --- | --- |
+| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Run [list](#list-command) command to view the respective index for each patient.
+</div>
 
 ### Clearing all entries : `clear`
 
