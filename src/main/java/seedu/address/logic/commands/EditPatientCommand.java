@@ -114,7 +114,6 @@ public class EditPatientCommand extends Command {
         Name updatedName = editPatientDescriptor.getName().orElse(patientToEdit.getName());
         Phone updatedPhone = editPatientDescriptor.getPhone().orElse(patientToEdit.getPhone());
         Address updatedAddress = editPatientDescriptor.getAddress().orElse(patientToEdit.getAddress());
-        System.out.println(editPatientDescriptor.isTagEdited());
         Tag updatedTag = editPatientDescriptor.isTagEdited()
                 ? editPatientDescriptor.getTag().orElse(null)
                 : patientToEdit.getTag().orElse(null);

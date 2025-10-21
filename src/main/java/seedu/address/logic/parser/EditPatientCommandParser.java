@@ -51,16 +51,13 @@ public class EditPatientCommandParser implements Parser<EditPatientCommand> {
             editPatientDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
-            System.out.println("tag present");
             String tagName = argMultimap.getValue(PREFIX_TAG).get();
             editPatientDescriptor.setTagEdited();
-            System.out.println(editPatientDescriptor.isTagEdited());
             if (tagName.isBlank()) {
                 editPatientDescriptor.setTag(null);
             } else {
                 editPatientDescriptor.setTag(ParserUtil.parseTag(tagName));
             }
-
         }
 
         if (!editPatientDescriptor.isAnyFieldEdited()) {
