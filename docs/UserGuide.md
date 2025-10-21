@@ -182,28 +182,27 @@ Edits an existing patient in MediSaveContact.
 
 `editpatient INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [tag/TAG]`
 
-Example Commands :
+#### Example Commands :
 ```
 editpatient 1 p/91234567
 ```
-
 ```
 editpatient 2 n/Betsy Crower tag/
 ```
 
 #### Parameters & Validation Rules
 
-| Parameter | Validation Rules                                                             | Error Message if Invalid                                                                                                        |
-|-----------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| INDEX     | Cannot be blank <br>Must exist in patient list<br>Must be a positive integer | "Invalid command format! "<br>"Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
-| NAME      | Must contain valid characters only                                           | "Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."                |
-| PHONE     | Must contain digits only<br>Must be of valid length (3-15 digits)            | "Phone number must contain digits only  "<br>"Phone number must be between 3 and 15 digits"                                     |
-| TAG       | Must be either blank, low, medium or high only (case-insensitive)            | "Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                                      |
+| Parameter                    | Validation Rules                                                             | Error Message if Invalid                                                                                                        |
+|------------------------------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| INDEX                        | Cannot be blank <br>Must exist in patient list<br>Must be a positive integer | "Invalid command format! "<br>"Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+| NAME / PHONE / ADDRESS / TAG | At least one of these paramters must be present                              | "At least one field to edit must be provided."                                                                                  |
+| NAME                         | Must contain valid characters only                                           | "Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."                |
+| PHONE                        | Must contain digits only<br>Must be of valid length (3-15 digits)            | "Phone number must contain digits only  "<br>"Phone number must be between 3 and 15 digits"                                     |
+| TAG                          | Must be either blank, low, medium or high only (case-insensitive)            | "Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                                      |
 
 #### Outputs
 
-- Success: "Added note to patient"
-
+- Success: "Edited Patient: Jack; Phone: 91234567; Address: Blk 123 Clementi Ave 3; Appointment: -"
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
