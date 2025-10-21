@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -36,8 +35,8 @@ public class AddAppointmentCommandTest {
         CommandResult result = command.execute(modelStub);
 
         Patient updatedPatient = (Patient) modelStub.getFilteredPersonList().get(0);
-        assertEquals(String.format(MESSAGE_SUCCESS, Messages.format(updatedPatient)),
-                result.getFeedbackToUser());
+        assertEquals(String.format(MESSAGE_SUCCESS, new Appointment(FUTURE_DATE, FUTURE_TIME)),
+            result.getFeedbackToUser());
         assertEquals(1, updatedPatient.getAppointment().size());
         assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updatedPatient.getAppointment().get(0));
     }

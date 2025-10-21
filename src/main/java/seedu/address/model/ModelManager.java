@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.AddAppointmentCommand;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
@@ -127,7 +128,7 @@ public class ModelManager implements Model {
         Appointment appointment = new Appointment(date, time);
 
         if (patient.getAppointment().contains(appointment)) {
-            throw new IllegalArgumentException("This appointment already exists!");
+            throw new IllegalArgumentException(AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT);
         }
         Patient updatedPatient = patient.addAppointment(appointment);
 
