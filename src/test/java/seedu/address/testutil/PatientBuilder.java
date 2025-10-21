@@ -40,8 +40,8 @@ public class PatientBuilder {
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
         tag = new Tag(DEFAULT_TAG);
-    note = new Note("NIL"); // No actual note content
-    appointments = new ArrayList<>();
+        note = new Note("NIL"); // No actual note content
+        appointments = new ArrayList<>();
     }
 
     /**
@@ -52,8 +52,8 @@ public class PatientBuilder {
         phone = patientToCopy.getPhone();
         address = patientToCopy.getAddress();
         tag = patientToCopy.getTag().orElse(null);
-    note = patientToCopy.getNote();
-    appointments = new ArrayList<>(patientToCopy.getAppointment());
+        note = patientToCopy.getNote();
+        appointments = new ArrayList<>(patientToCopy.getAppointment());
     }
 
     /**

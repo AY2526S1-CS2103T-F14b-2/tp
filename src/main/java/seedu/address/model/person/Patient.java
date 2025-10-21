@@ -143,7 +143,8 @@ public class Patient extends Person {
         requireAllNonNull(appointment);
         List<Appointment> newAppointments = new ArrayList<>(this.appointment);
         newAppointments.add(appointment);
-        return new Patient(this.getName(), this.getPhone(), this.getAddress(), this.getTag().orElse(null), this.notes, newAppointments);
+        return new Patient(this.getName(), this.getPhone(), this.getAddress(),
+        this.getTag().orElse(null), this.notes, newAppointments);
     }
 
     /**

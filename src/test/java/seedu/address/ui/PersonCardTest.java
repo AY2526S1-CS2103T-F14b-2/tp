@@ -23,17 +23,17 @@ public class PersonCardTest {
 
         // We can't test the actual UI rendering without a JavaFX environment,
         // but we can test the logic by checking the patient type and appointment
-    assertTrue(patient instanceof Patient);
-    assertEquals(1, patient.getAppointment().size());
-    assertEquals("31-12-2025 14:30", patient.getAppointment().get(0).toString());
+        assertTrue(patient instanceof Patient);
+        assertEquals(1, patient.getAppointment().size());
+        assertEquals("31-12-2025 14:30", patient.getAppointment().get(0).toString());
     }
 
     @Test
     public void constructor_patientWithoutAppointment_displaysDefaultAppointment() {
         Patient patient = new PatientBuilder().build();
 
-    assertTrue(patient instanceof Patient);
-    assertTrue(patient.getAppointment().isEmpty());
+        assertTrue(patient instanceof Patient);
+        assertTrue(patient.getAppointment().isEmpty());
     }
 
     @Test

@@ -108,7 +108,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
 
         final Tag modelTag = (tag == null) ? null : tag.toModelType();
 
-    return new Patient(base.getName(), base.getPhone(), base.getAddress(),
-        modelTag, modelNotes, modelAppointment);
+        return new Patient(base.getName(), base.getPhone(), base.getAddress(),
+            modelTag, modelNotes, modelAppointment);
     }
 }

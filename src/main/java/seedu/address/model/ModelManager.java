@@ -125,7 +125,7 @@ public class ModelManager implements Model {
 
         Patient patient = (Patient) person;
         Appointment appointment = new Appointment(date, time);
-        
+
         if (patient.getAppointment().contains(appointment)) {
             throw new IllegalArgumentException("This appointment already exists!");
         }

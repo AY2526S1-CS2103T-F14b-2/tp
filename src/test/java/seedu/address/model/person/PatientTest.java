@@ -133,16 +133,16 @@ public class PatientTest {
         notes.add(new Note("Note with appointment"));
         Appointment appointment = new Appointment("31-12-2025", "14:30");
 
-    List<Appointment> appointments = new ArrayList<>();
-    appointments.add(appointment);
+        List<Appointment> appointments = new ArrayList<>();
+        appointments.add(appointment);
 
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-        ALICE.getTag().orElse(null), notes, appointments);
+            ALICE.getTag().orElse(null), notes, appointments);
 
         assertEquals(1, patient.getNotes().size());
         assertEquals("Note with appointment", patient.getNotes().get(0).value);
-    assertEquals(1, patient.getAppointment().size());
-    assertEquals(appointment, patient.getAppointment().get(0));
+        assertEquals(1, patient.getAppointment().size());
+        assertEquals(appointment, patient.getAppointment().get(0));
     }
 
     @Test
@@ -195,11 +195,11 @@ public class PatientTest {
         Patient updatedPatient = originalPatient.addAppointment(appointment);
 
         // Original patient should be unchanged
-    assertTrue(originalPatient.getAppointment().isEmpty());
+        assertTrue(originalPatient.getAppointment().isEmpty());
 
         // Updated patient should have the new appointment
-    assertEquals(1, updatedPatient.getAppointment().size());
-    assertEquals(appointment, updatedPatient.getAppointment().get(0));
+        assertEquals(1, updatedPatient.getAppointment().size());
+        assertEquals(appointment, updatedPatient.getAppointment().get(0));
     }
 
     @Test
