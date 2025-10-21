@@ -1,6 +1,7 @@
 package seedu.address.model.util;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class SampleDataUtil {
         return new Person[] {
             new Patient(new Name("Alex"), new Phone("87438807"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                new Tag("low"), new Note("Peanut allergy")),
+                new Tag("low"), new Note("Peanut allergy"), Collections.emptyList()),
             new Patient(new Name("Bernice Yu"), new Phone("99272758"),
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
                 new Tag("medium")),
