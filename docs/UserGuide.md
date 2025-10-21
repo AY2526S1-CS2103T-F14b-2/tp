@@ -101,37 +101,34 @@ list
 - Success: "Listed all persons"
 - Failure: List command would never result in failure
 
-### Adding a patient: `add`
+### Adding a patient: `patient`
 
 Adds a patient to the address book.
 
-#### Command Format 
-`add n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
+#### Command Format:
+```
+patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
+```
 
-#### Example Commands
-`add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 t/high  `
+#### Example Commands: 
+```
+patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high 
+```
+```
+patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
+```
 
-`add n/Amy Lee p/82345678 a/456 Bedok North Street 2`
-
-Note: A patient can have 0 or 1 tag
 #### Parameters & Validation Rules 
-| Parameter      | Validation Rules                                                                                                                                                                                                                                            | Rationale                                                 | 
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| NAME           | - Cannot be blank<br/> - Must be alphanumeric (letters, numbers, spaces) <br/> -Hyphens (-) and apostrophes (') allowed (e.g., O’Connor, Mary-Anne) <br/> - Leading/trailing spaces are trimmed <br/> - Case-insensitive for equality (John Doe = john doe) | Ensures consistent, clean names; avoids malformed entries |
-| PHONE          | - Digits only <br/>  At least 3 digits (configurable, usually 3–15) <br/> No spaces, +, -, or brackets                                                                                                                                                      | Keeps phone numbers simple and valid                      |
-| ADDRESS        | - Cannot be blank <br/> - Any characters allowed (letters, numbers, punctuation) <br/> - Leading/trailing spaces trimmed                                                                                                                                    | Allows flexibility for varied address formats             | 
-| TAG (optional) | - Optional <br/>- Only allowed values: "high", "medium", "low" (case-insensitive) <br/>- Multiple tags allowed, each must be one of the three values                                                                                                        | Tags are lightweight labels for filtering/searching       | 
 
-#### Validation Rules 
-| Parameter      | Validation Rule      | Error Message if Invalid                                                                                        | 
-|----------------|----------------------|-----------------------------------------------------------------------------------------------------------------| 
-| NAME           | Cannot be blank      | Name cannot be blank.                                                                                           | 
-| NAME           | Invalid characters   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.  |                   
-| PHONE          | Cannot be blank      | Phone number cannot be blank                                                                                    |
-| PHONE          | Non-digit characters | Phone number must contain digits only                                                                           |
-| PHONE          | Too short / too long | Phone number must be between 3 and 15 digits                                                                    |
-| ADDRESS        | Cannot be blank      | Address cannot be blank.                                                                                        |
-| TAG (optional) | Invalid characters   | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                       |
+| Parameter      | Validation Rules                                     | Error Message if Invalid                                                                                         | 
+|----------------|------------------------------------------------------|------------------------------------------------------------------------------------------------------------------| 
+| NAME           | Cannot be blank                                      | Name cannot be blank.                                                                                            | 
+| NAME           | Must contain valid characters only                   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.   |                   
+| PHONE          | Cannot be blank                                      | Phone number cannot be blank                                                                                     |
+| PHONE          | Must contain digits only                             | Phone number must contain digits only                                                                            |
+| PHONE          | Must be of valid length (3-15 digits)                | Phone number must be between 3 and 15 digits                                                                     |
+| ADDRESS        | Cannot be blank                                      | Address cannot be blank.                                                                                         |
+| TAG (optional) | Must be low, medium and high only (case-insensitive) | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                        |
 
 #### Outputs 
 
@@ -144,41 +141,36 @@ Note: A patient can have 0 or 1 tag
 - Patients are duplicates if both name and phone number match (case-insensitive). 
 - If attempting to add a duplicate patient: **This person already exists in the address book**
 
-
-
 ### Adding an appointment: `appointment`
 
 Schedule an appointment for a patient.
 
-Format: `appointment INDEX d/DATE t/TIME`
+#### Command Format: 
 
-Examples:
-* `appointment 1 d/15-11-2025 t/20:03`
+```
+appointment INDEX d/DATE t/TIME
+```
+
+#### Example Commands:
+
+```
+appointment 1 d/15-11-2026 t/20:03
+```
 
 #### Parameters & Validation Rules
 
-| Parameter | Validation Rules | Error Message if Invalid | Rationale |
-| --- | --- | --- | --- |
-| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" | Ensures correct patient reference |
-| DATE | Must follow DD-MM-YYYY format<br>Must be today or later | "Invalid date. Must follow DD-MM-YYYY format!"<br>"Appointment cannot be set in the past!" | Prevents scheduling in the past |
-| TIME | Must follow HH:MM 24-hour format<br>If the appointment is today, time must be later than the current time | "Invalid time. Must follow HH:MM 24-hour format!"<br>"Appointment cannot be set in the past!" | Prevents scheduling in the past |
+| Parameter | Validation Rules | Error Message if Invalid |
+| --- | --- | --- |
+| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+| DATE | Must follow DD-MM-YYYY format<br>Must be today or later | "Invalid date. Must follow DD-MM-YYYY format!"<br>"Appointment cannot be set in the past!" |
+| TIME | Must follow HH:MM 24-hour format<br>If the appointment is today, time must be later than the current time | "Invalid time. Must follow HH:MM 24-hour format!"<br>"Appointment cannot be set in the past!" |
 
 #### Outputs
 
-- Success: Appointment Created at 15-11-2025 20:03!
-
-- Failure: Error messages above
-
-#### Duplicate handling: 
-
-- Not Applicable
-
-#### Possible errors:
-
-- Missing date/time
-- Missing index
-- More than one date/time or index
-- Wong argument order
+- Success: 
+  - In GUI: Appointment created in specified patient
+  - In Command Feedback Box: **Appointment Created at 15-11-2026 20:03!**
+- Failure: Error Messages above
 
 ### Editing a person : `edit`
 
@@ -201,29 +193,29 @@ Examples:
 
 Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
 
-Format: `note INDEX note/NOTES`
+Command Format: `note INDEX note/NOTES`
 
-* Adds a note to the patient at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* Notes can only be added to patients, not regular contacts.
-* Each note is appended to the patient's existing notes list, allowing you to build a comprehensive medical history.
-* Notes must not be empty or contain only whitespace.
-* Notes are limited to a maximum of 200 characters to keep entries concise and manageable.
-* Notes can contain any characters including special symbols, numbers, and punctuation.
+Example Commands :
+```
+note 1 note/Patient shows improved blood sugar levels today.
+```
+```
+note 3 note/Allergic reaction to penicillin - avoid in future treatments
+```
 
-Examples:
-* `note 1 note/Patient shows improved blood sugar levels today.`
-* `note 3 note/Allergic reaction to penicillin - avoid in future treatments.`
-* `note 2 note/Follow-up appointment scheduled for next week.`
+#### Parameters & Validation Rules
 
-**Possible Error Messages:**
-* `The person at index [INDEX] is not a patient. Notes can only be added to patients.` - Occurs when trying to add a note to a regular contact instead of a patient.
-* `Note cannot be empty.` - Occurs when the note field is left blank or contains only spaces.
-* `Note exceeds maximum length of 200 characters.` - Occurs when the note is too long.
-* `Invalid command format!` - Occurs when the command format is incorrect (e.g., missing `note/` prefix).
+| Parameter | Validation Rules | Error Message if Invalid |
+| --- | --- | --- |
+| INDEX | Must exist in patient list<br>Must be a positive integer | "The person index provided is invalid"<br>"Invalid command format!" |
+| NOTES | Max 200 characters<br>Cannot be empty or whitespace only<br>Accepts any characters | "Note exceeds maximum length of 200 characters."<br>"Note cannot be empty." |
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Important:**
-Notes can only be added to patients. If you try to add a note to a regular contact, you will receive an error message.
-</div>
+#### Outputs
+
+- Success: "Added note to patient"
+
+- Failure: Error messages above
+
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.

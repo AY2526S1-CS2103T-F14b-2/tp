@@ -55,7 +55,14 @@ public class Messages {
      */
     public static String format(Patient patient) {
         final StringBuilder builder = new StringBuilder();
-        String appointment = patient.getAppointment() == null ? "-" : patient.getAppointment().toString();
+        String appointment;
+        if (patient.getAppointment().isEmpty()) {
+            appointment = "-";
+        } else {
+            appointment = patient.getAppointment().stream()
+                    .map(Object::toString)
+                    .collect(java.util.stream.Collectors.joining(", "));
+        }
         builder.append(patient.getName())
                 .append("; Phone: ")
                 .append(patient.getPhone())
@@ -72,13 +79,12 @@ public class Messages {
 
         if (patient.getNotes() != null && !patient.getNotes().isEmpty()) {
             String notesString = patient.getNotes().stream()
-                    .map(note -> note.toString())
-                    .collect(java.util.stream.Collectors.joining(", "));
+                .map(Object::toString)
+                .collect(java.util.stream.Collectors.joining(", "));
 
 
             builder.append("; Notes: ").append(notesString);
         }
-
 
         return builder.toString();
     }
