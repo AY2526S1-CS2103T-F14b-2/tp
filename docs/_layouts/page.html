@@ -25,6 +25,10 @@ layout: default
     padding: 0 !important;
   }
 
+  .post {
+    margin-left: 250px;
+  }
+
   /* --- Sidebar --- */
   .sidebar {
     position: fixed;
@@ -76,7 +80,8 @@ layout: default
   /* --- Main Content Area --- */
   .post-content {
     flex: 1;
-    margin-left: 270px; /* accounts for sidebar width */
+    /* FIX: Reset margin-left, as the parent .post now handles the offset */
+    margin-left: 0;
     display: flex;
     justify-content: center;
     padding: 2rem;
@@ -85,9 +90,10 @@ layout: default
 
   /* --- Header Adjustment --- */
   .post-header {
-    margin-left: 250px;
-    width: calc(100% - 250px);
+    margin-left: 0;
+    width: auto;
     z-index: 100;
+    padding: 2rem 2rem 0; /* Add back internal padding for the title */
   }
 
   /* Inner wrapper for readability width */
@@ -108,6 +114,10 @@ layout: default
   @media (max-width: 768px) {
     .page-container {
       flex-direction: column;
+    }
+
+    .post {
+        margin-left: 0;
     }
 
     .sidebar {
@@ -137,15 +147,12 @@ layout: default
   </header>
 
   <div class="page-container">
-    <!-- Sidebar Navigation -->
     <nav class="sidebar" id="sidebar">
       <h2>On this page</h2>
       <ul id="toc-list">
-        <!-- JS will populate links here -->
       </ul>
     </nav>
 
-    <!-- Main Page Content -->
     <div class="post-content">
       <div class="content-wrapper">
         {{ content }}
