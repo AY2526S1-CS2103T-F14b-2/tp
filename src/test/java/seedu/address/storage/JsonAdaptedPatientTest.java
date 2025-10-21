@@ -1,10 +1,11 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,8 @@ public class JsonAdaptedPatientTest {
     private static final String VALID_NAME = "Alice";
     private static final String VALID_PHONE = "12345678";
     private static final String VALID_ADDRESS = "123 Main Street";
-    private static final String VALID_APPOINTMENT = "31-12-2025 14:30";
+    private static final List<List<String>> VALID_APPOINTMENTS = Arrays.asList(
+        Arrays.asList("31-12-2025", "14:30"));
     private static final String VALID_NOTE = "Allergic to peanuts";
     private static final String VALID_RELATIONSHIP = "FATHER";
     private static final JsonAdaptedTag VALID_TAG = new JsonAdaptedTag("medium");
@@ -45,11 +47,11 @@ public class JsonAdaptedPatientTest {
     }
 
     @Test
-    public void toModelType_nullAppointment_returnsPatientWithNullAppointment() throws Exception {
+    public void toModelType_nullAppointment_returnsPatientWithNoAppointment() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
                 null, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
-        assertNull(result.getAppointment());
+        assertTrue(result.getAppointment().isEmpty());
     }
 
     @Test
@@ -62,6 +64,8 @@ public class JsonAdaptedPatientTest {
 
     @Test
     public void toModelType_emptyAppointment_throwsIllegalValueException() {
+        List<List<String>> invalidAppointments = Arrays.asList(
+            Arrays.asList("   ", "   "));
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
                 "   ", VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         assertThrows(IllegalValueException.class, patient::toModelType);
@@ -69,6 +73,8 @@ public class JsonAdaptedPatientTest {
 
     @Test
     public void toModelType_invalidAppointmentFormat_throwsIllegalValueException() {
+        List<List<String>> invalidAppointments = Arrays.asList(
+            Arrays.asList("invalid-date", "invalid-time"));
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
                 "invalid-appointment", VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         assertThrows(IllegalValueException.class, patient::toModelType);
@@ -76,6 +82,8 @@ public class JsonAdaptedPatientTest {
 
     @Test
     public void toModelType_appointmentOnlyDate_throwsIllegalValueException() {
+        List<List<String>> invalidAppointments = Arrays.asList(
+            Arrays.asList("31-12-2025"));
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
                 "31-12-2025", VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         assertThrows(IllegalValueException.class, patient::toModelType);
@@ -83,6 +91,9 @@ public class JsonAdaptedPatientTest {
 
     @Test
     public void toModelType_invalidAppointmentDateTime_throwsIllegalValueException() {
+        List<List<String>> invalidAppointments = Arrays.asList(
+            Arrays.asList("invalid-date", "14:30"),
+            Arrays.asList("31-12-2025", "invalid-time"));
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
                 "invalid-date invalid-time", VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         assertThrows(IllegalValueException.class, patient::toModelType);
@@ -99,13 +110,13 @@ public class JsonAdaptedPatientTest {
     }
 
     @Test
-    public void constructor_patientWithoutAppointment_nullAppointment() throws Exception {
+    public void constructor_patientWithoutAppointment_resultsInEmptyAppointmentList() throws Exception {
         Patient patient = new PatientBuilder().build();
         JsonAdaptedPatient jsonPatient = new JsonAdaptedPatient(patient);
 
         // Test by converting back to Patient and checking the appointment
         Patient converted = jsonPatient.toModelType();
-        assertNull(converted.getAppointment());
+        assertTrue(converted.getAppointment().isEmpty());
     }
 
     @Test
