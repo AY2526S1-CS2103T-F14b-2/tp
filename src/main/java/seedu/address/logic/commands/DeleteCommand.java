@@ -1,20 +1,17 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
 /**
  * Deletes a person identified using it's displayed index from the address book.
  */
-public class DeleteCommand extends Command {
+public class DeleteCommand extends AbstractDeleteCommand<Person> {
 
     public static final String COMMAND_WORD = "delete";
 
@@ -25,26 +22,28 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
-    private final Index targetIndex;
-
     public DeleteCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
+        super(targetIndex);
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+    protected List<Person> getTargetList(Model model) {
+        return model.getFilteredPersonList();
+    }
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-        }
+    @Override
+    protected void deleteItem(Model model, Person person) {
+        model.deletePerson(person);
+    }
 
-        Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
-        model.deletePerson(personToDelete);
+    @Override
+    protected String getInvalidIndexMessage() {
+        return Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+    }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS,
-                Messages.format(personToDelete)));
+    @Override
+    protected String formatSuccessMessage(Person deletedPerson) {
+        return String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(deletedPerson));
     }
 
     @Override
@@ -58,14 +57,13 @@ public class DeleteCommand extends Command {
             return false;
         }
 
-        DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return targetIndex.equals(otherDeleteCommand.targetIndex);
+        return super.equals(other);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetIndex", targetIndex)
+                .add("targetIndex", getTargetIndex())
                 .toString();
     }
 }
