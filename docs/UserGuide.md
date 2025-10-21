@@ -193,12 +193,12 @@ editpatient 2 n/Betsy Crower tag/
 
 #### Parameters & Validation Rules
 
-| Parameter | Validation Rules                                                             | Error Message if Invalid                                                                                         |
-|-----------|------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| INDEX     | Cannot be blank <br>Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!"                |
-| NAME      | Must contain valid characters only                                           | "Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed." |
-| PHONE     | Must contain digits only<br>Must be of valid length (3-15 digits)            | "Phone number must contain digits only  "<br>"Phone number must be between 3 and 15 digits"                      |
-| TAG       | Must be either blank, low, medium or high only (case-insensitive)            | "Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                       |
+| Parameter | Validation Rules                                                             | Error Message if Invalid                                                                                                        |
+|-----------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| INDEX     | Cannot be blank <br>Must exist in patient list<br>Must be a positive integer | "Invalid command format! "<br>"Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+| NAME      | Must contain valid characters only                                           | "Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."                |
+| PHONE     | Must contain digits only<br>Must be of valid length (3-15 digits)            | "Phone number must contain digits only  "<br>"Phone number must be between 3 and 15 digits"                                     |
+| TAG       | Must be either blank, low, medium or high only (case-insensitive)            | "Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                                      |
 
 #### Outputs
 
