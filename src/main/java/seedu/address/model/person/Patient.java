@@ -149,6 +149,34 @@ public class Patient extends Person {
         this.caretaker = caretaker;
     }
 
+    /**
+     * Constructs a Patient with multiple notes, multiple appointments, and a caretaker.
+     * Creates a defensive copy of the provided notes list to ensure immutability.
+     * This is the most comprehensive constructor supporting all patient data fields.
+     *
+     * @param name the patient's name, must not be null
+     * @param phone the patient's phone number, must not be null
+     * @param address the patient's address, must not be null
+     * @param tag the urgency associated with the patient condition, can be null if no tag is given
+     * @param note the note for the patient, must not be null (can be empty)
+     * @param appointment the patient's appointment, can be null if no appointment is scheduled
+     * @param caretaker the patient's caretaker, can be null if no caretaker is provided
+     * @throws NullPointerException if any required parameter is null
+     */
+    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment,
+                   Caretaker caretaker) {
+        super(name, phone, address);
+        requireAllNonNull(note);
+        this.notes = new ArrayList<>();
+        if (!note.value.equals("NIL")) {
+            this.notes.add(note);
+        }
+        this.appointment = new ArrayList<>();
+        this.appointment.add(appointment);
+        this.tag = tag;
+        this.caretaker = caretaker;
+    }
+
 
     /**
      * Returns the notes of the patient.
