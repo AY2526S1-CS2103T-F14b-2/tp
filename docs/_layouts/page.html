@@ -78,9 +78,15 @@ layout: default
     flex: 1;
     margin-left: 270px; /* accounts for sidebar width */
     display: flex;
-    justify-content: center; /* centers the content */
+    justify-content: center;
     padding: 2rem;
     box-sizing: border-box;
+  }
+
+  /* --- Header Adjustment --- */
+  .post-header {
+    padding-left: 270px; /* Offset the header to the right of the fixed sidebar */
+    z-index: 100;
   }
 
   /* Inner wrapper for readability width */
