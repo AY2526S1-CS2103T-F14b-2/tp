@@ -52,18 +52,15 @@ public class Patient extends Person {
     /**
      * Constructor with single note and appointment for backward compatibility.
      */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, List<Appointment> appointment) {
+    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment) {
         super(name, phone, address);
         requireAllNonNull(note);
         this.notes = new ArrayList<>();
         if (!note.value.equals("NIL")) {
             this.notes.add(note);
         }
-        if (appointment == null) {
-            this.appointment = new ArrayList<>();
-        } else {
-            this.appointment = new ArrayList<>(appointment);
-        }
+        this.appointment = new ArrayList<>();
+        this.appointment.add(appointment);
         this.tag = tag;
         this.caretaker = null;
     }
@@ -71,7 +68,7 @@ public class Patient extends Person {
     /**
      * Constructor with single note and appointment for backward compatibility.
      */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment,
+    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, List<Appointment> appointment,
                    Caretaker caretaker) {
         super(name, phone, address);
         requireAllNonNull(note);
@@ -129,7 +126,7 @@ public class Patient extends Person {
     }
 
     /**
-     * Constructs a Patient with multiple notes and an appointment.
+     * Constructs a Patient with multiple notes, multiple appointments, and a caretaker.
      * Creates a defensive copy of the provided notes list to ensure immutability.
      * This is the most comprehensive constructor supporting all patient data fields.
      *
@@ -142,12 +139,12 @@ public class Patient extends Person {
      * @param caretaker the patient's caretaker, can be null if no caretaker is provided
      * @throws NullPointerException if any required parameter is null
      */
-    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, Appointment appointment,
+    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, List<Appointment> appointment,
                    Caretaker caretaker) {
         super(name, phone, address);
         requireAllNonNull(notes);
         this.notes = new ArrayList<>(notes);
-        this.appointment = appointment;
+        this.appointment = new ArrayList<>(appointment);
         this.tag = tag;
         this.caretaker = caretaker;
     }
@@ -187,7 +184,7 @@ public class Patient extends Person {
         List<Appointment> newAppointments = new ArrayList<>(this.appointment);
         newAppointments.add(appointment);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
-        this.getTag().orElse(null), this.notes, newAppointments);
+        this.getTag().orElse(null), this.notes, newAppointments, this.getCaretaker());
     }
 
     /**
@@ -200,7 +197,7 @@ public class Patient extends Person {
         List<Note> newNotes = new ArrayList<>(this.notes);
         newNotes.add(note);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
-                this.getTag().orElse(null), newNotes, this.appointment);
+                this.getTag().orElse(null), newNotes, this.appointment, this.getCaretaker());
     }
 
     /**
