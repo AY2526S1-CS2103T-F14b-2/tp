@@ -196,29 +196,29 @@ Examples:
 
 Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
 
-Format: `note INDEX note/NOTES`
+Command Format: `note INDEX note/NOTES`
 
-* Adds a note to the patient at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* Notes can only be added to patients, not regular contacts.
-* Each note is appended to the patient's existing notes list, allowing you to build a comprehensive medical history.
-* Notes must not be empty or contain only whitespace.
-* Notes are limited to a maximum of 200 characters to keep entries concise and manageable.
-* Notes can contain any characters including special symbols, numbers, and punctuation.
+Example Commands :
+```
+note 1 note/Patient shows improved blood sugar levels today.
+```
+```
+note 3 note/Allergic reaction to penicillin - avoid in future treatments
+```
 
-Examples:
-* `note 1 note/Patient shows improved blood sugar levels today.`
-* `note 3 note/Allergic reaction to penicillin - avoid in future treatments.`
-* `note 2 note/Follow-up appointment scheduled for next week.`
+#### Parameters & Validation Rules
 
-**Possible Error Messages:**
-* `The person at index [INDEX] is not a patient. Notes can only be added to patients.` - Occurs when trying to add a note to a regular contact instead of a patient.
-* `Note cannot be empty.` - Occurs when the note field is left blank or contains only spaces.
-* `Note exceeds maximum length of 200 characters.` - Occurs when the note is too long.
-* `Invalid command format!` - Occurs when the command format is incorrect (e.g., missing `note/` prefix).
+| Parameter | Validation Rules | Error Message if Invalid |
+| --- | --- | --- |
+| INDEX | Must exist in patient list<br>Must be a positive integer | "The person index provided is invalid"<br>"Invalid command format!" |
+| NOTES | Max 200 characters<br>Cannot be empty or whitespace only<br>Accepts any characters | "Note exceeds maximum length of 200 characters."<br>"Note cannot be empty." |
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Important:**
-Notes can only be added to patients. If you try to add a note to a regular contact, you will receive an error message.
-</div>
+#### Outputs
+
+- Success: Added note to patient
+
+- Failure: Error messages above
+
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
