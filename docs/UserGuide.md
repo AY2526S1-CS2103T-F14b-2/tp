@@ -248,7 +248,7 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 
 | Parameter               | Validation Rules                   | Error Message if Invalid                                                                                                                                                                                                                                                |
 |-------------------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format! <br> find: Finds all persons whose names contain any of the specified keywords (case-insensitive, alphabetic) and displays them as a list with index numbers. <br>Parameters: KEYWORD [MORE_KEYWORDS]... <br> Example: find alice bob charlie" |
+| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format!" |
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
@@ -256,6 +256,10 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+
+#### Outputs
+- Success: "X persons listed!", where X is the number of matching persons
+- Failure: Error messages above
 
 ### Deleting a person : `delete`
 
