@@ -81,11 +81,14 @@ Shows all commands available in the application.
 
 Format: `help`
 
-### Listing all persons : `list`
+### Listing all patients : `list`
 
-Shows a list of all persons in MediSaveContact, even if it is empty.
+Shows a list of all patients in MediSaveContact, even if it is empty.
 
-Format: `list`
+Format: 
+```
+list
+```
 
 ### Adding a patient: `add`
 
