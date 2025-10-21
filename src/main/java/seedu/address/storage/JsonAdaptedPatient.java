@@ -8,10 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Appointment;
-import seedu.address.model.person.Note;
-import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.*;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -22,6 +19,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
     private final String appointment;
     private final List<String> notes;
     private final JsonAdaptedTag tag;
+    private final JsonAdaptedCaretaker caretaker;
 
     @JsonCreator
     public JsonAdaptedPatient(@JsonProperty("name") String name,
@@ -30,10 +28,12 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
                               @JsonProperty("appointment") String appointment,
                               @JsonProperty("note") String note,
                               @JsonProperty("notes") List<String> notes,
-                              @JsonProperty("tags") JsonAdaptedTag tag) {
+                              @JsonProperty("tags") JsonAdaptedTag tag,
+                              @JsonProperty("caretaker") JsonAdaptedCaretaker caretaker) {
         super(name, phone, address);
         this.appointment = appointment;
         this.tag = tag;
+        this.caretaker = caretaker;
 
         // Handle backward compatibility: if notes list is provided, use it; otherwise convert single note
         if (notes != null && !notes.isEmpty()) {
@@ -53,6 +53,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
                 .map(note -> note.value)
                 .collect(Collectors.toList());
         tag = source.getTag().map(t -> new JsonAdaptedTag(t)).orElse(null);
+        this.caretaker = source.getCaretaker() == null ? null : new JsonAdaptedCaretaker(source.getCaretaker());
     }
 
     @Override
@@ -87,7 +88,9 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
 
         final Tag modelTag = (tag == null) ? null : tag.toModelType();
 
+        final Caretaker modelCaretaker = (caretaker == null) ? null : caretaker.toModelType();
+
         return new Patient(base.getName(), base.getPhone(), base.getAddress(),
-                modelTag, modelNotes, modelAppointment);
+                modelTag, modelNotes, modelAppointment, modelCaretaker);
     }
 }

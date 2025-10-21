@@ -39,6 +39,19 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private VBox appointmentContainer;
     @FXML
+    private VBox caretakerBox;
+    @FXML
+    private VBox caretakerContainer;
+    @FXML
+    private Label caretakerName;
+    @FXML
+    private Label caretakerPhone;
+    @FXML
+    private Label caretakerAddress;
+    @FXML
+    private Label caretakerRelationship;
+
+    @FXML
     private FlowPane tags;
 
     /**
@@ -78,6 +91,21 @@ public class PersonCard extends UiPart<Region> {
             } else {
                 appointmentContainer.setVisible(false);
                 appointmentContainer.setManaged(false);
+            }
+
+            if (patient.getCaretaker() != null) {
+                caretakerBox.setVisible(true);
+                caretakerBox.setManaged(true);
+
+                var caretaker = patient.getCaretaker();
+
+                caretakerName.setText(caretaker.getName().fullName);
+                caretakerPhone.setText(caretaker.getPhone().value);
+                caretakerAddress.setText(caretaker.getAddress().value);
+                caretakerRelationship.setText(caretaker.getRelationship().value);
+            } else {
+                caretakerBox.setVisible(false);
+                caretakerBox.setManaged(false);
             }
 
             tags.getChildren().clear();
