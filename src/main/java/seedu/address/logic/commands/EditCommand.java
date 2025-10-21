@@ -114,8 +114,10 @@ public class EditCommand extends Command {
         Name updatedName = editPatientDescriptor.getName().orElse(patientToEdit.getName());
         Phone updatedPhone = editPatientDescriptor.getPhone().orElse(patientToEdit.getPhone());
         Address updatedAddress = editPatientDescriptor.getAddress().orElse(patientToEdit.getAddress());
-        Optional<Tag> mergedTagOptional = editPatientDescriptor.getTag().or(patientToEdit::getTag);
-        Tag updatedTag = mergedTagOptional.orElse(null);
+        System.out.println(editPatientDescriptor.isTagEdited());
+        Tag updatedTag = editPatientDescriptor.isTagEdited()
+                ? editPatientDescriptor.getTag().orElse(null)
+                : patientToEdit.getTag().orElse(null);
 
         return new Patient(updatedName, updatedPhone, updatedAddress, updatedTag);
     }
@@ -239,6 +241,7 @@ public class EditCommand extends Command {
      */
     public static class EditPatientDescriptor extends EditPersonDescriptor {
         private Tag tag;
+        private boolean tagEdited;
 
         public EditPatientDescriptor() {}
 
@@ -248,7 +251,8 @@ public class EditCommand extends Command {
          */
         public EditPatientDescriptor(EditPatientDescriptor toCopy) {
             super(toCopy);
-            setTag(toCopy.tag);
+            this.tag = toCopy.tag;
+            this.tagEdited = toCopy.tagEdited;
         }
 
         public EditPatientDescriptor(EditPersonDescriptor toCopyPerson) {
@@ -259,8 +263,24 @@ public class EditCommand extends Command {
             this.tag = tag;
         }
 
+        public void setTagEdited() {
+            this.tagEdited = true;
+        }
+
         public Optional<Tag> getTag() {
             return Optional.ofNullable(tag);
+        }
+
+        public boolean isTagEdited() {
+            return this.tagEdited;
+        }
+
+        /**
+         * Returns true if at least one field is edited.
+         */
+        @Override
+        public boolean isAnyFieldEdited() {
+            return super.isAnyFieldEdited() || tagEdited;
         }
 
         @Override
