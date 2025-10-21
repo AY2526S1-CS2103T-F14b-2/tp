@@ -23,7 +23,7 @@ public class SampleDataUtil {
             new Patient(new Name("Alex"), new Phone("87438807"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
                 new Tag("low"), new Note("Peanut allergy")),
-            new Patient(new Name("Bernice Yu"), new Phone("99272758"),
+            new Patient(new Name("Bernice Yu Alex"), new Phone("99272758"),
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
                 new Tag("medium")),
             new Patient(new Name("Charlotte Oliveiro"), new Phone("93210283"),
