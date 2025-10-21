@@ -105,33 +105,32 @@ list
 
 Adds a patient to the address book.
 
-#### Command Format 
-`add n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
+#### Command Format:
+```
+`patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
+```
 
-#### Example Commands
-`add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 t/high  `
-
-`add n/Amy Lee p/82345678 a/456 Bedok North Street 2`
+#### Example Commands: 
+```
+patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high 
+```
+```
+patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
+```
 
 Note: A patient can have 0 or 1 tag
-#### Parameters & Validation Rules 
-| Parameter      | Validation Rules                                                                                                                                                                                                                                            | Rationale                                                 | 
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| NAME           | - Cannot be blank<br/> - Must be alphanumeric (letters, numbers, spaces) <br/> -Hyphens (-) and apostrophes (') allowed (e.g., O’Connor, Mary-Anne) <br/> - Leading/trailing spaces are trimmed <br/> - Case-insensitive for equality (John Doe = john doe) | Ensures consistent, clean names; avoids malformed entries |
-| PHONE          | - Digits only <br/>  At least 3 digits (configurable, usually 3–15) <br/> No spaces, +, -, or brackets                                                                                                                                                      | Keeps phone numbers simple and valid                      |
-| ADDRESS        | - Cannot be blank <br/> - Any characters allowed (letters, numbers, punctuation) <br/> - Leading/trailing spaces trimmed                                                                                                                                    | Allows flexibility for varied address formats             | 
-| TAG (optional) | - Optional <br/>- Only allowed values: "high", "medium", "low" (case-insensitive) <br/>- Multiple tags allowed, each must be one of the three values                                                                                                        | Tags are lightweight labels for filtering/searching       | 
 
-#### Validation Rules 
-| Parameter      | Validation Rule      | Error Message if Invalid                                                                                        | 
-|----------------|----------------------|-----------------------------------------------------------------------------------------------------------------| 
-| NAME           | Cannot be blank      | Name cannot be blank.                                                                                           | 
-| NAME           | Invalid characters   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.  |                   
-| PHONE          | Cannot be blank      | Phone number cannot be blank                                                                                    |
-| PHONE          | Non-digit characters | Phone number must contain digits only                                                                           |
-| PHONE          | Too short / too long | Phone number must be between 3 and 15 digits                                                                    |
-| ADDRESS        | Cannot be blank      | Address cannot be blank.                                                                                        |
-| TAG (optional) | Invalid character s  | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                       |
+#### Parameters & Validation Rules 
+
+| Parameter      | Validation Rules                                     | Error Message if Invalid                                                                                         | 
+|----------------|------------------------------------------------------|------------------------------------------------------------------------------------------------------------------| 
+| NAME           | Cannot be blank                                      | Name cannot be blank.                                                                                            | 
+| NAME           | Must contain valid characters only                   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.   |                   
+| PHONE          | Cannot be blank                                      | Phone number cannot be blank                                                                                     |
+| PHONE          | Must contain digits only                             | Phone number must contain digits only                                                                            |
+| PHONE          | Must be of valid length (3-15 digits)                | Phone number must be between 3 and 15 digits                                                                     |
+| ADDRESS        | Cannot be blank                                      | Address cannot be blank.                                                                                         |
+| TAG (optional) | Must be low, medium and high only (case-insensitive) | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                        |
 
 #### Outputs 
 
