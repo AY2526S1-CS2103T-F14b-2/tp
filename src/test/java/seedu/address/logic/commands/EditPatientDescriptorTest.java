@@ -12,7 +12,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.EditCommand.EditPatientDescriptor;
+import seedu.address.logic.commands.EditPatientCommand.EditPatientDescriptor;
 import seedu.address.testutil.EditPatientDescriptorBuilder;
 
 
@@ -55,7 +55,7 @@ public class EditPatientDescriptorTest {
         EditPatientDescriptor editPatientDescriptor = new EditPatientDescriptor();
 
         String expected =
-                EditCommand.EditPatientDescriptor.class.getCanonicalName()
+                EditPatientCommand.EditPatientDescriptor.class.getCanonicalName()
                         + "{name=" + editPatientDescriptor.getName().orElse(null)
                         + ", phone=" + editPatientDescriptor.getPhone().orElse(null)
                         + ", address=" + editPatientDescriptor.getAddress().orElse(null)

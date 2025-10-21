@@ -27,7 +27,7 @@ import seedu.address.model.tag.Tag;
 /**
  * Edits the details of an existing person in the address book.
  */
-public class EditCommand extends Command {
+public class EditPatientCommand extends Command {
 
     public static final String COMMAND_WORD = "editpatient";
 
@@ -56,7 +56,7 @@ public class EditCommand extends Command {
      * @param index of the person in the filtered person list to edit
      * @param editPatientDescriptor details to edit the person with
      */
-    public EditCommand(Index index, EditPatientDescriptor editPatientDescriptor) {
+    public EditPatientCommand(Index index, EditPatientDescriptor editPatientDescriptor) {
         requireNonNull(index);
         requireNonNull(editPatientDescriptor);
 
@@ -68,7 +68,7 @@ public class EditCommand extends Command {
      * @param index of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
-    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
+    public EditPatientCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
         requireNonNull(index);
         requireNonNull(editPersonDescriptor);
 
@@ -129,13 +129,13 @@ public class EditCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EditCommand)) {
+        if (!(other instanceof EditPatientCommand)) {
             return false;
         }
 
-        EditCommand otherEditCommand = (EditCommand) other;
-        return index.equals(otherEditCommand.index)
-                && editPersonDescriptor.equals(otherEditCommand.editPersonDescriptor);
+        EditPatientCommand otherEditPatientCommand = (EditPatientCommand) other;
+        return index.equals(otherEditPatientCommand.index)
+                && editPersonDescriptor.equals(otherEditPatientCommand.editPersonDescriptor);
     }
 
     @Override
