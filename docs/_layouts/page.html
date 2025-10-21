@@ -1,14 +1,103 @@
 ---
 layout: default
 ---
-<article class="post">
 
+<style>
+  /* --- Layout Structure --- */
+  .page-container {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .sidebar {
+    flex: 0 0 250px;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    position: sticky;
+    top: 2rem;
+    padding: 1rem;
+    border-right: 1px solid #e0e0e0;
+    background-color: #fafafa;
+    font-size: 0.9rem;
+  }
+
+  .sidebar h2 {
+    font-size: 1.1rem;
+    margin-top: 0;
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .sidebar li {
+    margin: 0.4rem 0;
+  }
+
+  .sidebar a {
+    text-decoration: none;
+    color: #0366d6;
+  }
+
+  .sidebar a:hover {
+    text-decoration: underline;
+  }
+
+  /* --- Main Content Area --- */
+  .post-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    .page-container {
+      flex-direction: column;
+    }
+    .sidebar {
+      position: relative;
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+      max-height: none;
+      background-color: transparent;
+    }
+  }
+</style>
+
+<article class="post">
   <header class="post-header">
     <h1 class="post-title">{{ page.title | escape }}</h1>
   </header>
 
-  <div class="post-content">
-    {{ content }}
-  </div>
+  <div class="page-container">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+      <h2>On this page</h2>
+      <ul id="toc-list">
+        <!-- JS will populate links here -->
+      </ul>
+    </nav>
 
+    <!-- Main Page Content -->
+    <div class="post-content">
+      {{ content }}
+    </div>
+  </div>
 </article>
+
+<script>
+  // Generate sidebar navigation dynamically from headers
+  document.addEventListener("DOMContentLoaded", () => {
+    const tocList = document.getElementById("toc-list");
+    const headers = document.querySelectorAll(".post-content h2, .post-content h3");
+    headers.forEach(h => {
+      const id = h.id || h.textContent.trim().replace(/\s+/g, "-").toLowerCase();
+      h.id = id;
+      const li = document.createElement("li");
+      if (h.tagName === "H3") li.style.marginLeft = "1rem";
+      li.innerHTML = `<a href="#${id}">${h.textContent}</a>`;
+      tocList.appendChild(li);
+    });
+  });
+</script>
