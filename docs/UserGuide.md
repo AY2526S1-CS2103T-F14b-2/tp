@@ -13,14 +13,14 @@ patient information during busy schedules.
 
 ## Quick start
 
-1. Ensure you have Java 17 or above installed in your Computer, following this [guide](https://se-education.org/guides/tutorials/javaInstallation.html).
+1. Ensure you have Java 17 or above installed in your computer, following this [guide](https://se-education.org/guides/tutorials/javaInstallation.html).
 
 1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your MediSaveContact.
 
-1. For **Window** Users: Locate MediSaveContact in your file manager and double click on the application.<br>
-   For **Mac/Linux** users: Open a command terminal, `cd` (change directory) into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. For **Windows** users: Locate MediSaveContact in your file manager and double click on the application.<br>
+   For **Mac/Linux** users: Open a command terminal, `cd` (change directory) into the folder you put the jar file in, and use the `java -jar MediSaveContact.jar` command to run the application.<br>
    An application similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png) <br>
 
@@ -29,7 +29,7 @@ patient information during busy schedules.
 
     * `help` : Shows all commands available in the application.
 
-   * `add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 [t/High]` : Adds a contact named `John Tan` to the Address Book.
+   * `patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high` : Adds a patient named `John Tan` to MediSaveContact.
    
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -69,15 +69,15 @@ patient information during busy schedules.
 
 Action | Description
 --------|------------------
-**Add** | Adds a patient to MediSaveContact
-**Clear** | Deletes all patients from MediSaveContact
-**Delete** | Deletes specified patient from MediSaveContact
-**Edit** | Edits specified patient's details
-**Find** | Finds patient(s) with name containing specified keyword
-**Appointment** | Adds an appointment to specified patient
-**Note** | Adds a note to specified patient
-**List** | Shows a list of all patients in MediSaveContact
-**Help** | Shows all commands available
+**patient** | Adds a patient to MediSaveContact
+**clear** | Deletes all patients from MediSaveContact
+**delete** | Deletes specified patient from MediSaveContact
+**edit** | Edits specified patient's details
+**find** | Finds patient(s) with name containing specified keyword
+**appointment** | Adds an appointment to specified patient
+**note** | Adds a note to specified patient
+**list** | Shows a list of all patients in MediSaveContact
+**help** | Shows all commands available
 
 ### Viewing help : `help`
 
@@ -98,19 +98,18 @@ list
 
 #### Outputs
 
-- Success: "Listed all persons"
+- Success: "Listed all patients"
 - Failure: List command would never result in failure
 
 ### Adding a patient: `patient`
 
-Adds a patient to the address book.
+Adds a patient to MediSaveContact.
 
 #### Command Format:
-```
-patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
-```
 
-#### Example Commands: 
+`patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]``
+
+#### Example Commands:
 ```
 patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high 
 ```
@@ -134,22 +133,20 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
 
 - Success: 
   - In GUI: New Patient appears in Patient list 
-  - In Command Feedback Box: **New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority**     
+  - In Command Feedback Box: "New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority"     
 - Failure: Error Messages above
 
-#### Duplicate handling
-- Patients are duplicates if both name and phone number match (case-insensitive). 
-- If attempting to add a duplicate patient: **This person already exists in the address book**
+<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
+Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This patient already exists in MediSaveContact"
+</div>
 
-### Adding an appointment: `appointment`
+### Adding an appointment : `appointment`
 
 Schedule an appointment for a patient.
 
 #### Command Format: 
 
-```
-appointment INDEX d/DATE t/TIME
-```
+`appointment INDEX d/DATE t/TIME`
 
 #### Example Commands:
 
@@ -169,7 +166,7 @@ appointment 1 d/15-11-2026 t/20:03
 
 - Success: 
   - In GUI: Appointment created in specified patient
-  - In Command Feedback Box: **Appointment Created at 15-11-2026 20:03!**
+  - In Command Feedback Box: "Appointment Created at 15-11-2026 20:03!"
 - Failure: Error Messages above
 
 ### Editing a person : `edit`
@@ -189,11 +186,13 @@ Examples:
 *  `edit 1 p/91234567` Edits the phone number of the 1st person to be `91234567`.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Adding a note `note`
+### Adding a note : `note`
 
 Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
 
-Command Format: `note INDEX note/NOTES`
+#### Command Format:  
+
+`note INDEX note/NOTES`
 
 Example Commands :
 ```
@@ -212,7 +211,9 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 #### Outputs
 
-- Success: "Added note to patient"
+- Success:
+  - In GUI: Note created in specified patient
+  - In Command Feedback Box: "Added note to patient"
 
 - Failure: Error messages above
 
@@ -221,17 +222,7 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
 </div>
 
-### Adding a note `view`
-
-View a patient’s record.
-
-Format: `view INDEX`
-
-Examples:
-* `view 1`
-
-
-### Locating persons by name: `find`
+### Locating patients by name : `find`
 
 Finds persons whose names contain any of the given keywords.
 
@@ -283,39 +274,42 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from MediSaveContact.
 
-Format: `clear`
+#### Command Format: 
+```
+clear
+```
 
 ### Exiting the program : `exit`
 
 Exits the program.
 
-Format: `exit`
+Command Format: 
+```
+exit
+```
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+MediSaveContact data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+MediSaveContact data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, MediSaveContact will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the application to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the data file it creates with the file that contains the data of your previous MediSaveContact home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
