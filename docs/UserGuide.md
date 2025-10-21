@@ -101,13 +101,13 @@ list
 - Success: "Listed all persons"
 - Failure: List command would never result in failure
 
-### Adding a patient: `add`
+### Adding a patient: `patient`
 
 Adds a patient to the address book.
 
 #### Command Format:
 ```
-`patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
+patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
 ```
 
 #### Example Commands: 
