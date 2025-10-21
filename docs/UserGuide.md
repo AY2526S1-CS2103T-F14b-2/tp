@@ -131,7 +131,7 @@ Note: A patient can have 0 or 1 tag
 | PHONE          | Non-digit characters | Phone number must contain digits only                                                                           |
 | PHONE          | Too short / too long | Phone number must be between 3 and 15 digits                                                                    |
 | ADDRESS        | Cannot be blank      | Address cannot be blank.                                                                                        |
-| TAG (optional) | Invalid character s  | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                       |
+| TAG (optional) | Invalid characters   | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                       |
 
 #### Outputs 
 
