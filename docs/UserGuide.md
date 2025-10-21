@@ -89,9 +89,11 @@ help
 ```
 
 #### Outputs
-A pop-up box like the one below would appear, listing the commands available, and how to use them. 
+- Success: A pop-up box like the one below would appear, listing the commands available, and how to use them. 
 
-<img src="images/helpMessage.png" alt="help message" width="50%">
+<img src="images/helpMessage.png" alt="help message" width="50%" style="margin-left: 15px">
+
+- Failure: Help command would never result in failure
 
 ### Listing all patients : `list`
 
