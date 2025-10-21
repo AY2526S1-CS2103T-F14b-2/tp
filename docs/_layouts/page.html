@@ -12,6 +12,18 @@ layout: default
     max-width: 100%;
   }
 
+  /* --- Override Jekyll theme's centered width constraint --- */
+  .post,
+  .post-content,
+  .page-content,
+  .wrapper,
+  .container {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 2rem !important; /* optional horizontal padding */
+  }
+
   .sidebar {
     position: fixed;
     top: 0;
@@ -62,9 +74,8 @@ layout: default
 
   /* --- Main Content Area --- */
   .post-content {
-    flex: 1;
-    min-width: 0;
-    padding-right: 1rem;
+    margin-left: 270px; /* sidebar width + small gap */
+    padding-right: 2rem;
   }
 
   @media (max-width: 768px) {
