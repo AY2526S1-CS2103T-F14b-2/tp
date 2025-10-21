@@ -25,6 +25,10 @@ layout: default
     padding: 0 !important;
   }
 
+  /*
+   * FIX: Apply margin to the article to push *all* content (header and container)
+   * away from the fixed sidebar.
+   */
   .post {
     margin-left: 250px;
   }
@@ -90,6 +94,7 @@ layout: default
 
   /* --- Header Adjustment --- */
   .post-header {
+    /* FIX: Reset margin/width overrides. The parent .post handles the offset. */
     margin-left: 0;
     width: auto;
     z-index: 100;
@@ -116,6 +121,7 @@ layout: default
       flex-direction: column;
     }
 
+    /* FIX: Reset the overall content offset when the sidebar is no longer fixed */
     .post {
         margin-left: 0;
     }

@@ -5,8 +5,8 @@ title: User Guide
 
 ### Rationale
 
-MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings. 
-The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage 
+MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings.
+The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage
 patient information during busy schedules.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ patient information during busy schedules.
     * `help` : Shows all commands available in the application.
 
    * `patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high` : Adds a patient named `John Tan` to MediSaveContact.
-   
+
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
    * `exit` : Exits the app.
@@ -49,7 +49,7 @@ patient information during busy schedules.
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g. `n/NAME [tag/TAG]` can be used as: 
+  e.g. `n/NAME [tag/TAG]` can be used as:
   * `n/John Doe tag/High` ✅
   * `n/John Doe` ✅
 
@@ -97,7 +97,6 @@ help
 
 ### Listing all patients : `list`
 {: #list-command }
-
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
 #### Command Format: 
@@ -126,50 +125,49 @@ patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high
 patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
 ```
 
-#### Parameters & Validation Rules 
-
+#### Parameters & Validation Rules
 <table>
-  <thead>
-    <tr>
-      <th>Parameter</th>
-      <th>Validation Rules</th>
-      <th>Error Message if Invalid </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td rowspan="2">Name</td>
-      <td>Cannot be blank </td>
-      <td>"Name cannot be blank."</td>
-    </tr>
-    <tr>
-      <td>Must contain valid characters only </td>
-      <td>"Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."</td>
-    </tr>
-    <tr>
-      <td rowspan="3">PHONE</td>
-      <td>Cannot be blank</td>
-      <td>"Phone number cannot be blank."</td>
-    </tr>
-    <tr>
-      <td>Must contain digits only</td>
-      <td>"Phone number must contain digits only."</td>
-    </tr>
-    <tr>
-      <td>Must be of valid length (3-15 digits)</td>
-      <td>"Phone number must be between 3 and 15 digits."</td>
-    </tr>
-    <tr>
-      <td rowspan="1">ADRESS</td>
-      <td>Cannot be blank </td>
-      <td>"Address cannot be blank."</td>
-    </tr>
-    <tr>
-      <td rowspan="1">TAG (Optional)</td>
-      <td>Must be low, medium and high only (case-insensitive)</td>
-      <td>"Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed""</td>
-    </tr>
-  </tbody>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td rowspan="2">Name</td>
+          <td>Cannot be blank </td>
+          <td>"Name cannot be blank."</td>
+        </tr>
+        <tr>
+          <td>Must contain valid characters only </td>
+          <td>"Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."</td>
+        </tr>
+        <tr>
+          <td rowspan="3">PHONE</td>
+          <td>Cannot be blank</td>
+          <td>"Phone number cannot be blank."</td>
+        </tr>
+        <tr>
+          <td>Must contain digits only</td>
+          <td>"Phone number must contain digits only."</td>
+        </tr>
+        <tr>
+          <td>Must be of valid length (3-15 digits)</td>
+          <td>"Phone number must be between 3 and 15 digits."</td>
+        </tr>
+        <tr>
+          <td rowspan="1">ADRESS</td>
+          <td>Cannot be blank </td>
+          <td>"Address cannot be blank."</td>
+        </tr>
+        <tr>
+          <td rowspan="1">TAG (Optional)</td>
+          <td>Must be low, medium and high only (case-insensitive)</td>
+          <td>"Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed""</td>
+        </tr>
+    </tbody>
 </table>
 
 #### Outputs 
