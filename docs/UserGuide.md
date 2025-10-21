@@ -85,7 +85,7 @@ Format: `help`
 
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
-Format: 
+#### Command Format: 
 ```
 list
 ```
