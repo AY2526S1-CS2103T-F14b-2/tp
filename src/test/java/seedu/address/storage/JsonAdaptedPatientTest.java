@@ -10,7 +10,14 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.*;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Caretaker;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Note;
+import seedu.address.model.person.Patient;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.testutil.PatientBuilder;
 
 public class JsonAdaptedPatientTest {

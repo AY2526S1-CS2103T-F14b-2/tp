@@ -1,11 +1,15 @@
 package seedu.address.model.person;
 
-import seedu.address.commons.util.ToStringBuilder;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import seedu.address.commons.util.ToStringBuilder;
 
+/**
+ * Represents a Caretaker in the address book.
+ * Guarantees: details are present and not null, field values are validated, immutable.
+ */
 public class Caretaker extends Person {
     private final Relationship relationship;
 
@@ -27,6 +31,10 @@ public class Caretaker extends Person {
         return this.relationship;
     }
 
+    /**
+     * Returns true if both caretakers have the same identity and data fields.
+     * This defines a stronger notion of equality between two persons.
+     */
     public boolean equals(Object other) {
         if (other == this) {
             return true;

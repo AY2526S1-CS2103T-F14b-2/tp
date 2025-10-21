@@ -7,10 +7,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDE
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPatients.BOB;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +18,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.*;
+import seedu.address.model.person.Caretaker;
+import seedu.address.model.person.Patient;
+import seedu.address.model.person.Person;
 import seedu.address.testutil.CaretakerBuilder;
 import seedu.address.testutil.PatientBuilder;
 import seedu.address.testutil.PersonBuilder;

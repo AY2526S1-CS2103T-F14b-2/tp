@@ -1,13 +1,16 @@
 package seedu.address.testutil;
 
-import seedu.address.model.AddressBook;
-import seedu.address.model.person.Caretaker;
-import seedu.address.model.person.Person;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import seedu.address.model.AddressBook;
+import seedu.address.model.person.Caretaker;
+import seedu.address.model.person.Person;
+
+/**
+ * A utility class containing a list of {@code Caretaker} objects to be used in tests.
+ */
 public class TypicalCaretakers {
     public static final Caretaker ALEXENDRA = new CaretakerBuilder().withName("Alexendra")
             .withAddress("123, Jurong West Ave 6, #08-111")

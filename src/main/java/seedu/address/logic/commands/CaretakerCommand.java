@@ -18,6 +18,9 @@ import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
+/**
+ * Adds a caretaker to a specified patient in the address book.
+ */
 public class CaretakerCommand extends Command {
     public static final String COMMAND_WORD = "caretaker";
 
