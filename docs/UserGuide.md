@@ -215,7 +215,7 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 #### Outputs
 
-- Success: Added note to patient
+- Success: "Added note to patient"
 
 - Failure: Error messages above
 
