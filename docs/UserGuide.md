@@ -101,13 +101,13 @@ list
 - Success: "Listed all persons"
 - Failure: List command would never result in failure
 
-### Adding a patient: `add`
+### Adding a patient: `patient`
 
 Adds a patient to the address book.
 
 #### Command Format:
 ```
-`patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
+patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
 ```
 
 #### Example Commands: 
@@ -117,8 +117,6 @@ patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high
 ```
 patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
 ```
-
-Note: A patient can have 0 or 1 tag
 
 #### Parameters & Validation Rules 
 
@@ -143,41 +141,36 @@ Note: A patient can have 0 or 1 tag
 - Patients are duplicates if both name and phone number match (case-insensitive). 
 - If attempting to add a duplicate patient: **This person already exists in the address book**
 
-
-
 ### Adding an appointment: `appointment`
 
 Schedule an appointment for a patient.
 
-Format: `appointment INDEX d/DATE t/TIME`
+#### Command Format: 
 
-Examples:
-* `appointment 1 d/15-11-2025 t/20:03`
+```
+appointment INDEX d/DATE t/TIME
+```
+
+#### Example Commands:
+
+```
+appointment 1 d/15-11-2026 t/20:03
+```
 
 #### Parameters & Validation Rules
 
-| Parameter | Validation Rules | Error Message if Invalid | Rationale |
-| --- | --- | --- | --- |
-| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" | Ensures correct patient reference |
-| DATE | Must follow DD-MM-YYYY format<br>Must be today or later | "Invalid date. Must follow DD-MM-YYYY format!"<br>"Appointment cannot be set in the past!" | Prevents scheduling in the past |
-| TIME | Must follow HH:MM 24-hour format<br>If the appointment is today, time must be later than the current time | "Invalid time. Must follow HH:MM 24-hour format!"<br>"Appointment cannot be set in the past!" | Prevents scheduling in the past |
+| Parameter | Validation Rules | Error Message if Invalid |
+| --- | --- | --- |
+| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+| DATE | Must follow DD-MM-YYYY format<br>Must be today or later | "Invalid date. Must follow DD-MM-YYYY format!"<br>"Appointment cannot be set in the past!" |
+| TIME | Must follow HH:MM 24-hour format<br>If the appointment is today, time must be later than the current time | "Invalid time. Must follow HH:MM 24-hour format!"<br>"Appointment cannot be set in the past!" |
 
 #### Outputs
 
-- Success: Appointment Created at 15-11-2025 20:03!
-
-- Failure: Error messages above
-
-#### Duplicate handling: 
-
-- Not Applicable
-
-#### Possible errors:
-
-- Missing date/time
-- Missing index
-- More than one date/time or index
-- Wong argument order
+- Success: 
+  - In GUI: Appointment created in specified patient
+  - In Command Feedback Box: **Appointment Created at 15-11-2026 20:03!**
+- Failure: Error Messages above
 
 ### Editing a person : `edit`
 
