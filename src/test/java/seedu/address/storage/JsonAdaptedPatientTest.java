@@ -13,10 +13,12 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.testutil.PatientBuilder;
 
 public class JsonAdaptedPatientTest {
@@ -27,24 +29,27 @@ public class JsonAdaptedPatientTest {
     private static final List<List<String>> VALID_APPOINTMENTS = Arrays.asList(
         Arrays.asList("31-12-2025", "14:30"));
     private static final String VALID_NOTE = "Allergic to peanuts";
+    private static final String VALID_RELATIONSHIP = "FATHER";
     private static final JsonAdaptedTag VALID_TAG = new JsonAdaptedTag("medium");
+    private static final JsonAdaptedCaretaker VALID_CARETAKER = new JsonAdaptedCaretaker(VALID_NAME,
+            VALID_PHONE, VALID_ADDRESS, VALID_RELATIONSHIP);
 
     @Test
     public void toModelType_validPatientDetails_returnsPatient() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            VALID_APPOINTMENTS, VALID_NOTE, null, VALID_TAG);
-        List<Appointment> expectedAppointments = new ArrayList<>();
-        expectedAppointments.add(new Appointment("31-12-2025", "14:30"));
+                VALID_APPOINTMENTS, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         Patient expectedPatient = new Patient(new Name(VALID_NAME), new Phone(VALID_PHONE),
-            new Address(VALID_ADDRESS), VALID_TAG.toModelType(),
-            new Note(VALID_NOTE), expectedAppointments);
+                new Address(VALID_ADDRESS), VALID_TAG.toModelType(),
+                new Note(VALID_NOTE), new Appointment("31-12-2025", "14:30"),
+                new Caretaker(new Name(VALID_NAME), new Phone(VALID_PHONE),
+                new Address(VALID_ADDRESS), new Relationship(VALID_RELATIONSHIP)));
         assertEquals(expectedPatient, patient.toModelType());
     }
 
     @Test
     public void toModelType_nullAppointment_returnsPatientWithNoAppointment() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                null, VALID_NOTE, null, VALID_TAG);
+                null, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
         assertTrue(result.getAppointment().isEmpty());
     }
@@ -52,7 +57,7 @@ public class JsonAdaptedPatientTest {
     @Test
     public void toModelType_nullNote_returnsPatientWithDefaultNote() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            VALID_APPOINTMENTS, null, null, VALID_TAG);
+                VALID_APPOINTMENTS, null, null, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
         assertEquals(new Note("NIL"), result.getNote());
     }
@@ -62,7 +67,7 @@ public class JsonAdaptedPatientTest {
         List<List<String>> invalidAppointments = Arrays.asList(
             Arrays.asList("   ", "   "));
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            invalidAppointments, VALID_NOTE, null, VALID_TAG);
+                invalidAppointments, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         assertThrows(IllegalValueException.class, patient::toModelType);
     }
 
@@ -71,7 +76,7 @@ public class JsonAdaptedPatientTest {
         List<List<String>> invalidAppointments = Arrays.asList(
             Arrays.asList("invalid-date", "invalid-time"));
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            invalidAppointments, VALID_NOTE, null, VALID_TAG);
+                invalidAppointments, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         assertThrows(IllegalValueException.class, patient::toModelType);
     }
 
@@ -80,7 +85,7 @@ public class JsonAdaptedPatientTest {
         List<List<String>> invalidAppointments = Arrays.asList(
             Arrays.asList("31-12-2025"));
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            invalidAppointments, VALID_NOTE, null, VALID_TAG);
+                invalidAppointments, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         assertThrows(IllegalValueException.class, patient::toModelType);
     }
 
@@ -90,7 +95,7 @@ public class JsonAdaptedPatientTest {
             Arrays.asList("invalid-date", "14:30"),
             Arrays.asList("31-12-2025", "invalid-time"));
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            invalidAppointments, VALID_NOTE, null, VALID_TAG);
+                invalidAppointments, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         assertThrows(IllegalValueException.class, patient::toModelType);
     }
 
@@ -142,7 +147,7 @@ public class JsonAdaptedPatientTest {
         notes.add("Third note");
 
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            VALID_APPOINTMENTS, null, notes, VALID_TAG);
+                VALID_APPOINTMENTS, null, notes, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
 
         assertEquals(3, result.getNotes().size());
@@ -159,7 +164,7 @@ public class JsonAdaptedPatientTest {
         notes.add("Another valid note");
 
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            VALID_APPOINTMENTS, null, notes, VALID_TAG);
+                VALID_APPOINTMENTS, null, notes, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
 
         assertEquals(2, result.getNotes().size());
@@ -175,7 +180,7 @@ public class JsonAdaptedPatientTest {
         notes.add("Another valid note");
 
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            VALID_APPOINTMENTS, null, notes, VALID_TAG);
+                VALID_APPOINTMENTS, null, notes, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
 
         assertEquals(2, result.getNotes().size());
@@ -204,7 +209,7 @@ public class JsonAdaptedPatientTest {
     public void toModelType_backwardCompatibility_singleNoteToList() throws Exception {
         // Test backward compatibility: single note parameter should be converted to notes list
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-            VALID_APPOINTMENTS, VALID_NOTE, null, VALID_TAG);
+                VALID_APPOINTMENTS, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
 
         assertEquals(1, result.getNotes().size());
@@ -218,7 +223,7 @@ public class JsonAdaptedPatientTest {
         notes.add("Note from list");
 
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
-                VALID_APPOINTMENTS, "Single note", notes, VALID_TAG);
+                VALID_APPOINTMENTS, "Single note", notes, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
 
         assertEquals(1, result.getNotes().size());
