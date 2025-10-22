@@ -11,8 +11,8 @@ import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.model.person.Patient;
+import seedu.address.testutil.PatientBuilder;
 
 
 
@@ -29,21 +29,21 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
-    public void execute_newPerson_success() {
-        Person validPerson = new PersonBuilder().build();
+    public void execute_newPatient_success() {
+        Patient validPatient = new PatientBuilder().build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.addPerson(validPerson);
+        expectedModel.addPerson(validPatient);
 
-        assertCommandSuccess(new AddCommand(validPerson), model,
-                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
+        assertCommandSuccess(new AddCommand(validPatient), model,
+                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPatient)),
                 expectedModel);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Person personInList = model.getAddressBook().getPersonList().get(0);
-        assertCommandFailure(new AddCommand(personInList), model,
+    public void execute_duplicatePatient_throwsCommandException() {
+        Patient patientInList = (Patient) model.getAddressBook().getPersonList().get(0);
+        assertCommandFailure(new AddCommand(patientInList), model,
                 AddCommand.MESSAGE_DUPLICATE_PERSON);
     }
 
