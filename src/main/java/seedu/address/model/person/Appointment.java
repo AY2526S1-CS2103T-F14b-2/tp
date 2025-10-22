@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
+import java.util.Optional;
 
 
 /**
@@ -24,19 +26,23 @@ public class Appointment {
 
     private final LocalDate date;
     private final LocalTime time;
+    private final Note desc;
 
     /**
      * Constructs an {@code Appointment}.
      *
      * @param date A valid date.
      * @param time A valid time.
+     * @param desc A valid note.
      */
-    public Appointment(String date, String time) {
+    public Appointment(String date, String time, Note desc) {
         requireNonNull(date);
         requireNonNull(time);
+
         try {
             this.date = LocalDate.parse(date, DATE_FORMATTER);
             this.time = LocalTime.parse(time, TIME_FORMATTER);
+            this.desc = desc;
             LocalDateTime appointmentDateTime = LocalDateTime.of(this.date, this.time);
             if (appointmentDateTime.isBefore(LocalDateTime.now())) {
                 throw new IllegalArgumentException(MESSAGE_PAST_APPOINTMENT);
@@ -44,6 +50,10 @@ public class Appointment {
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }
+    }
+
+    public Appointment(String date, String time) {
+        this(date, time, null);
     }
 
     /**
@@ -63,7 +73,16 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return date.format(DATE_FORMATTER) + " " + time.format(TIME_FORMATTER);
+        StringBuilder builder = new StringBuilder()
+            .append(date.format(DATE_FORMATTER))
+            .append(" ")
+            .append(time.format(TIME_FORMATTER));
+
+        if (desc != null) {
+            builder.append(" ").append(desc);
+        }
+
+        return builder.toString();
     }
 
     /**
@@ -82,6 +101,10 @@ public class Appointment {
         return time.format(TIME_FORMATTER);
     }
 
+    public Optional<Note> getNote() {
+        return Optional.ofNullable(desc);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -94,12 +117,14 @@ public class Appointment {
         }
 
         Appointment otherAppointment = (Appointment) other;
-        return date.equals(otherAppointment.date) && time.equals(otherAppointment.time);
+    return date.equals(otherAppointment.date)
+        && time.equals(otherAppointment.time)
+        && Objects.equals(desc, otherAppointment.desc);
     }
 
     @Override
     public int hashCode() {
-        return date.hashCode() + time.hashCode();
+    return Objects.hash(date, time, desc);
     }
 
 }
