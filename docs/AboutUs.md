@@ -16,9 +16,8 @@ We are a team based in the [School of Computing, National University of Singapor
 
 * Role: Team Lead
 * Responsibilities:
-    * Make key project decisions 
-    * Ensure project milestones are met and deliverables are completed on time
-    * Facilitate team meetings 
+    * Make key project decisions    * Ensure project milestones are met and deliverables are completed on time
+    * Facilitate team meetings
 
 
 ### Pek Yiheng
