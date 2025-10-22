@@ -133,7 +133,7 @@ public class ModelManagerTest {
         addressBook.addPerson(patient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
 
-        Patient updated = manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME);
+        Patient updated = manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME, null);
 
         assertEquals(1, updated.getAppointment().size());
         assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updated.getAppointment().get(0));
@@ -149,7 +149,7 @@ public class ModelManagerTest {
         addressBook.addPerson(patient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
 
-        assertThrows(IllegalArgumentException.class, () -> manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME));
+        assertThrows(IllegalArgumentException.class, () -> manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME, null));
     }
 
     @Test
@@ -161,7 +161,24 @@ public class ModelManagerTest {
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
 
         assertThrows(IllegalArgumentException.class, () ->
-            manager.addAppointment(nonPatient, FUTURE_DATE, FUTURE_TIME));
+            manager.addAppointment(nonPatient, FUTURE_DATE, FUTURE_TIME, null));
+    }
+
+    @Test
+    public void addAppointment_patientWithNote_appointmentWithNoteAdded() {
+        Patient patient = new PatientBuilder().build();
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(patient);
+        ModelManager manager = new ModelManager(addressBook, new UserPrefs());
+        seedu.address.model.person.Note testNote = new seedu.address.model.person.Note("Follow-up visit");
+
+        Patient updated = manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME, testNote);
+
+        assertEquals(1, updated.getAppointment().size());
+        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME, testNote), updated.getAppointment().get(0));
+        Patient storedPatient = (Patient) manager.getFilteredPersonList().get(0);
+        assertEquals(1, storedPatient.getAppointment().size());
+        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME, testNote), storedPatient.getAppointment().get(0));
     }
 
     @Test

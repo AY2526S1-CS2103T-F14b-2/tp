@@ -91,10 +91,10 @@ public class AddAppointmentCommand extends Command {
         }
 
         AddAppointmentCommand otherAppt = (AddAppointmentCommand) other;
-    return targetIndex.equals(otherAppt.targetIndex)
-        && date.equals(otherAppt.date)
-        && time.equals(otherAppt.time)
-        && desc.equals(otherAppt.desc);
+        return targetIndex.equals(otherAppt.targetIndex)
+                && date.equals(otherAppt.date)
+                && time.equals(otherAppt.time)
+                && Objects.equals(desc, otherAppt.desc);
     }
 
     @Override

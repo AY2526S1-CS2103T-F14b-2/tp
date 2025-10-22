@@ -168,7 +168,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public seedu.address.model.person.Patient addAppointment(Person person, String date, String time) {
+        public seedu.address.model.person.Patient addAppointment(Person person, String date, String time, 
+                seedu.address.model.person.Note desc) {
             throw new AssertionError("This method should not be called.");
         }
     }
