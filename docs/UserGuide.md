@@ -5,8 +5,8 @@ title: User Guide
 
 ### Rationale
 
-MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings. 
-The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage 
+MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings.
+The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage
 patient information during busy schedules.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ patient information during busy schedules.
     * `help` : Shows all commands available in the application.
 
    * `patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high` : Adds a patient named `John Tan` to MediSaveContact.
-   
+
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
    * `exit` : Exits the app.
@@ -49,7 +49,7 @@ patient information during busy schedules.
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g. `n/NAME [tag/TAG]` can be used as: 
+  e.g. `n/NAME [tag/TAG]` can be used as:
   * `n/John Doe tag/High` ✅
   * `n/John Doe` ✅
 
@@ -83,13 +83,20 @@ Action | Description
 
 Shows all commands available in the application.
 
-<img src="images/helpMessage.png" alt="help message" width="50%">
+#### Command Format:
+```
+help
+```
 
-Format: `help`
+#### Outputs
+- Success: A pop-up box like the one below would appear, listing the commands available, and how to use them. 
+
+<img src="images/helpMessage.png" alt="help message" width="50%" style="margin-left: 15px">
+
+- Failure: Help command would never result in failure
 
 ### Listing all patients : `list`
 {: #list-command }
-
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
 #### Command Format: 
@@ -118,17 +125,50 @@ patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high
 patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
 ```
 
-#### Parameters & Validation Rules 
-
-| Parameter      | Validation Rules                                     | Error Message if Invalid                                                                                         | 
-|----------------|------------------------------------------------------|------------------------------------------------------------------------------------------------------------------| 
-| NAME           | Cannot be blank                                      | Name cannot be blank.                                                                                            | 
-| NAME           | Must contain valid characters only                   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.   |                   
-| PHONE          | Cannot be blank                                      | Phone number cannot be blank                                                                                     |
-| PHONE          | Must contain digits only                             | Phone number must contain digits only                                                                            |
-| PHONE          | Must be of valid length (3-15 digits)                | Phone number must be between 3 and 15 digits                                                                     |
-| ADDRESS        | Cannot be blank                                      | Address cannot be blank.                                                                                         |
-| TAG (optional) | Must be low, medium and high only (case-insensitive) | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                        |
+#### Parameters & Validation Rules
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td rowspan="2">Name</td>
+          <td>Cannot be blank </td>
+          <td>"Name cannot be blank."</td>
+        </tr>
+        <tr>
+          <td>Must contain valid characters only </td>
+          <td>"Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."</td>
+        </tr>
+        <tr>
+          <td rowspan="3">PHONE</td>
+          <td>Cannot be blank</td>
+          <td>"Phone number cannot be blank."</td>
+        </tr>
+        <tr>
+          <td>Must contain digits only</td>
+          <td>"Phone number must contain digits only."</td>
+        </tr>
+        <tr>
+          <td>Must be of valid length (3-15 digits)</td>
+          <td>"Phone number must be between 3 and 15 digits."</td>
+        </tr>
+        <tr>
+          <td rowspan="1">ADRESS</td>
+          <td>Cannot be blank </td>
+          <td>"Address cannot be blank."</td>
+        </tr>
+        <tr>
+          <td rowspan="1">TAG (Optional)</td>
+          <td>Must be low, medium and high only (case-insensitive)</td>
+          <td>"Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed""</td>
+        </tr>
+    </tbody>
+</table>
 
 #### Outputs 
 
@@ -157,11 +197,44 @@ appointment 1 d/15/Deleting -11-2026 t/20:03
 
 #### Parameters & Validation Rules
 
-| Parameter | Validation Rules | Error Message if Invalid |
-| --- | --- | --- |
-| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
-| DATE | Must follow DD-MM-YYYY format<br>Must be today or later | "Invalid date. Must follow DD-MM-YYYY format!"<br>"Appointment cannot be set in the past!" |
-| TIME | Must follow HH:MM 24-hour format<br>If the appointment is today, time must be later than the current time | "Invalid time. Must follow HH:MM 24-hour format!"<br>"Appointment cannot be set in the past!" |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">INDEX</td>
+      <td>Must exist in patient list </td>
+      <td>"Index number does not exist in address book list!"</td>
+    </tr>
+    <tr>
+      <td>Must be a positive integer</td>
+      <td>"Index number must be a positive integer!"</td>
+    </tr>
+    <tr>
+      <td rowspan="2">DATE</td>
+      <td>Must follow DD-MM-YYYY format</td>
+      <td>"Invalid date. Must follow DD-MM-YYYY format!"</td>
+    </tr>
+    <tr>
+      <td>Must be today or later</td>
+      <td>"Appointment cannot be set in the past!"</td>
+    </tr>
+    <tr>
+      <td rowspan="2">TIME</td>
+      <td>	Must follow HH:MM 24-hour format</td>
+      <td>“Invalid time. Must follow HH:MM 24-hour format!”</td>
+    </tr>
+    <tr>
+      <td>If the appointment is today, time must be later than the current time</td>
+      <td>"Appointment cannot be set in the past!"</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Outputs
 
@@ -205,10 +278,35 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 #### Parameters & Validation Rules
 
-| Parameter | Validation Rules | Error Message if Invalid |
-| --- | --- | --- |
-| INDEX | Must exist in patient list<br>Must be a positive integer | "The person index provided is invalid"<br>"Invalid command format!" |
-| NOTES | Max 200 characters<br>Cannot be empty or whitespace only<br>Accepts any characters | "Note exceeds maximum length of 200 characters."<br>"Note cannot be empty." |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">INDEX</td>
+      <td>Must exist in patient list </td>
+      <td>"The person index provided is invalid"</td>
+    </tr>
+    <tr>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"</td>
+    </tr>
+    <tr>
+      <td rowspan="2">NOTES</td>
+      <td>Max 200 characters</td>
+      <td>“Note exceeds maximum length of 200 characters.”</td>
+    </tr>
+    <tr>
+      <td>Cannot be empty or whitespace only</td>
+      <td>“Note cannot be empty.”</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Outputs
 
@@ -279,9 +377,27 @@ delete 1
 
 #### Parameters & Validation Rules
 
-| Parameter | Validation Rules | Error Message if Invalid |
-| --- | --- | --- |
-| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">INDEX</td>
+      <td>Must exist in patient list </td>
+      <td>“Index number does not exist in address book list!”</td>
+    </tr>
+    <tr>
+      <td>Must be a positive integer</td>
+      <td>“Index number must be a positive integer!”</td>
+    </tr>
+
+  </tbody>
+</table>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Run [list](#list-command) command to view the respective index for each patient.

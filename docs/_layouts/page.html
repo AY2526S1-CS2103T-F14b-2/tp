@@ -3,22 +3,49 @@ layout: default
 ---
 
 <style>
-  /* --- Layout Structure --- */
+  /* --- Overall Layout --- */
   .page-container {
     display: flex;
-    gap: 2rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
   }
 
+  /* --- Override theme constraints --- */
+  .post,
+  .post-content,
+  .page-content,
+  .wrapper,
+  .container {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /*
+   * FIX: Apply margin to the article to push *all* content (header and container)
+   * away from the fixed sidebar.
+   */
+  .post {
+    margin-left: 250px;
+  }
+
+  /* --- Sidebar --- */
   .sidebar {
-    flex: 0 0 250px;
-    max-height: calc(100vh - 4rem);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
     overflow-y: auto;
-    position: sticky;
-    top: 2rem;
-    padding: 1rem;
+    padding: 1.2rem;
     border-right: 1px solid #e0e0e0;
     background-color: #fafafa;
     font-size: 0.9rem;
+    z-index: 1000;
   }
 
   .sidebar h2 {
@@ -39,28 +66,83 @@ layout: default
   .sidebar a {
     text-decoration: none;
     color: #0366d6;
+    transition: color 0.2s ease;
   }
 
   .sidebar a:hover {
     text-decoration: underline;
   }
 
+  .sidebar a.active {
+    font-weight: bold;
+    color: #d35400;
+    border-left: 3px solid #d35400;
+    padding-left: 0.5rem;
+    background-color: #fff7ef;
+  }
+
   /* --- Main Content Area --- */
   .post-content {
     flex: 1;
-    min-width: 0;
+    /* FIX: Reset margin-left, as the parent .post now handles the offset */
+    margin-left: 0;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  /* --- Header Adjustment --- */
+  .post-header {
+    /* FIX: Reset margin/width overrides. The parent .post handles the offset. */
+    margin-left: 0;
+    width: auto;
+    z-index: 100;
+    padding: 2rem 2rem 0; /* Add back internal padding for the title */
+  }
+
+  /* Inner wrapper for readability width */
+  .content-wrapper {
+    width: 80%;
+    max-width: 1000px;
+    min-width: 600px;
+  }
+
+  /* --- Responsive behavior --- */
+  @media (max-width: 1024px) {
+    .content-wrapper {
+      width: 90%;
+      min-width: unset;
+    }
   }
 
   @media (max-width: 768px) {
     .page-container {
       flex-direction: column;
     }
+
+    /* FIX: Reset the overall content offset when the sidebar is no longer fixed */
+    .post {
+        margin-left: 0;
+    }
+
     .sidebar {
       position: relative;
+      width: 100%;
+      height: auto;
       border-right: none;
       border-bottom: 1px solid #e0e0e0;
-      max-height: none;
-      background-color: transparent;
+      background-color: #fdfdfd;
+    }
+
+    .post-content {
+      margin-left: 0;
+      justify-content: flex-start;
+      padding: 1.5rem;
+    }
+
+    .content-wrapper {
+      width: 100%;
     }
   }
 </style>
@@ -71,26 +153,26 @@ layout: default
   </header>
 
   <div class="page-container">
-    <!-- Sidebar Navigation -->
     <nav class="sidebar" id="sidebar">
       <h2>On this page</h2>
       <ul id="toc-list">
-        <!-- JS will populate links here -->
       </ul>
     </nav>
 
-    <!-- Main Page Content -->
     <div class="post-content">
-      {{ content }}
+      <div class="content-wrapper">
+        {{ content }}
+      </div>
     </div>
   </div>
 </article>
 
 <script>
-  // Generate sidebar navigation dynamically from headers
   document.addEventListener("DOMContentLoaded", () => {
     const tocList = document.getElementById("toc-list");
     const headers = document.querySelectorAll(".post-content h2, .post-content h3");
+
+    // --- Populate the sidebar dynamically ---
     headers.forEach(h => {
       const id = h.id || h.textContent.trim().replace(/\s+/g, "-").toLowerCase();
       h.id = id;
@@ -98,6 +180,34 @@ layout: default
       if (h.tagName === "H3") li.style.marginLeft = "1rem";
       li.innerHTML = `<a href="#${id}">${h.textContent}</a>`;
       tocList.appendChild(li);
+    });
+
+    const navLinks = tocList.querySelectorAll("a");
+
+    // --- Smooth scrolling ---
+    document.documentElement.style.scrollBehavior = "smooth";
+
+    // --- ScrollSpy (highlighting current section) ---
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.find(e => e.isIntersecting);
+      if (!visible) return;
+
+      navLinks.forEach(link => link.classList.remove("active"));
+      const activeLink = tocList.querySelector(`a[href="#${visible.target.id}"]`);
+      if (activeLink) activeLink.classList.add("active");
+    }, {
+      rootMargin: "-40% 0px -50% 0px",
+      threshold: [0, 0.25, 0.5, 1.0]
+    });
+
+    headers.forEach(h => observer.observe(h));
+
+    // --- Highlight immediately when clicking ---
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+      });
     });
   });
 </script>
