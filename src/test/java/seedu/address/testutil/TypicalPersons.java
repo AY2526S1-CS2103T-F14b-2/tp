@@ -23,7 +23,7 @@
 // */
 //public class TypicalPersons {
 //
-//    public static final Person ALICE = new PersonBuilder().withName("Alice Pauline")
+//    public static final Person ALICE = new PatientBuilder().withName("Alice Pauline")
 //            .withAddress("123, Jurong West Ave 6, #08-111").withPhone("94351253")
 //            .build();
 //    public static final Person BENSON = new PersonBuilder().withName("Benson Meier")

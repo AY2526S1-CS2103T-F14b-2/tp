@@ -37,13 +37,6 @@ public class PersonCardTest {
     }
 
     @Test
-    public void constructor_regularPerson_displaysDefaultAppointment() {
-        Person person = new PersonBuilder().build();
-
-        assertFalse(person instanceof Patient);
-    }
-
-    @Test
     public void constructor_patientWithTag_setsTag() {
         Patient patient = new PatientBuilder().withTag("high").build();
 

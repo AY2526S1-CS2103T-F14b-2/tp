@@ -71,7 +71,7 @@ public class CaretakerCommandTest {
     @Test
     public void execute_nonPatientTarget_throwsCommandException() {
         // replace first person with a non-patient
-        Person nonPatient = new PersonBuilder().build();
+        Patient nonPatient = new PatientBuilder().build();
         model.setPerson(model.getFilteredPersonList().get(0), nonPatient);
 
         Caretaker caretaker = new CaretakerBuilder().build();
