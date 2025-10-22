@@ -56,9 +56,13 @@ public class NoteCommandTest {
             expectedNote = new Note(NOTE_STUB);
         }
 
+        List<Note> notesList = new ArrayList<>(firstPatient.getNotes());
+        if (expectedNote != null) {
+            notesList.add(expectedNote);
+        }
         Patient editedPatient = new Patient(firstPatient.getName(), firstPatient.getPhone(),
                 firstPatient.getAddress(), firstPatient.getTag().orElse(null),
-                expectedNote, firstPatient.getAppointment(), firstPatient.getCaretaker());
+                notesList, firstPatient.getAppointment(), firstPatient.getCaretaker());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 

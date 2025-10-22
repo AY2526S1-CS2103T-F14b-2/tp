@@ -39,9 +39,13 @@ public class JsonAdaptedPatientTest {
     public void toModelType_validPatientDetails_returnsPatient() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
                 VALID_APPOINTMENTS, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
+        List<Note> expectedNotes = new ArrayList<>();
+        expectedNotes.add(new Note(VALID_NOTE));
+        List<Appointment> expectedAppointments = new ArrayList<>();
+        expectedAppointments.add(new Appointment("31-12-2025", "14:30"));
         Patient expectedPatient = new Patient(new Name(VALID_NAME), new Phone(VALID_PHONE),
                 new Address(VALID_ADDRESS), VALID_TAG.toModelType(),
-                new Note(VALID_NOTE), new Appointment("31-12-2025", "14:30"),
+                expectedNotes, expectedAppointments,
                 new Caretaker(new Name(VALID_NAME), new Phone(VALID_PHONE),
                 new Address(VALID_ADDRESS), new Relationship(VALID_RELATIONSHIP)));
         assertEquals(expectedPatient, patient.toModelType());

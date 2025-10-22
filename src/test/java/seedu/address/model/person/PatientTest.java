@@ -121,7 +121,7 @@ public class PatientTest {
         notes.add(new Note("Third note"));
 
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTag().orElse(null), notes);
+                ALICE.getTag().orElse(null), notes, new ArrayList<>());
 
         assertEquals(3, patient.getNotes().size());
         assertEquals("First note", patient.getNotes().get(0).value);
@@ -150,13 +150,13 @@ public class PatientTest {
     @Test
     public void constructor_nullNotes_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new Patient(ALICE.getName(), ALICE.getPhone(),
-                ALICE.getAddress(), ALICE.getTag().orElse(null), (List<Note>) null));
+                ALICE.getAddress(), ALICE.getTag().orElse(null), (List<Note>) null, new ArrayList<>()));
     }
 
     @Test
     public void constructor_nullNote_createsPatientWithoutNote() {
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(),
-                ALICE.getAddress(), ALICE.getTag().orElse(null), (Note) null);
+                ALICE.getAddress(), ALICE.getTag().orElse(null), new ArrayList<>(), new ArrayList<>());
         assertTrue(patient.getNotes().isEmpty());
         assertNull(patient.getNote());
     }
@@ -217,7 +217,7 @@ public class PatientTest {
         List<Note> originalNotes = new ArrayList<>();
         originalNotes.add(new Note("Original note"));
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTag().orElse(null), originalNotes);
+                ALICE.getTag().orElse(null), originalNotes, new ArrayList<>());
 
         List<Note> returnedNotes = patient.getNotes();
 
