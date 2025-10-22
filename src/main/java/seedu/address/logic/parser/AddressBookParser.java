@@ -92,6 +92,9 @@ public class AddressBookParser {
         case CaretakerCommand.COMMAND_WORD:
             return new CaretakerCommandParser().parse(arguments);
 
+        case UndoCommand.COMMAND_WORD:
+            return new UndoCommand();
+
         default:
             logger.finer(() -> "This user input caused a ParseException: " + userInput);
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
