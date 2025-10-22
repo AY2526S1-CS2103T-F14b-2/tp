@@ -68,6 +68,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
                     List<String> apptDetails = new ArrayList<>();
                     apptDetails.add(eachAppt.getDate());
                     apptDetails.add(eachAppt.getTime());
+                    eachAppt.getNote().ifPresent(note -> apptDetails.add(note.value));
                     return apptDetails;
                 })
                 .collect(Collectors.toList());
@@ -91,11 +92,16 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
                 }
                 String date = apptDetails.get(0);
                 String time = apptDetails.get(1);
+                String desc = apptDetails.size() > 2 ? apptDetails.get(2) : null;
                 if (date == null || time == null) {
                     throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
                 }
                 try {
-                    modelAppointment.add(new Appointment(date, time));
+                    if (desc == null) {
+                        modelAppointment.add(new Appointment(date, time));
+                    } else {
+                        modelAppointment.add(new Appointment(date, time, new Note(desc)));
+                    }
                 } catch (IllegalArgumentException ex) {
                     throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
                 }
