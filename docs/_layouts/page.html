@@ -3,6 +3,13 @@ layout: default
 ---
 
 <style>
+  :root {
+    --sidebar-width: 260px;
+    --content-gutter: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+    --content-max-width: 960px;
+    --sidebar-gap: 1.75rem;
+  }
+
   /* --- Overall Layout --- */
   .page-container {
     display: flex;
@@ -11,6 +18,8 @@ layout: default
     width: 100%;
     max-width: 100%;
     position: relative;
+    box-sizing: border-box;
+    padding: 0 var(--content-gutter) 4rem calc(var(--sidebar-width) + var(--content-gutter) + var(--sidebar-gap));
   }
 
   /* --- Override theme constraints --- */
@@ -25,12 +34,8 @@ layout: default
     padding: 0 !important;
   }
 
-  /*
-   * FIX: Apply margin to the article to push *all* content (header and container)
-   * away from the fixed sidebar.
-   */
   .post {
-    margin-left: 250px;
+    box-sizing: border-box;
   }
 
   /* --- Sidebar --- */
@@ -39,9 +44,9 @@ layout: default
     top: 0;
     left: 0;
     height: 100vh;
-    width: 250px;
+    width: var(--sidebar-width);
     overflow-y: auto;
-    padding: 1.2rem;
+    padding: 1.5rem 1.25rem;
     border-right: 1px solid #e0e0e0;
     background-color: #fafafa;
     font-size: 0.9rem;
@@ -81,49 +86,102 @@ layout: default
     background-color: #fff7ef;
   }
 
-  /* --- Main Content Area --- */
-  .post-content {
-    flex: 1;
-    /* FIX: Reset margin-left, as the parent .post now handles the offset */
-    margin-left: 0;
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
+  /* --- Header Adjustment --- */
+  .site-header {
+    padding: 1.5rem var(--content-gutter) 1rem calc(var(--sidebar-width) + var(--content-gutter) + var(--sidebar-gap));
     box-sizing: border-box;
   }
 
-  /* --- Header Adjustment --- */
-  .post-header {
-    /* FIX: Reset margin/width overrides. The parent .post handles the offset. */
+  .site-header .wrapper {
+    max-width: var(--content-max-width);
+    width: min(100%, var(--content-max-width));
+    margin: 0;
+    margin-right: auto;
     margin-left: 0;
-    width: auto;
-    z-index: 100;
-    padding: 2rem 2rem 0; /* Add back internal padding for the title */
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
   }
 
-  /* Inner wrapper for readability width */
+  .site-header .site-title {
+    margin: 0;
+  }
+
+  .site-header .site-nav {
+    margin-left: auto;
+    float: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .site-header .trigger {
+    gap: 0.75rem;
+  }
+
+  /* --- Article content --- */
+  .post-header {
+    padding: 2.5rem var(--content-gutter) 1.5rem calc(var(--sidebar-width) + var(--content-gutter) + var(--sidebar-gap));
+    margin: 0;
+    width: auto;
+    z-index: 100;
+  }
+
+  .post-title {
+    margin: 0;
+  }
+
+  .post-content {
+    flex: 1;
+    margin-left: 0;
+    display: block;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   .content-wrapper {
-    width: 80%;
-    max-width: 1000px;
-    min-width: 600px;
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin-right: auto;
+  }
+
+  @media (min-width: 769px) {
+    .site-header .trigger {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
   }
 
   /* --- Responsive behavior --- */
   @media (max-width: 1024px) {
-    .content-wrapper {
-      width: 90%;
-      min-width: unset;
+    :root {
+      --sidebar-width: 220px;
+    }
+
+    .page-container {
+      padding-left: calc(var(--sidebar-width) + var(--content-gutter) + var(--sidebar-gap));
     }
   }
 
   @media (max-width: 768px) {
     .page-container {
       flex-direction: column;
+      padding: 0 var(--content-gutter) 3rem var(--content-gutter);
     }
 
-    /* FIX: Reset the overall content offset when the sidebar is no longer fixed */
-    .post {
-        margin-left: 0;
+    .site-header {
+      padding: 1.5rem var(--content-gutter) 1rem;
+    }
+
+    .site-header .wrapper {
+      max-width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .site-header .site-nav {
+      display: block;
+      margin-left: 0;
     }
 
     .sidebar {
@@ -133,16 +191,16 @@ layout: default
       border-right: none;
       border-bottom: 1px solid #e0e0e0;
       background-color: #fdfdfd;
+      padding: 1.25rem var(--content-gutter);
     }
 
-    .post-content {
-      margin-left: 0;
-      justify-content: flex-start;
-      padding: 1.5rem;
+    .post-header {
+      padding: 2rem var(--content-gutter) 1.5rem;
     }
 
     .content-wrapper {
       width: 100%;
+      max-width: 100%;
     }
   }
 </style>

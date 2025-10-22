@@ -89,7 +89,7 @@ help
 ```
 
 #### Outputs
-- Success: A pop-up box like the one below would appear, listing the commands available, and how to use them. 
+- Success: A pop-up box like the one below would appear, listing the commands available, and how to use them.
 
 <img src="images/helpMessage.png" alt="help message" width="50%" style="margin-left: 15px">
 
@@ -99,7 +99,7 @@ help
 {: #list-command }
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
-#### Command Format: 
+#### Command Format:
 ```
 list
 ```
@@ -119,7 +119,7 @@ Adds a patient to MediSaveContact.
 
 #### Example Commands:
 ```
-patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high 
+patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high
 ```
 ```
 patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
@@ -170,11 +170,11 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
     </tbody>
 </table>
 
-#### Outputs 
+#### Outputs
 
-- Success: 
-  - In GUI: New Patient appears in Patient list 
-  - In Command Feedback Box: "New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority"     
+- Success:
+  - In GUI: New Patient appears in Patient list
+  - In Command Feedback Box: "New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority"
 - Failure: Error Messages above
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
@@ -185,7 +185,7 @@ Patients are duplicates if both name and phone number match (case-insensitive). 
 
 Schedule an appointment for a patient using a specified index.
 
-#### Command Format: 
+#### Command Format:
 
 `appointment INDEX d/DATE t/TIME`
 
@@ -238,7 +238,7 @@ appointment 1 d/15/Deleting -11-2026 t/20:03
 
 #### Outputs
 
-- Success: 
+- Success:
   - In GUI: Appointment created in specified patient
   - In Command Feedback Box: "Appointment Created at 15-11-2026 20:03!"
 - Failure: Error Messages above
@@ -283,7 +283,7 @@ You can remove all the person’s tags by typing `tag/` without
 
 Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
 
-#### Command Format:  
+#### Command Format:
 
 `note INDEX note/NOTES`
 
@@ -344,7 +344,7 @@ Notes are appended to existing notes, so you can add multiple notes to build a c
 
 Finds persons whose names contain any of the given keywords.
 
-#### Command Format: 
+#### Command Format:
 
 `find KEYWORD [MORE_KEYWORDS]`
 
@@ -378,11 +378,11 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 
 ### Deleting a patient: `delete`
 
-Deletes a patient at a specified index from the address book. 
+Deletes a patient at a specified index from the address book.
 The index refers to the index number shown in the displayed person list.
 
 
-#### Command Format: 
+#### Command Format:
 
 ```
 delete INDEX`
@@ -426,7 +426,7 @@ Run [list](#list-command) command to view the respective index for each patient.
 
 Clears all entries from MediSaveContact.
 
-#### Command Format: 
+#### Command Format:
 ```
 clear
 ```
@@ -435,7 +435,7 @@ clear
 
 Exits the program.
 
-Command Format: 
+Command Format:
 ```
 exit
 ```
