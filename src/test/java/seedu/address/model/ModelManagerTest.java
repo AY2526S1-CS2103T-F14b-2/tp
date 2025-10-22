@@ -149,7 +149,8 @@ public class ModelManagerTest {
         addressBook.addPerson(patient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
 
-        assertThrows(IllegalArgumentException.class, () -> manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME, null));
+        assertThrows(IllegalArgumentException.class, () ->
+            manager.addAppointment(patient, FUTURE_DATE, FUTURE_TIME, null));
     }
 
     @Test

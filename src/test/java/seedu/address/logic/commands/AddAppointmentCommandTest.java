@@ -78,7 +78,9 @@ public class AddAppointmentCommandTest {
         Patient patient = new PatientBuilder().withName("Bob").build();
         ModelStubAcceptingAppointment modelStub = new ModelStubAcceptingAppointment(patient);
         Note testNote = new Note("Follow-up checkup");
-        AddAppointmentCommand command = new AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, FUTURE_TIME, testNote);
+        AddAppointmentCommand command = new
+            AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, FUTURE_TIME,
+            testNote);
 
         CommandResult result = command.execute(modelStub);
 

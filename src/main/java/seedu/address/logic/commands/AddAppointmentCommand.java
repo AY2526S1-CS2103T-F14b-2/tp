@@ -15,7 +15,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Note;
-import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 /**
@@ -47,6 +46,13 @@ public class AddAppointmentCommand extends Command {
         this(targetIndex, date, time, null);
     }
 
+    /**
+     * Creates an addappointmentcommand object
+     * @param targetIndex Index patient index from list
+     * @param date Appointment date
+     * @param time Appointment time
+     * @param desc Appointment description
+     */
     public AddAppointmentCommand(Index targetIndex, String date, String time, Note desc) {
         requireNonNull(targetIndex);
         requireNonNull(date);

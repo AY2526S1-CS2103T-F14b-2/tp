@@ -117,14 +117,13 @@ public class Appointment {
         }
 
         Appointment otherAppointment = (Appointment) other;
-    return date.equals(otherAppointment.date)
-        && time.equals(otherAppointment.time)
-        && Objects.equals(desc, otherAppointment.desc);
+        return date.equals(otherAppointment.date)
+            && time.equals(otherAppointment.time)
+            && Objects.equals(desc, otherAppointment.desc);
     }
 
     @Override
     public int hashCode() {
-    return Objects.hash(date, time, desc);
+        return Objects.hash(date, time, desc);
     }
-
 }
