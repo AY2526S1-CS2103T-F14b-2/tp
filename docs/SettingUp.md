@@ -106,7 +106,7 @@ If Ruby is not installed, install it using your system's package manager.
    ```
 
    <div markdown="span" class="alert alert-info">:information_source: **Note:**
-   
+
    If you encounter permission errors, you can install gems locally instead of system-wide:
    ```bash
    bundle install --path vendor/bundle

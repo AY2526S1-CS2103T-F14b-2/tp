@@ -1,0 +1,113 @@
+package seedu.address.logic.commands;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Caretaker;
+import seedu.address.model.person.Patient;
+import seedu.address.model.person.Person;
+import seedu.address.testutil.CaretakerBuilder;
+import seedu.address.testutil.PatientBuilder;
+import seedu.address.testutil.PersonBuilder;
+
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for {@code CaretakerCommand}.
+ */
+public class CaretakerCommandTest {
+
+    private Model model;
+
+    @BeforeEach
+    public void setUp() {
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    }
+
+    @Test
+    public void execute_addCaretaker_success() throws Exception {
+        Patient patient = new PatientBuilder().build();
+        Caretaker caretaker = new CaretakerBuilder().build();
+
+        model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
+
+        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
+
+        Patient updatedPatient = patient.addCaretaker(caretaker);
+        String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS, Messages.format(updatedPatient));
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.setPerson(patient, updatedPatient);
+
+        CommandResult result = command.execute(model);
+
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+        assertEquals(expectedModel.getFilteredPersonList(), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_invalidIndex_throwsCommandException() {
+        Caretaker caretaker = new CaretakerBuilder().build();
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        CaretakerCommand command = new CaretakerCommand(outOfBoundIndex, caretaker);
+
+        assertThrows(CommandException.class,
+                MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () -> command.execute(model));
+    }
+
+    @Test
+    public void execute_nonPatientTarget_throwsCommandException() {
+        // replace first person with a non-patient
+        Person nonPatient = new PersonBuilder().build();
+        model.setPerson(model.getFilteredPersonList().get(0), nonPatient);
+
+        Caretaker caretaker = new CaretakerBuilder().build();
+        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
+
+        assertThrows(CommandException.class,
+                Messages.MESSAGE_REQUIRE_PATIENT, () -> command.execute(model));
+    }
+
+    @Test
+    public void equals() {
+        Caretaker caretakerA = new CaretakerBuilder().withName("Alice").build();
+        Caretaker caretakerB = new CaretakerBuilder().withName("Bob").build();
+
+        CaretakerCommand addCaretakerA = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerA);
+        CaretakerCommand addCaretakerB = new CaretakerCommand(INDEX_SECOND_PERSON, caretakerB);
+
+        // same object -> true
+        assertTrue(addCaretakerA.equals(addCaretakerA));
+
+        // same values -> true
+        CaretakerCommand addCaretakerACopy = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerA);
+        assertTrue(addCaretakerA.equals(addCaretakerACopy));
+
+        // different types -> false
+        assertFalse(addCaretakerA.equals(1));
+
+        // null -> false
+        assertFalse(addCaretakerA.equals(null));
+
+        // different index -> false
+        assertFalse(addCaretakerA.equals(addCaretakerB));
+
+        // different caretaker -> false
+        CaretakerCommand differentCaretaker = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerB);
+        assertFalse(addCaretakerA.equals(differentCaretaker));
+    }
+}
+
