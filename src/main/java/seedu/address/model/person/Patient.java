@@ -43,18 +43,14 @@ public class Patient extends Person {
      * @param address the patient's address, must not be null
      * @param tag the urgency associated with the patient condition, can be null if no tag is given
      * @param notes the list of notes for the patient, must not be null (can be empty)
-     * @param appointment the patient's appointment, can be null if no appointment is scheduled
+     * @param appointment the list of appointments for the patient, must not be null (can be empty)
      * @throws NullPointerException if any required parameter is null
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, List<Appointment> appointment) {
         super(name, phone, address);
-        requireAllNonNull(notes);
+        requireAllNonNull(notes, appointment);
         this.notes = new ArrayList<>(notes);
-        if (appointment == null) {
-            this.appointment = new ArrayList<>();
-        } else {
-            this.appointment = new ArrayList<>(appointment);
-        }
+        this.appointment = new ArrayList<>(appointment);
         this.tag = tag;
         this.caretaker = null;
     }
@@ -69,14 +65,14 @@ public class Patient extends Person {
      * @param address the patient's address, must not be null
      * @param tag the urgency associated with the patient condition, can be null if no tag is given
      * @param notes the list of notes for the patient, must not be null (can be empty)
-     * @param appointment the patient's appointment, can be null if no appointment is scheduled
+     * @param appointment the list of appointments for the patient, must not be null (can be empty)
      * @param caretaker the patient's caretaker, can be null if no caretaker is provided
      * @throws NullPointerException if any required parameter is null
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, List<Appointment> appointment,
                    Caretaker caretaker) {
         super(name, phone, address);
-        requireAllNonNull(notes);
+        requireAllNonNull(notes, appointment);
         this.notes = new ArrayList<>(notes);
         this.appointment = new ArrayList<>(appointment);
         this.tag = tag;
