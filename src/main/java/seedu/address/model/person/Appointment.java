@@ -16,7 +16,7 @@ import java.time.format.DateTimeParseException;
  */
 public class Appointment {
 
-    public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format dd-MM-yyyy HH:mm";
+    public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format DD-MM-YYYY HH:MM";
     public static final String MESSAGE_PAST_APPOINTMENT = "Appointment must be set in the future.";
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -64,6 +64,22 @@ public class Appointment {
     @Override
     public String toString() {
         return date.format(DATE_FORMATTER) + " " + time.format(TIME_FORMATTER);
+    }
+
+    /**
+     * Returns appointment date
+     * @return appointment date string
+     */
+    public String getDate() {
+        return date.format(DATE_FORMATTER);
+    }
+
+    /**
+     * Returns appointment time
+     * @return appointment time string
+     */
+    public String getTime() {
+        return time.format(TIME_FORMATTER);
     }
 
     @Override

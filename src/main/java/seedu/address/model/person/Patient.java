@@ -19,7 +19,7 @@ import seedu.address.model.tag.Tag;
 public class Patient extends Person {
 
     private final List<Note> notes;
-    private final Appointment appointment;
+    private final List<Appointment> appointment;
     private final Tag tag;
 
     /**
@@ -28,7 +28,7 @@ public class Patient extends Person {
     public Patient(Name name, Phone phone, Address address, Tag tag) {
         super(name, phone, address);
         this.notes = new ArrayList<>();
-        this.appointment = null;
+        this.appointment = new ArrayList<>();
         this.tag = tag;
     }
 
@@ -42,21 +42,25 @@ public class Patient extends Person {
         if (!note.value.equals("NIL")) {
             this.notes.add(note);
         }
-        this.appointment = null;
+        this.appointment = new ArrayList<>();
         this.tag = tag;
     }
 
     /**
      * Constructor with single note and appointment for backward compatibility.
      */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment) {
+    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, List<Appointment> appointment) {
         super(name, phone, address);
         requireAllNonNull(note);
         this.notes = new ArrayList<>();
         if (!note.value.equals("NIL")) {
             this.notes.add(note);
         }
-        this.appointment = appointment;
+        if (appointment == null) {
+            this.appointment = new ArrayList<>();
+        } else {
+            this.appointment = new ArrayList<>(appointment);
+        }
         this.tag = tag;
     }
 
@@ -74,7 +78,7 @@ public class Patient extends Person {
         super(name, phone, address);
         requireAllNonNull(notes);
         this.notes = new ArrayList<>(notes);
-        this.appointment = null;
+        this.appointment = new ArrayList<>();
         this.tag = tag;
     }
 
@@ -91,11 +95,15 @@ public class Patient extends Person {
      * @param appointment the patient's appointment, can be null if no appointment is scheduled
      * @throws NullPointerException if any required parameter is null
      */
-    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, Appointment appointment) {
+    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, List<Appointment> appointment) {
         super(name, phone, address);
         requireAllNonNull(notes);
         this.notes = new ArrayList<>(notes);
-        this.appointment = appointment;
+        if (appointment == null) {
+            this.appointment = new ArrayList<>();
+        } else {
+            this.appointment = new ArrayList<>(appointment);
+        }
         this.tag = tag;
     }
 
@@ -119,11 +127,11 @@ public class Patient extends Person {
 
 
     /**
-     * Returns the appointment of the patient.
-     * @return the appointment of the patient.
+     * Returns the list of appointment of the patient.
+     * @return the list of appointment of the patient.
      */
-    public Appointment getAppointment() {
-        return appointment;
+    public List<Appointment> getAppointment() {
+        return Collections.unmodifiableList(appointment);
     }
 
     /**
@@ -133,8 +141,10 @@ public class Patient extends Person {
      */
     public Patient addAppointment(Appointment appointment) {
         requireAllNonNull(appointment);
+        List<Appointment> newAppointments = new ArrayList<>(this.appointment);
+        newAppointments.add(appointment);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
-                this.getTag().orElse(null), this.notes, appointment);
+        this.getTag().orElse(null), this.notes, newAppointments);
     }
 
     /**

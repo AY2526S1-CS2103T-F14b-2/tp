@@ -24,7 +24,8 @@ public class PersonCardTest {
         // We can't test the actual UI rendering without a JavaFX environment,
         // but we can test the logic by checking the patient type and appointment
         assertTrue(patient instanceof Patient);
-        assertEquals("31-12-2025 14:30", patient.getAppointment().toString());
+        assertEquals(1, patient.getAppointment().size());
+        assertEquals("31-12-2025 14:30", patient.getAppointment().get(0).toString());
     }
 
     @Test
@@ -32,7 +33,7 @@ public class PersonCardTest {
         Patient patient = new PatientBuilder().build();
 
         assertTrue(patient instanceof Patient);
-        assertEquals(null, patient.getAppointment());
+        assertTrue(patient.getAppointment().isEmpty());
     }
 
     @Test
