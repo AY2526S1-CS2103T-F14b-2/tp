@@ -19,7 +19,6 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Patient;
-
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -72,7 +71,7 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
     }
 
     @Override
-    protected void validateEdit(Model model, Patient patientToEdit, EditPersonDescriptor editDescriptor) 
+    protected void validateEdit(Model model, Patient patientToEdit, EditPersonDescriptor editDescriptor)
             throws CommandException {
         // Check if the item at the index is actually a patient
         // Since we're casting above, we need to check the original person
@@ -94,7 +93,7 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
         Name updatedName = editPersonDescriptor.getName().orElse(patientToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(patientToEdit.getPhone());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(patientToEdit.getAddress());
-        
+
         // Handle tag field - only available if this is an EditPatientDescriptor
         Tag updatedTag;
         if (editPersonDescriptor instanceof EditPatientDescriptor) {
@@ -111,7 +110,7 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
     }
 
     @Override
-    protected void validateUniqueItem(Model model, Patient originalPatient, Patient editedPatient) 
+    protected void validateUniqueItem(Model model, Patient originalPatient, Patient editedPatient)
             throws CommandException {
         if (!originalPatient.isSamePerson(editedPatient) && model.hasPerson(editedPatient)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
