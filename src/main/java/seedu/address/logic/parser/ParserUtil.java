@@ -102,7 +102,7 @@ public class ParserUtil {
     public static Relationship parseRelationship(String relationship) throws ParseException {
         requireNonNull(relationship);
         String trimmedRelationship = relationship.trim();
-        if (!Address.isValidAddress(trimmedRelationship)) {
+        if (!Relationship.isValidRelationship(trimmedRelationship)) {
             throw new ParseException(Relationship.BLANK_RELATIONSHIP);
         }
 
