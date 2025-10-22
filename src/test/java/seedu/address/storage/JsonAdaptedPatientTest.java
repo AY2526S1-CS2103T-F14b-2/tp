@@ -36,9 +36,11 @@ public class JsonAdaptedPatientTest {
             VALID_APPOINTMENTS, VALID_NOTE, null, VALID_TAG);
         List<Appointment> expectedAppointments = new ArrayList<>();
         expectedAppointments.add(new Appointment("31-12-2025", "14:30"));
+        List<Note> expectedNotes = new ArrayList<>();
+        expectedNotes.add(new Note(VALID_NOTE));
         Patient expectedPatient = new Patient(new Name(VALID_NAME), new Phone(VALID_PHONE),
             new Address(VALID_ADDRESS), VALID_TAG.toModelType(),
-            new Note(VALID_NOTE), expectedAppointments);
+            expectedNotes, expectedAppointments);
         assertEquals(expectedPatient, patient.toModelType());
     }
 
