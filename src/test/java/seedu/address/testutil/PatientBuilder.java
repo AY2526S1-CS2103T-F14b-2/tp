@@ -1,11 +1,16 @@
 package seedu.address.testutil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 
 
@@ -21,13 +26,15 @@ public class PatientBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_TAG = "high";
+    public static final String DEFAULT_RELATIONSHIP = "Father";
 
     private Name name;
     private Phone phone;
     private Address address;
     private Tag tag;
-    private Note note;
-    private Appointment appointment;
+    private List<Note> notes;
+    private List<Appointment> appointments;
+    private Caretaker caretaker;
 
     /**
      * Creates a {@code PatientBuilder} with the default details.
@@ -37,8 +44,10 @@ public class PatientBuilder {
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
         tag = new Tag(DEFAULT_TAG);
-        note = new Note("NIL"); // No actual note content
-        appointment = null;
+        notes = new ArrayList<>();
+        appointments = new ArrayList<>();
+        caretaker = new Caretaker(new Name(DEFAULT_NAME), new Phone(DEFAULT_PHONE), new Address(DEFAULT_ADDRESS),
+                new Relationship(DEFAULT_RELATIONSHIP));
     }
 
     /**
@@ -49,8 +58,8 @@ public class PatientBuilder {
         phone = patientToCopy.getPhone();
         address = patientToCopy.getAddress();
         tag = patientToCopy.getTag().orElse(null);
-        note = patientToCopy.getNote();
-        appointment = patientToCopy.getAppointment();
+        notes = patientToCopy.getNotes();
+        appointments = new ArrayList<>(patientToCopy.getAppointment());
     }
 
     /**
@@ -89,7 +98,10 @@ public class PatientBuilder {
      * Sets the {@code Note} of the {@code Patient} that we are building.
      */
     public PatientBuilder withNote(String note) {
-        this.note = new Note(note);
+        if (this.notes == null) {
+            this.notes = new ArrayList<>();
+        }
+        this.notes.add(new Note(note));
         return this;
     }
 
@@ -100,12 +112,15 @@ public class PatientBuilder {
      * @return
      */
     public PatientBuilder withAppointment(String date, String time) {
-        this.appointment = new Appointment(date, time);
+        if (this.appointments == null) {
+            this.appointments = new ArrayList<>();
+        }
+        this.appointments.add(new Appointment(date, time));
         return this;
     }
 
     public Patient build() {
-        return new Patient(name, phone, address, tag, note, appointment);
+        return new Patient(name, phone, address, tag, notes, appointments, caretaker);
     }
 
 }

@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
@@ -39,6 +40,19 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private VBox appointmentContainer;
     @FXML
+    private VBox caretakerBox;
+    @FXML
+    private VBox caretakerContainer;
+    @FXML
+    private Label caretakerName;
+    @FXML
+    private Label caretakerPhone;
+    @FXML
+    private Label caretakerAddress;
+    @FXML
+    private Label caretakerRelationship;
+
+    @FXML
     private FlowPane tags;
 
     /**
@@ -67,17 +81,33 @@ public class PersonCard extends UiPart<Region> {
                 notesContainer.setManaged(false);
             }
             // Set appointment for patients
-            if (patient.getAppointment() != null) {
+            if (!patient.getAppointment().isEmpty()) {
                 appointmentContainer.setVisible(true);
                 appointmentContainer.setManaged(true);
                 appointmentContainer.getChildren().clear();
-
-                Label apptLabel = new Label("• " + patient.getAppointment().toString());
-                apptLabel.getStyleClass().add("cell_small_label");
-                appointmentContainer.getChildren().add(apptLabel);
+                for (Appointment appt : patient.getAppointment()) {
+                    Label apptLabel = new Label("• " + appt.toString());
+                    apptLabel.getStyleClass().add("cell_small_label");
+                    appointmentContainer.getChildren().add(apptLabel);
+                }
             } else {
                 appointmentContainer.setVisible(false);
                 appointmentContainer.setManaged(false);
+            }
+
+            if (patient.getCaretaker() != null) {
+                caretakerBox.setVisible(true);
+                caretakerBox.setManaged(true);
+
+                var caretaker = patient.getCaretaker();
+
+                caretakerName.setText(caretaker.getName().fullName);
+                caretakerPhone.setText(caretaker.getPhone().value);
+                caretakerAddress.setText(caretaker.getAddress().value);
+                caretakerRelationship.setText(caretaker.getRelationship().value);
+            } else {
+                caretakerBox.setVisible(false);
+                caretakerBox.setManaged(false);
             }
 
             tags.getChildren().clear();

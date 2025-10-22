@@ -1,33 +1,33 @@
 package seedu.address.testutil;
 
-import seedu.address.logic.commands.EditPatientCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.EditPatientCommand.EditPatientDescriptor;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-
+import seedu.address.model.tag.Tag;
 
 
 /**
  * A utility class to help with building EditPersonDescriptor objects.
  */
-public class EditPersonDescriptorBuilder {
+public class EditPatientDescriptorBuilder {
 
-    private EditPersonDescriptor descriptor;
+    private EditPatientDescriptor descriptor;
 
-    public EditPersonDescriptorBuilder() {
-        descriptor = new EditPersonDescriptor();
+    public EditPatientDescriptorBuilder() {
+        descriptor = new EditPatientDescriptor();
     }
 
-    public EditPersonDescriptorBuilder(EditPersonDescriptor descriptor) {
-        this.descriptor = new EditPersonDescriptor(descriptor);
+    public EditPatientDescriptorBuilder(EditPatientDescriptor descriptor) {
+        this.descriptor = new EditPatientDescriptor(descriptor);
     }
 
     /**
      * Returns an {@code EditPersonDescriptor} with fields containing {@code person}'s details
      */
-    public EditPersonDescriptorBuilder(Person person) {
-        descriptor = new EditPersonDescriptor();
+    public EditPatientDescriptorBuilder(Person person) {
+        descriptor = new EditPatientDescriptor();
         descriptor.setName(person.getName());
         descriptor.setPhone(person.getPhone());
         descriptor.setAddress(person.getAddress());
@@ -36,7 +36,7 @@ public class EditPersonDescriptorBuilder {
     /**
      * Sets the {@code Name} of the {@code EditPersonDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withName(String name) {
+    public EditPatientDescriptorBuilder withName(String name) {
         descriptor.setName(new Name(name));
         return this;
     }
@@ -44,7 +44,7 @@ public class EditPersonDescriptorBuilder {
     /**
      * Sets the {@code Phone} of the {@code EditPersonDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withPhone(String phone) {
+    public EditPatientDescriptorBuilder withPhone(String phone) {
         descriptor.setPhone(new Phone(phone));
         return this;
     }
@@ -52,12 +52,20 @@ public class EditPersonDescriptorBuilder {
     /**
      * Sets the {@code Address} of the {@code EditPersonDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withAddress(String address) {
+    public EditPatientDescriptorBuilder withAddress(String address) {
         descriptor.setAddress(new Address(address));
         return this;
     }
 
-    public EditPersonDescriptor build() {
+    /**
+     * Sets the {@code Tag} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPatientDescriptorBuilder withTag(String tag) {
+        descriptor.setTag(new Tag(tag));
+        return this;
+    }
+
+    public EditPatientDescriptor build() {
         return descriptor;
     }
 }
