@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -54,7 +55,7 @@ public class JsonAdaptedPatientTest {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
             VALID_APPOINTMENTS, null, null, VALID_TAG);
         Patient result = patient.toModelType();
-        assertEquals(new Note("NIL"), result.getNote());
+        assertNull(result.getNote());
     }
 
     @Test
@@ -152,7 +153,7 @@ public class JsonAdaptedPatientTest {
     }
 
     @Test
-    public void toModelType_notesWithNil_filtersOutNilNotes() throws Exception {
+    public void toModelType_notesWithValidValues_createsAllNotes() throws Exception {
         List<String> notes = new ArrayList<>();
         notes.add("Valid note");
         notes.add("NIL");
@@ -162,9 +163,10 @@ public class JsonAdaptedPatientTest {
             VALID_APPOINTMENTS, null, notes, VALID_TAG);
         Patient result = patient.toModelType();
 
-        assertEquals(2, result.getNotes().size());
+        assertEquals(3, result.getNotes().size());
         assertEquals("Valid note", result.getNotes().get(0).value);
-        assertEquals("Another valid note", result.getNotes().get(1).value);
+        assertEquals("NIL", result.getNotes().get(1).value);
+        assertEquals("Another valid note", result.getNotes().get(2).value);
     }
 
     @Test

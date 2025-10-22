@@ -49,7 +49,7 @@ public class NoteCommandTest {
 
         // Calculate expected combined note
         Note expectedNote;
-        if (firstPatient.getNote() != null && !firstPatient.getNote().value.equals("NIL")) {
+        if (firstPatient.getNote() != null) {
             String combinedNoteValue = firstPatient.getNote().value + " | " + NOTE_STUB;
             expectedNote = new Note(combinedNoteValue);
         } else {

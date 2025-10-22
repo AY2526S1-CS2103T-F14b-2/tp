@@ -3,6 +3,7 @@ package seedu.address.model.person;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -92,22 +93,15 @@ public class PatientTest {
     public void toStringMethod() {
         String expected = Patient.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
             + ", address=" + ALICE.getAddress() + ", tag=" + ALICE.getTag().orElse(null)
-            + ", note=" + ALICE.getNote() + ", appointment=" + ALICE.getAppointment() + "}";
+            + ", note=No notes, appointment=" + ALICE.getAppointment() + "}";
         assertEquals(expected, ALICE.toString());
-    }
-
-    @Test
-    public void constructor_withNilNote_doesNotAddNoteToList() {
-        Note nilNote = new Note("NIL");
-        Patient patient = new PatientBuilder().withNote("NIL").build();
-        assertTrue(patient.getNotes().isEmpty());
-        assertEquals(nilNote, patient.getNote());
     }
 
     @Test
     public void constructor_withValidNote_addsNoteToList() {
         Patient patient = new PatientBuilder().withNote("Valid note").build();
         assertEquals(1, patient.getNotes().size());
+        assertEquals("Valid note", patient.getNote().value);
         assertEquals("Valid note", patient.getNotes().get(0).value);
     }
 
@@ -152,9 +146,11 @@ public class PatientTest {
     }
 
     @Test
-    public void constructor_nullNote_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Patient(ALICE.getName(), ALICE.getPhone(),
-                ALICE.getAddress(), ALICE.getTag().orElse(null), (Note) null));
+    public void constructor_nullNote_createsPatientWithoutNote() {
+        Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(),
+                ALICE.getAddress(), ALICE.getTag().orElse(null), (Note) null);
+        assertTrue(patient.getNotes().isEmpty());
+        assertNull(patient.getNote());
     }
 
     @Test
@@ -230,9 +226,9 @@ public class PatientTest {
     }
 
     @Test
-    public void getNote_withoutNotes_returnsNilNote() {
+    public void getNote_withoutNotes_returnsNull() {
         Patient patient = new PatientBuilder().build();
-        assertEquals("NIL", patient.getNote().value);
+        assertNull(patient.getNote());
     }
 
     @Test
