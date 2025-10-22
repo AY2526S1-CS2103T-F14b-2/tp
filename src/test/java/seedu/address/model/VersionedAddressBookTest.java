@@ -1,12 +1,16 @@
 package seedu.address.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
-
 import seedu.address.testutil.PatientBuilder;
 import seedu.address.testutil.TypicalPatients;
 
@@ -31,7 +35,8 @@ public class VersionedAddressBookTest {
         VersionedAddressBook vab = new VersionedAddressBook(initial);
 
         assertEquals(initial, vab.getAddressBook());
-        assertNotSame(initial, vab.getAddressBook(), "Should create a copy of the address book and not poiunt to the same instance");
+        assertNotSame(initial, vab.getAddressBook(),
+                "Should create a copy of the address book and not poiunt to the same instance");
     }
 
     @Test
