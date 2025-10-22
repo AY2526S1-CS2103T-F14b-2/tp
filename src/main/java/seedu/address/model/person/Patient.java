@@ -32,53 +32,9 @@ public class Patient extends Person {
         this.tag = tag;
     }
 
-    /**
-     * Constructor with single note.
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note) {
-        super(name, phone, address);
-        this.notes = new ArrayList<>();
-        if (note != null) {
-            this.notes.add(note);
-        }
-        this.appointment = new ArrayList<>();
-        this.tag = tag;
-    }
 
-    /**
-     * Constructor with single note and appointment.
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, List<Appointment> appointment) {
-        super(name, phone, address);
-        this.notes = new ArrayList<>();
-        if (note != null) {
-            this.notes.add(note);
-        }
-        if (appointment == null) {
-            this.appointment = new ArrayList<>();
-        } else {
-            this.appointment = new ArrayList<>(appointment);
-        }
-        this.tag = tag;
-    }
 
-    /**
-     * Constructs a Patient with multiple notes but no appointment.
-     * Creates a defensive copy of the provided notes list to ensure immutability.
-     *
-     * @param name the patient's name, must not be null
-     * @param phone the patient's phone number, must not be null
-     * @param address the patient's address, must not be null
-     * @param notes the list of notes for the patient, must not be null (can be empty)
-     * @throws NullPointerException if any parameter is null
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes) {
-        super(name, phone, address);
-        requireAllNonNull(notes);
-        this.notes = new ArrayList<>(notes);
-        this.appointment = new ArrayList<>();
-        this.tag = tag;
-    }
+
 
     /**
      * Constructs a Patient with multiple notes and an appointment.
