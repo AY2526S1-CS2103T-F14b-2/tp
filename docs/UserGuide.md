@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-### Rationale
+## Rationale
 
 MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings.
 The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage
@@ -89,7 +89,7 @@ help
 ```
 
 #### Outputs
-- Success: A pop-up box like the one below would appear, listing the commands available, and how to use them. 
+- Success: A pop-up box like the one below would appear, listing the commands available, and how to use them.
 
 <img src="images/helpMessage.png" alt="help message" width="50%" style="margin-left: 15px">
 
@@ -99,7 +99,7 @@ help
 {: #list-command }
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
-#### Command Format: 
+#### Command Format:
 ```
 list
 ```
@@ -119,7 +119,7 @@ Adds a patient to MediSaveContact.
 
 #### Example Commands:
 ```
-patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high 
+patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high
 ```
 ```
 patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
@@ -170,11 +170,11 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
     </tbody>
 </table>
 
-#### Outputs 
+#### Outputs
 
-- Success: 
-  - In GUI: New Patient appears in Patient list 
-  - In Command Feedback Box: "New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority"     
+- Success:
+  - In GUI: New Patient appears in Patient list
+  - In Command Feedback Box: "New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority"
 - Failure: Error Messages above
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
@@ -185,7 +185,7 @@ Patients are duplicates if both name and phone number match (case-insensitive). 
 
 Schedule an appointment for a patient using a specified index.
 
-#### Command Format: 
+#### Command Format:
 
 `appointment INDEX d/DATE t/TIME`
 
@@ -238,33 +238,52 @@ appointment 1 d/15/Deleting -11-2026 t/20:03
 
 #### Outputs
 
-- Success: 
+- Success:
   - In GUI: Appointment created in specified patient
   - In Command Feedback Box: "Appointment Created at 15-11-2026 20:03!"
 - Failure: Error Messages above
 
-### Editing a person : `edit`
+### Editing a patient : `editpatient`
 
-Edits an existing person in the address book.
+Edits an existing patient in MediSaveContact.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [t/TAG]`
+#### Command Format:
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
+`editpatient INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [tag/TAG]`
+
+#### Example Commands :
+```
+editpatient 1 p/91234567
+```
+```
+editpatient 2 n/Betsy Crower tag/
+```
+
+#### Parameters & Validation Rules
+
+| Parameter                    | Validation Rules                                                             | Error Message if Invalid                                                                                                        |
+|------------------------------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| INDEX                        | Cannot be blank <br>Must exist in patient list<br>Must be a positive integer | "Invalid command format! "<br>"Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+| NAME / PHONE / ADDRESS / TAG | At least one of these paramters must be present                              | "At least one field to edit must be provided."                                                                                  |
+| NAME                         | Must contain valid characters only                                           | "Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."                |
+| PHONE                        | Must contain digits only<br>Must be of valid length (3-15 digits)            | "Phone number must contain digits only  "<br>"Phone number must be between 3 and 15 digits"                                     |
+| TAG                          | Must be either blank, low, medium or high only (case-insensitive)            | "Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                                      |
+
+#### Outputs
+
+- Success: "Edited Patient: Jack; Phone: 91234567; Address: Blk 123 Clementi Ave 3; Appointment: -"
+- Failure: Error messages above
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can remove all the person’s tags by typing `tag/` without
     specifying any tags after it.
-
-Examples:
-*  `edit 1 p/91234567` Edits the phone number of the 1st person to be `91234567`.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+</div>
 
 ### Adding a note : `note`
 
 Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
 
-#### Command Format:  
+#### Command Format:
 
 `note INDEX note/NOTES`
 
@@ -325,7 +344,7 @@ Notes are appended to existing notes, so you can add multiple notes to build a c
 
 Finds persons whose names contain any of the given keywords.
 
-#### Command Format: 
+#### Command Format:
 
 `find KEYWORD [MORE_KEYWORDS]`
 
@@ -359,11 +378,11 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 
 ### Deleting a patient: `delete`
 
-Deletes a patient at a specified index from the address book. 
+Deletes a patient at a specified index from the address book.
 The index refers to the index number shown in the displayed person list.
 
 
-#### Command Format: 
+#### Command Format:
 
 ```
 delete INDEX`
@@ -407,7 +426,7 @@ Run [list](#list-command) command to view the respective index for each patient.
 
 Clears all entries from MediSaveContact.
 
-#### Command Format: 
+#### Command Format:
 ```
 clear
 ```
@@ -416,7 +435,7 @@ clear
 
 Exits the program.
 
-Command Format: 
+Command Format:
 ```
 exit
 ```

@@ -19,6 +19,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.EditPatientDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 
@@ -59,13 +60,25 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditCommand.EditPersonDescriptor DESC_BOB;
+    public static final EditPatientCommand.EditPersonDescriptor DESC_AMY;
+    public static final EditPatientCommand.EditPersonDescriptor DESC_BOB;
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withAddress(VALID_ADDRESS_AMY).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB).withAddress(VALID_ADDRESS_BOB).build();
+    }
+
+    public static final EditPatientCommand.EditPatientDescriptor DESC_AMY_PATIENT;
+    public static final EditPatientCommand.EditPatientDescriptor DESC_BOB_PATIENT;
+
+    static {
+        DESC_AMY_PATIENT = new EditPatientDescriptorBuilder().withName(VALID_NAME_AMY)
+                .withPhone(VALID_PHONE_AMY).withAddress(VALID_ADDRESS_AMY)
+                .withTag(VALID_TAG_HIGH)
+                .build();
+        DESC_BOB_PATIENT = new EditPatientDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withAddress(VALID_ADDRESS_BOB).build();
     }
 
