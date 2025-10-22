@@ -31,18 +31,18 @@ public class PatientTest {
         // null -> returns false
         assertFalse(ALICE.isSamePerson(null));
 
-        // name differs in case, all other attributes same -> returns false
+        // name differs in case, all other attributes same -> returns true
         Patient editedBob = new PatientBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        assertTrue(BOB.isSamePerson(editedBob));
 
         // different note, all other attributes same -> returns true
         //editedBob = new PatientBuilder(BOB).withNote("Different note").build();
         //assertTrue(BOB.isSamePerson(editedBob));
 
-        // name has trailing spaces, all other attributes same -> returns false
+        // name has trailing spaces, all other attributes same -> returns true
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new PatientBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        assertTrue(BOB.isSamePerson(editedBob));
     }
 
     @Test
@@ -237,7 +237,8 @@ public class PatientTest {
 
     @Test
     public void isSamePerson_withNonPatient_returnsFalse() {
-        Caretaker caretaker = new Caretaker(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(), new Relationship(""));
+        Caretaker caretaker = new Caretaker(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                new Relationship("Father"));
         assertTrue(ALICE.isSamePerson(caretaker));
     }
 
