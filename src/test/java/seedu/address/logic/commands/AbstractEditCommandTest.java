@@ -247,6 +247,27 @@ public class AbstractEditCommandTest {
         assertEquals(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, exception.getMessage());
     }
 
+    @Test
+    public void execute_defaultValidateUniqueItem_success() throws Exception {
+        TestEditCommandWithDefaultValidation command = new TestEditCommandWithDefaultValidation(
+            Index.fromOneBased(1), VALID_DESCRIPTOR);
+
+        // This should succeed because the default validateUniqueItem does nothing
+        CommandResult result = command.execute(model);
+        assertEquals("Successfully edited: " + EDITED_ITEM, result.getFeedbackToUser());
+        assertTrue(command.wasValidateUniqueItemCalled());
+    }
+
+    @Test
+    public void execute_validateUniqueItemNotOverridden_success() throws Exception {
+        TestEditCommandWithNoUniqueValidation command = new TestEditCommandWithNoUniqueValidation(
+            Index.fromOneBased(1), VALID_DESCRIPTOR);
+
+        // This should succeed because validateUniqueItem is not overridden (uses default)
+        CommandResult result = command.execute(model);
+        assertEquals("Successfully edited: " + EDITED_ITEM, result.getFeedbackToUser());
+    }
+
     /**
      * Test descriptor class for testing AbstractEditCommand.
      */
@@ -468,6 +489,93 @@ public class AbstractEditCommandTest {
         @Override
         protected List<String> getTargetList(Model model) {
             return Arrays.asList(); // Empty list
+        }
+    }
+
+    /**
+     * Test implementation that uses the default validateUniqueItem implementation.
+     * This tests the code path where validateUniqueItem does nothing (default behavior).
+     */
+    private static class TestEditCommandWithDefaultValidation extends AbstractEditCommand<String, TestEditDescriptor> {
+        private boolean validateUniqueItemCalled = false;
+
+        public TestEditCommandWithDefaultValidation(Index index, TestEditDescriptor descriptor) {
+            super(index, descriptor);
+        }
+
+        @Override
+        protected List<String> getTargetList(Model model) {
+            return Arrays.asList(TEST_ITEM_1, TEST_ITEM_2, TEST_ITEM_3);
+        }
+
+        @Override
+        protected boolean isAnyFieldEdited(TestEditDescriptor editDescriptor) {
+            return editDescriptor.hasChanges();
+        }
+
+        @Override
+        protected String createEditedItem(String itemToEdit, TestEditDescriptor editDescriptor) {
+            return EDITED_ITEM;
+        }
+
+        @Override
+        protected void validateUniqueItem(Model model, String originalItem, String editedItem) 
+                throws CommandException {
+            validateUniqueItemCalled = true;
+            // Call the default implementation explicitly to ensure it's covered
+            super.validateUniqueItem(model, originalItem, editedItem);
+        }
+
+        @Override
+        protected void updateModel(Model model, String originalItem, String editedItem) {
+            // Mock implementation
+        }
+
+        @Override
+        protected String formatSuccessMessage(String editedItem) {
+            return "Successfully edited: " + editedItem;
+        }
+
+        public boolean wasValidateUniqueItemCalled() {
+            return validateUniqueItemCalled;
+        }
+    }
+
+    /**
+     * Test implementation that does NOT override validateUniqueItem at all.
+     * This truly tests the default implementation in AbstractEditCommand.
+     */
+    private static class TestEditCommandWithNoUniqueValidation extends AbstractEditCommand<String, TestEditDescriptor> {
+
+        public TestEditCommandWithNoUniqueValidation(Index index, TestEditDescriptor descriptor) {
+            super(index, descriptor);
+        }
+
+        @Override
+        protected List<String> getTargetList(Model model) {
+            return Arrays.asList(TEST_ITEM_1, TEST_ITEM_2, TEST_ITEM_3);
+        }
+
+        @Override
+        protected boolean isAnyFieldEdited(TestEditDescriptor editDescriptor) {
+            return editDescriptor.hasChanges();
+        }
+
+        @Override
+        protected String createEditedItem(String itemToEdit, TestEditDescriptor editDescriptor) {
+            return EDITED_ITEM;
+        }
+
+        // Note: validateUniqueItem is NOT overridden - uses default implementation
+
+        @Override
+        protected void updateModel(Model model, String originalItem, String editedItem) {
+            // Mock implementation
+        }
+
+        @Override
+        protected String formatSuccessMessage(String editedItem) {
+            return "Successfully edited: " + editedItem;
         }
     }
 }
