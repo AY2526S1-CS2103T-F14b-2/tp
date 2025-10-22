@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
@@ -19,21 +20,35 @@ import seedu.address.model.tag.Tag;
  */
 class JsonAdaptedPatient extends JsonAdaptedPerson {
 
-    private final String appointment;
+    private final List<List<String>> appointment;
     private final List<String> notes;
     private final JsonAdaptedTag tag;
+    private final JsonAdaptedCaretaker caretaker;
 
     @JsonCreator
     public JsonAdaptedPatient(@JsonProperty("name") String name,
                               @JsonProperty("phone") String phone,
                               @JsonProperty("address") String address,
-                              @JsonProperty("appointment") String appointment,
+                              @JsonProperty("appointment") List<List<String>> appointment,
                               @JsonProperty("note") String note,
                               @JsonProperty("notes") List<String> notes,
-                              @JsonProperty("tags") JsonAdaptedTag tag) {
+                              @JsonProperty("tags") JsonAdaptedTag tag,
+                              @JsonProperty("caretaker") JsonAdaptedCaretaker caretaker) {
         super(name, phone, address);
-        this.appointment = appointment;
+
+        if (appointment != null) {
+            this.appointment = new ArrayList<>();
+            for (List<String> appt : appointment) {
+                if (appt != null) {
+                    this.appointment.add(new ArrayList<>(appt));
+                }
+            }
+        } else {
+            this.appointment = new ArrayList<>();
+        }
+
         this.tag = tag;
+        this.caretaker = caretaker;
 
         // Handle backward compatibility: if notes list is provided, use it; otherwise convert single note
         if (notes != null && !notes.isEmpty()) {
@@ -48,31 +63,42 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
 
     public JsonAdaptedPatient(Patient source) {
         super(source);
-        this.appointment = source.getAppointment() == null ? null : source.getAppointment().toString();
+        this.appointment = source.getAppointment().stream()
+                .map(eachAppt -> {
+                    List<String> apptDetails = new ArrayList<>();
+                    apptDetails.add(eachAppt.getDate());
+                    apptDetails.add(eachAppt.getTime());
+                    return apptDetails;
+                })
+                .collect(Collectors.toList());
+
         this.notes = source.getNotes().stream()
                 .map(note -> note.value)
                 .collect(Collectors.toList());
         tag = source.getTag().map(t -> new JsonAdaptedTag(t)).orElse(null);
+        this.caretaker = source.getCaretaker() == null ? null : new JsonAdaptedCaretaker(source.getCaretaker());
     }
 
     @Override
     public Patient toModelType() throws IllegalValueException {
         Person base = super.toModelType();
 
-        Appointment modelAppointment = null;
+        List<Appointment> modelAppointment = new ArrayList<>();
         if (appointment != null) {
-            String trimmedAppointment = appointment.trim();
-            if (trimmedAppointment.isEmpty()) {
-                throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
-            }
-            String[] parts = trimmedAppointment.split("\\s+", 2);
-            if (parts.length != 2) {
-                throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
-            }
-            try {
-                modelAppointment = new Appointment(parts[0], parts[1]);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalValueException(e.getMessage());
+            for (List<String> apptDetails : appointment) {
+                if (apptDetails == null || apptDetails.size() < 2) {
+                    throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
+                }
+                String date = apptDetails.get(0);
+                String time = apptDetails.get(1);
+                if (date == null || time == null) {
+                    throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
+                }
+                try {
+                    modelAppointment.add(new Appointment(date, time));
+                } catch (IllegalArgumentException ex) {
+                    throw new IllegalValueException(Appointment.MESSAGE_CONSTRAINTS);
+                }
             }
         }
 
@@ -87,7 +113,9 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
 
         final Tag modelTag = (tag == null) ? null : tag.toModelType();
 
+        final Caretaker modelCaretaker = (caretaker == null) ? null : caretaker.toModelType();
+
         return new Patient(base.getName(), base.getPhone(), base.getAddress(),
-                modelTag, modelNotes, modelAppointment);
+                modelTag, modelNotes, modelAppointment, modelCaretaker);
     }
 }

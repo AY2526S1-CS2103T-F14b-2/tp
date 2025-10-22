@@ -13,6 +13,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 
 
@@ -90,6 +91,22 @@ public class ParserUtil {
         }
 
         return new Address(trimmedAddress);
+    }
+
+    /**
+     * Parses a {@code String relationship} into an {@code Relationship}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code relationship} is invalid.
+     */
+    public static Relationship parseRelationship(String relationship) throws ParseException {
+        requireNonNull(relationship);
+        String trimmedRelationship = relationship.trim();
+        if (!Relationship.isValidRelationship(trimmedRelationship)) {
+            throw new ParseException(Relationship.BLANK_RELATIONSHIP);
+        }
+
+        return new Relationship(trimmedRelationship);
     }
 
     /**
