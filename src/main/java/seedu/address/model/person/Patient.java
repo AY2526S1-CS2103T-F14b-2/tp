@@ -35,70 +35,6 @@ public class Patient extends Person {
     }
 
     /**
-     * Constructor with single note.
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note) {
-        super(name, phone, address);
-        this.notes = new ArrayList<>();
-        if (note != null) {
-            this.notes.add(note);
-        }
-        this.appointment = new ArrayList<>();
-        this.tag = tag;
-        this.caretaker = null;
-    }
-
-    /**
-     * Constructor with single note and appointment.
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment) {
-        super(name, phone, address);
-        this.notes = new ArrayList<>();
-        if (note != null) {
-            this.notes.add(note);
-        }
-        this.appointment = new ArrayList<>();
-        this.appointment.add(appointment);
-        this.tag = tag;
-        this.caretaker = null;
-    }
-
-    /**
-     * Constructor with single note and appointment for backward compatibility.
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, List<Appointment> appointment,
-                   Caretaker caretaker) {
-        super(name, phone, address);
-        requireAllNonNull(note);
-        this.notes = new ArrayList<>();
-        if (!note.value.equals("NIL")) {
-            this.notes.add(note);
-        }
-        this.appointment = appointment;
-        this.tag = tag;
-        this.caretaker = caretaker;
-    }
-
-    /**
-     * Constructs a Patient with multiple notes but no appointment.
-     * Creates a defensive copy of the provided notes list to ensure immutability.
-     *
-     * @param name the patient's name, must not be null
-     * @param phone the patient's phone number, must not be null
-     * @param address the patient's address, must not be null
-     * @param notes the list of notes for the patient, must not be null (can be empty)
-     * @throws NullPointerException if any parameter is null
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes) {
-        super(name, phone, address);
-        requireAllNonNull(notes);
-        this.notes = new ArrayList<>(notes);
-        this.appointment = new ArrayList<>();
-        this.tag = tag;
-        this.caretaker = null;
-    }
-
-    /**
      * Constructs a Patient with multiple notes and an appointment.
      * Creates a defensive copy of the provided notes list to ensure immutability.
      *
@@ -146,35 +82,6 @@ public class Patient extends Person {
         this.tag = tag;
         this.caretaker = caretaker;
     }
-
-    /**
-     * Constructs a Patient with multiple notes, multiple appointments, and a caretaker.
-     * Creates a defensive copy of the provided notes list to ensure immutability.
-     * This is the most comprehensive constructor supporting all patient data fields.
-     *
-     * @param name the patient's name, must not be null
-     * @param phone the patient's phone number, must not be null
-     * @param address the patient's address, must not be null
-     * @param tag the urgency associated with the patient condition, can be null if no tag is given
-     * @param note the note for the patient, must not be null (can be empty)
-     * @param appointment the patient's appointment, can be null if no appointment is scheduled
-     * @param caretaker the patient's caretaker, can be null if no caretaker is provided
-     * @throws NullPointerException if any required parameter is null
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment,
-                   Caretaker caretaker) {
-        super(name, phone, address);
-        requireAllNonNull(note);
-        this.notes = new ArrayList<>();
-        if (!note.value.equals("NIL")) {
-            this.notes.add(note);
-        }
-        this.appointment = new ArrayList<>();
-        this.appointment.add(appointment);
-        this.tag = tag;
-        this.caretaker = caretaker;
-    }
-
 
     /**
      * Returns the notes of the patient.
