@@ -17,6 +17,8 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -208,6 +210,227 @@ public class EditPatientCommandTest {
         String expected = EditPatientCommand.class.getCanonicalName() + "{index=" + index + ", editPersonDescriptor="
                 + editPersonDescriptor + "}";
         assertEquals(expected, editPatientCommand.toString());
+    }
+
+    @Test
+    public void execute_noFieldSpecified_throwsCommandException() {
+        EditPersonDescriptor descriptor = new EditPersonDescriptor();
+        EditPatientCommand editPatientCommand = new EditPatientCommand(INDEX_FIRST_PERSON, descriptor);
+
+        assertCommandFailure(editPatientCommand, model,
+            "At least one field to edit must be provided.");
+    }
+
+    @Test
+    public void execute_editPatientDescriptorWithTag_success() throws Exception {
+        Index indexFirstPerson = INDEX_FIRST_PERSON;
+        Person firstPerson = model.getFilteredPersonList().get(indexFirstPerson.getZeroBased());
+        Patient firstPatient = (Patient) firstPerson;
+
+        EditPatientDescriptor descriptor = new EditPatientDescriptor();
+        descriptor.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+        descriptor.setTag(new seedu.address.model.tag.Tag("high"));
+        descriptor.setTagEdited();
+
+        EditPatientCommand editPatientCommand = new EditPatientCommand(INDEX_FIRST_PERSON, descriptor);
+
+        Patient editedPatient = new PatientBuilder(firstPatient)
+                .withName(VALID_NAME_AMY)
+                .withTag("high")
+                .build();
+
+        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                Messages.format(editedPatient));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(firstPatient, editedPatient);
+
+        assertCommandSuccess(editPatientCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_editPatientDescriptorClearTag_success() throws Exception {
+        Index indexFirstPerson = INDEX_FIRST_PERSON;
+        Person firstPerson = model.getFilteredPersonList().get(indexFirstPerson.getZeroBased());
+        Patient firstPatient = (Patient) firstPerson;
+
+        EditPatientDescriptor descriptor = new EditPatientDescriptor();
+        descriptor.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+        descriptor.setTagEdited(); // Clear the tag
+
+        EditPatientCommand editPatientCommand = new EditPatientCommand(INDEX_FIRST_PERSON, descriptor);
+
+        Patient editedPatient = new Patient(
+                new seedu.address.model.person.Name(VALID_NAME_AMY),
+                firstPatient.getPhone(),
+                firstPatient.getAddress(),
+                null);
+
+        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                Messages.format(editedPatient));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(firstPatient, editedPatient);
+
+        assertCommandSuccess(editPatientCommand, model, expectedMessage, expectedModel);
+    }
+
+    // Note: Testing execute_targetPersonIsNotPatient_throwsCommandException is not feasible
+    // due to AbstractEditCommand's design which casts to Patient before validation occurs.
+    // The validateEdit method in EditPatientCommand handles this validation but it's called
+    // after AbstractEditCommand's execute method already attempts the cast, causing ClassCastException.
+    // This validation is properly tested in commands like NoteCommand that extend Command directly.
+
+
+
+    // Test EditPersonDescriptor methods
+    @Test
+    public void editPersonDescriptor_copyConstructor_success() {
+        EditPersonDescriptor original = new EditPersonDescriptor();
+        original.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+        original.setPhone(new seedu.address.model.person.Phone(VALID_PHONE_AMY));
+        original.setAddress(new seedu.address.model.person.Address(VALID_ADDRESS_AMY));
+
+        EditPersonDescriptor copy = new EditPersonDescriptor(original);
+
+        assertTrue(original.equals(copy));
+        assertEquals(original.getName(), copy.getName());
+        assertEquals(original.getPhone(), copy.getPhone());
+        assertEquals(original.getAddress(), copy.getAddress());
+    }
+
+    @Test
+    public void editPersonDescriptor_isAnyFieldEdited_returnsCorrectValue() {
+        EditPersonDescriptor descriptor = new EditPersonDescriptor();
+        assertFalse(descriptor.isAnyFieldEdited());
+
+        descriptor.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+        assertTrue(descriptor.isAnyFieldEdited());
+    }
+
+    @Test
+    public void editPersonDescriptor_getStringBuilder_success() {
+        EditPersonDescriptor descriptor = new EditPersonDescriptor();
+        descriptor.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+
+        assertTrue(descriptor.getStringBuilder().toString().contains("name"));
+    }
+
+    @Test
+    public void editPersonDescriptor_toString_success() {
+        EditPersonDescriptor descriptor = new EditPersonDescriptor();
+        descriptor.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+
+        assertTrue(descriptor.toString().contains("name"));
+    }
+
+    @Test
+    public void editPersonDescriptor_equals_success() {
+        EditPersonDescriptor descriptor1 = new EditPersonDescriptor();
+        EditPersonDescriptor descriptor2 = new EditPersonDescriptor();
+
+        // Same object
+        assertTrue(descriptor1.equals(descriptor1));
+
+        // Both empty
+        assertTrue(descriptor1.equals(descriptor2));
+
+        // Null
+        assertFalse(descriptor1.equals(null));
+
+        // Different class
+        assertFalse(descriptor1.equals("string"));
+
+        descriptor1.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+        assertFalse(descriptor1.equals(descriptor2));
+
+        descriptor2.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+        assertTrue(descriptor1.equals(descriptor2));
+    }
+
+    // Test EditPatientDescriptor methods
+    @Test
+    public void editPatientDescriptor_copyConstructor_success() {
+        EditPatientDescriptor original = new EditPatientDescriptor();
+        original.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+        original.setTag(new seedu.address.model.tag.Tag("high"));
+        original.setTagEdited();
+
+        EditPatientDescriptor copy = new EditPatientDescriptor(original);
+
+        assertTrue(original.equals(copy));
+        assertEquals(original.getTag(), copy.getTag());
+        assertEquals(original.isTagEdited(), copy.isTagEdited());
+    }
+
+    @Test
+    public void editPatientDescriptor_constructorFromEditPersonDescriptor_success() {
+        EditPersonDescriptor personDescriptor = new EditPersonDescriptor();
+        personDescriptor.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+
+        EditPatientDescriptor patientDescriptor = new EditPatientDescriptor(personDescriptor);
+
+        assertEquals(personDescriptor.getName(), patientDescriptor.getName());
+        assertEquals(personDescriptor.getPhone(), patientDescriptor.getPhone());
+        assertEquals(personDescriptor.getAddress(), patientDescriptor.getAddress());
+    }
+
+    @Test
+    public void editPatientDescriptor_isAnyFieldEdited_returnsCorrectValue() {
+        EditPatientDescriptor descriptor = new EditPatientDescriptor();
+        assertFalse(descriptor.isAnyFieldEdited());
+
+        descriptor.setTagEdited();
+        assertTrue(descriptor.isAnyFieldEdited());
+    }
+
+    @Test
+    public void editPatientDescriptor_tagMethods_success() {
+        EditPatientDescriptor descriptor = new EditPatientDescriptor();
+
+        assertFalse(descriptor.isTagEdited());
+        assertEquals(Optional.empty(), descriptor.getTag());
+
+        descriptor.setTag(new seedu.address.model.tag.Tag("high"));
+        assertEquals("high", descriptor.getTag().get().tagName);
+
+        descriptor.setTagEdited();
+        assertTrue(descriptor.isTagEdited());
+    }
+
+    @Test
+    public void editPatientDescriptor_equals_success() {
+        EditPatientDescriptor descriptor1 = new EditPatientDescriptor();
+        EditPatientDescriptor descriptor2 = new EditPatientDescriptor();
+
+        // Same object
+        assertTrue(descriptor1.equals(descriptor1));
+
+        // Both empty
+        assertTrue(descriptor1.equals(descriptor2));
+
+        // Null
+        assertFalse(descriptor1.equals(null));
+
+        // Different class
+        assertFalse(descriptor1.equals(new EditPersonDescriptor()));
+
+        descriptor1.setTag(new seedu.address.model.tag.Tag("high"));
+        assertFalse(descriptor1.equals(descriptor2));
+
+        descriptor2.setTag(new seedu.address.model.tag.Tag("high"));
+        assertTrue(descriptor1.equals(descriptor2));
+    }
+
+    @Test
+    public void editPatientDescriptor_toString_success() {
+        EditPatientDescriptor descriptor = new EditPatientDescriptor();
+        descriptor.setName(new seedu.address.model.person.Name(VALID_NAME_AMY));
+        descriptor.setTag(new seedu.address.model.tag.Tag("high"));
+
+        String result = descriptor.toString();
+        assertTrue(result.contains("name"));
+        assertTrue(result.contains("tag"));
     }
 
 }
