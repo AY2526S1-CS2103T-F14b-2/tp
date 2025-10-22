@@ -6,34 +6,38 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Patient;
 
 /**
- * Deletes a person identified using it's displayed index from the address book.
+ * Deletes a patient identified using it's displayed index from the address book.
  */
-public class DeleteCommand extends AbstractDeleteCommand<Person> {
+public class DeletePatientCommand extends AbstractDeleteCommand<Patient> {
 
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the person identified by the index number used in the displayed person list.\n"
+            + ": Deletes the patient identified by the index number used in the displayed patient list.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DELETE_PATIENT_SUCCESS = "Deleted Patient: %1$s";
 
-    public DeleteCommand(Index targetIndex) {
+    public DeletePatientCommand(Index targetIndex) {
         super(targetIndex);
     }
 
     @Override
-    protected List<Person> getTargetList(Model model) {
-        return model.getFilteredPersonList();
+    protected List<Patient> getTargetList(Model model) {
+        // Cast the person list to patients for the abstract class
+        // We'll validate the actual type in validateEdit if needed
+        @SuppressWarnings("unchecked")
+        List<Patient> patientList = (List<Patient>) (List<?>) model.getFilteredPersonList();
+        return patientList;
     }
 
     @Override
-    protected void deleteItem(Model model, Person person) {
-        model.deletePerson(person);
+    protected void deleteItem(Model model, Patient patient) {
+        model.deletePerson(patient);
     }
 
     @Override
@@ -42,8 +46,8 @@ public class DeleteCommand extends AbstractDeleteCommand<Person> {
     }
 
     @Override
-    protected String formatSuccessMessage(Person deletedPerson) {
-        return String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(deletedPerson));
+    protected String formatSuccessMessage(Patient deletedPatient) {
+        return String.format(MESSAGE_DELETE_PATIENT_SUCCESS, Messages.format(deletedPatient));
     }
 
     @Override
@@ -53,7 +57,7 @@ public class DeleteCommand extends AbstractDeleteCommand<Person> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof DeleteCommand)) {
+        if (!(other instanceof DeletePatientCommand)) {
             return false;
         }
 
