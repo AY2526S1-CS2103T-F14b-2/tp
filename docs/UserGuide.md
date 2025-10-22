@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-### Rationale
+## Rationale
 
 MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings.
 The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage

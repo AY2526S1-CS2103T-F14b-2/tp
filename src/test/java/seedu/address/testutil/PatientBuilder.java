@@ -5,10 +5,12 @@ import java.util.List;
 
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 
 
@@ -24,6 +26,7 @@ public class PatientBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_TAG = "high";
+    public static final String DEFAULT_RELATIONSHIP = "Father";
 
     private Name name;
     private Phone phone;
@@ -31,6 +34,7 @@ public class PatientBuilder {
     private Tag tag;
     private List<Note> notes;
     private List<Appointment> appointments;
+    private Caretaker caretaker;
 
     /**
      * Creates a {@code PatientBuilder} with the default details.
@@ -40,8 +44,10 @@ public class PatientBuilder {
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
         tag = new Tag(DEFAULT_TAG);
-        notes = new ArrayList<>(); // No notes by default
+        notes = new ArrayList<>();
         appointments = new ArrayList<>();
+        caretaker = new Caretaker(new Name(DEFAULT_NAME), new Phone(DEFAULT_PHONE), new Address(DEFAULT_ADDRESS),
+                new Relationship(DEFAULT_RELATIONSHIP));
     }
 
     /**
@@ -111,7 +117,7 @@ public class PatientBuilder {
     }
 
     public Patient build() {
-        return new Patient(name, phone, address, tag, notes, appointments);
+        return new Patient(name, phone, address, tag, notes, appointments, caretaker);
     }
 
 }
