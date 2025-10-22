@@ -26,7 +26,7 @@ public class CommandBox extends UiPart<Region> {
     private final CommandHistory history = new CommandHistory();
     private boolean isBrowsingHistory;
     private String liveBuffer = "";
-    private boolean isUpdatedByProgram = false;
+    private boolean isUpdatedByProgram;
 
 
     /**
