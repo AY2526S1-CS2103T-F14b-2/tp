@@ -56,9 +56,9 @@ public class AddAppointmentCommandParserTest {
     public void parse_validArgsWithNote_returnsAddAppointmentCommand() {
         Index targetIndex = Index.fromOneBased(1);
         String noteText = "Monthly checkup";
-        String userInput = "1 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_TIME + FUTURE_TIME 
+        String userInput = "1 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_TIME + FUTURE_TIME
                 + " " + PREFIX_NOTE + noteText;
-        AddAppointmentCommand expectedCommand = new AddAppointmentCommand(targetIndex, FUTURE_DATE, FUTURE_TIME, 
+        AddAppointmentCommand expectedCommand = new AddAppointmentCommand(targetIndex, FUTURE_DATE, FUTURE_TIME,
                 new Note(noteText));
         assertParseSuccess(parser, userInput, expectedCommand);
     }
