@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.AddAppointmentCommand;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
@@ -101,7 +102,7 @@ public class ModelManager implements Model {
             return false;
         }
         Patient patient = (Patient) person;
-        return patient.getAppointment() != null;
+        return !patient.getAppointment().isEmpty();
     }
 
     @Override
@@ -128,6 +129,9 @@ public class ModelManager implements Model {
         Patient patient = (Patient) person;
         Appointment appointment = new Appointment(date, time);
 
+        if (patient.getAppointment().contains(appointment)) {
+            throw new IllegalArgumentException(AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT);
+        }
         Patient updatedPatient = patient.addAppointment(appointment);
 
         setPerson(patient, updatedPatient);

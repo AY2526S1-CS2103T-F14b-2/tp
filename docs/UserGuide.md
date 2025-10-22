@@ -3,24 +3,24 @@ layout: page
 title: User Guide
 ---
 
-### Rationale
+## Rationale
 
-MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings. 
-The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage 
+MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings.
+The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage
 patient information during busy schedules.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
-1. Ensure you have Java 17 or above installed in your Computer, following this [guide](https://se-education.org/guides/tutorials/javaInstallation.html).
+1. Ensure you have Java 17 or above installed in your computer, following this [guide](https://se-education.org/guides/tutorials/javaInstallation.html).
 
 1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your MediSaveContact.
 
-1. For **Window** Users: Locate MediSaveContact in your file manager and double click on the application.<br>
-   For **Mac/Linux** users: Open a command terminal, `cd` (change directory) into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. For **Windows** users: Locate MediSaveContact in your file manager and double click on the application.<br>
+   For **Mac/Linux** users: Open a command terminal, `cd` (change directory) into the folder you put the jar file in, and use the `java -jar MediSaveContact.jar` command to run the application.<br>
    An application similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png) <br>
 
@@ -29,8 +29,8 @@ patient information during busy schedules.
 
     * `help` : Shows all commands available in the application.
 
-   * `add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 [t/High]` : Adds a contact named `John Tan` to the Address Book.
-   
+   * `patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high` : Adds a patient named `John Tan` to MediSaveContact.
+
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
    * `exit` : Exits the app.
@@ -49,7 +49,7 @@ patient information during busy schedules.
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g. `n/NAME [tag/TAG]` can be used as: 
+  e.g. `n/NAME [tag/TAG]` can be used as:
   * `n/John Doe tag/High` ✅
   * `n/John Doe` ✅
 
@@ -69,181 +69,282 @@ patient information during busy schedules.
 
 Action | Description
 --------|------------------
-**Add** | Adds a patient to MediSaveContact
-**Clear** | Deletes all patients from MediSaveContact
-**Delete** | Deletes specified patient from MediSaveContact
-**Edit** | Edits specified patient's details
-**Find** | Finds patient(s) with name containing specified keyword
-**Appointment** | Adds an appointment to specified patient
-**Note** | Adds a note to specified patient
-**List** | Shows a list of all patients in MediSaveContact
-**Help** | Shows all commands available
+**patient** | Adds a patient to MediSaveContact
+**clear** | Deletes all patients from MediSaveContact
+**delete** | Deletes specified patient from MediSaveContact
+**edit** | Edits specified patient's details
+**find** | Finds patient(s) with name containing specified keyword
+**appointment** | Adds an appointment to specified patient
+**note** | Adds a note to specified patient
+**list** | Shows a list of all patients in MediSaveContact
+**help** | Shows all commands available
 
 ### Viewing help : `help`
 
 Shows all commands available in the application.
 
-<img src="images/helpMessage.png" alt="help message" width="50%">
+#### Command Format:
+```
+help
+```
 
-Format: `help`
+#### Outputs
+- Success: A pop-up box like the one below would appear, listing the commands available, and how to use them.
+
+<img src="images/helpMessage.png" alt="help message" width="50%" style="margin-left: 15px">
+
+- Failure: Help command would never result in failure
 
 ### Listing all patients : `list`
-
+{: #list-command }
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
-#### Command Format: 
+#### Command Format:
 ```
 list
 ```
 
 #### Outputs
 
-- Success: "Listed all persons"
+- Success: "Listed all patients"
 - Failure: List command would never result in failure
 
-### Adding a patient: `add`
+### Adding a patient: `patient`
 
-Adds a patient to the address book.
+Adds a patient to MediSaveContact.
 
-#### Command Format 
-`add n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]`
+#### Command Format:
 
-#### Example Commands
-`add n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 t/high  `
+`patient n/NAME p/PHONE_NUMBER a/ADDRESS [tag/TAG]``
 
-`add n/Amy Lee p/82345678 a/456 Bedok North Street 2`
-
-Note: A patient can have 0 or 1 tag
-#### Parameters & Validation Rules 
-| Parameter      | Validation Rules                                                                                                                                                                                                                                            | Rationale                                                 | 
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| NAME           | - Cannot be blank<br/> - Must be alphanumeric (letters, numbers, spaces) <br/> -Hyphens (-) and apostrophes (') allowed (e.g., O’Connor, Mary-Anne) <br/> - Leading/trailing spaces are trimmed <br/> - Case-insensitive for equality (John Doe = john doe) | Ensures consistent, clean names; avoids malformed entries |
-| PHONE          | - Digits only <br/>  At least 3 digits (configurable, usually 3–15) <br/> No spaces, +, -, or brackets                                                                                                                                                      | Keeps phone numbers simple and valid                      |
-| ADDRESS        | - Cannot be blank <br/> - Any characters allowed (letters, numbers, punctuation) <br/> - Leading/trailing spaces trimmed                                                                                                                                    | Allows flexibility for varied address formats             | 
-| TAG (optional) | - Optional <br/>- Only allowed values: "high", "medium", "low" (case-insensitive) <br/>- Multiple tags allowed, each must be one of the three values                                                                                                        | Tags are lightweight labels for filtering/searching       | 
-
-#### Validation Rules 
-| Parameter      | Validation Rule      | Error Message if Invalid                                                                                        | 
-|----------------|----------------------|-----------------------------------------------------------------------------------------------------------------| 
-| NAME           | Cannot be blank      | Name cannot be blank.                                                                                           | 
-| NAME           | Invalid characters   | Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.  |                      |
-| PHONE          | Cannot be blank      | Phone number cannot be blank                                                                                    |
-| PHONE          | Non-digit characters | Phone number must contain digits only                                                                           |
-| PHONE          | Too short / too long | Phone number must be between 3 and 15 digits                                                                    |
-| ADDRESS        | Cannot be blank      | Address cannot be blank.                                                                                        |
-| TAG (optional) | Invalid character s  | Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                       |
-
-#### Outputs 
-
-- Success: 
-  - In GUI: New Patient appears in Patient list 
-  - In Command Feedback Box: **New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority**     
-- Failure: Error Messages above
-
-#### Duplicate handling
-- Patients are duplicates if both name and phone number match (case-insensitive). 
-- If attempting to add a duplicate patient: **This person already exists in the address book**
-
-
-
-### Adding an appointment: `appointment`
-
-Schedule an appointment for a patient.
-
-Format: `appointment INDEX d/DATE t/TIME`
-
-Examples:
-* `appointment 1 d/15-11-2025 t/20:03`
+#### Example Commands:
+```
+patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high
+```
+```
+patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
+```
 
 #### Parameters & Validation Rules
-
-| Parameter | Validation Rules | Error Message if Invalid | Rationale |
-| --- | --- | --- | --- |
-| INDEX | Must exist in patient list<br>Must be a positive integer | "Index number does not exist in address book list!"<br>"Index number must be a positive integer!" | Ensures correct patient reference |
-| DATE | Must follow DD-MM-YYYY format<br>Must be today or later | "Invalid date. Must follow DD-MM-YYYY format!"<br>"Appointment cannot be set in the past!" | Prevents scheduling in the past |
-| TIME | Must follow HH:MM 24-hour format<br>If the appointment is today, time must be later than the current time | "Invalid time. Must follow HH:MM 24-hour format!"<br>"Appointment cannot be set in the past!" | Prevents scheduling in the past |
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td rowspan="2">Name</td>
+          <td>Cannot be blank </td>
+          <td>"Name cannot be blank."</td>
+        </tr>
+        <tr>
+          <td>Must contain valid characters only </td>
+          <td>"Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."</td>
+        </tr>
+        <tr>
+          <td rowspan="3">PHONE</td>
+          <td>Cannot be blank</td>
+          <td>"Phone number cannot be blank."</td>
+        </tr>
+        <tr>
+          <td>Must contain digits only</td>
+          <td>"Phone number must contain digits only."</td>
+        </tr>
+        <tr>
+          <td>Must be of valid length (3-15 digits)</td>
+          <td>"Phone number must be between 3 and 15 digits."</td>
+        </tr>
+        <tr>
+          <td rowspan="1">ADRESS</td>
+          <td>Cannot be blank </td>
+          <td>"Address cannot be blank."</td>
+        </tr>
+        <tr>
+          <td rowspan="1">TAG (Optional)</td>
+          <td>Must be low, medium and high only (case-insensitive)</td>
+          <td>"Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed""</td>
+        </tr>
+    </tbody>
+</table>
 
 #### Outputs
 
-- Success: Appointment Created at 15-11-2025 20:03!
+- Success:
+  - In GUI: New Patient appears in Patient list
+  - In Command Feedback Box: "New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority"
+- Failure: Error Messages above
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
+Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This patient already exists in MediSaveContact"
+</div>
+
+### Adding an appointment : `appointment`
+
+Schedule an appointment for a patient using a specified index.
+
+#### Command Format:
+
+`appointment INDEX d/DATE t/TIME`
+
+#### Example Commands:
+
+```
+appointment 1 d/15/Deleting -11-2026 t/20:03
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">INDEX</td>
+      <td>Must exist in patient list </td>
+      <td>"Index number does not exist in address book list!"</td>
+    </tr>
+    <tr>
+      <td>Must be a positive integer</td>
+      <td>"Index number must be a positive integer!"</td>
+    </tr>
+    <tr>
+      <td rowspan="2">DATE</td>
+      <td>Must follow DD-MM-YYYY format</td>
+      <td>"Invalid date. Must follow DD-MM-YYYY format!"</td>
+    </tr>
+    <tr>
+      <td>Must be today or later</td>
+      <td>"Appointment cannot be set in the past!"</td>
+    </tr>
+    <tr>
+      <td rowspan="2">TIME</td>
+      <td>	Must follow HH:MM 24-hour format</td>
+      <td>“Invalid time. Must follow HH:MM 24-hour format!”</td>
+    </tr>
+    <tr>
+      <td>If the appointment is today, time must be later than the current time</td>
+      <td>"Appointment cannot be set in the past!"</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+  - In GUI: Appointment created in specified patient
+  - In Command Feedback Box: "Appointment Created at 15-11-2026 20:03!"
+- Failure: Error Messages above
+
+### Editing a patient : `editpatient`
+
+Edits an existing patient in MediSaveContact.
+
+#### Command Format:
+
+`editpatient INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [tag/TAG]`
+
+#### Example Commands :
+```
+editpatient 1 p/91234567
+```
+```
+editpatient 2 n/Betsy Crower tag/
+```
+
+#### Parameters & Validation Rules
+
+| Parameter                    | Validation Rules                                                             | Error Message if Invalid                                                                                                        |
+|------------------------------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| INDEX                        | Cannot be blank <br>Must exist in patient list<br>Must be a positive integer | "Invalid command format! "<br>"Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+| NAME / PHONE / ADDRESS / TAG | At least one of these paramters must be present                              | "At least one field to edit must be provided."                                                                                  |
+| NAME                         | Must contain valid characters only                                           | "Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."                |
+| PHONE                        | Must contain digits only<br>Must be of valid length (3-15 digits)            | "Phone number must contain digits only  "<br>"Phone number must be between 3 and 15 digits"                                     |
+| TAG                          | Must be either blank, low, medium or high only (case-insensitive)            | "Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                                      |
+
+#### Outputs
+
+- Success: "Edited Patient: Jack; Phone: 91234567; Address: Blk 123 Clementi Ave 3; Appointment: -"
 - Failure: Error messages above
 
-#### Duplicate handling: 
-
-- Not Applicable
-
-#### Possible errors:
-
-- Missing date/time
-- Missing index
-- More than one date/time or index
-- Wong argument order
-
-### Editing a person : `edit`
-
-Edits an existing person in the address book.
-
-Format: `edit INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [t/TAG]`
-
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can remove all the person’s tags by typing `tag/` without
     specifying any tags after it.
+</div>
 
-Examples:
-*  `edit 1 p/91234567` Edits the phone number of the 1st person to be `91234567`.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
-
-### Adding a note `note`
+### Adding a note : `note`
 
 Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
 
-Format: `note INDEX note/NOTES`
+#### Command Format:
 
-* Adds a note to the patient at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* Notes can only be added to patients, not regular contacts.
-* Each note is appended to the patient's existing notes list, allowing you to build a comprehensive medical history.
-* Notes must not be empty or contain only whitespace.
-* Notes are limited to a maximum of 200 characters to keep entries concise and manageable.
-* Notes can contain any characters including special symbols, numbers, and punctuation.
+`note INDEX note/NOTES`
 
-Examples:
-* `note 1 note/Patient shows improved blood sugar levels today.`
-* `note 3 note/Allergic reaction to penicillin - avoid in future treatments.`
-* `note 2 note/Follow-up appointment scheduled for next week.`
+Example Commands :
+```
+note 1 note/Patient shows improved blood sugar levels today.
+```
+```
+note 3 note/Allergic reaction to penicillin - avoid in future treatments
+```
 
-**Possible Error Messages:**
-* `The person at index [INDEX] is not a patient. Notes can only be added to patients.` - Occurs when trying to add a note to a regular contact instead of a patient.
-* `Note cannot be empty.` - Occurs when the note field is left blank or contains only spaces.
-* `Note exceeds maximum length of 200 characters.` - Occurs when the note is too long.
-* `Invalid command format!` - Occurs when the command format is incorrect (e.g., missing `note/` prefix).
+#### Parameters & Validation Rules
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Important:**
-Notes can only be added to patients. If you try to add a note to a regular contact, you will receive an error message.
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">INDEX</td>
+      <td>Must exist in patient list </td>
+      <td>"The person index provided is invalid"</td>
+    </tr>
+    <tr>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"</td>
+    </tr>
+    <tr>
+      <td rowspan="2">NOTES</td>
+      <td>Max 200 characters</td>
+      <td>“Note exceeds maximum length of 200 characters.”</td>
+    </tr>
+    <tr>
+      <td>Cannot be empty or whitespace only</td>
+      <td>“Note cannot be empty.”</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+  - In GUI: Note created in specified patient
+  - In Command Feedback Box: "Added note to patient"
+
+- Failure: Error messages above
+
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
 </div>
 
-### Adding a note `view`
-
-View a patient’s record.
-
-Format: `view INDEX`
-
-Examples:
-* `view 1`
-
-
-### Locating persons by name: `find`
+### Locating patients by name : `find`
 
 Finds persons whose names contain any of the given keywords.
 
-#### Command Format: 
+#### Command Format:
 
 `find KEYWORD [MORE_KEYWORDS]`
 
@@ -275,55 +376,90 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 - Success: "X persons listed!", where X is the number of matching persons
 - Failure: Error messages above
 
-### Deleting a person : `delete`
+### Deleting a patient: `delete`
 
-Deletes the specified person from the address book.
+Deletes a patient at a specified index from the address book.
+The index refers to the index number shown in the displayed person list.
 
-Format: `delete INDEX`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+#### Command Format:
 
-Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
-* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+```
+delete INDEX`
+```
+
+#### Example Commands:
+
+```
+delete 1
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">INDEX</td>
+      <td>Must exist in patient list </td>
+      <td>“Index number does not exist in address book list!”</td>
+    </tr>
+    <tr>
+      <td>Must be a positive integer</td>
+      <td>“Index number must be a positive integer!”</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Run [list](#list-command) command to view the respective index for each patient.
+</div>
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from MediSaveContact.
 
-Format: `clear`
+#### Command Format:
+```
+clear
+```
 
 ### Exiting the program : `exit`
 
 Exits the program.
 
-Format: `exit`
+Command Format:
+```
+exit
+```
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+MediSaveContact data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+MediSaveContact data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, MediSaveContact will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the application to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the data file it creates with the file that contains the data of your previous MediSaveContact home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
