@@ -243,22 +243,41 @@ appointment 1 d/15/Deleting -11-2026 t/20:03
   - In Command Feedback Box: "Appointment Created at 15-11-2026 20:03!"
 - Failure: Error Messages above
 
-### Editing a person : `edit`
+### Editing a patient : `editpatient`
 
-Edits an existing person in the address book.
+Edits an existing patient in MediSaveContact.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [t/TAG]`
+#### Command Format:
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
+`editpatient INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [tag/TAG]`
+
+#### Example Commands :
+```
+editpatient 1 p/91234567
+```
+```
+editpatient 2 n/Betsy Crower tag/
+```
+
+#### Parameters & Validation Rules
+
+| Parameter                    | Validation Rules                                                             | Error Message if Invalid                                                                                                        |
+|------------------------------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| INDEX                        | Cannot be blank <br>Must exist in patient list<br>Must be a positive integer | "Invalid command format! "<br>"Index number does not exist in address book list!"<br>"Index number must be a positive integer!" |
+| NAME / PHONE / ADDRESS / TAG | At least one of these paramters must be present                              | "At least one field to edit must be provided."                                                                                  |
+| NAME                         | Must contain valid characters only                                           | "Name contains invalid characters. Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed."                |
+| PHONE                        | Must contain digits only<br>Must be of valid length (3-15 digits)            | "Phone number must contain digits only  "<br>"Phone number must be between 3 and 15 digits"                                     |
+| TAG                          | Must be either blank, low, medium or high only (case-insensitive)            | "Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed"                                                      |
+
+#### Outputs
+
+- Success: "Edited Patient: Jack; Phone: 91234567; Address: Blk 123 Clementi Ave 3; Appointment: -"
+- Failure: Error messages above
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can remove all the person’s tags by typing `tag/` without
     specifying any tags after it.
-
-Examples:
-*  `edit 1 p/91234567` Edits the phone number of the 1st person to be `91234567`.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+</div>
 
 ### Adding a note : `note`
 
