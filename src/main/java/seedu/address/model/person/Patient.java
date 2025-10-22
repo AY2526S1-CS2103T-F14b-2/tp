@@ -33,13 +33,12 @@ public class Patient extends Person {
     }
 
     /**
-     * Constructor with single note for backward compatibility.
+     * Constructor with single note.
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, Note note) {
         super(name, phone, address);
-        requireAllNonNull(note);
         this.notes = new ArrayList<>();
-        if (!note.value.equals("NIL")) {
+        if (note != null) {
             this.notes.add(note);
         }
         this.appointment = new ArrayList<>();
@@ -47,13 +46,12 @@ public class Patient extends Person {
     }
 
     /**
-     * Constructor with single note and appointment for backward compatibility.
+     * Constructor with single note and appointment.
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, Note note, List<Appointment> appointment) {
         super(name, phone, address);
-        requireAllNonNull(note);
         this.notes = new ArrayList<>();
-        if (!note.value.equals("NIL")) {
+        if (note != null) {
             this.notes.add(note);
         }
         if (appointment == null) {
@@ -117,11 +115,12 @@ public class Patient extends Person {
     }
 
     /**
-     * Returns the first note of the patient, or a "NIL" note if no notes exist.
-     * @return the first note of the patient.
+     * Returns the first note of the patient, or null if no notes exist.
+     * This follows the same pattern as other getters - return the object or null.
+     * @return the first note of the patient, or null if no notes exist.
      */
     public Note getNote() {
-        return notes.isEmpty() ? new Note("NIL") : notes.get(0);
+        return notes.isEmpty() ? null : notes.get(0);
     }
 
 
@@ -209,7 +208,8 @@ public class Patient extends Person {
 
         this.getTag().ifPresent(tag -> sb.add("tag", tag));
 
-        sb.add("note", this.getNote())
+        Note note = this.getNote();
+        sb.add("note", note != null ? note.value : "No notes")
                 .add("appointment", this.getAppointment());
 
         return sb.toString();

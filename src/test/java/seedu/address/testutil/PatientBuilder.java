@@ -29,7 +29,7 @@ public class PatientBuilder {
     private Phone phone;
     private Address address;
     private Tag tag;
-    private Note note;
+    private List<Note> notes;
     private List<Appointment> appointments;
 
     /**
@@ -40,7 +40,7 @@ public class PatientBuilder {
         phone = new Phone(DEFAULT_PHONE);
         address = new Address(DEFAULT_ADDRESS);
         tag = new Tag(DEFAULT_TAG);
-        note = new Note("NIL"); // No actual note content
+        notes = new ArrayList<>(); // No notes by default
         appointments = new ArrayList<>();
     }
 
@@ -52,7 +52,7 @@ public class PatientBuilder {
         phone = patientToCopy.getPhone();
         address = patientToCopy.getAddress();
         tag = patientToCopy.getTag().orElse(null);
-        note = patientToCopy.getNote();
+        notes = new ArrayList<>(patientToCopy.getNotes());
         appointments = new ArrayList<>(patientToCopy.getAppointment());
     }
 
@@ -89,10 +89,10 @@ public class PatientBuilder {
     }
 
     /**
-     * Sets the {@code Note} of the {@code Patient} that we are building.
+     * Adds a {@code Note} to the {@code Patient} that we are building.
      */
     public PatientBuilder withNote(String note) {
-        this.note = new Note(note);
+        this.notes.add(new Note(note));
         return this;
     }
 
@@ -111,7 +111,7 @@ public class PatientBuilder {
     }
 
     public Patient build() {
-        return new Patient(name, phone, address, tag, note, appointments);
+        return new Patient(name, phone, address, tag, notes, appointments);
     }
 
 }
