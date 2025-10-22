@@ -58,7 +58,7 @@ public class NoteCommandTest {
 
         Patient editedPatient = new Patient(firstPatient.getName(), firstPatient.getPhone(),
                 firstPatient.getAddress(), firstPatient.getTag().orElse(null),
-                expectedNote, firstPatient.getAppointment());
+                expectedNote, firstPatient.getAppointment(), firstPatient.getCaretaker());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
