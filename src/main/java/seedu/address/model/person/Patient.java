@@ -32,10 +32,6 @@ public class Patient extends Person {
         this.tag = tag;
     }
 
-
-
-
-
     /**
      * Constructs a Patient with multiple notes and an appointment.
      * Creates a defensive copy of the provided notes list to ensure immutability.
@@ -61,7 +57,6 @@ public class Patient extends Person {
         this.tag = tag;
     }
 
-
     /**
      * Returns the notes of the patient.
      * @return the notes of the patient.
@@ -78,8 +73,6 @@ public class Patient extends Person {
     public Note getNote() {
         return notes.isEmpty() ? null : notes.get(0);
     }
-
-
 
     /**
      * Returns the list of appointment of the patient.
