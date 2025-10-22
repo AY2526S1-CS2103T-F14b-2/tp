@@ -8,7 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +17,7 @@ import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
 /**
@@ -29,14 +30,15 @@ public class DeleteCaretakerCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        DeletePatientCommand deleteCommand = new DeletePatientCommand(INDEX_FIRST_PERSON);
+        @SuppressWarnings("Unchecked")
+        Patient patientToDeleteFrom = (Patient) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(INDEX_FIRST_PERSON);
 
-        String expectedMessage = String.format(DeletePatientCommand.MESSAGE_DELETE_PATIENT_SUCCESS,
-                Messages.format(personToDelete));
+        String expectedMessage = String.format(DeleteCaretakerCommand.MESSAGE_DELETE_CARETAKER_SUCCESS,
+                Messages.format(patientToDeleteFrom.getCaretaker()));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.deletePerson(personToDelete);
+        expectedModel.deletePerson(patientToDeleteFrom); // SHOULD NOT BE DELETE PATIENT
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }

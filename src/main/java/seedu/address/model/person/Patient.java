@@ -297,7 +297,8 @@ public class Patient extends Person {
         this.getTag().ifPresent(tag -> sb.add("tag", tag));
 
         sb.add("note", this.getNote())
-                .add("appointment", this.getAppointment());
+                .add("appointment", this.getAppointment())
+                .add("caretaker", this.getCaretaker());
 
         return sb.toString();
     }
