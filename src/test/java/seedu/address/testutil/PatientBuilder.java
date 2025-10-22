@@ -119,8 +119,17 @@ public class PatientBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Caretaker} of the {@code Patient} that we are building.
+     */
+    public PatientBuilder withCaretaker(Caretaker caretaker) {
+        this.caretaker = caretaker;
+        return this;
+    }
+
     public Patient build() {
-        return new Patient(name, phone, address, tag, notes, appointments, caretaker);
+        return new Patient(this.name, this.phone,
+                this.address, this.tag, this.notes, this.appointments, this.caretaker);
     }
 
 }
