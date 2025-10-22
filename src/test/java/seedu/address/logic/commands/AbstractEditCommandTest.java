@@ -519,7 +519,7 @@ public class AbstractEditCommandTest {
         }
 
         @Override
-        protected void validateUniqueItem(Model model, String originalItem, String editedItem) 
+        protected void validateUniqueItem(Model model, String originalItem, String editedItem)
                 throws CommandException {
             validateUniqueItemCalled = true;
             // Call the default implementation explicitly to ensure it's covered
