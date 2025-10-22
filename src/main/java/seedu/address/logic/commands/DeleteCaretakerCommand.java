@@ -5,7 +5,9 @@ import java.util.List;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Patient;
 
 /**
@@ -21,6 +23,7 @@ public class DeleteCaretakerCommand extends AbstractDeleteCommand<Patient> {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_DELETE_CARETAKER_SUCCESS = "Deleted Caretaker: %1$s";
+    public static final String MESSAGE_NO_CARETAKER_FOUND = "Specified patient has no caretaker!";
 
     public DeleteCaretakerCommand(Index targetIndex) {
         super(targetIndex);
@@ -33,6 +36,21 @@ public class DeleteCaretakerCommand extends AbstractDeleteCommand<Patient> {
         @SuppressWarnings("unchecked")
         List<Patient> patientList = (List<Patient>) (List<?>) model.getFilteredPersonList();
         return patientList;
+    }
+
+    /**
+     * Validates whether the deletion can proceed by checking if patient has a caretaker.
+     *
+     * @param model the model
+     * @param patientToDeleteFrom the patient whose caretaker is to be deleted
+     * @throws CommandException if validation fails
+     */
+    @Override
+    protected void validateDeletion(Model model, Patient patientToDeleteFrom) throws CommandException {
+        Caretaker caretaker = patientToDeleteFrom.getCaretaker();
+        if (caretaker == null) {
+            throw new CommandException(MESSAGE_NO_CARETAKER_FOUND);
+        }
     }
 
     @Override
