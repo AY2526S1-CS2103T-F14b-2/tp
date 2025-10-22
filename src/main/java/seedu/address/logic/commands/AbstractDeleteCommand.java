@@ -131,6 +131,6 @@ public abstract class AbstractDeleteCommand<T> extends Command {
 
     @Override
     public int hashCode() {
-        return targetIndex.hashCode();
+        return java.util.Objects.hash(this.getClass(), targetIndex.getZeroBased());
     }
 }
