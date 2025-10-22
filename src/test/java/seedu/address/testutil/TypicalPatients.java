@@ -24,6 +24,11 @@ public class TypicalPatients {
             .withPhone("98765432")
             .withTag("low")
             .withNote("No peanuts").build();
+    public static final Patient CARL = new PatientBuilder().withName("Carl Junior")
+            .withAddress("321, Bedok Ave 2, #02-25")
+            .withPhone("98744432")
+            .withTag("high")
+            .withNote("No seafood").build();
 
     private TypicalPatients() {} // prevents instantiation
 
