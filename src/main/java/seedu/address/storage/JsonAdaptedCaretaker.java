@@ -36,10 +36,10 @@ public class JsonAdaptedCaretaker extends JsonAdaptedPerson {
 
     @Override
     public Caretaker toModelType() throws IllegalValueException {
-        Person base = super.toModelType();
-        Relationship relationship = new Relationship(this.relationship);
-
-        return new Caretaker(base.getName(), base.getPhone(), base.getAddress(),
-                relationship);
+        BaseFields base = parseBase();
+        if (relationship == null || !Relationship.isValidRelationship(relationship)) {
+            throw new IllegalValueException(Relationship.MESSAGE_CONSTRAINTS);
+        }
+        return new Caretaker(base.name, base.phone, base.address, new Relationship(relationship));
     }
 }
