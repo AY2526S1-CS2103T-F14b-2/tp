@@ -237,10 +237,9 @@ public class PatientTest {
 
     @Test
     public void isSamePerson_withNonPatient_returnsFalse() {
-        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress());
-        assertTrue(ALICE.isSamePerson(person));
+        Caretaker caretaker = new Caretaker(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(), new Relationship(""));
+        assertTrue(ALICE.isSamePerson(caretaker));
     }
-
 
     @Test
     public void isSamePerson_sameNameAndPhoneDifferentCase_returnsTrue() {
