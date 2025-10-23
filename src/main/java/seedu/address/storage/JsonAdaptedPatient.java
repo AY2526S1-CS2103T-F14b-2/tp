@@ -104,7 +104,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
         List<Note> modelNotes = new ArrayList<>();
         if (notes != null) {
             for (String noteValue : notes) {
-                if (noteValue != null && !noteValue.equals("NIL")) {
+                if (noteValue != null) {
                     modelNotes.add(new Note(noteValue));
                 }
             }
