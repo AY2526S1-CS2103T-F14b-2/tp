@@ -12,7 +12,6 @@ import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
