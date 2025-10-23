@@ -35,72 +35,6 @@ public class Patient extends Person {
     }
 
     /**
-     * Constructor with single note for backward compatibility.
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note) {
-        super(name, phone, address);
-        requireAllNonNull(note);
-        this.notes = new ArrayList<>();
-        if (!note.value.equals("NIL")) {
-            this.notes.add(note);
-        }
-        this.appointment = new ArrayList<>();
-        this.tag = tag;
-        this.caretaker = null;
-    }
-
-    /**
-     * Constructor with single note and appointment for backward compatibility.
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment) {
-        super(name, phone, address);
-        requireAllNonNull(note);
-        this.notes = new ArrayList<>();
-        if (!note.value.equals("NIL")) {
-            this.notes.add(note);
-        }
-        this.appointment = new ArrayList<>();
-        this.appointment.add(appointment);
-        this.tag = tag;
-        this.caretaker = null;
-    }
-
-    /**
-     * Constructor with single note and appointment for backward compatibility.
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, List<Appointment> appointment,
-                   Caretaker caretaker) {
-        super(name, phone, address);
-        requireAllNonNull(note);
-        this.notes = new ArrayList<>();
-        if (!note.value.equals("NIL")) {
-            this.notes.add(note);
-        }
-        this.appointment = appointment;
-        this.tag = tag;
-        this.caretaker = caretaker;
-    }
-
-    /**
-     * Constructs a Patient with multiple notes but no appointment.
-     * Creates a defensive copy of the provided notes list to ensure immutability.
-     *
-     * @param name the patient's name, must not be null
-     * @param phone the patient's phone number, must not be null
-     * @param address the patient's address, must not be null
-     * @param notes the list of notes for the patient, must not be null (can be empty)
-     * @throws NullPointerException if any parameter is null
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes) {
-        super(name, phone, address);
-        requireAllNonNull(notes);
-        this.notes = new ArrayList<>(notes);
-        this.appointment = new ArrayList<>();
-        this.tag = tag;
-        this.caretaker = null;
-    }
-
-    /**
      * Constructs a Patient with multiple notes and an appointment.
      * Creates a defensive copy of the provided notes list to ensure immutability.
      *
@@ -109,18 +43,14 @@ public class Patient extends Person {
      * @param address the patient's address, must not be null
      * @param tag the urgency associated with the patient condition, can be null if no tag is given
      * @param notes the list of notes for the patient, must not be null (can be empty)
-     * @param appointment the patient's appointment, can be null if no appointment is scheduled
+     * @param appointment the list of appointments for the patient, must not be null (can be empty)
      * @throws NullPointerException if any required parameter is null
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, List<Appointment> appointment) {
         super(name, phone, address);
-        requireAllNonNull(notes);
+        requireAllNonNull(notes, appointment);
         this.notes = new ArrayList<>(notes);
-        if (appointment == null) {
-            this.appointment = new ArrayList<>();
-        } else {
-            this.appointment = new ArrayList<>(appointment);
-        }
+        this.appointment = new ArrayList<>(appointment);
         this.tag = tag;
         this.caretaker = null;
     }
@@ -135,48 +65,19 @@ public class Patient extends Person {
      * @param address the patient's address, must not be null
      * @param tag the urgency associated with the patient condition, can be null if no tag is given
      * @param notes the list of notes for the patient, must not be null (can be empty)
-     * @param appointment the patient's appointment, can be null if no appointment is scheduled
+     * @param appointment the list of appointments for the patient, must not be null (can be empty)
      * @param caretaker the patient's caretaker, can be null if no caretaker is provided
      * @throws NullPointerException if any required parameter is null
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, List<Appointment> appointment,
                    Caretaker caretaker) {
         super(name, phone, address);
-        requireAllNonNull(notes);
+        requireAllNonNull(notes, appointment);
         this.notes = new ArrayList<>(notes);
         this.appointment = new ArrayList<>(appointment);
         this.tag = tag;
         this.caretaker = caretaker;
     }
-
-    /**
-     * Constructs a Patient with multiple notes, multiple appointments, and a caretaker.
-     * Creates a defensive copy of the provided notes list to ensure immutability.
-     * This is the most comprehensive constructor supporting all patient data fields.
-     *
-     * @param name the patient's name, must not be null
-     * @param phone the patient's phone number, must not be null
-     * @param address the patient's address, must not be null
-     * @param tag the urgency associated with the patient condition, can be null if no tag is given
-     * @param note the note for the patient, must not be null (can be empty)
-     * @param appointment the patient's appointment, can be null if no appointment is scheduled
-     * @param caretaker the patient's caretaker, can be null if no caretaker is provided
-     * @throws NullPointerException if any required parameter is null
-     */
-    public Patient(Name name, Phone phone, Address address, Tag tag, Note note, Appointment appointment,
-                   Caretaker caretaker) {
-        super(name, phone, address);
-        requireAllNonNull(note);
-        this.notes = new ArrayList<>();
-        if (!note.value.equals("NIL")) {
-            this.notes.add(note);
-        }
-        this.appointment = new ArrayList<>();
-        this.appointment.add(appointment);
-        this.tag = tag;
-        this.caretaker = caretaker;
-    }
-
 
     /**
      * Returns the notes of the patient.
@@ -187,11 +88,12 @@ public class Patient extends Person {
     }
 
     /**
-     * Returns the first note of the patient, or a "NIL" note if no notes exist.
-     * @return the first note of the patient.
+     * Returns the first note of the patient, or null if no notes exist.
+     * This follows the same pattern as other getters - return the object or null.
+     * @return the first note of the patient, or null if no notes exist.
      */
     public Note getNote() {
-        return notes.isEmpty() ? new Note("NIL") : notes.get(0);
+        return notes.isEmpty() ? null : notes.get(0);
     }
 
     /**
@@ -296,7 +198,8 @@ public class Patient extends Person {
 
         this.getTag().ifPresent(tag -> sb.add("tag", tag));
 
-        sb.add("note", this.getNote())
+        Note note = this.getNote();
+        sb.add("note", note != null ? note.value : "No notes")
                 .add("appointment", this.getAppointment());
 
         return sb.toString();
