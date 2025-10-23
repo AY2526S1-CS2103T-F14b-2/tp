@@ -297,4 +297,56 @@ public class PatientTest {
         assertTrue(patient.getAppointment().isEmpty());
     }
 
+    @Test
+    public void editNote_validIndexAndNote_returnsNewPatientWithEditedNote() {
+        Patient originalPatient = new PatientBuilder()
+                .withNote("First note")
+                .withNote("Second note")
+                .build();
+
+        Note newNote = new Note("Updated second note");
+        Patient updatedPatient = originalPatient.editNote(1, newNote);
+
+        // Original patient should be unchanged
+        assertEquals("Second note", originalPatient.getNotes().get(1).value);
+
+        // Updated patient should have the edited note
+        assertEquals("First note", updatedPatient.getNotes().get(0).value);
+        assertEquals("Updated second note", updatedPatient.getNotes().get(1).value);
+
+        // Verify immutability - should be different objects
+        assertNotEquals(originalPatient, updatedPatient);
+        assertNotEquals(originalPatient.getNotes(), updatedPatient.getNotes());
+    }
+
+    @Test
+    public void editNote_invalidIndex_throwsIndexOutOfBoundsException() {
+        Patient patient = new PatientBuilder().withNote("Only note").build();
+        Note newNote = new Note("Updated note");
+
+        // Test negative index
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.editNote(-1, newNote));
+
+        // Test index too large
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.editNote(1, newNote));
+
+        // Test index way too large
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.editNote(5, newNote));
+    }
+
+    @Test
+    public void editNote_emptyNotesList_throwsIndexOutOfBoundsException() {
+        Patient patient = new PatientBuilder().build(); // No notes added
+        Note newNote = new Note("Any note");
+
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.editNote(0, newNote));
+    }
+
+    @Test
+    public void editNote_nullNote_throwsNullPointerException() {
+        Patient patient = new PatientBuilder().withNote("Some note").build();
+
+        assertThrows(NullPointerException.class, () -> patient.editNote(0, null));
+    }
+
 }
