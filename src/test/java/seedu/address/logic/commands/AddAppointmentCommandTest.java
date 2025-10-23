@@ -200,6 +200,14 @@ public class AddAppointmentCommandTest {
         public void updateFilteredPersonList(java.util.function.Predicate<Person> predicate) {
             throw new AssertionError();
         }
+        @Override
+        public boolean canUndo() {
+            throw new AssertionError();
+        }
+        @Override
+        public void undo() {
+            throw new AssertionError();
+        }
     }
 
     private static class ModelStubAcceptingAppointment implements Model {
@@ -283,5 +291,14 @@ public class AddAppointmentCommandTest {
         public void updateFilteredPersonList(java.util.function.Predicate<Person> predicate) {
             throw new AssertionError();
         }
+        @Override
+        public boolean canUndo() {
+            throw new AssertionError();
+        }
+        @Override
+        public void undo() {
+            throw new AssertionError();
+        }
+
     }
 }
