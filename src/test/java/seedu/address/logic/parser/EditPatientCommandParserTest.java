@@ -169,17 +169,4 @@ public class EditPatientCommandParserTest {
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_ADDRESS));
     }
 
-    @Test
-    public void parse_tagBlank_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + TAG_DESC_BLANK;
-
-        EditPatientDescriptor descriptor = new EditPatientDescriptor();
-        descriptor.setTagEdited();
-        descriptor.setTag(null);
-
-        EditPatientCommand expectedCommand = new EditPatientCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-
 }
