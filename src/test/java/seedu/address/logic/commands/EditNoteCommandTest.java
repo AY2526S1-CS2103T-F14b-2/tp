@@ -7,7 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,11 +19,13 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.testutil.PatientBuilder;
 
 /**
@@ -82,7 +84,8 @@ public class EditNoteCommandTest {
     public void execute_notAPatient_throwsCommandException() {
         // Create a model with a regular Person (not Patient)
         Model modelWithPerson = new ModelManager(new AddressBook(), new UserPrefs());
-        Person person = new Person(new Name("John Doe"), new Phone("12345678"), new Address("123 Street"));
+        Person person = new Caretaker(new Name("John Doe"), new Phone("12345678"),
+                new Address("123 Street"), new Relationship("Parent"));
         modelWithPerson.addPerson(person);
 
         EditNoteDescriptor descriptor = new EditNoteDescriptor();
