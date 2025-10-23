@@ -2,8 +2,8 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ITEM_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditNoteCommand;
@@ -46,7 +46,7 @@ public class EditNoteCommandParser implements Parser<EditNoteCommand> {
         }
 
         String noteIndexValue = argMultimap.getValue(PREFIX_ITEM_INDEX).get();
-        
+
         // Check for invalid format case: empty value or specific invalid patterns
         String trimmedValue = noteIndexValue.trim();
         if (trimmedValue.isEmpty() || trimmedValue.equals("string")) {
@@ -71,7 +71,7 @@ public class EditNoteCommandParser implements Parser<EditNoteCommand> {
         }
 
         String noteValue = argMultimap.getValue(PREFIX_NOTE).get();
-        
+
         // Handle empty note value after ArgumentTokenizer's automatic trimming
         if (noteValue.isEmpty()) {
             // Distinguish between "note/" (format error) and "note/   " (note validation error)
@@ -82,7 +82,7 @@ public class EditNoteCommandParser implements Parser<EditNoteCommand> {
             if (notePrefixIndex != -1) {
                 int afterPrefixIndex = notePrefixIndex + notePrefix.length();
                 String afterPrefix = args.substring(afterPrefixIndex);
-                
+
                 if (afterPrefix.matches("\\s+.*") || afterPrefix.matches("\\s+$")) {
                     // There was whitespace content that got trimmed - trigger Note model validation
                     try {
@@ -96,7 +96,7 @@ public class EditNoteCommandParser implements Parser<EditNoteCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     EditNoteCommand.MESSAGE_USAGE));
         }
-        
+
         // Parse non-empty note content
         Note newNote = ParserUtil.parseNote(noteValue);
         editNoteDescriptor.setNote(newNote);
