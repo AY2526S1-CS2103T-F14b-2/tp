@@ -10,12 +10,7 @@ participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
 participant "r:CommandResult" as CommandResult LOGIC_COLOR
 end box
 
-box Model MODEL_COLOR_T1
-participant "m:Model" as Model MODEL_COLOR
-end box
 
-[-> LogicManager : execute("delete 1")
-activate LogicManager
 
 LogicManager -> AddressBookParser : parseCommand("delete 1")
 activate AddressBookParser
