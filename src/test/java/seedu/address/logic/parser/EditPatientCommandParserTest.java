@@ -15,6 +15,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HIGH;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_BLANK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -168,5 +169,17 @@ public class EditPatientCommandParserTest {
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_ADDRESS));
     }
 
+    @Test
+    public void parse_tagBlank_clearsTag_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + TAG_DESC_BLANK;
+
+        EditPatientDescriptor descriptor = new EditPatientDescriptor();
+        descriptor.setTagEdited();
+        descriptor.setTag(null);
+
+        EditPatientCommand expectedCommand = new EditPatientCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
 
 }
