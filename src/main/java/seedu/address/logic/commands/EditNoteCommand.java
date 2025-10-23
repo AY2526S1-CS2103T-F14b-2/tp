@@ -97,7 +97,7 @@ public class EditNoteCommand extends AbstractEditCommand<Patient, EditNoteComman
         // patientToEdit is the correct patient from the filtered list
         assert patientToEdit != null;
 
-        Note newNote = editNoteDescriptor.getNote().get(); // We know it exists from validation
+        Note newNote = editNoteDescriptor.getNoteValue(); // We know it exists from validation
         int noteIndex = editNoteDescriptor.getNoteIndex() - 1; // Convert to 0-based index
 
         return patientToEdit.editNote(noteIndex, newNote);
@@ -151,6 +151,14 @@ public class EditNoteCommand extends AbstractEditCommand<Patient, EditNoteComman
          */
         public Optional<Note> getNote() {
             return Optional.ofNullable(note);
+        }
+
+        /**
+         * Returns the note value directly, assuming it has been validated to exist.
+         * Should only be called after validation confirms the note is present.
+         */
+        public Note getNoteValue() {
+            return note;
         }
 
         /**
