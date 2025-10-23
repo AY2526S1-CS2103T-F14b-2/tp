@@ -1,6 +1,7 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -38,9 +39,13 @@ public class JsonAdaptedPatientTest {
     public void toModelType_validPatientDetails_returnsPatient() throws Exception {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
                 VALID_APPOINTMENTS, VALID_NOTE, null, VALID_TAG, VALID_CARETAKER);
+        List<Note> expectedNotes = new ArrayList<>();
+        expectedNotes.add(new Note(VALID_NOTE));
+        List<Appointment> expectedAppointments = new ArrayList<>();
+        expectedAppointments.add(new Appointment("31-12-2025", "14:30"));
         Patient expectedPatient = new Patient(new Name(VALID_NAME), new Phone(VALID_PHONE),
                 new Address(VALID_ADDRESS), VALID_TAG.toModelType(),
-                new Note(VALID_NOTE), new Appointment("31-12-2025", "14:30"),
+                expectedNotes, expectedAppointments,
                 new Caretaker(new Name(VALID_NAME), new Phone(VALID_PHONE),
                 new Address(VALID_ADDRESS), new Relationship(VALID_RELATIONSHIP)));
         assertEquals(expectedPatient, patient.toModelType());
@@ -59,7 +64,7 @@ public class JsonAdaptedPatientTest {
         JsonAdaptedPatient patient = new JsonAdaptedPatient(VALID_NAME, VALID_PHONE, VALID_ADDRESS,
                 VALID_APPOINTMENTS, null, null, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
-        assertEquals(new Note("NIL"), result.getNote());
+        assertNull(result.getNote());
     }
 
     @Test
@@ -157,7 +162,7 @@ public class JsonAdaptedPatientTest {
     }
 
     @Test
-    public void toModelType_notesWithNil_filtersOutNilNotes() throws Exception {
+    public void toModelType_notesWithValidValues_createsAllNotes() throws Exception {
         List<String> notes = new ArrayList<>();
         notes.add("Valid note");
         notes.add("NIL");
@@ -167,9 +172,10 @@ public class JsonAdaptedPatientTest {
                 VALID_APPOINTMENTS, null, notes, VALID_TAG, VALID_CARETAKER);
         Patient result = patient.toModelType();
 
-        assertEquals(2, result.getNotes().size());
+        assertEquals(3, result.getNotes().size());
         assertEquals("Valid note", result.getNotes().get(0).value);
-        assertEquals("Another valid note", result.getNotes().get(1).value);
+        assertEquals("NIL", result.getNotes().get(1).value);
+        assertEquals("Another valid note", result.getNotes().get(2).value);
     }
 
     @Test

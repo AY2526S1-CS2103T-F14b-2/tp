@@ -49,16 +49,20 @@ public class NoteCommandTest {
 
         // Calculate expected combined note
         Note expectedNote;
-        if (firstPatient.getNote() != null && !firstPatient.getNote().value.equals("NIL")) {
+        if (firstPatient.getNote() != null) {
             String combinedNoteValue = firstPatient.getNote().value + " | " + NOTE_STUB;
             expectedNote = new Note(combinedNoteValue);
         } else {
             expectedNote = new Note(NOTE_STUB);
         }
 
+        List<Note> notesList = new ArrayList<>(firstPatient.getNotes());
+        if (expectedNote != null) {
+            notesList.add(expectedNote);
+        }
         Patient editedPatient = new Patient(firstPatient.getName(), firstPatient.getPhone(),
                 firstPatient.getAddress(), firstPatient.getTag().orElse(null),
-                expectedNote, firstPatient.getAppointment(), firstPatient.getCaretaker());
+                notesList, firstPatient.getAppointment(), firstPatient.getCaretaker());
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
