@@ -48,6 +48,7 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String TAG_DESC_HIGH = " " + PREFIX_TAG + VALID_TAG_HIGH;
     public static final String TAG_DESC_LOW = " " + PREFIX_TAG + VALID_TAG_LOW;
+    public static final String TAG_DESC_BLANK = " " + PREFIX_TAG;
     public static final String NOTE_DESC_AMY = " " + PREFIX_NOTE + VALID_NOTE_AMY;
     public static final String NOTE_DESC_BOB = " " + PREFIX_NOTE + VALID_NOTE_BOB;
 
