@@ -14,5 +14,4 @@ public class CliSyntax {
     public static final Prefix PREFIX_TIME = new Prefix("t/");
     public static final Prefix PREFIX_NOTE = new Prefix("note/");
     public static final Prefix PREFIX_RELATIONSHIP = new Prefix("r/");
-
 }
