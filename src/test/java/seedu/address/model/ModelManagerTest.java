@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPatients.ALICE;
+import static seedu.address.testutil.TypicalPatients.BOB;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,11 +18,12 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PatientBuilder;
 
@@ -154,9 +155,9 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void addAppointment_nonPatient_throwsIllegalArgumentException() {
-        Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
-                new Address("Somewhere"));
+    public void addAppointment_careTaker_throwsIllegalArgumentException() {
+        Caretaker nonPatient = new Caretaker(new Name("Non Patient"), new Phone("91234567"),
+                new Address("Somewhere"), new Relationship("Father"));
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(nonPatient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
@@ -183,9 +184,9 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasAppointment_nonPatient_returnsFalse() {
-        Person nonPatient = new Person(new Name("Non Patient"), new Phone("91234567"),
-                new Address("Somewhere"));
+    public void hasAppointment_careTaker_returnsFalse() {
+        Caretaker nonPatient = new Caretaker(new Name("Non Patient"), new Phone("91234567"),
+                new Address("Somewhere"), new Relationship("Father"));
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(nonPatient);
         ModelManager manager = new ModelManager(addressBook, new UserPrefs());
@@ -195,7 +196,7 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BOB).build();
         AddressBook differentAddressBook = new AddressBook();
         UserPrefs userPrefs = new UserPrefs();
 
