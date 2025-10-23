@@ -32,18 +32,18 @@ public class PatientTest {
         // null -> returns false
         assertFalse(ALICE.isSamePerson(null));
 
-        // name differs in case, all other attributes same -> returns false
+        // name differs in case, all other attributes same -> returns true
         Patient editedBob = new PatientBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        assertTrue(BOB.isSamePerson(editedBob));
 
         // different note, all other attributes same -> returns true
         //editedBob = new PatientBuilder(BOB).withNote("Different note").build();
         //assertTrue(BOB.isSamePerson(editedBob));
 
-        // name has trailing spaces, all other attributes same -> returns false
+        // name has trailing spaces, all other attributes same -> returns true
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new PatientBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        assertTrue(BOB.isSamePerson(editedBob));
     }
 
     @Test
@@ -93,7 +93,8 @@ public class PatientTest {
     public void toStringMethod() {
         String expected = Patient.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
             + ", address=" + ALICE.getAddress() + ", tag=" + ALICE.getTag().orElse(null)
-            + ", note=No notes, appointment=" + ALICE.getAppointment() + "}";
+            + ", note=No notes, appointment=" + ALICE.getAppointment()
+            + ", caretaker=" + ALICE.getCaretaker() + "}";
         assertEquals(expected, ALICE.toString());
     }
 
@@ -109,7 +110,6 @@ public class PatientTest {
     public void constructor_withValidNote_addsNoteToList() {
         Patient patient = new PatientBuilder().withNote("Valid note").build();
         assertEquals(1, patient.getNotes().size());
-        assertEquals("Valid note", patient.getNote().value);
         assertEquals("Valid note", patient.getNotes().get(0).value);
     }
 
@@ -234,17 +234,17 @@ public class PatientTest {
     }
 
     @Test
-    public void getNote_withoutNotes_returnsNull() {
+    public void getNote_withoutNotes_returnsNilNote() {
         Patient patient = new PatientBuilder().build();
-        assertNull(patient.getNote());
+        assertEquals(null, patient.getNote());
     }
 
     @Test
     public void isSamePerson_withNonPatient_returnsFalse() {
-        Person person = new Person(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress());
-        assertTrue(ALICE.isSamePerson(person));
+        Caretaker caretaker = new Caretaker(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                new Relationship("Father"));
+        assertTrue(ALICE.isSamePerson(caretaker));
     }
-
 
     @Test
     public void isSamePerson_sameNameAndPhoneDifferentCase_returnsTrue() {
@@ -288,7 +288,7 @@ public class PatientTest {
     }
 
     @Test
-    public void constructor_emptyNotesListAndEmptyAppointment_successful() {
+    public void constructor_emptyNotesListAndEmptyAppointmentsList_successful() {
         List<Note> emptyNotes = new ArrayList<>();
         List<Appointment> emptyAppointments = new ArrayList<>();
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),

@@ -11,7 +11,7 @@ import seedu.address.model.tag.Tag;
 /**
  * A utility class to help with building Person objects.
  */
-public class PersonBuilder {
+public abstract class PersonBuilder {
 
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
@@ -63,8 +63,6 @@ public class PersonBuilder {
         return this;
     }
 
-    public Person build() {
-        return new Person(name, phone, address);
-    }
+    public abstract Person build();
 
 }

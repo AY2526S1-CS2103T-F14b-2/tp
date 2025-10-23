@@ -218,7 +218,8 @@ public class Patient extends Person {
 
         Note note = this.getNote();
         sb.add("note", note != null ? note.value : "No notes")
-                .add("appointment", this.getAppointment());
+                .add("appointment", this.getAppointment())
+                .add("caretaker", this.getCaretaker());
 
         return sb.toString();
     }

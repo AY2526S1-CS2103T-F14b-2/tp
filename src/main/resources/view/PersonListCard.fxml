@@ -28,7 +28,7 @@
 
     <!-- CARETAKER SECTION -->
     <VBox fx:id="caretakerBox"
-          spacing="3"
+          spacing="0"
           alignment="TOP_LEFT"
           visible="false"
           managed="false"
