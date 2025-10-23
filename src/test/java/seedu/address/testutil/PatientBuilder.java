@@ -58,7 +58,7 @@ public class PatientBuilder {
         phone = patientToCopy.getPhone();
         address = patientToCopy.getAddress();
         tag = patientToCopy.getTag().orElse(null);
-        notes = patientToCopy.getNotes();
+        notes = new ArrayList<>(patientToCopy.getNotes());
         appointments = new ArrayList<>(patientToCopy.getAppointment());
     }
 
@@ -95,12 +95,9 @@ public class PatientBuilder {
     }
 
     /**
-     * Sets the {@code Note} of the {@code Patient} that we are building.
+     * Adds a {@code Note} to the {@code Patient} that we are building.
      */
     public PatientBuilder withNote(String note) {
-        if (this.notes == null) {
-            this.notes = new ArrayList<>();
-        }
         this.notes.add(new Note(note));
         return this;
     }
