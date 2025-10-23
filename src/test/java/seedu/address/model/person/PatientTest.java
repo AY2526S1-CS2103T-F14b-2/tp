@@ -236,7 +236,7 @@ public class PatientTest {
     @Test
     public void getNote_withoutNotes_returnsNilNote() {
         Patient patient = new PatientBuilder().build();
-        assertEquals("NIL", patient.getNote().value);
+        assertEquals(null, patient.getNote());
     }
 
     @Test
@@ -288,10 +288,11 @@ public class PatientTest {
     }
 
     @Test
-    public void constructor_emptyNotesListAndNullAppointment_successful() {
+    public void constructor_emptyNotesListAndEmptyAppointmentsList_successful() {
         List<Note> emptyNotes = new ArrayList<>();
+        List<Appointment> emptyAppointments = new ArrayList<>();
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
-                ALICE.getTag().orElse(null), emptyNotes, null);
+                ALICE.getTag().orElse(null), emptyNotes, emptyAppointments);
         assertTrue(patient.getNotes().isEmpty());
         assertTrue(patient.getAppointment().isEmpty());
     }
