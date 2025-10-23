@@ -5,7 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPatients.ALICE;import static seedu.address.testutil.TypicalPatients.BOB;
+import static seedu.address.testutil.TypicalPatients.ALICE;
+import static seedu.address.testutil.TypicalPatients.BOB;
 
 import java.util.Arrays;
 import java.util.Collections;

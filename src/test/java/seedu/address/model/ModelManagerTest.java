@@ -16,7 +16,14 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.person.*;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Caretaker;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Patient;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PatientBuilder;
 

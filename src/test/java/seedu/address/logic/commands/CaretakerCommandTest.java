@@ -20,10 +20,8 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
 import seedu.address.testutil.CaretakerBuilder;
 import seedu.address.testutil.PatientBuilder;
-import seedu.address.testutil.PersonBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for {@code CaretakerCommand}.
