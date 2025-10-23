@@ -95,7 +95,7 @@ public class AddressBookParser {
 
         case DeleteCaretakerCommand.COMMAND_WORD:
             return new DeleteCaretakerCommandParser().parse(arguments);
-        
+
         case UndoCommand.COMMAND_WORD:
             return new UndoCommand();
 
