@@ -107,7 +107,7 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
         }
 
         return new Patient(updatedName, updatedPhone, updatedAddress, updatedTag, patientToEdit.getNotes(),
-                patientToEdit.getAppointment());
+                patientToEdit.getAppointment(), patientToEdit.getCaretaker());
     }
 
     @Override
