@@ -77,7 +77,7 @@ public class DeleteCaretakerCommand extends AbstractDeleteCommand<Patient> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof DeletePatientCommand)) {
+        if (!(other instanceof DeleteCaretakerCommand)) {
             return false;
         }
 
