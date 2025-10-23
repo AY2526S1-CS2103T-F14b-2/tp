@@ -168,5 +168,4 @@ public class EditPatientCommandParserTest {
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_ADDRESS));
     }
 
-
 }

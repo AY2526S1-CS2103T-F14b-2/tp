@@ -29,7 +29,6 @@ public class HelpCommand extends Command {
             + "4. List Patients\n"
             + "   Purpose: Show all patients in the list\n"
             + "   Format: list\n"
-            + "   Example: list\n\n"
             + "5. Add Appointment\n"
             + "   Purpose: Schedule an appointment for a patient\n"
             + "   Format: appointment INDEX d/DATE t/TIME\n"
@@ -37,7 +36,14 @@ public class HelpCommand extends Command {
             + "6. Add Medical Notes\n"
             + "   Purpose: Add notes to a patient’s record\n"
             + "   Format: note INDEX note/NOTES\n"
-            + "   Notes: NOTES max 200 characters\n\n";
+            + "   Notes: NOTES max 200 characters\n\n"
+            + "7. Add Caretaker\n"
+            + "   Purpose: Add caretaker to a patient’s record\n"
+            + "   Format: caretaker INDEX n/NAME p/PHONE a/ADDRESS r/RELATIONSHIP\n"
+            + "8. Delete Caretaker\n"
+            + "   Purpose: Delete caretaker from a patient’s record\n"
+            + "   Format: deletecaretaker INDEX\n"
+            + "   Notes: Patient must have a caretaker already assigned\n\n";
 
     @Override
     public CommandResult execute(Model model) {
