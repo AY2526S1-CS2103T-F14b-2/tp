@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 
 import java.util.stream.Stream;
@@ -9,7 +10,7 @@ import java.util.stream.Stream;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddAppointmentCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-
+import seedu.address.model.person.Note;
 
 
 /**
@@ -25,7 +26,7 @@ public class AddAppointmentCommandParser implements Parser<AddAppointmentCommand
      */
     @Override
     public AddAppointmentCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DATE, PREFIX_TIME);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DATE, PREFIX_TIME, PREFIX_NOTE);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_DATE, PREFIX_TIME) || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -36,7 +37,12 @@ public class AddAppointmentCommandParser implements Parser<AddAppointmentCommand
         String date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
         String time = ParserUtil.parseTime(argMultimap.getValue(PREFIX_TIME).get());
 
-        return new AddAppointmentCommand(index, date, time);
+        Note desc = null;
+        if (argMultimap.getValue(PREFIX_NOTE).isPresent()) {
+            desc = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
+        }
+
+        return new AddAppointmentCommand(index, date, time, desc);
     }
 
     /**

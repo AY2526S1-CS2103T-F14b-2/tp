@@ -187,7 +187,7 @@ Schedule an appointment for a patient using a specified index.
 
 #### Command Format:
 
-`appointment INDEX d/DATE t/TIME`
+`appointment INDEX d/DATE t/TIME [note/APPT_DESCRIPTION]`
 
 #### Example Commands:
 
