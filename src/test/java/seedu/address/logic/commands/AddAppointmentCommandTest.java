@@ -14,6 +14,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PatientBuilder;
@@ -73,6 +74,22 @@ public class AddAppointmentCommandTest {
     }
 
     @Test
+    public void execute_patientWithAppointmentWithNote_success() throws Exception {
+        Patient patient = new PatientBuilder().withName("Bob").build();
+        ModelStubAcceptingAppointment modelStub = new ModelStubAcceptingAppointment(patient);
+        Note testNote = new Note("Follow-up checkup");
+        AddAppointmentCommand command = new
+            AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, FUTURE_TIME,
+            testNote);
+
+        CommandResult result = command.execute(modelStub);
+
+        Patient updatedPatient = (Patient) modelStub.getFilteredPersonList().get(0);
+        assertEquals(1, updatedPatient.getAppointment().size());
+        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME, testNote), updatedPatient.getAppointment().get(0));
+    }
+
+    @Test
     public void equals() {
         AddAppointmentCommand addAppointmentFirstCommand = new
             AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, FUTURE_TIME);
@@ -105,6 +122,19 @@ public class AddAppointmentCommandTest {
         AddAppointmentCommand differentTimeCommand = new
             AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, "16:00");
         assertEquals(false, addAppointmentFirstCommand.equals(differentTimeCommand));
+
+        // different note -> returns false
+        AddAppointmentCommand differentNoteCommand = new
+            AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, FUTURE_TIME, new Note("Different note"));
+        assertEquals(false, addAppointmentFirstCommand.equals(differentNoteCommand));
+
+        // same values with note -> returns true
+        Note testNote = new Note("Test note");
+        AddAppointmentCommand commandWithNote1 = new
+            AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, FUTURE_TIME, testNote);
+        AddAppointmentCommand commandWithNote2 = new
+            AddAppointmentCommand(Index.fromOneBased(1), FUTURE_DATE, FUTURE_TIME, testNote);
+        assertEquals(commandWithNote1, commandWithNote2);
     }
 
     @Test
@@ -122,7 +152,7 @@ public class AddAppointmentCommandTest {
         Index targetIndex = Index.fromOneBased(1);
         AddAppointmentCommand addAppointmentCommand = new AddAppointmentCommand(targetIndex, FUTURE_DATE, FUTURE_TIME);
         String expected = AddAppointmentCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex
-                + ", date=" + FUTURE_DATE + ", time=" + FUTURE_TIME + "}";
+                + ", date=" + FUTURE_DATE + ", time=" + FUTURE_TIME + ", description=null}";
         assertEquals(expected, addAppointmentCommand.toString());
     }
 
@@ -143,7 +173,7 @@ public class AddAppointmentCommandTest {
         }
 
         @Override
-        public Patient addAppointment(Person person, String date, String time) {
+        public Patient addAppointment(Person person, String date, String time, Note desc) {
             throw new IllegalArgumentException(Appointment.MESSAGE_CONSTRAINTS);
         }
 
@@ -227,9 +257,11 @@ public class AddAppointmentCommandTest {
         }
 
         @Override
-        public Patient addAppointment(Person person, String date, String time) {
+        public Patient addAppointment(Person person, String date, String time, Note desc) {
             Patient patient = (Patient) person;
-            Appointment appointment = new Appointment(date, time);
+            Appointment appointment = desc == null
+                    ? new Appointment(date, time)
+                    : new Appointment(date, time, desc);
             if (patient.getAppointment().contains(appointment)) {
                 throw new IllegalArgumentException(MESSAGE_DUPLICATE_APPOINTMENT);
             }

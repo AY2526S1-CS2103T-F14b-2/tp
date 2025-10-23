@@ -13,6 +13,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddAppointmentCommand;
 import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
@@ -119,7 +120,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Patient addAppointment(Person person, String date, String time) {
+    public Patient addAppointment(Person person, String date, String time, Note desc) {
         requireAllNonNull(person, date, time);
 
         if (!(person instanceof Patient)) {
@@ -127,7 +128,9 @@ public class ModelManager implements Model {
         }
 
         Patient patient = (Patient) person;
-        Appointment appointment = new Appointment(date, time);
+        Appointment appointment = desc == null
+            ? new Appointment(date, time)
+            : new Appointment(date, time, desc);
 
         if (patient.getAppointment().contains(appointment)) {
             throw new IllegalArgumentException(AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT);
