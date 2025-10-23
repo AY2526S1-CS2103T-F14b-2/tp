@@ -12,7 +12,6 @@ import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -82,7 +81,7 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
 
     @Override
     public Patient toModelType() throws IllegalValueException {
-        Person base = super.toModelType();
+        BaseFields base = parseBase(); // name, phone, address parsed & validated
 
         List<Appointment> modelAppointment = new ArrayList<>();
         if (appointment != null) {
@@ -118,10 +117,11 @@ class JsonAdaptedPatient extends JsonAdaptedPerson {
         }
 
         final Tag modelTag = (tag == null) ? null : tag.toModelType();
-
         final Caretaker modelCaretaker = (caretaker == null) ? null : caretaker.toModelType();
 
-        return new Patient(base.getName(), base.getPhone(), base.getAddress(),
-                modelTag, modelNotes, modelAppointment, modelCaretaker);
+        return new Patient(
+                base.name, base.phone, base.address,
+                modelTag, modelNotes, modelAppointment, modelCaretaker
+        );
     }
 }

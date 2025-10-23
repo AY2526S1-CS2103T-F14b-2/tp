@@ -7,7 +7,7 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDE
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,10 +20,8 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
 import seedu.address.testutil.CaretakerBuilder;
 import seedu.address.testutil.PatientBuilder;
-import seedu.address.testutil.PersonBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for {@code CaretakerCommand}.
@@ -71,7 +69,7 @@ public class CaretakerCommandTest {
     @Test
     public void execute_nonPatientTarget_throwsCommandException() {
         // replace first person with a non-patient
-        Person nonPatient = new PersonBuilder().build();
+        Caretaker nonPatient = new CaretakerBuilder().build();
         model.setPerson(model.getFilteredPersonList().get(0), nonPatient);
 
         Caretaker caretaker = new CaretakerBuilder().build();

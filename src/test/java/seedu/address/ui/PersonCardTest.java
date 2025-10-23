@@ -1,15 +1,12 @@
 package seedu.address.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
 import seedu.address.testutil.PatientBuilder;
-import seedu.address.testutil.PersonBuilder;
 
 /**
  * Contains tests for PersonCard UI component.
@@ -34,13 +31,6 @@ public class PersonCardTest {
 
         assertTrue(patient instanceof Patient);
         assertTrue(patient.getAppointment().isEmpty());
-    }
-
-    @Test
-    public void constructor_regularPerson_displaysDefaultAppointment() {
-        Person person = new PersonBuilder().build();
-
-        assertFalse(person instanceof Patient);
     }
 
     @Test
