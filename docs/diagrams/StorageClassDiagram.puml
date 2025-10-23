@@ -19,10 +19,17 @@ Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
 Class JsonAddressBookStorage
 Class JsonSerializableAddressBook
 Class JsonAdaptedPerson
+Class JsonAdaptedPatient {
+  - List<String> notes
+  - List<List<String>> appointments
+}
+Class JsonAdaptedCaretaker
 Class JsonAdaptedTag
 }
 
 }
+
+show JsonAdaptedPatient fields
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Storage
@@ -37,7 +44,10 @@ Storage -right-|> AddressBookStorage
 JsonUserPrefsStorage .up.|> UserPrefsStorage
 JsonAddressBookStorage .up.|> AddressBookStorage
 JsonAddressBookStorage ..> JsonSerializableAddressBook
-JsonSerializableAddressBook --> "*" JsonAdaptedPerson
-JsonAdaptedPerson --> "*" JsonAdaptedTag
+JsonSerializableAddressBook --> "*" JsonAdaptedPatient
+JsonAdaptedPatient --|> JsonAdaptedPerson
+JsonAdaptedPatient --> "0..1" JsonAdaptedCaretaker
+JsonAdaptedPatient --> "0..1" JsonAdaptedTag
+JsonAdaptedCaretaker --|> JsonAdaptedPerson
 
 @enduml
