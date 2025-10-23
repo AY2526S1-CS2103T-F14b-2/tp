@@ -3,6 +3,8 @@ package seedu.address.ui;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -21,6 +23,12 @@ public class CommandBox extends UiPart<Region> {
     @FXML
     private TextField commandTextField;
 
+    private final CommandHistory history = new CommandHistory();
+    private boolean isBrowsingHistory;
+    private String liveBuffer = "";
+    private boolean isUpdatedByProgram;
+
+
     /**
      * Creates a {@code CommandBox} with the given {@code CommandExecutor}.
      */
@@ -31,6 +39,29 @@ public class CommandBox extends UiPart<Region> {
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
     }
 
+    @FXML
+    private void initialize() {
+        commandTextField.textProperty().addListener((text, oldText, newText) -> {
+            if (!isUpdatedByProgram) {
+                isBrowsingHistory = false;
+                liveBuffer = newText;
+            }
+        });
+
+        commandTextField.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.UP) {
+                e.consume();
+                startHistoryIfNeeded();
+                show(history.back());
+            } else if (e.getCode() == KeyCode.DOWN) {
+                if (commandTextField.getCaretPosition() == commandTextField.getLength()) {
+                    e.consume();
+                    show(history.front());
+                }
+            }
+        });
+
+    }
     /**
      * Handles the Enter button pressed event.
      */
@@ -43,6 +74,12 @@ public class CommandBox extends UiPart<Region> {
 
         try {
             commandExecutor.execute(commandText);
+
+            history.add(commandText);
+            history.movePointerToEnd();
+            liveBuffer = "";
+            isBrowsingHistory = false;
+
             commandTextField.setText("");
         } catch (CommandException | ParseException e) {
             setStyleToIndicateCommandFailure();
@@ -54,6 +91,32 @@ public class CommandBox extends UiPart<Region> {
      */
     private void setStyleToDefault() {
         commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
+    }
+
+    private void startHistoryIfNeeded() {
+        if (!isBrowsingHistory) {
+            liveBuffer = commandTextField.getText();
+            isBrowsingHistory = true;
+            history.movePointerToEnd();
+        }
+    }
+
+    private void show(String s) {
+        if (s == null) {
+            return;
+        }
+        if (s.isEmpty() && isBrowsingHistory) {
+            s = liveBuffer;
+        }
+
+        isUpdatedByProgram = true;
+        commandTextField.setText(s);
+        commandTextField.positionCaret(s.length());
+        isUpdatedByProgram = false;
+
+        if (s.equals(liveBuffer)) {
+            isBrowsingHistory = false;
+        }
     }
 
     /**
