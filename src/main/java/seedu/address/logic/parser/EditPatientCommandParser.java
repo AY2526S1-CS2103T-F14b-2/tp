@@ -52,12 +52,7 @@ public class EditPatientCommandParser implements Parser<EditPatientCommand> {
         }
         if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
             String tagName = argMultimap.getValue(PREFIX_TAG).get();
-            editPatientDescriptor.setTagEdited();
-            if (tagName.isBlank()) {
-                editPatientDescriptor.setTag(null);
-            } else {
-                editPatientDescriptor.setTag(ParserUtil.parseTag(tagName));
-            }
+            setTagForEdit(tagName, editPatientDescriptor);
         }
 
         if (!editPatientDescriptor.isAnyFieldEdited()) {
@@ -65,5 +60,14 @@ public class EditPatientCommandParser implements Parser<EditPatientCommand> {
         }
 
         return new EditPatientCommand(index, editPatientDescriptor);
+    }
+
+    private void setTagForEdit(String tagName, EditPatientDescriptor desc) throws ParseException {
+        desc.setTagEdited();
+        if (tagName.isBlank()) {
+            desc.setTag(null);
+        } else {
+            desc.setTag(ParserUtil.parseTag(tagName));
+        }
     }
 }
