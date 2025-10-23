@@ -127,6 +127,10 @@ public class PatientBuilder {
         return this;
     }
 
+    /**
+     * Builds a {@code Patient} from a {@code PatientBuilder}
+     * @return {@code Patient}
+     */
     public Patient build() {
         return new Patient(this.name, this.phone,
                 this.address, this.tag, this.notes, this.appointments, this.caretaker);
