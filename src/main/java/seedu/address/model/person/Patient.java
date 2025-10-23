@@ -131,6 +131,24 @@ public class Patient extends Person {
     }
 
     /**
+     * Edits a note of this patient at the specified index.
+     * @param index the zero-based index of the note to edit
+     * @param newNote the new note to replace the existing one
+     * @return a new Patient with the note edited
+     * @throws IndexOutOfBoundsException if the index is invalid
+     */
+    public Patient editNote(int index, Note newNote) {
+        requireAllNonNull(newNote);
+        if (index < 0 || index >= notes.size()) {
+            throw new IndexOutOfBoundsException("Note index out of bounds: " + index);
+        }
+        List<Note> newNotes = new ArrayList<>(this.notes);
+        newNotes.set(index, newNote);
+        return new Patient(this.getName(), this.getPhone(), this.getAddress(),
+                this.getTag().orElse(null), newNotes, this.appointment, this.getCaretaker());
+    }
+
+    /**
      * Adds a caretaker to this patient.
      * @param caretaker the caretaker to add
      * @return a new Patient with the caretaker added
