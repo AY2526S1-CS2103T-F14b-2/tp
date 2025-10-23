@@ -1,5 +1,8 @@
 package seedu.address.testutil;
 
+import static seedu.address.testutil.TypicalCaretakers.ALEXENDRA;
+import static seedu.address.testutil.TypicalCaretakers.BRAND;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,9 +10,6 @@ import java.util.List;
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
-
-import static seedu.address.testutil.TypicalCaretakers.ALEXENDRA;
-import static seedu.address.testutil.TypicalCaretakers.BRAND;
 
 
 /**

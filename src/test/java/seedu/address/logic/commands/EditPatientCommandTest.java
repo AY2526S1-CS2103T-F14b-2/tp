@@ -264,7 +264,10 @@ public class EditPatientCommandTest {
                 new seedu.address.model.person.Name(VALID_NAME_AMY),
                 firstPatient.getPhone(),
                 firstPatient.getAddress(),
-                null);
+                null,
+                firstPatient.getNotes(),
+                firstPatient.getAppointment(),
+                firstPatient.getCaretaker());
 
         String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
                 Messages.format(editedPatient));
