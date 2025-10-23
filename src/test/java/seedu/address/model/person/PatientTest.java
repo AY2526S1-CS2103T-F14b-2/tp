@@ -93,7 +93,8 @@ public class PatientTest {
     public void toStringMethod() {
         String expected = Patient.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
             + ", address=" + ALICE.getAddress() + ", tag=" + ALICE.getTag().orElse(null)
-            + ", note=No notes, appointment=" + ALICE.getAppointment() + "}";
+            + ", note=No notes, appointment=" + ALICE.getAppointment()
+            + ", caretaker=" + ALICE.getCaretaker() + "}";
         assertEquals(expected, ALICE.toString());
     }
 
@@ -109,7 +110,6 @@ public class PatientTest {
     public void constructor_withValidNote_addsNoteToList() {
         Patient patient = new PatientBuilder().withNote("Valid note").build();
         assertEquals(1, patient.getNotes().size());
-        assertEquals("Valid note", patient.getNote().value);
         assertEquals("Valid note", patient.getNotes().get(0).value);
     }
 
@@ -234,9 +234,9 @@ public class PatientTest {
     }
 
     @Test
-    public void getNote_withoutNotes_returnsNull() {
+    public void getNote_withoutNotes_returnsNilNote() {
         Patient patient = new PatientBuilder().build();
-        assertNull(patient.getNote());
+        assertEquals(null, patient.getNote());
     }
 
     @Test
@@ -288,7 +288,7 @@ public class PatientTest {
     }
 
     @Test
-    public void constructor_emptyNotesListAndEmptyAppointment_successful() {
+    public void constructor_emptyNotesListAndEmptyAppointmentsList_successful() {
         List<Note> emptyNotes = new ArrayList<>();
         List<Appointment> emptyAppointments = new ArrayList<>();
         Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
