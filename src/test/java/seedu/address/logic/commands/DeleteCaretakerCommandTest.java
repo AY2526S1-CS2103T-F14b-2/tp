@@ -18,7 +18,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -89,6 +88,15 @@ public class DeleteCaretakerCommandTest {
         DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(outOfBoundIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_patientHasNoCaretaker_throwsCommandException() {
+        Index lastPersonIndex = Index.fromOneBased(model.getAddressBook().getPersonList().size());
+        //last person in typicalPatients has no caretaker
+        DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(lastPersonIndex);
+
+        assertCommandFailure(deleteCommand, model, DeleteCaretakerCommand.MESSAGE_NO_CARETAKER_FOUND);
     }
 
     @Test

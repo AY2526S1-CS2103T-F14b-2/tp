@@ -30,6 +30,13 @@ public class TypicalPatients {
             .withNote("No peanuts")
             .withCaretaker(BRAND)
             .build();
+    public static final Patient CHARLIE = new PatientBuilder().withName("Charlie Brady")
+            .withAddress("311, Hougang Ave 3, #02-25")
+            .withPhone("98310912")
+            .withTag("low")
+            .withNote("No seafood")
+            .withCaretaker(null)
+            .build();
 
     private TypicalPatients() {} // prevents instantiation
 
@@ -45,6 +52,6 @@ public class TypicalPatients {
     }
 
     public static List<Person> getTypicalPatients() {
-        return new ArrayList<>(Arrays.asList(ALICE, BOB));
+        return new ArrayList<>(Arrays.asList(ALICE, BOB, CHARLIE));
     }
 }

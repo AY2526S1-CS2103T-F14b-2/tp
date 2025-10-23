@@ -60,6 +60,7 @@ public class PatientBuilder {
         tag = patientToCopy.getTag().orElse(null);
         notes = new ArrayList<>(patientToCopy.getNotes());
         appointments = new ArrayList<>(patientToCopy.getAppointment());
+        caretaker = patientToCopy.getCaretaker();
     }
 
     /**
