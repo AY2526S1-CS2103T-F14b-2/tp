@@ -96,13 +96,13 @@ public class EditNoteCommandParser implements Parser<EditNoteCommand> {
         // Check original args to see if there was whitespace content that got trimmed
         String notePrefix = "note/";
         int notePrefixIndex = args.indexOf(notePrefix);
-        
+
         if (notePrefixIndex == -1) {
             // Pure empty case "note/" - format error
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     EditNoteCommand.MESSAGE_USAGE));
         }
-        
+
         int afterPrefixIndex = notePrefixIndex + notePrefix.length();
         String afterPrefix = args.substring(afterPrefixIndex);
 
@@ -114,7 +114,7 @@ public class EditNoteCommandParser implements Parser<EditNoteCommand> {
                 throw pe; // Re-throw the Note validation error message
             }
         }
-        
+
         // Pure empty case "note/" - format error
         throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 EditNoteCommand.MESSAGE_USAGE));
