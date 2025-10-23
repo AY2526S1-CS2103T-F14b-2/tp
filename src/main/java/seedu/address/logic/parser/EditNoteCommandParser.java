@@ -74,27 +74,7 @@ public class EditNoteCommandParser implements Parser<EditNoteCommand> {
 
         // Handle empty note value after ArgumentTokenizer's automatic trimming
         if (noteValue.isEmpty()) {
-            // Distinguish between "note/" (format error) and "note/   " (note validation error)
-            // ArgumentTokenizer trims whitespace, so both result in empty string
-            // Check original args to see if there was whitespace content that got trimmed
-            String notePrefix = "note/";
-            int notePrefixIndex = args.indexOf(notePrefix);
-            if (notePrefixIndex != -1) {
-                int afterPrefixIndex = notePrefixIndex + notePrefix.length();
-                String afterPrefix = args.substring(afterPrefixIndex);
-
-                if (afterPrefix.matches("\\s+.*") || afterPrefix.matches("\\s+$")) {
-                    // There was whitespace content that got trimmed - trigger Note model validation
-                    try {
-                        ParserUtil.parseNote(" "); // Pass non-empty to trigger Note.isValidNote check
-                    } catch (ParseException pe) {
-                        throw pe; // Re-throw the Note validation error message
-                    }
-                }
-            }
-            // Pure empty case "note/" - format error
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    EditNoteCommand.MESSAGE_USAGE));
+            handleEmptyNoteValue(args);
         }
 
         // Parse non-empty note content
@@ -102,5 +82,41 @@ public class EditNoteCommandParser implements Parser<EditNoteCommand> {
         editNoteDescriptor.setNote(newNote);
 
         return new EditNoteCommand(index, editNoteDescriptor);
+    }
+
+    /**
+     * Handles empty note value after ArgumentTokenizer's automatic trimming.
+     * Distinguishes between "note/" (format error) and "note/   " (note validation error).
+     *
+     * @param args the original command arguments string
+     * @throws ParseException if validation fails
+     */
+    private void handleEmptyNoteValue(String args) throws ParseException {
+        // ArgumentTokenizer trims whitespace, so both "note/" and "note/   " result in empty string
+        // Check original args to see if there was whitespace content that got trimmed
+        String notePrefix = "note/";
+        int notePrefixIndex = args.indexOf(notePrefix);
+        
+        if (notePrefixIndex == -1) {
+            // Pure empty case "note/" - format error
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    EditNoteCommand.MESSAGE_USAGE));
+        }
+        
+        int afterPrefixIndex = notePrefixIndex + notePrefix.length();
+        String afterPrefix = args.substring(afterPrefixIndex);
+
+        if (afterPrefix.matches("\\s+.*") || afterPrefix.matches("\\s+$")) {
+            // There was whitespace content that got trimmed - trigger Note model validation
+            try {
+                ParserUtil.parseNote(" "); // Pass non-empty to trigger Note.isValidNote check
+            } catch (ParseException pe) {
+                throw pe; // Re-throw the Note validation error message
+            }
+        }
+        
+        // Pure empty case "note/" - format error
+        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                EditNoteCommand.MESSAGE_USAGE));
     }
 }
