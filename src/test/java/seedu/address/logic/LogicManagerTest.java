@@ -3,11 +3,12 @@ package seedu.address.logic;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_ALICE;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_ALICE;
+import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_ALICE;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HIGH;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.address.testutil.TypicalPatients.ALICE;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
@@ -26,11 +27,11 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Patient;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.PatientBuilder;
 
 
 
@@ -164,11 +165,12 @@ public class LogicManagerTest {
 
         logic = new LogicManager(model, storage);
 
-        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + ADDRESS_DESC_AMY;
+        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_ALICE + PHONE_DESC_ALICE + ADDRESS_DESC_ALICE
+                + TAG_DESC_HIGH;
 
-        Person expectedPerson = new PersonBuilder(AMY).build();
+        Patient expectedPatient = new PatientBuilder(ALICE).build();
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.addPerson(expectedPerson);
+        expectedModel.addPerson(expectedPatient);
 
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }

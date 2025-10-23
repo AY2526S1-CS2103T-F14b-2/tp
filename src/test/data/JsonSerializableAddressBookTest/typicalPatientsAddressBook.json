@@ -1,0 +1,39 @@
+{
+  "_comment": "AddressBook save file which contains the same Person values as in TypicalPersons#getTypicalAddressBook()",
+  "persons" : [ {
+    "name" : "Alice Pauline",
+    "phone" : "94351253",
+    "address" : "123, Jurong West Ave 6, #08-111",
+    "tag" : "high"
+  }, {
+    "name" : "Bob Choo",
+    "phone" : "22222222",
+    "address" : "Block 123, Bobby Street 3",
+    "tag" : "high"
+  }, {
+    "name" : "Carl Junior",
+    "phone" : "98744432",
+    "address" : "321, Bedok Ave 2, #02-25",
+    "tag" : "high"
+  }, {
+    "name" : "Daniel Meier",
+    "phone" : "87652533",
+    "address" : "10th street",
+    "tag" : "high"
+  }, {
+    "name" : "Elle Meyer",
+    "phone" : "9482224",
+    "address" : "michegan ave",
+    "tag" : "high"
+  }, {
+    "name" : "Fiona Kunz",
+    "phone" : "9482427",
+    "address" : "little tokyo",
+    "tag" : "high"
+  }, {
+    "name" : "George Best",
+    "phone" : "9482442",
+    "address" : "4th street",
+    "tag" : "high"
+  } ]
+}
