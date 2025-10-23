@@ -9,6 +9,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
+
 /**
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .isSamePerson comparison)
@@ -53,7 +54,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
-
         setPersons(newData.getPersonList());
     }
 
@@ -114,13 +114,18 @@ public class AddressBook implements ReadOnlyAddressBook {
             return true;
         }
 
-        // instanceof handles nulls
-        if (!(other instanceof AddressBook)) {
-            return false;
+        if (other instanceof AddressBook) {
+            AddressBook o = (AddressBook) other;
+            return this.persons.equals(o.persons);
         }
 
-        AddressBook otherAddressBook = (AddressBook) other;
-        return persons.equals(otherAddressBook.persons);
+        if (other instanceof ReadOnlyAddressBook) {
+            AddressBook o = new AddressBook((ReadOnlyAddressBook) other);
+            return this.persons.equals(o.persons);
+        }
+
+
+        return false;
     }
 
     @Override
