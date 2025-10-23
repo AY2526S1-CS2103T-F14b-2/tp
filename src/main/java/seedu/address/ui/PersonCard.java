@@ -70,11 +70,21 @@ public class PersonCard extends UiPart<Region> {
             if (!patient.getNotes().isEmpty()) {
                 notesContainer.setVisible(true);
                 notesContainer.setManaged(true);
-                for (Note note : patient.getNotes()) {
-                    Label noteLabel = new Label("• " + note.value);
-                    noteLabel.setWrapText(true);
-                    noteLabel.getStyleClass().add("cell_small_label");
-                    notesContainer.getChildren().add(noteLabel);
+                notesContainer.getChildren().clear();
+                var notes = patient.getNotes();
+
+                for (int i = 0; i < notes.size(); i++) {
+                    Label num = new Label((i + 1) + ".");
+                    num.getStyleClass().addAll("cell_small_label", "list-index");
+                    num.setMinWidth(24); // fixed width so columns align
+                    num.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+
+                    Label txt = new Label(notes.get(i).toString());
+                    txt.getStyleClass().add("cell_small_label");
+                    txt.setWrapText(true);
+
+                    javafx.scene.layout.HBox row = new javafx.scene.layout.HBox(6, num, txt);
+                    notesContainer.getChildren().add(row);
                 }
             } else {
                 notesContainer.setVisible(false);
@@ -85,11 +95,22 @@ public class PersonCard extends UiPart<Region> {
                 appointmentContainer.setVisible(true);
                 appointmentContainer.setManaged(true);
                 appointmentContainer.getChildren().clear();
-                for (Appointment appt : patient.getAppointment()) {
-                    Label apptLabel = new Label("• " + appt.toString());
-                    apptLabel.getStyleClass().add("cell_small_label");
-                    appointmentContainer.getChildren().add(apptLabel);
+                var appts = patient.getAppointment();
+
+                for (int i = 0; i < appts.size(); i++) {
+                    Label num = new Label((i + 1) + ".");
+                    num.getStyleClass().addAll("cell_small_label", "list-index");
+                    num.setMinWidth(24); // fixed width so columns align
+                    num.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+
+                    Label txt = new Label(appts.get(i).toString());
+                    txt.getStyleClass().add("cell_small_label");
+                    txt.setWrapText(true);
+
+                    javafx.scene.layout.HBox row = new javafx.scene.layout.HBox(6, num, txt);
+                    appointmentContainer.getChildren().add(row);
                 }
+
             } else {
                 appointmentContainer.setVisible(false);
                 appointmentContainer.setManaged(false);
@@ -112,8 +133,28 @@ public class PersonCard extends UiPart<Region> {
 
             tags.getChildren().clear();
 
-            patient.getTag().ifPresent(tag ->
-                    tags.getChildren().add(new Label(tag.tagName)));
+            patient.getTag().ifPresent(tag -> {
+                Label tagLabel = new Label(tag.tagName.toUpperCase());
+                tagLabel.getStyleClass().add("tag"); // base pill style
+
+                switch (tag.tagName.toLowerCase()) {
+                case "high":
+                    tagLabel.getStyleClass().add("tag-high");
+                    break;
+
+                case "medium":
+                    tagLabel.getStyleClass().add("tag-medium");
+                    break;
+
+                case "low":
+                    tagLabel.getStyleClass().add("tag-low");
+                    break;
+
+                default:
+                    tagLabel.getStyleClass().add("tag-default"); // optional
+                }
+                tags.getChildren().add(tagLabel);
+            });
         } else {
             // For non-patients, hide notes and appointment
             notesContainer.setVisible(false);

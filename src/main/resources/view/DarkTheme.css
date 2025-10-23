@@ -342,11 +342,41 @@
     -fx-vgap: 3;
 }
 
+/* remove or relax this global color rule so per-value colors can override */
 #tags .label {
-    -fx-text-fill: white;
-    -fx-background-color: #3e7b91;
     -fx-padding: 1 3 1 3;
     -fx-border-radius: 2;
     -fx-background-radius: 2;
     -fx-font-size: 11;
+    -fx-text-fill: white;
+    /* don't set a fixed background here, or it will override all */
+}
+
+/* Base pill for all tags */
+#tags .tag {
+    -fx-padding: 1 6 1 6;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-font-size: 11;
+    -fx-font-weight: 700;
+    -fx-text-fill: white; /* default text color */
+}
+
+/* Per-value colors */
+#tags .tag-high {
+    -fx-background-color: #d32f2f; /* red */
+}
+
+#tags .tag-medium {
+    -fx-background-color: #f9a825; /* amber */
+    -fx-text-fill: #1b1b1b;        /* better contrast on yellow */
+}
+
+#tags .tag-low {
+    -fx-background-color: #388e3c; /* green */
+}
+
+/* Optional fallback */
+#tags .tag-default {
+    -fx-background-color: #607d8b; /* blue-grey */
 }
