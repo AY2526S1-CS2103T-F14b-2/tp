@@ -1,0 +1,82 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":CaretakerCommandParser" as CaretakerCommandParser LOGIC_COLOR
+participant "c:CaretakerCommand" as CaretakerCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+participant "p:Patient" as Patient MODEL_COLOR
+participant "ck:Caretaker" as Caretaker MODEL_COLOR
+end box
+
+[-> LogicManager : execute("caretaker 1 n/Alice p/12345678 a/311 Clementi Ave 2 r/MOTHER")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("caretaker ...")
+activate AddressBookParser
+
+create CaretakerCommandParser
+AddressBookParser -> CaretakerCommandParser
+activate CaretakerCommandParser
+CaretakerCommandParser --> AddressBookParser
+deactivate CaretakerCommandParser
+
+AddressBookParser -> CaretakerCommandParser : parse("1 n/Alice p/... a/... r/MOTHER")
+activate CaretakerCommandParser
+
+create Caretaker
+CaretakerCommandParser -> Caretaker : new Caretaker(name, phone, address, relationship)
+activate Caretaker
+Caretaker --> CaretakerCommandParser
+deactivate Caretaker
+
+create CaretakerCommand
+CaretakerCommandParser -> CaretakerCommand : new CaretakerCommand(index, caretaker)
+activate CaretakerCommand
+CaretakerCommand --> CaretakerCommandParser
+deactivate CaretakerCommand
+
+CaretakerCommandParser --> AddressBookParser : c
+deactivate CaretakerCommandParser
+
+AddressBookParser --> LogicManager : c
+deactivate AddressBookParser
+
+LogicManager -> CaretakerCommand : execute(model)
+activate CaretakerCommand
+
+CaretakerCommand -> Model : getFilteredPersonList()
+activate Model
+Model --> CaretakerCommand : persons
+deactivate Model
+
+CaretakerCommand -> Patient : addCaretaker(caretaker)
+activate Patient
+Patient --> CaretakerCommand : updatedPatient
+deactivate Patient
+
+CaretakerCommand -> Model : setPerson(originalPatient, updatedPatient)
+activate Model
+Model --> CaretakerCommand
+deactivate Model
+
+create CommandResult
+CaretakerCommand -> CommandResult : new CommandResult("New caretaker added: ...")
+activate CommandResult
+CommandResult --> CaretakerCommand
+deactivate CommandResult
+
+CaretakerCommand --> LogicManager : r
+deactivate CaretakerCommand
+
+[<-- LogicManager
+deactivate LogicManager
+
+@enduml
