@@ -1,10 +1,9 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import seedu.address.model.Model;
 import seedu.address.model.tag.Tag;
-
-import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 /**
  * Lists all persons in the address book to the user.
@@ -22,7 +21,9 @@ public class ListTagCommand extends ListCommand {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.updateFilteredPersonList(p ->
+                p.getTag().map(this.tag::equals).orElse(false)
+        );
         return new CommandResult(String.format(MESSAGE_SUCCESS, this.tag));
     }
 }
