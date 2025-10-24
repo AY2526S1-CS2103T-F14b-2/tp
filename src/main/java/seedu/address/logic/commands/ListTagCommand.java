@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import seedu.address.model.Model;
+import seedu.address.model.tag.Tag;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
@@ -10,7 +11,13 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
  */
 public class ListTagCommand extends ListCommand {
 
-    public static final String MESSAGE_SUCCESS = "Listed all persons";
+    public static final String MESSAGE_SUCCESS = "Listed all patients with Tag: ";
+
+    private Tag tag;
+
+    public ListTagCommand(Tag tag) {
+        this.tag = tag;
+    }
 
     @Override
     public CommandResult execute(Model model) {
