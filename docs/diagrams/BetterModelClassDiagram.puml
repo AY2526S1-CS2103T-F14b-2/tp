@@ -14,19 +14,27 @@ UniquePersonList -right-> "*" Person
 
 Person -up-> "*" Tag
 
-class Person {
+class Person <<abstract>> {
 }
 
 class Patient {
 }
 
+class Caretaker {
+}
+
 Person <|-- Patient
+Person <|-- Caretaker
 
 Person *--> "1" Name
 Person *--> "1" Phone
 Person *--> "1" Address
+
 Patient *--> "*" Note
-Patient *--> "0..1" Appointment
+Patient *--> "*" Appointment
+Patient *--> "1" Caretaker
+
+Caretaker *--> "0..1" Relationship
 
 
 @enduml
