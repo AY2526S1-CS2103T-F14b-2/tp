@@ -26,4 +26,19 @@ public class ListTagCommand extends ListCommand {
         );
         return new CommandResult(String.format(MESSAGE_SUCCESS, this.tag));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ListTagCommand)) {
+            return false;
+        }
+
+        ListTagCommand otherListTagCommand = (ListTagCommand) other;
+        return tag.equals(otherListTagCommand.tag);
+    }
 }
