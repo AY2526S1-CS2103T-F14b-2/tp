@@ -11,7 +11,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
  */
 public class ListTagCommand extends ListCommand {
 
-    public static final String MESSAGE_SUCCESS = "Listed all patients with Tag: ";
+    public static final String MESSAGE_SUCCESS = "Listed all patients with Tag: %s";
 
     private Tag tag;
 
@@ -23,6 +23,6 @@ public class ListTagCommand extends ListCommand {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(MESSAGE_SUCCESS);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, this.tag));
     }
 }
