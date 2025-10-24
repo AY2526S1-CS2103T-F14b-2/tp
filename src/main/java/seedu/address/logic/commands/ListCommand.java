@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import seedu.address.model.Model;
@@ -12,7 +13,12 @@ public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 
-    public static final String MESSAGE_SUCCESS = "Listed all persons";
+    public static final String MESSAGE_SUCCESS = "Listed all patients";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all patients whose "
+            + "tag matches the specified value.\n"
+            + "Parameters: [" + PREFIX_TAG + "TAG]\n"
+            + "Example: " + COMMAND_WORD + " tag/high";
 
 
     @Override
