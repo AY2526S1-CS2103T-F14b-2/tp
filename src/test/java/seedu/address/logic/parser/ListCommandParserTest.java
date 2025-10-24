@@ -3,8 +3,8 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_ALICE;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HIGH;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_BLANK;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HIGH;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HIGH;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -33,11 +33,12 @@ public class ListCommandParserTest {
 
     @Test
     public void parse_invalidTagPrefix_failure() {
-        assertParseFailure(parser, NAME_DESC_ALICE, String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, NAME_DESC_ALICE, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                ListCommand.MESSAGE_USAGE));
     }
 
     @Test
-    public void parse_missingTagPrefix_nonEmptyArgs_failure() {
+    public void parse_missingTagPrefix_failure() {
         assertParseFailure(parser,
                 "high",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
