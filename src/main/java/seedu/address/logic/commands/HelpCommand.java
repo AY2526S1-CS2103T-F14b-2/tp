@@ -47,7 +47,10 @@ public class HelpCommand extends Command {
             + "9. Edit Patient \n"
             + "   Purpose: Edit an existing patient's details\n"
             + "   Format: editpatient INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [tag/TAG]\n"
-            + "   Notes: One of NAME/PHONE/ADDRESS/TAG must be supplied\n";
+            + "   Notes: One of NAME/PHONE/ADDRESS/TAG must be supplied\n"
+            + "10. Edit Appointment \n"
+            + "   Purpose: Edit an existing patient's appointment details\n"
+            + "   Format: editappt PATIENT_INDEX i/APPT_INDEX [d/DATE] [t/TIME] [n/DESCRIPTION]";
 
     @Override
     public CommandResult execute(Model model) {

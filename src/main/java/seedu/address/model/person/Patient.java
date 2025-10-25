@@ -148,6 +148,17 @@ public class Patient extends Person {
                 this.getTag().orElse(null), newNotes, this.appointment, this.getCaretaker());
     }
 
+    public Patient editAppointment(int index, Appointment newAppt) {
+        requireAllNonNull(newAppt);
+        if (index < 0 || index >= appointment.size()) {
+            throw new IndexOutOfBoundsException("Appointment index out of bounds: " + index);
+        }
+        List<Appointment> newAppointments = new ArrayList<>(this.appointment);
+        newAppointments.set(index, newAppt);
+        return new Patient(this.getName(), this.getPhone(), this.getAddress(),
+                this.getTag().orElse(null), this.notes , newAppointments, this.getCaretaker());
+    } 
+    
     /**
      * Adds a caretaker to this patient.
      * @param caretaker the caretaker to add
