@@ -31,13 +31,14 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
             + "The appointment to edit is identified by its appointment index (1-based).\n"
             + "Parameters: INDEX (must be a positive integer) "
             + PREFIX_ITEM_INDEX + "ITEM_INDEX "
-            + PREFIX_DATE + "NEW_DATE"
-            + PREFIX_TIME + "NEW_TIME"
-            + PREFIX_NOTE + "NEW_NOTE\n"
+            + "[" + PREFIX_DATE + "NEW_DATE] "
+            + "[" + PREFIX_TIME + "NEW_TIME] "
+            + "[" + PREFIX_NOTE + "NEW_NOTE]\n"
+            + "At least one of NEW_DATE, NEW_TIME, or NEW_NOTE must be provided.\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_ITEM_INDEX + "2 "
-            + PREFIX_DATE + "12-10-2026"
-            + PREFIX_TIME + "12:00"
+            + PREFIX_DATE + "12-10-2026 "
+            + PREFIX_TIME + "12:00 "
             + PREFIX_NOTE + "Dental visit";
 
     public static final String MESSAGE_EDIT_APPOINTMENT_SUCCESS = "Edited appointment for patient: %1$s";
@@ -92,11 +93,18 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
             throw new CommandException(String.format(MESSAGE_INVALID_ITEM_INDEX,
                     appointmentIndex, appointments.size()));
         }
+
+        Appointment originalAppointment = appointments.get(appointmentIndex - 1);
+        try {
+            editDescriptor.buildUpdatedAppointment(originalAppointment);
+        } catch (IllegalArgumentException iae) {
+            throw new CommandException(iae.getMessage(), iae);
+        }
     }
 
     @Override
     protected boolean isAnyFieldEdited(EditAppointmentDescriptor editDescriptor) {
-        return editDescriptor.getAppointment().isPresent();
+        return editDescriptor.isAnyFieldEdited();
     }
 
     @Override
@@ -104,8 +112,10 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
         // patientToEdit is the correct patient from the filtered list
         assert patientToEdit != null;
 
-        Appointment newAppointment = editAppointmentDescriptor.getAppointmentValue(); // We know it exists from validation
         int appointmentIndex = editAppointmentDescriptor.getAppointmentIndex() - 1; // Convert to 0-based index
+        Appointment currentAppointment = patientToEdit.getAppointment().get(appointmentIndex);
+
+        Appointment newAppointment = editAppointmentDescriptor.buildUpdatedAppointment(currentAppointment);
 
         return patientToEdit.editAppointment(appointmentIndex, newAppointment);
     }
@@ -133,8 +143,10 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
      * corresponding appointment at the specified index.
      */
     public static class EditAppointmentDescriptor {
-        private Appointment appointment;
         private int appointmentIndex;
+        private String date;
+        private String time;
+        private Note note;
 
         public EditAppointmentDescriptor() {}
 
@@ -142,30 +154,10 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
          * Copy constructor.
          */
         public EditAppointmentDescriptor(EditAppointmentDescriptor toCopy) {
-            setAppointment(toCopy.appointment);
             setAppointmentIndex(toCopy.appointmentIndex);
-        }
-
-        /**
-         * Sets the appointment to edit to.
-         */
-        public void setAppointment(Appointment appointment) {
-            this.appointment = appointment;
-        }
-
-        /**
-         * Returns the appointment to edit to.
-         */
-        public Optional<Appointment> getAppointment() {
-            return Optional.ofNullable(appointment);
-        }
-
-        /**
-         * Returns the appointment value directly, assuming it has been validated to exist.
-         * Should only be called after validation confirms the appointment is present.
-         */
-        public Appointment getAppointmentValue() {
-            return appointment;
+            setDate(toCopy.date);
+            setTime(toCopy.time);
+            setNote(toCopy.note);
         }
 
         /**
@@ -182,26 +174,71 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
             return appointmentIndex;
         }
 
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public Optional<String> getDate() {
+            return Optional.ofNullable(date);
+        }
+
+        public void setTime(String time) {
+            this.time = time;
+        }
+
+        public Optional<String> getTime() {
+            return Optional.ofNullable(time);
+        }
+
+        public void setNote(Note note) {
+            this.note = note;
+        }
+
+        public Optional<Note> getNote() {
+            return Optional.ofNullable(note);
+        }
+
+        public boolean isAnyFieldEdited() {
+            return date != null || time != null || note != null;
+        }
+
+        /**
+         * Builds the updated {@link Appointment} by applying the edited fields, falling back to the
+         * values from {@code originalAppointment} when a field is not provided.
+         */
+        public Appointment buildUpdatedAppointment(Appointment originalAppointment) {
+            String updatedDate = getDate().orElse(originalAppointment.getDate());
+            String updatedTime = getTime().orElse(originalAppointment.getTime());
+            Note updatedNote = getNote().orElseGet(() -> originalAppointment.getNote().orElse(null));
+
+            return updatedNote == null
+                    ? new Appointment(updatedDate, updatedTime)
+                    : new Appointment(updatedDate, updatedTime, updatedNote);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
                 return true;
             }
 
-            // instanceof handles nulls
             if (!(other instanceof EditAppointmentDescriptor)) {
                 return false;
             }
 
             EditAppointmentDescriptor otherEditAppointmentDescriptor = (EditAppointmentDescriptor) other;
-            return Objects.equals(appointment, otherEditAppointmentDescriptor.appointment)
+            return Objects.equals(date, otherEditAppointmentDescriptor.date)
+                    && Objects.equals(time, otherEditAppointmentDescriptor.time)
+                    && Objects.equals(note, otherEditAppointmentDescriptor.note)
                     && appointmentIndex == otherEditAppointmentDescriptor.appointmentIndex;
         }
 
         @Override
         public String toString() {
             return new ToStringBuilder(this)
-                    .add("appointment", appointment)
+                    .add("date", date)
+                    .add("time", time)
+                    .add("note", note)
                     .add("appointmentIndex", appointmentIndex)
                     .toString();
         }
