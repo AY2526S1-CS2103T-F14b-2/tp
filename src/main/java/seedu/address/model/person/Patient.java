@@ -18,6 +18,8 @@ import seedu.address.model.tag.Tag;
  */
 public class Patient extends Person {
 
+    private static final String MESSAGE_NOTE_INDEX_OUT_OF_BOUNDS = "Note index out of bounds: ";
+
     private final List<Note> notes;
     private final List<Appointment> appointment;
     private final Tag tag;
@@ -140,7 +142,7 @@ public class Patient extends Person {
     public Patient editNote(int index, Note newNote) {
         requireAllNonNull(newNote);
         if (index < 0 || index >= notes.size()) {
-            throw new IndexOutOfBoundsException("Note index out of bounds: " + index);
+            throw new IndexOutOfBoundsException(MESSAGE_NOTE_INDEX_OUT_OF_BOUNDS + index);
         }
         List<Note> newNotes = new ArrayList<>(this.notes);
         newNotes.set(index, newNote);
@@ -156,7 +158,7 @@ public class Patient extends Person {
      */
     public Patient deleteNote(int index) {
         if (index < 0 || index >= notes.size()) {
-            throw new IndexOutOfBoundsException("Note index out of bounds: " + index);
+            throw new IndexOutOfBoundsException(MESSAGE_NOTE_INDEX_OUT_OF_BOUNDS + index);
         }
         List<Note> newNotes = new ArrayList<>(this.notes);
         newNotes.remove(index);
