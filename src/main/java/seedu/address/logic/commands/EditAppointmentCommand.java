@@ -23,7 +23,7 @@ import seedu.address.model.person.Person;
 /**
  * Edits an appointment of an existing patient in the address book.
  */
-public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditAppointmentCommand.EditAppointmentDescriptor> { 
+public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditAppointmentCommand.EditAppointmentDescriptor> {
 
     public static final String COMMAND_WORD = "editappt";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits an appointment of the patient identified "
@@ -112,8 +112,8 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
         // patientToEdit is the correct patient from the filtered list
         assert patientToEdit != null;
 
-        int appointmentIndex = editAppointmentDescriptor.getAppointmentIndex() - 1; // Convert to 0-based index
-        Appointment currentAppointment = patientToEdit.getAppointment().get(appointmentIndex);
+    int appointmentIndex = editAppointmentDescriptor.getAppointmentIndex() - 1; // Convert to 0-based index
+    Appointment currentAppointment = patientToEdit.getAppointment().get(appointmentIndex);
 
         Appointment newAppointment = editAppointmentDescriptor.buildUpdatedAppointment(currentAppointment);
 
@@ -147,6 +147,8 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
         private String date;
         private String time;
         private Note note;
+        private boolean isNoteEdited;
+        private boolean noteCleared;
 
         public EditAppointmentDescriptor() {}
 
@@ -157,7 +159,11 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
             setAppointmentIndex(toCopy.appointmentIndex);
             setDate(toCopy.date);
             setTime(toCopy.time);
-            setNote(toCopy.note);
+            if (toCopy.noteCleared) {
+                clearNote();
+            } else if (toCopy.isNoteEdited) {
+                setNote(toCopy.note);
+            }
         }
 
         /**
@@ -191,15 +197,31 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
         }
 
         public void setNote(Note note) {
+            Objects.requireNonNull(note);
             this.note = note;
+            this.isNoteEdited = true;
+            this.noteCleared = false;
         }
 
         public Optional<Note> getNote() {
-            return Optional.ofNullable(note);
+            if (!isNoteEdited || noteCleared) {
+                return Optional.empty();
+            }
+            return Optional.of(note);
+        }
+
+        public void clearNote() {
+            this.note = null;
+            this.isNoteEdited = true;
+            this.noteCleared = true;
+        }
+
+        public boolean isNoteCleared() {
+            return isNoteEdited && noteCleared;
         }
 
         public boolean isAnyFieldEdited() {
-            return date != null || time != null || note != null;
+            return date != null || time != null || isNoteEdited;
         }
 
         /**
@@ -209,11 +231,16 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
         public Appointment buildUpdatedAppointment(Appointment originalAppointment) {
             String updatedDate = getDate().orElse(originalAppointment.getDate());
             String updatedTime = getTime().orElse(originalAppointment.getTime());
-            Note updatedNote = getNote().orElseGet(() -> originalAppointment.getNote().orElse(null));
+            Note updatedNote;
+            if (isNoteCleared()) {
+                updatedNote = null;
+            } else if (getNote().isPresent()) {
+                updatedNote = getNote().get();
+            } else {
+                updatedNote = originalAppointment.getNote().orElse(null);
+            }
 
-            return updatedNote == null
-                    ? new Appointment(updatedDate, updatedTime)
-                    : new Appointment(updatedDate, updatedTime, updatedNote);
+            return new Appointment(updatedDate, updatedTime, updatedNote);
         }
 
         @Override
@@ -227,10 +254,12 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
             }
 
             EditAppointmentDescriptor otherEditAppointmentDescriptor = (EditAppointmentDescriptor) other;
-            return Objects.equals(date, otherEditAppointmentDescriptor.date)
-                    && Objects.equals(time, otherEditAppointmentDescriptor.time)
-                    && Objects.equals(note, otherEditAppointmentDescriptor.note)
-                    && appointmentIndex == otherEditAppointmentDescriptor.appointmentIndex;
+        return Objects.equals(date, otherEditAppointmentDescriptor.date)
+            && Objects.equals(time, otherEditAppointmentDescriptor.time)
+            && Objects.equals(note, otherEditAppointmentDescriptor.note)
+            && isNoteEdited == otherEditAppointmentDescriptor.isNoteEdited
+                    && noteCleared == otherEditAppointmentDescriptor.noteCleared
+            && appointmentIndex == otherEditAppointmentDescriptor.appointmentIndex;
         }
 
         @Override
@@ -239,6 +268,8 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
                     .add("date", date)
                     .add("time", time)
                     .add("note", note)
+                    .add("isNoteEdited", isNoteEdited)
+                    .add("isNoteCleared", noteCleared)
                     .add("appointmentIndex", appointmentIndex)
                     .toString();
         }

@@ -62,8 +62,12 @@ public class EditAppointmentCommandParser implements Parser<EditAppointmentComma
             editAppointmentDescriptor.setTime(ParserUtil.parseTime(argMultimap.getValue(PREFIX_TIME).get()));
         }
         if (argMultimap.getValue(PREFIX_NOTE).isPresent()) {
-            Note parsedNote = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
-            editAppointmentDescriptor.setNote(parsedNote);
+            String noteValue = argMultimap.getValue(PREFIX_NOTE).get();
+            if (noteValue.trim().isEmpty()) {
+                editAppointmentDescriptor.clearNote();
+            } else {
+                editAppointmentDescriptor.setNote(ParserUtil.parseNote(noteValue));
+            }
         }
 
         return new EditAppointmentCommand(patientIndex, editAppointmentDescriptor);
