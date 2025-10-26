@@ -11,7 +11,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditAppointmentCommand;
 import seedu.address.logic.commands.EditAppointmentCommand.EditAppointmentDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Note;
 
 /**
  * Parses input arguments and creates a new {@code EditAppointmentCommand} object.
@@ -40,7 +39,7 @@ public class EditAppointmentCommandParser implements Parser<EditAppointmentComma
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ITEM_INDEX, PREFIX_DATE, PREFIX_TIME, PREFIX_NOTE);
 
-    if (!argMultimap.getValue(PREFIX_ITEM_INDEX).isPresent()) {
+        if (!argMultimap.getValue(PREFIX_ITEM_INDEX).isPresent()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     EditAppointmentCommand.MESSAGE_USAGE));
         }

@@ -17,6 +17,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
@@ -24,7 +25,6 @@ import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Relationship;
 import seedu.address.testutil.PatientBuilder;
 
@@ -58,9 +58,9 @@ public class EditAppointmentCommandTest {
 
         EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
         descriptor.setAppointmentIndex(2);
-    descriptor.setDate(UPDATED_DATE);
-    descriptor.setTime(UPDATED_TIME);
-    descriptor.setNote(new Note("Follow up"));
+        descriptor.setDate(UPDATED_DATE);
+        descriptor.setTime(UPDATED_TIME);
+        descriptor.setNote(new Note("Follow up"));
 
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(patientIndex, descriptor);
 
@@ -76,128 +76,128 @@ public class EditAppointmentCommandTest {
 
     @Test
     public void execute_onlyDateEdited_success() {
-    Patient patientWithAppointment = new PatientBuilder()
-        .withName("Yara Grey")
-        .withPhone("81119999")
-        .withAddress("100 Sunset Boulevard")
-        .withAppointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE)
-        .build();
-    model.addPerson(patientWithAppointment);
+        Patient patientWithAppointment = new PatientBuilder()
+            .withName("Yara Grey")
+            .withPhone("81119999")
+            .withAddress("100 Sunset Boulevard")
+            .withAppointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE)
+            .build();
+        model.addPerson(patientWithAppointment);
 
-    Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-    EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
-    descriptor.setAppointmentIndex(1);
-    descriptor.setDate(UPDATED_DATE);
+        Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.setDate(UPDATED_DATE);
 
-    EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
+        EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
 
-    Appointment originalAppointment = patientWithAppointment.getAppointment().get(0);
-    Note originalNote = originalAppointment.getNote().orElse(null);
-    Appointment expectedAppointment = originalNote == null
-        ? new Appointment(UPDATED_DATE, originalAppointment.getTime())
-        : new Appointment(UPDATED_DATE, originalAppointment.getTime(), originalNote);
-    Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
+        Appointment originalAppointment = patientWithAppointment.getAppointment().get(0);
+        Note originalNote = originalAppointment.getNote().orElse(null);
+        Appointment expectedAppointment = originalNote == null
+            ? new Appointment(UPDATED_DATE, originalAppointment.getTime())
+            : new Appointment(UPDATED_DATE, originalAppointment.getTime(), originalNote);
+        Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
 
-    Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-    expectedModel.setPerson(patientWithAppointment, editedPatient);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-    String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-        Messages.format(editedPatient));
+        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
+            Messages.format(editedPatient));
 
-    assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_onlyTimeEdited_success() {
-    Patient patientWithAppointment = new PatientBuilder()
-        .withName("Quinn Hale")
-        .withPhone("82228888")
-        .withAddress("55 Sunrise Way")
-        .withAppointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE)
-        .build();
-    model.addPerson(patientWithAppointment);
+        Patient patientWithAppointment = new PatientBuilder()
+            .withName("Quinn Hale")
+            .withPhone("82228888")
+            .withAddress("55 Sunrise Way")
+            .withAppointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE)
+            .build();
+        model.addPerson(patientWithAppointment);
 
-    Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-    EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
-    descriptor.setAppointmentIndex(1);
-    descriptor.setTime(UPDATED_TIME);
+        Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.setTime(UPDATED_TIME);
 
-    EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
+        EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
 
-    Appointment originalAppointment = patientWithAppointment.getAppointment().get(0);
-    Note originalNote = originalAppointment.getNote().orElse(null);
-    Appointment expectedAppointment = originalNote == null
-        ? new Appointment(originalAppointment.getDate(), UPDATED_TIME)
-        : new Appointment(originalAppointment.getDate(), UPDATED_TIME, originalNote);
-    Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
+        Appointment originalAppointment = patientWithAppointment.getAppointment().get(0);
+        Note originalNote = originalAppointment.getNote().orElse(null);
+        Appointment expectedAppointment = originalNote == null
+            ? new Appointment(originalAppointment.getDate(), UPDATED_TIME)
+            : new Appointment(originalAppointment.getDate(), UPDATED_TIME, originalNote);
+        Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
 
-    Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-    expectedModel.setPerson(patientWithAppointment, editedPatient);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-    String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-        Messages.format(editedPatient));
+        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
+            Messages.format(editedPatient));
 
-    assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_onlyNoteEdited_success() {
-    Patient basePatient = new PatientBuilder()
-        .withName("Nora Mills")
-        .withPhone("83337777")
-        .withAddress("77 Crescent Road")
-        .build();
-    Patient patientWithAppointment = basePatient.addAppointment(
-        new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE, new Note("Initial note")));
-    model.addPerson(patientWithAppointment);
+        Patient basePatient = new PatientBuilder()
+            .withName("Nora Mills")
+            .withPhone("83337777")
+            .withAddress("77 Crescent Road")
+            .build();
+        Patient patientWithAppointment = basePatient.addAppointment(
+            new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE, new Note("Initial note")));
+        model.addPerson(patientWithAppointment);
 
-    Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-    EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
-    descriptor.setAppointmentIndex(1);
-    descriptor.setNote(new Note("Updated note"));
+        Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.setNote(new Note("Updated note"));
 
-    EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
+        EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
 
-    Appointment expectedAppointment = new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE, new Note("Updated note"));
-    Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
+        Appointment expectedAppointment = new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE, new Note("Updated note"));
+        Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
 
-    Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-    expectedModel.setPerson(patientWithAppointment, editedPatient);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-    String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-        Messages.format(editedPatient));
+        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
+            Messages.format(editedPatient));
 
-    assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_clearNote_success() {
-    Patient basePatient = new PatientBuilder()
-        .withName("Oscar Lane")
-        .withPhone("84446666")
-        .withAddress("88 Maple Street")
-        .build();
-    Patient patientWithAppointment = basePatient.addAppointment(
-        new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE, new Note("Has note")));
-    model.addPerson(patientWithAppointment);
+        Patient basePatient = new PatientBuilder()
+            .withName("Oscar Lane")
+            .withPhone("84446666")
+            .withAddress("88 Maple Street")
+            .build();
+        Patient patientWithAppointment = basePatient.addAppointment(
+            new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE, new Note("Has note")));
+        model.addPerson(patientWithAppointment);
 
-    Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-    EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
-    descriptor.setAppointmentIndex(1);
-    descriptor.clearNote();
+        Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.clearNote();
 
-    EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
+        EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
 
-    Appointment expectedAppointment = new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE);
-    Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
+        Appointment expectedAppointment = new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE);
+        Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
 
-    Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-    expectedModel.setPerson(patientWithAppointment, editedPatient);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-    String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-        Messages.format(editedPatient));
+        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
+            Messages.format(editedPatient));
 
-    assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -207,9 +207,9 @@ public class EditAppointmentCommandTest {
 
         EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
         descriptor.setAppointmentIndex(1);
-    descriptor.setDate(UPDATED_DATE);
-    descriptor.setTime(UPDATED_TIME);
-    descriptor.setNote(new Note("Updated"));
+        descriptor.setDate(UPDATED_DATE);
+        descriptor.setTime(UPDATED_TIME);
+        descriptor.setNote(new Note("Updated"));
 
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(outOfBoundIndex, descriptor);
 
@@ -226,9 +226,9 @@ public class EditAppointmentCommandTest {
         Appointment updatedAppointment = new Appointment(UPDATED_DATE, UPDATED_TIME, new Note("Updated"));
         EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
         descriptor.setAppointmentIndex(1);
-    descriptor.setDate(UPDATED_DATE);
-    descriptor.setTime(UPDATED_TIME);
-    descriptor.setNote(new Note("Updated"));
+        descriptor.setDate(UPDATED_DATE);
+        descriptor.setTime(UPDATED_TIME);
+        descriptor.setNote(new Note("Updated"));
 
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptor);
 
@@ -249,9 +249,9 @@ public class EditAppointmentCommandTest {
         Appointment updatedAppointment = new Appointment(UPDATED_DATE, UPDATED_TIME, new Note("Updated"));
         EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
         descriptor.setAppointmentIndex(1);
-    descriptor.setDate(UPDATED_DATE);
-    descriptor.setTime(UPDATED_TIME);
-    descriptor.setNote(new Note("Updated"));
+        descriptor.setDate(UPDATED_DATE);
+        descriptor.setTime(UPDATED_TIME);
+        descriptor.setNote(new Note("Updated"));
 
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(patientIndex, descriptor);
 
@@ -272,9 +272,9 @@ public class EditAppointmentCommandTest {
         Appointment updatedAppointment = new Appointment(UPDATED_DATE, UPDATED_TIME, new Note("Updated"));
         EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
         descriptor.setAppointmentIndex(2);
-    descriptor.setDate(UPDATED_DATE);
-    descriptor.setTime(UPDATED_TIME);
-    descriptor.setNote(new Note("Updated"));
+        descriptor.setDate(UPDATED_DATE);
+        descriptor.setTime(UPDATED_TIME);
+        descriptor.setNote(new Note("Updated"));
 
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(patientIndex, descriptor);
         assertCommandFailure(editAppointmentCommand, model,
@@ -304,26 +304,26 @@ public class EditAppointmentCommandTest {
     public void equals() {
         EditAppointmentDescriptor descriptorOne = new EditAppointmentDescriptor();
         descriptorOne.setAppointmentIndex(1);
-    descriptorOne.setDate(UPDATED_DATE);
-    descriptorOne.setTime(UPDATED_TIME);
-    descriptorOne.setNote(new Note("Follow up"));
+        descriptorOne.setDate(UPDATED_DATE);
+        descriptorOne.setTime(UPDATED_TIME);
+        descriptorOne.setNote(new Note("Follow up"));
 
         EditAppointmentDescriptor descriptorTwo = new EditAppointmentDescriptor(descriptorOne);
-    EditAppointmentDescriptor descriptorThree = new EditAppointmentDescriptor();
-    descriptorThree.setAppointmentIndex(2);
-    descriptorThree.setDate("03-01-2100");
-    descriptorThree.setTime("08:30");
-    descriptorThree.setNote(new Note("Review"));
+        EditAppointmentDescriptor descriptorThree = new EditAppointmentDescriptor();
+        descriptorThree.setAppointmentIndex(2);
+        descriptorThree.setDate("03-01-2100");
+        descriptorThree.setTime("08:30");
+        descriptorThree.setNote(new Note("Review"));
 
-    EditAppointmentDescriptor descriptorFour = new EditAppointmentDescriptor();
-    descriptorFour.setAppointmentIndex(1);
-    descriptorFour.clearNote();
+        EditAppointmentDescriptor descriptorFour = new EditAppointmentDescriptor();
+        descriptorFour.setAppointmentIndex(1);
+        descriptorFour.clearNote();
 
         EditAppointmentCommand commandOne = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorOne);
         EditAppointmentCommand commandTwo = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorTwo);
         EditAppointmentCommand commandThree = new EditAppointmentCommand(INDEX_SECOND_PERSON, descriptorOne);
-    EditAppointmentCommand commandFour = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorThree);
-    EditAppointmentCommand commandFive = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorFour);
+        EditAppointmentCommand commandFour = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorThree);
+        EditAppointmentCommand commandFive = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorFour);
 
         // same values -> returns true
         assertTrue(commandOne.equals(commandTwo));
