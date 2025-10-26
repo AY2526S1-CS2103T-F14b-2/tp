@@ -59,7 +59,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
         Patient updatedPatient = new Patient(patient.getName(), patient.getPhone(), patient.getAddress(), patient.getTag().orElse(null), patient.getNotes(), updatedAppointments);
         model.setPerson(patient, updatedPatient);
     }
-add 
+
     @Override
     protected void validateDeletion(Model model, Patient patient) throws CommandException {
         if (patient == null) {
