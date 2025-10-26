@@ -126,6 +126,45 @@ public class PatientBuilder {
     }
 
     /**
+     * Creates a patient with multiple notes for testing note-related commands.
+     * This is a convenience method to reduce code duplication in tests.
+     * @return PatientBuilder with "John Doe" and two sample notes
+     */
+    public static PatientBuilder withMultipleNotes() {
+        return new PatientBuilder()
+                .withName("John Doe")
+                .withPhone("98765432")
+                .withAddress("123 Main St")
+                .withNote("First note")
+                .withNote("Second note");
+    }
+
+    /**
+     * Creates a patient with no notes for testing edge cases.
+     * This is a convenience method to reduce code duplication in tests.
+     * @return PatientBuilder with "Jane Doe" and no notes
+     */
+    public static PatientBuilder withoutNotes() {
+        return new PatientBuilder()
+                .withName("Jane Doe")
+                .withPhone("87654321")
+                .withAddress("456 Oak St");
+    }
+
+    /**
+     * Creates a patient with a single note for testing boundary cases.
+     * This is a convenience method to reduce code duplication in tests.
+     * @return PatientBuilder with "Bob Smith" and one note
+     */
+    public static PatientBuilder withSingleNote() {
+        return new PatientBuilder()
+                .withName("Bob Smith")
+                .withPhone("76543210")
+                .withAddress("789 Pine St")
+                .withNote("Only note");
+    }
+
+    /**
      * Builds a {@code Patient} from a {@code PatientBuilder}
      * @return {@code Patient}
      */
