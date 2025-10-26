@@ -11,6 +11,8 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalCaretakers.ALEXENDRA;
 import static seedu.address.testutil.TypicalCaretakers.BRAND;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.tag.Tag;
@@ -134,5 +136,12 @@ public class CaretakerTest {
         Caretaker caretaker1 = new CaretakerBuilder().withName("John Doe").withPhone("12345678").build();
         Caretaker caretaker2 = new CaretakerBuilder().withName("John Doe").withPhone("87654321").build();
         assertFalse(caretaker1.isSamePerson(caretaker2));
+    }
+
+    @Test
+    public void caretaker_getTag_returnsNull() {
+        Caretaker caretaker = new CaretakerBuilder().withName("John Doe").withPhone("12345678").build();
+        Optional<Tag> tagOpt = caretaker.getTag();
+        assertTrue(tagOpt.isEmpty());
     }
 }
