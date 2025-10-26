@@ -3,8 +3,10 @@ package seedu.address.model.person;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.tag.Tag;
 
 /**
  * Represents a Person in the address book.
@@ -55,6 +57,11 @@ public abstract class Person {
 
         return other.getName().equals(getName())
                 && other.getPhone().equals(getPhone());
+    }
+
+    /** Default: persons have no tag. Subclasses may override. */
+    public Optional<Tag> getTag() {
+        return Optional.empty();
     }
 
     /**

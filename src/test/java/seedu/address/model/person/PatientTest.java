@@ -15,14 +15,17 @@ import static seedu.address.testutil.TypicalPatients.BOB;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PatientBuilder;
 
 
 public class PatientTest {
 
+    private static final Tag TAG_HIGH = new Tag(VALID_TAG_HIGH);
 
     @Test
     public void isSamePatient() {
@@ -347,6 +350,13 @@ public class PatientTest {
         Patient patient = new PatientBuilder().withNote("Some note").build();
 
         assertThrows(NullPointerException.class, () -> patient.editNote(0, null));
+    }
+
+    @Test
+    public void patient_getTagReturnsCorrectTag_successful() {
+        Patient patient = new PatientBuilder().withName("John Doe").withPhone("12345678").build();
+        Optional<Tag> tagOpt = patient.getTag();
+        assertTrue(tagOpt.get().equals(TAG_HIGH));
     }
 
 }
