@@ -94,6 +94,16 @@ public class EditAppointmentCommandParserTest {
                 assertParseSuccess(parser, userInput, expectedCommand);
         }
 
+                @Test
+                public void parse_emptyNote_clearsNote() {
+                        String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_NOTE;
+                        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+                        descriptor.setAppointmentIndex(1);
+                        descriptor.clearNote();
+                        EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
+                        assertParseSuccess(parser, userInput, expectedCommand);
+                }
+
     @Test
     public void parse_invalidPatientIndex_failure() {
         String userInput = "a " + PREFIX_ITEM_INDEX + "1 "

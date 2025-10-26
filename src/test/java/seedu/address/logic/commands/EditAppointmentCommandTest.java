@@ -171,6 +171,36 @@ public class EditAppointmentCommandTest {
     }
 
     @Test
+    public void execute_clearNote_success() {
+    Patient basePatient = new PatientBuilder()
+        .withName("Oscar Lane")
+        .withPhone("84446666")
+        .withAddress("88 Maple Street")
+        .build();
+    Patient patientWithAppointment = basePatient.addAppointment(
+        new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE, new Note("Has note")));
+    model.addPerson(patientWithAppointment);
+
+    Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+    EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+    descriptor.setAppointmentIndex(1);
+    descriptor.clearNote();
+
+    EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
+
+    Appointment expectedAppointment = new Appointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE);
+    Patient editedPatient = patientWithAppointment.editAppointment(0, expectedAppointment);
+
+    Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+    expectedModel.setPerson(patientWithAppointment, editedPatient);
+
+    String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
+        Messages.format(editedPatient));
+
+    assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     public void execute_invalidPersonIndex_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         Appointment updatedAppointment = new Appointment(UPDATED_DATE, UPDATED_TIME, new Note("Updated"));
@@ -279,16 +309,21 @@ public class EditAppointmentCommandTest {
     descriptorOne.setNote(new Note("Follow up"));
 
         EditAppointmentDescriptor descriptorTwo = new EditAppointmentDescriptor(descriptorOne);
-        EditAppointmentDescriptor descriptorThree = new EditAppointmentDescriptor();
-        descriptorThree.setAppointmentIndex(2);
+    EditAppointmentDescriptor descriptorThree = new EditAppointmentDescriptor();
+    descriptorThree.setAppointmentIndex(2);
     descriptorThree.setDate("03-01-2100");
     descriptorThree.setTime("08:30");
     descriptorThree.setNote(new Note("Review"));
 
+    EditAppointmentDescriptor descriptorFour = new EditAppointmentDescriptor();
+    descriptorFour.setAppointmentIndex(1);
+    descriptorFour.clearNote();
+
         EditAppointmentCommand commandOne = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorOne);
         EditAppointmentCommand commandTwo = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorTwo);
         EditAppointmentCommand commandThree = new EditAppointmentCommand(INDEX_SECOND_PERSON, descriptorOne);
-        EditAppointmentCommand commandFour = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorThree);
+    EditAppointmentCommand commandFour = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorThree);
+    EditAppointmentCommand commandFive = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptorFour);
 
         // same values -> returns true
         assertTrue(commandOne.equals(commandTwo));
@@ -307,5 +342,8 @@ public class EditAppointmentCommandTest {
 
         // different descriptor -> returns false
         assertFalse(commandOne.equals(commandFour));
+
+        // descriptor clears note -> returns false compared to descriptor setting values
+        assertFalse(commandOne.equals(commandFive));
     }
 }
