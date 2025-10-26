@@ -149,6 +149,22 @@ public class Patient extends Person {
     }
 
     /**
+     * Deletes a note of this patient at the specified index.
+     * @param index the zero-based index of the note to delete
+     * @return a new Patient with the note deleted
+     * @throws IndexOutOfBoundsException if the index is invalid
+     */
+    public Patient deleteNote(int index) {
+        if (index < 0 || index >= notes.size()) {
+            throw new IndexOutOfBoundsException("Note index out of bounds: " + index);
+        }
+        List<Note> newNotes = new ArrayList<>(this.notes);
+        newNotes.remove(index);
+        return new Patient(this.getName(), this.getPhone(), this.getAddress(),
+                this.getTag().orElse(null), newNotes, this.appointment, this.getCaretaker());
+    }
+
+    /**
      * Adds a caretaker to this patient.
      * @param caretaker the caretaker to add
      * @return a new Patient with the caretaker added
