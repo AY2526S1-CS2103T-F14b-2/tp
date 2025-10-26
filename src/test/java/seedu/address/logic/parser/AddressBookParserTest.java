@@ -17,6 +17,7 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCaretakerCommand;
 import seedu.address.logic.commands.DeletePatientCommand;
+import seedu.address.logic.commands.EditAppointmentCommand;
 import seedu.address.logic.commands.EditPatientCommand;
 import seedu.address.logic.commands.EditPatientCommand.EditPatientDescriptor;
 import seedu.address.logic.commands.ExitCommand;
@@ -68,6 +69,24 @@ public class AddressBookParserTest {
         EditPatientCommand command = (EditPatientCommand) parser.parseCommand(EditPatientCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PatientUtil.getEditPersonDescriptorDetails(descriptor));
         assertEquals(new EditPatientCommand(INDEX_FIRST_PERSON, descriptor), command);
+    }
+
+    @Test
+    public void parseCommand_editAppointment() throws Exception {
+        String userInput = EditAppointmentCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON.getOneBased()
+                + " i/1 d/31-12-2099 t/12:00 note/Follow up";
+
+        EditAppointmentCommand.EditAppointmentDescriptor descriptor =
+                new EditAppointmentCommand.EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.setDate("31-12-2099");
+        descriptor.setTime("12:00");
+        descriptor.setNote(new Note("Follow up"));
+
+        EditAppointmentCommand expectedCommand = new EditAppointmentCommand(INDEX_FIRST_PERSON, descriptor);
+
+        assertEquals(expectedCommand, parser.parseCommand(userInput));
     }
 
     @Test
