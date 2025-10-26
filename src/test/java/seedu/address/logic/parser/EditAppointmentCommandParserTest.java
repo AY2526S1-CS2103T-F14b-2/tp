@@ -65,44 +65,44 @@ public class EditAppointmentCommandParserTest {
     }
 
     @Test
-        public void parse_onlyTime_success() {
-                String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_TIME + FUTURE_TIME;
-                EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
-                descriptor.setAppointmentIndex(1);
-                descriptor.setTime(FUTURE_TIME);
-                EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
-                assertParseSuccess(parser, userInput, expectedCommand);
+    public void parse_onlyTime_success() {
+        String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_TIME + FUTURE_TIME;
+        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.setTime(FUTURE_TIME);
+        EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
-        public void parse_onlyDate_success() {
-                String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_DATE + FUTURE_DATE;
-                EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
-                descriptor.setAppointmentIndex(1);
-                descriptor.setDate(FUTURE_DATE);
-                EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
-                assertParseSuccess(parser, userInput, expectedCommand);
+    public void parse_onlyDate_success() {
+        String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_DATE + FUTURE_DATE;
+        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.setDate(FUTURE_DATE);
+        EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
-        @Test
-        public void parse_onlyNote_success() {
-                String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_NOTE + "Updated note";
-                EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
-                descriptor.setAppointmentIndex(1);
-                descriptor.setNote(new Note("Updated note"));
-                EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
-                assertParseSuccess(parser, userInput, expectedCommand);
-        }
+    @Test
+    public void parse_onlyNote_success() {
+        String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_NOTE + "Updated note";
+        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.setNote(new Note("Updated note"));
+        EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
 
-                @Test
-                public void parse_emptyNote_clearsNote() {
-                        String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_NOTE;
-                        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
-                        descriptor.setAppointmentIndex(1);
-                        descriptor.clearNote();
-                        EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
-                        assertParseSuccess(parser, userInput, expectedCommand);
-                }
+    @Test
+    public void parse_emptyNote_clearsNote() {
+        String userInput = "1 " + PREFIX_ITEM_INDEX + "1 " + PREFIX_NOTE;
+        EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+        descriptor.setAppointmentIndex(1);
+        descriptor.clearNote();
+        EditAppointmentCommand expectedCommand = new EditAppointmentCommand(Index.fromOneBased(1), descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
 
     @Test
     public void parse_invalidPatientIndex_failure() {

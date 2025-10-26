@@ -1,9 +1,9 @@
 package seedu.address.logic.commands;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ITEM_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ITEM_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,8 @@ import seedu.address.model.person.Person;
 /**
  * Edits an appointment of an existing patient in the address book.
  */
-public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditAppointmentCommand.EditAppointmentDescriptor> {
+public class EditAppointmentCommand extends AbstractEditCommand<Patient,
+    EditAppointmentCommand.EditAppointmentDescriptor> {
 
     public static final String COMMAND_WORD = "editappt";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits an appointment of the patient identified "
@@ -112,8 +113,8 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
         // patientToEdit is the correct patient from the filtered list
         assert patientToEdit != null;
 
-    int appointmentIndex = editAppointmentDescriptor.getAppointmentIndex() - 1; // Convert to 0-based index
-    Appointment currentAppointment = patientToEdit.getAppointment().get(appointmentIndex);
+        int appointmentIndex = editAppointmentDescriptor.getAppointmentIndex() - 1; // Convert to 0-based index
+        Appointment currentAppointment = patientToEdit.getAppointment().get(appointmentIndex);
 
         Appointment newAppointment = editAppointmentDescriptor.buildUpdatedAppointment(currentAppointment);
 
@@ -210,6 +211,9 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
             return Optional.of(note);
         }
 
+        /**
+         * Indicates that updated appointment will have no description
+         */
         public void clearNote() {
             this.note = null;
             this.isNoteEdited = true;
@@ -254,12 +258,12 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
             }
 
             EditAppointmentDescriptor otherEditAppointmentDescriptor = (EditAppointmentDescriptor) other;
-        return Objects.equals(date, otherEditAppointmentDescriptor.date)
-            && Objects.equals(time, otherEditAppointmentDescriptor.time)
-            && Objects.equals(note, otherEditAppointmentDescriptor.note)
-            && isNoteEdited == otherEditAppointmentDescriptor.isNoteEdited
-                    && noteCleared == otherEditAppointmentDescriptor.noteCleared
-            && appointmentIndex == otherEditAppointmentDescriptor.appointmentIndex;
+            return Objects.equals(date, otherEditAppointmentDescriptor.date)
+                && Objects.equals(time, otherEditAppointmentDescriptor.time)
+                && Objects.equals(note, otherEditAppointmentDescriptor.note)
+                && isNoteEdited == otherEditAppointmentDescriptor.isNoteEdited
+                && noteCleared == otherEditAppointmentDescriptor.noteCleared
+                && appointmentIndex == otherEditAppointmentDescriptor.appointmentIndex;
         }
 
         @Override
