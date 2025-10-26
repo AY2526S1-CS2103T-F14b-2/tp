@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.DeleteAppointmentCommand;
 import seedu.address.logic.commands.DeleteCaretakerCommand;
 import seedu.address.logic.commands.DeletePatientCommand;
 import seedu.address.logic.commands.EditPatientCommand;
@@ -59,6 +60,14 @@ public class AddressBookParserTest {
                 DeleteCaretakerCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new DeletePatientCommand(INDEX_FIRST_PERSON), command);
         assertEquals(new DeleteCaretakerCommand(INDEX_FIRST_PERSON), caretakerCommand);
+    }
+
+    @Test
+    public void parseCommand_deleteAppointment() throws Exception {
+        String arguments = INDEX_FIRST_PERSON.getOneBased() + " i/1";
+        DeleteAppointmentCommand command = (DeleteAppointmentCommand) parser.parseCommand(
+            DeleteAppointmentCommand.COMMAND_WORD + " " + arguments);
+        assertEquals(new DeleteAppointmentCommand(INDEX_FIRST_PERSON, 1), command);
     }
 
     @Test
