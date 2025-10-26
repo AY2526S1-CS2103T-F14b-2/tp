@@ -12,7 +12,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
 
 /**
  * Deletes an appointment from an existing patient in the address book.
@@ -22,8 +21,9 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     public static final String COMMAND_WORD = "deleteappt";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the appointment of the patient identified by the index number used in the displayed patient list.\n"
-            + "The appointment to delete is identified by its appointment index (1-based).\n"
+        + ": Deletes the appointment of the patient identified by the index"
+        + "number used in the displayed patient list.\n"
+        + "The appointment to delete is identified by its appointment index (1-based).\n"
         + "Parameters: INDEX (must be a positive integer) "
         + PREFIX_ITEM_INDEX + "ITEM_INDEX\n"
         + "Example: " + COMMAND_WORD + " 1 " + PREFIX_ITEM_INDEX + "2";
@@ -38,6 +38,11 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
 
     public final int apptIndex;
 
+    /**
+     * Deletes an appointment from an existing patient in the address book.
+     * @param targetIndex target patient index
+     * @param apptIndex target appt index
+     */
     public DeleteAppointmentCommand(Index targetIndex, int apptIndex) {
         super(targetIndex);
         this.apptIndex = apptIndex;
@@ -56,7 +61,9 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     protected void deleteItem(Model model, Patient patient) {
         List<Appointment> updatedAppointments = new ArrayList<>(patient.getAppointment());
         updatedAppointments.remove(apptIndex - 1);
-        Patient updatedPatient = new Patient(patient.getName(), patient.getPhone(), patient.getAddress(), patient.getTag().orElse(null), patient.getNotes(), updatedAppointments);
+        Patient updatedPatient = new Patient(patient.getName(),
+            patient.getPhone(), patient.getAddress(), patient.getTag().orElse(null),
+            patient.getNotes(), updatedAppointments);
         model.setPerson(patient, updatedPatient);
     }
 
@@ -105,9 +112,6 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetIndex", getTargetIndex())
-                .toString();
+            .add("targetIndex", getTargetIndex()).toString();
     }
 }
-
-    
