@@ -22,7 +22,7 @@ import seedu.address.model.person.Person;
  */
 public class AddAppointmentCommand extends Command {
 
-    public static final String COMMAND_WORD = "appointment";
+    public static final String COMMAND_WORD = "appt";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an appointment to a patient in the address book. "
         + "Parameters: INDEX "
