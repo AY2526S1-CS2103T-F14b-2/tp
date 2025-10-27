@@ -18,6 +18,8 @@ import seedu.address.model.tag.Tag;
  */
 public class Patient extends Person {
 
+    private static final String MESSAGE_NOTE_INDEX_OUT_OF_BOUNDS = "Note index out of bounds: ";
+
     private final List<Note> notes;
     private final List<Appointment> appointment;
     private final Tag tag;
@@ -140,7 +142,7 @@ public class Patient extends Person {
     public Patient editNote(int index, Note newNote) {
         requireAllNonNull(newNote);
         if (index < 0 || index >= notes.size()) {
-            throw new IndexOutOfBoundsException("Note index out of bounds: " + index);
+            throw new IndexOutOfBoundsException(MESSAGE_NOTE_INDEX_OUT_OF_BOUNDS + index);
         }
         List<Note> newNotes = new ArrayList<>(this.notes);
         newNotes.set(index, newNote);
@@ -163,6 +165,22 @@ public class Patient extends Person {
         newAppointments.set(index, newAppt);
         return new Patient(this.getName(), this.getPhone(), this.getAddress(),
                 this.getTag().orElse(null), this.notes , newAppointments, this.getCaretaker());
+    }
+
+    /**
+     * Deletes a note of this patient at the specified index.
+     * @param index the zero-based index of the note to delete
+     * @return a new Patient with the note deleted
+     * @throws IndexOutOfBoundsException if the index is invalid
+     */
+    public Patient deleteNote(int index) {
+        if (index < 0 || index >= notes.size()) {
+            throw new IndexOutOfBoundsException(MESSAGE_NOTE_INDEX_OUT_OF_BOUNDS + index);
+        }
+        List<Note> newNotes = new ArrayList<>(this.notes);
+        newNotes.remove(index);
+        return new Patient(this.getName(), this.getPhone(), this.getAddress(),
+                this.getTag().orElse(null), newNotes, this.appointment, this.getCaretaker());
     }
 
     /**
