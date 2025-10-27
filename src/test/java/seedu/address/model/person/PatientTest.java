@@ -359,4 +359,78 @@ public class PatientTest {
         assertTrue(tagOpt.get().equals(TAG_HIGH));
     }
 
+    @Test
+    public void deleteNote_validIndex_returnsNewPatientWithDeletedNote() {
+        Patient originalPatient = new PatientBuilder()
+                .withNote("First note")
+                .withNote("Second note")
+                .withNote("Third note")
+                .build();
+
+        Patient updatedPatient = originalPatient.deleteNote(1); // Delete second note (0-based)
+
+        // Original patient should be unchanged
+        assertEquals(3, originalPatient.getNotes().size());
+        assertEquals("Second note", originalPatient.getNotes().get(1).value);
+
+        // Updated patient should have the note deleted
+        assertEquals(2, updatedPatient.getNotes().size());
+        assertEquals("First note", updatedPatient.getNotes().get(0).value);
+        assertEquals("Third note", updatedPatient.getNotes().get(1).value);
+
+        // Verify immutability - should be different objects
+        assertNotEquals(originalPatient, updatedPatient);
+        assertNotEquals(originalPatient.getNotes(), updatedPatient.getNotes());
+    }
+
+    @Test
+    public void deleteNote_firstIndex_returnsNewPatientWithFirstNoteDeleted() {
+        Patient originalPatient = new PatientBuilder()
+                .withNote("First note")
+                .withNote("Second note")
+                .build();
+
+        Patient updatedPatient = originalPatient.deleteNote(0); // Delete first note
+
+        assertEquals(1, updatedPatient.getNotes().size());
+        assertEquals("Second note", updatedPatient.getNotes().get(0).value);
+    }
+
+    @Test
+    public void deleteNote_lastIndex_returnsNewPatientWithLastNoteDeleted() {
+        Patient originalPatient = new PatientBuilder()
+                .withNote("First note")
+                .withNote("Second note")
+                .build();
+
+        Patient updatedPatient = originalPatient.deleteNote(1); // Delete last note
+
+        assertEquals(1, updatedPatient.getNotes().size());
+        assertEquals("First note", updatedPatient.getNotes().get(0).value);
+    }
+
+    @Test
+    public void deleteNote_invalidIndex_throwsIndexOutOfBoundsException() {
+        Patient patient = new PatientBuilder().withNote("Only note").build();
+
+        // Test negative index
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.deleteNote(-1));
+
+        // Test index equal to size (should be invalid)
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.deleteNote(1));
+
+        // Test index way too large
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.deleteNote(5));
+    }
+
+    @Test
+    public void deleteNote_emptyNotesList_throwsIndexOutOfBoundsException() {
+        Patient patient = new PatientBuilder().build(); // No notes added
+
+        // Any index should throw exception for empty list
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.deleteNote(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.deleteNote(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> patient.deleteNote(1));
+    }
+
 }

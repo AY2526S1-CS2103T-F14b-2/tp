@@ -38,13 +38,7 @@ public class EditNoteCommandTest {
     @Test
     public void execute_validPatientAndNoteIndex_success() {
         // Create a patient with notes and add to model
-        Patient patientWithNotes = new PatientBuilder()
-                .withName("John Doe")
-                .withPhone("98765432")
-                .withAddress("123 Main St")
-                .withNote("First note")
-                .withNote("Second note")
-                .build();
+        Patient patientWithNotes = PatientBuilder.withMultipleNotes().build();
 
         model.addPerson(patientWithNotes);
 
@@ -100,11 +94,7 @@ public class EditNoteCommandTest {
 
     @Test
     public void execute_patientWithNoNotes_throwsCommandException() {
-        Patient patientWithoutNotes = new PatientBuilder()
-                .withName("Jane Doe")
-                .withPhone("87654321")
-                .withAddress("456 Oak St")
-                .build(); // No notes added
+        Patient patientWithoutNotes = PatientBuilder.withoutNotes().build();
 
         model.addPerson(patientWithoutNotes);
         Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
@@ -120,12 +110,7 @@ public class EditNoteCommandTest {
 
     @Test
     public void execute_invalidNoteIndex_throwsCommandException() {
-        Patient patientWithOneNote = new PatientBuilder()
-                .withName("Bob Smith")
-                .withPhone("76543210")
-                .withAddress("789 Pine St")
-                .withNote("Only note")
-                .build();
+        Patient patientWithOneNote = PatientBuilder.withSingleNote().build();
 
         model.addPerson(patientWithOneNote);
         Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
