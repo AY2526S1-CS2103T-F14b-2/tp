@@ -23,7 +23,7 @@ public class Name {
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "^[A-Za-z()/@.'-][A-Za-z ,()/@.'-]*$";
+    public static final String NAME_VALIDATION_REGEX = "^[A-Za-z()/@.'-][A-Za-z ,()/@.'-]*$";
 
 
 
@@ -65,7 +65,7 @@ public class Name {
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidName(String test) {
-        return test.matches(VALIDATION_REGEX);
+        return test.matches(NAME_VALIDATION_REGEX);
     }
 
 
