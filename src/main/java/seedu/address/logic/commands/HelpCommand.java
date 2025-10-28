@@ -35,7 +35,7 @@ public class HelpCommand extends Command {
 
     private static final String DELETE_PATIENT_MESSAGE = "Delete Patient\n"
             + "   Purpose: Delete a patient by index\n"
-            + "   Format: delete INDEX\n"
+            + "   Format: deletepatient INDEX\n"
             + "   Notes: INDEX must exist, positive integer\n";
 
     private static final String LIST_PATIENT_MESSAGE = "List Patients\n"

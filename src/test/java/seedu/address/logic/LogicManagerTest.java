@@ -7,6 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_ALICE;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HIGH;
+import static seedu.address.logic.commands.DeletePatientCommand.COMMAND_WORD;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPatients.ALICE;
 
@@ -62,7 +63,7 @@ public class LogicManagerTest {
 
     @Test
     public void execute_commandExecutionError_throwsCommandException() {
-        String deleteCommand = "delete 9";
+        String deleteCommand = COMMAND_WORD + " 9";
         assertCommandException(deleteCommand, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
