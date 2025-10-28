@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.commands.NoteCommand.MESSAGE_INVALID_ITEM_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ITEM_INDEX;
 
 import java.util.List;
@@ -31,8 +32,6 @@ public class DeleteNoteCommand extends AbstractDeleteCommand<Patient> {
     public static final String MESSAGE_DELETE_NOTE_SUCCESS = "Deleted note for patient: %1$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Notes can only be deleted from patients.";
-    public static final String MESSAGE_INVALID_ITEM_INDEX = "The note index %1$s is invalid. "
-            + "Patient has %2$s note(s).";
     public static final String MESSAGE_NO_NOTES = "Patient has no notes to delete.";
 
     private final int noteIndex;

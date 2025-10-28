@@ -80,7 +80,7 @@ public class DeleteNoteCommandTest {
         DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(patientIndex, 2);
 
         assertCommandFailure(deleteNoteCommand, model,
-                String.format(DeleteNoteCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
+                String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
     }
 
     @Test

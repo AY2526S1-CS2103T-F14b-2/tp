@@ -122,7 +122,7 @@ public class EditNoteCommandTest {
         EditNoteCommand editNoteCommand = new EditNoteCommand(patientIndex, descriptor);
 
         assertCommandFailure(editNoteCommand, model,
-                String.format(EditNoteCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
+                String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
     }
 
     @Test

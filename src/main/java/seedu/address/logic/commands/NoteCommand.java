@@ -33,6 +33,12 @@ public class NoteCommand extends Command {
             + "Notes can only be added to patients.";
     public static final String MESSAGE_EMPTY_NOTE = "Note cannot be empty.";
 
+    // Shared constants for note operations
+    public static final String MESSAGE_INVALID_ITEM_INDEX = "The note at index %1$s is invalid. "
+            + "Patient has %2$s note(s).";
+    public static final String MESSAGE_NOT_PATIENT_BASE = "The person at index %1$s is not a patient. "
+            + "Notes can only be %2$s for patients.";
+
     private final Index targetIndex;
     private final Note note;
 
