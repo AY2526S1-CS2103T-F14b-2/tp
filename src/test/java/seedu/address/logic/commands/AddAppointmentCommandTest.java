@@ -5,6 +5,8 @@ import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_DUPLICA
 import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_SUCCESS;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.Comparator;
+
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
@@ -243,6 +245,10 @@ public class AddAppointmentCommandTest {
         public int getSize() {
             return this.persons.size();
         }
+        @Override
+        public void sortPersons(Comparator<? super Person> c) {
+            throw new AssertionError();
+        }
     }
 
     private static class ModelStubAcceptingAppointment implements Model {
@@ -340,5 +346,10 @@ public class AddAppointmentCommandTest {
         public int getSize() {
             return this.persons.size();
         }
+        public void sortPersons(Comparator<? super Person> c) {
+            throw new AssertionError();
+        }
+
+
     }
 }
