@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.shortFormat;
-import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_CARETAKER_ALREADY_EXISTS;
+import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_PATIENT_HAS_CARETAKER;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -69,7 +69,7 @@ public class CaretakerCommandTest {
         CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
 
         assertThrows(CommandException.class,
-                String.format(MESSAGE_CARETAKER_ALREADY_EXISTS, shortFormat(patient)),
+                String.format(MESSAGE_PATIENT_HAS_CARETAKER, shortFormat(patient)),
                 () -> command.execute(model));
     }
 
