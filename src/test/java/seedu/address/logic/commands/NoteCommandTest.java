@@ -150,7 +150,9 @@ public class NoteCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         NoteCommand noteCommand = new NoteCommand(outOfBoundIndex, new Note(NOTE_STUB));
 
-        assertCommandFailure(noteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        String expectedMessage = String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                model.getFilteredPersonList().size());
+        assertCommandFailure(noteCommand, model, expectedMessage);
     }
 
     @Test
@@ -162,7 +164,9 @@ public class NoteCommandTest {
 
         NoteCommand noteCommand = new NoteCommand(outOfBoundIndex, new Note(NOTE_STUB));
 
-        assertCommandFailure(noteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        String expectedMessage = String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                model.getFilteredPersonList().size());
+        assertCommandFailure(noteCommand, model, expectedMessage);
     }
 
     @Test
@@ -234,7 +238,9 @@ public class NoteCommandTest {
         Model emptyModel = new ModelManager(new AddressBook(), new UserPrefs());
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
-        assertCommandFailure(noteCommand, emptyModel, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        String expectedMessage = String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                emptyModel.getFilteredPersonList().size());
+        assertCommandFailure(noteCommand, emptyModel, expectedMessage);
     }
 
     @Test
@@ -244,6 +250,8 @@ public class NoteCommandTest {
         Index indexOutOfBounds = INDEX_SECOND_PERSON;
 
         NoteCommand noteCommand = new NoteCommand(indexOutOfBounds, new Note(NOTE_STUB));
-        assertCommandFailure(noteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        String expectedMessage = String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                model.getFilteredPersonList().size());
+        assertCommandFailure(noteCommand, model, expectedMessage);
     }
 }
