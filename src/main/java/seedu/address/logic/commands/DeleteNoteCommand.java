@@ -84,8 +84,8 @@ public class DeleteNoteCommand extends AbstractDeleteCommand<Patient> {
     }
 
     @Override
-    protected String getInvalidIndexMessage() {
-        return Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+    protected String getInvalidIndexMessage(Model model) {
+        return String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize());
     }
 
     @Override

@@ -183,6 +183,10 @@ public class AddCommandTest {
         public boolean canUndo() {
             throw new AssertionError("This method should not be called");
         }
+        @Override
+        public int getSize() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
