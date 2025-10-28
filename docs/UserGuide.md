@@ -320,7 +320,7 @@ editpatient 2 n/Betsy Crower tag/
 #### Outputs
 
 - Success: 
-  - In Command Feedback Box: <br>"Patient edited: [changed fields]"<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Patient edited: [changed fields]<br>For [Name]; Phone: [Phone]"
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -401,13 +401,8 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2">INDEX</td>
-      <td>Must exist in patient list </td>
-      <td>"The person index provided is invalid"</td>
-    </tr>
-    <tr>
-      <td>Must be a positive integer</td>
-      <td>"Invalid command format!"</td>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
     </tr>
     <tr>
       <td><strong>NOTE</strong></td>
@@ -420,7 +415,7 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 - Success:
   - In GUI: Note created in specified patient
-  - In Command Feedback Box: <br>"Note added: [Content]"<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Note added: [Content]<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
 
@@ -480,7 +475,7 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
 
 - Success:
   - In GUI: Note updated in specified patient
-  - In Command Feedback Box: <br>"Note [Index] edited: [Content]"<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Note [Index] edited: [Content]<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
 
@@ -527,7 +522,7 @@ deletenote 3 i/1
 
 - Success:
   - In GUI: Note removed from specified patient
-  - In Command Feedback Box: <br>"Note [Index] deleted."<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Note [Index] deleted.<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
 
@@ -590,7 +585,7 @@ appointment 1 d/15-11-2026 t/20:03
 
 - Success:
   - In GUI: Appointment created in specified patient
-  - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]"<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]<br>For [Name]; Phone: [Phone]"
 - Failure: Error Messages above
 
 ### Locating patients by name : `find`
