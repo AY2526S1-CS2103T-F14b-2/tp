@@ -34,7 +34,7 @@ public class DeleteCaretakerCommandTest {
         DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(DeleteCaretakerCommand.MESSAGE_DELETE_CARETAKER_SUCCESS,
-                Messages.format(patientToDeleteFrom.getCaretaker()));
+                Messages.shortFormat(patientToDeleteFrom));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
@@ -52,7 +52,8 @@ public class DeleteCaretakerCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model, String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                model.getSize()));
     }
 
     @Test
@@ -64,7 +65,7 @@ public class DeleteCaretakerCommandTest {
         DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(DeleteCaretakerCommand.MESSAGE_DELETE_CARETAKER_SUCCESS,
-                Messages.format(patientToDeleteFrom.getCaretaker()));
+                Messages.shortFormat(patientToDeleteFrom));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         Patient replacementPatient = new Patient(patientToDeleteFrom.getName(), patientToDeleteFrom.getPhone(),
@@ -87,7 +88,8 @@ public class DeleteCaretakerCommandTest {
 
         DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model, String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                model.getSize()));
     }
 
     @Test

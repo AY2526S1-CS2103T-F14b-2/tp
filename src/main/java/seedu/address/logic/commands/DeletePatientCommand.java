@@ -41,11 +41,6 @@ public class DeletePatientCommand extends AbstractDeleteCommand<Patient> {
     }
 
     @Override
-    protected String getInvalidIndexMessage() {
-        return Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-    }
-
-    @Override
     protected String formatSuccessMessage(Patient deletedPatient) {
         return String.format(MESSAGE_DELETE_PATIENT_SUCCESS, Messages.format(deletedPatient));
     }

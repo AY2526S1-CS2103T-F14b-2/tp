@@ -22,7 +22,7 @@ import seedu.address.model.person.Person;
  */
 public class AddAppointmentCommand extends Command {
 
-    public static final String COMMAND_WORD = "appointment";
+    public static final String COMMAND_WORD = "appt";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an appointment to a patient in the address book. "
         + "Parameters: INDEX "
@@ -69,7 +69,7 @@ public class AddAppointmentCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize()));
         }
 
         Person personToAddAppointment = lastShownList.get(targetIndex.getZeroBased());

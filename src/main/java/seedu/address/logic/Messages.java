@@ -16,7 +16,8 @@ public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
+    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The patient index provided is invalid. "
+            + "There are %1$s patient(s).";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
@@ -101,8 +102,7 @@ public class Messages {
      */
     public static String format(Caretaker caretaker) {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Name: ")
-                .append(caretaker.getName())
+        builder.append(caretaker.getName())
                 .append("; Phone: ")
                 .append(caretaker.getPhone())
                 .append("; Address: ")
@@ -113,6 +113,18 @@ public class Messages {
         return builder.toString();
     }
 
+    /**
+     * Formats the {@code patient} for display to the user.
+     */
+    public static String shortFormat(Patient patient) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("For ")
+                .append(patient.getName())
+                .append("; Phone: ")
+                .append(patient.getPhone());
+
+        return builder.toString();
+    }
 
     private static String capitalise(String s) {
         String lower = s.toLowerCase();

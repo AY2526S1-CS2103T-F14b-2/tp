@@ -132,7 +132,10 @@ public class ModelManager implements Model {
             ? new Appointment(date, time)
             : new Appointment(date, time, desc);
 
-        if (patient.getAppointment().contains(appointment)) {
+        boolean hasDuplicate = patient.getAppointment().stream()
+            .anyMatch(existing -> existing.getDate().equals(appointment.getDate())
+            && existing.getTime().equals(appointment.getTime()));
+        if (hasDuplicate) {
             throw new IllegalArgumentException(AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT);
         }
         Patient updatedPatient = patient.addAppointment(appointment);
@@ -196,5 +199,8 @@ public class ModelManager implements Model {
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
-
+    @Override
+    public int getSize() {
+        return addressBook.getPersonList().size();
+    }
 }
