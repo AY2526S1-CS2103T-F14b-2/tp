@@ -240,11 +240,11 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
     <tbody>
         <tr>
           <td><strong>NAME</strong></td>
-          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a> (NAME section)</td>
+          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
         </tr>
         <tr>
           <td><strong>PHONE</strong></td>
-          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a> (PHONE section)</td>
+          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
         </tr>
         <tr>
           <td><strong>ADDRESS</strong></td>
@@ -466,7 +466,7 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
     </tr>
     <tr>
       <td><strong>NOTE</strong></td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a> (NOTE section)</td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
     </tr>
   </tbody>
 </table>
@@ -513,7 +513,7 @@ deletenote 3 i/1
     </tr>
     <tr>
       <td><strong>ITEM_INDEX</strong></td>
-      <td colspan="2">See <a href="#editing-a-note--editnote">editnote command</a> (ITEM_INDEX section)</td>
+      <td colspan="2">See <a href="#editing-a-note--editnote">editnote command</a></td>
     </tr>
   </tbody>
 </table>
@@ -576,7 +576,7 @@ appointment 1 d/15-11-2026 t/20:03
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a> (NOTE section)</td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
     </tr>
   </tbody>
 </table>
