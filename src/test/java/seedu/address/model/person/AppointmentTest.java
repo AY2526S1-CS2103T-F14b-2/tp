@@ -93,4 +93,55 @@ public class AppointmentTest {
 
         assertEquals(appointment1.hashCode(), appointment2.hashCode());
     }
+
+    @Test
+    public void compareTo_earlierDate_returnsNegative() {
+        Appointment earlier = new Appointment("15-11-2099", "10:00");
+        Appointment later = new Appointment("20-12-2099", "10:00");
+
+        assertTrue(earlier.compareTo(later) < 0);
+    }
+
+    @Test
+    public void compareTo_laterDate_returnsPositive() {
+        Appointment earlier = new Appointment("15-11-2099", "10:00");
+        Appointment later = new Appointment("20-12-2099", "10:00");
+
+        assertTrue(later.compareTo(earlier) > 0);
+    }
+
+    @Test
+    public void compareTo_sameDateEarlierTime_returnsNegative() {
+        Appointment earlier = new Appointment("15-11-2099", "09:00");
+        Appointment later = new Appointment("15-11-2099", "15:00");
+
+        assertTrue(earlier.compareTo(later) < 0);
+    }
+
+    @Test
+    public void compareTo_sameDateLaterTime_returnsPositive() {
+        Appointment earlier = new Appointment("15-11-2099", "09:00");
+        Appointment later = new Appointment("15-11-2099", "15:00");
+
+        assertTrue(later.compareTo(earlier) > 0);
+    }
+
+    @Test
+    public void compareTo_sameDateAndTime_returnsZero() {
+        Appointment appt1 = new Appointment("15-11-2099", "10:00");
+        Appointment appt2 = new Appointment("15-11-2099", "10:00");
+
+        assertEquals(0, appt1.compareTo(appt2));
+    }
+
+    @Test
+    public void compareTo_withNotes_comparesByDateTimeOnly() {
+        Note note1 = new Note("First appointment");
+        Note note2 = new Note("Second appointment");
+        
+        Appointment earlier = new Appointment("15-11-2099", "10:00", note1);
+        Appointment later = new Appointment("20-12-2099", "10:00", note2);
+
+        assertTrue(earlier.compareTo(later) < 0);
+    }
 }

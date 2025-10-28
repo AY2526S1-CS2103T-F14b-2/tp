@@ -433,4 +433,45 @@ public class PatientTest {
         assertThrows(IndexOutOfBoundsException.class, () -> patient.deleteNote(1));
     }
 
+    @Test
+    public void addAppointment_multipleAppointments_sortedChronologically() {
+        Patient patient = new PatientBuilder().build();
+
+        // Add appointments in non-chronological order
+        Appointment laterAppointment = new Appointment("31-12-2099", "15:30");
+        Appointment earlierAppointment = new Appointment("15-11-2099", "10:00");
+        Appointment middleAppointment = new Appointment("20-12-2099", "12:00");
+
+        patient = patient.addAppointment(laterAppointment);
+        patient = patient.addAppointment(earlierAppointment);
+        patient = patient.addAppointment(middleAppointment);
+
+        List<Appointment> appointments = patient.getAppointment();
+        assertEquals(3, appointments.size());
+
+        // Verify chronological order
+        assertEquals(earlierAppointment, appointments.get(0));
+        assertEquals(middleAppointment, appointments.get(1));
+        assertEquals(laterAppointment, appointments.get(2));
+    }
+
+    @Test
+    public void constructor_multipleAppointments_sortedChronologically() {
+        List<Appointment> unsortedAppointments = new ArrayList<>();
+        unsortedAppointments.add(new Appointment("31-12-2099", "15:30"));
+        unsortedAppointments.add(new Appointment("15-11-2099", "10:00"));
+        unsortedAppointments.add(new Appointment("20-12-2099", "12:00"));
+
+        Patient patient = new Patient(ALICE.getName(), ALICE.getPhone(), ALICE.getAddress(),
+                ALICE.getTag().orElse(null), new ArrayList<>(), unsortedAppointments);
+
+        List<Appointment> appointments = patient.getAppointment();
+        assertEquals(3, appointments.size());
+
+        // Verify chronological order (earliest to latest)
+        assertEquals("15-11-2099", appointments.get(0).getDate());
+        assertEquals("20-12-2099", appointments.get(1).getDate());
+        assertEquals("31-12-2099", appointments.get(2).getDate());
+    }
+
 }
