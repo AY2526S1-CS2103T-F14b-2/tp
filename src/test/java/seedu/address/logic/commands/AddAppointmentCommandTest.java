@@ -7,6 +7,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Comparator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
@@ -240,8 +241,13 @@ public class AddAppointmentCommandTest {
             throw new AssertionError();
         }
         @Override
+<<<<<<< HEAD
         public int getSize() {
             return this.persons.size();
+=======
+        public void sortPersons(Comparator<? super Person> c) {
+            throw new AssertionError();
+>>>>>>> a55100e0 (Resolve test compilation issues)
         }
     }
 
@@ -337,8 +343,15 @@ public class AddAppointmentCommandTest {
             throw new AssertionError();
         }
         @Override
+<<<<<<< HEAD
         public int getSize() {
             return this.persons.size();
         }
+=======
+        public void sortPersons(Comparator<? super Person> c) {
+            throw new AssertionError();
+        }
+
+>>>>>>> a55100e0 (Resolve test compilation issues)
     }
 }

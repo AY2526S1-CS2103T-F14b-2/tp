@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalPatients.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -183,8 +184,14 @@ public class AddCommandTest {
         public boolean canUndo() {
             throw new AssertionError("This method should not be called");
         }
+<<<<<<< HEAD
         @Override
         public int getSize() {
+=======
+
+        @Override
+        public void sortPersons(Comparator<? super Person> c) {
+>>>>>>> a55100e0 (Resolve test compilation issues)
             throw new AssertionError("This method should not be called.");
         }
     }
