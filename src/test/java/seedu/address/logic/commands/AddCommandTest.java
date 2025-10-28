@@ -194,6 +194,7 @@ public class AddCommandTest {
 >>>>>>> a55100e0 (Resolve test compilation issues)
             throw new AssertionError("This method should not be called.");
         }
+
     }
 
     /**
