@@ -70,7 +70,7 @@ patient information during busy schedules.
 
 Many commands share similar parameters with identical validation rules. Here are the common parameter types used throughout MediSaveContact:
 
-### INDEX Parameter
+### Index Parameter
 {: #index-parameter }
 
 <table>
@@ -89,7 +89,7 @@ Many commands share similar parameters with identical validation rules. Here are
     </tr>
     <tr>
       <td>Must be a positive integer </td>
-      <td>"Invalid command format!"<br>[Command format will be shown]</td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
     </tr>
   </tbody>
 </table>
@@ -458,7 +458,7 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
     <tr>
       <td rowspan="2"><strong>ITEM_INDEX</strong></td>
       <td>Must be a positive integer</td>
-      <td>"Invalid command format!"</td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
     </tr>
     <tr>
       <td>Must correspond to an existing note</td>
@@ -611,7 +611,7 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 
 | Parameter               | Validation Rules                   | Error Message if Invalid                                                                                                                                                                                                                                                |
 |-------------------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format!" |
+| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format!"<br>[Command format shown] |
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
