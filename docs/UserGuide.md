@@ -607,9 +607,7 @@ sortappt
   - If no patients: "There are no patients in MediSaveBook to sort!"
   - If all patients have no appointment: "No appointments to sort!"
 
-
-
-
+    
 ### Locating patients by name : `find`
 
 Finds persons whose names contain any of the given keywords.
@@ -647,8 +645,8 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 - Failure: Error messages above
 
 ### Undoing a previous command: `undo` 
-Undo the effect of the previous successful command, provided there was already a
-successful command given. Only for commands which changes the database. 
+Undoes the effect of the most recent **successful** command, provided there was already a
+successful command given. This only works for commands which changes the database. 
 
 Command Format: 
 ```
@@ -660,6 +658,7 @@ undo
 - Failure: "No record of successful commands to undo."
 
 ### Navigating through command history: `↑ / ↓`
+Use arrow keys to cycle through command history.
 
 **Legend**: 
 - Up Arrow Key ↑
