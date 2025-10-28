@@ -45,7 +45,8 @@ public class CaretakerCommandTest {
         CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
 
         Patient updatedPatient = patient.addCaretaker(caretaker);
-        String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS, Messages.format(updatedPatient));
+        String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS, Messages.format(caretaker),
+                Messages.shortFormat(updatedPatient));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.setPerson(patient, updatedPatient);
