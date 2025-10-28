@@ -22,7 +22,8 @@ public class DeleteCaretakerCommand extends AbstractDeleteCommand<Patient> {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_CARETAKER_SUCCESS = "Deleted Caretaker: %1$s";
+    public static final String MESSAGE_DELETE_CARETAKER_SUCCESS = "Caretaker deleted.\n"
+            + "%1$s";
     public static final String MESSAGE_NO_CARETAKER_FOUND = "Specified patient has no caretaker!";
 
     public DeleteCaretakerCommand(Index targetIndex) {
@@ -61,13 +62,8 @@ public class DeleteCaretakerCommand extends AbstractDeleteCommand<Patient> {
     }
 
     @Override
-    protected String getInvalidIndexMessage() {
-        return Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-    }
-
-    @Override
     protected String formatSuccessMessage(Patient deletedPatient) {
-        return String.format(MESSAGE_DELETE_CARETAKER_SUCCESS, Messages.format(deletedPatient.getCaretaker()));
+        return String.format(MESSAGE_DELETE_CARETAKER_SUCCESS, Messages.shortFormat(deletedPatient));
     }
 
     @Override

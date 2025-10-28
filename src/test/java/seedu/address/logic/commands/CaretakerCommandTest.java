@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.shortFormat;
+import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_CARETAKER_ALREADY_EXISTS;
+import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_PATIENT_HAS_CARETAKER;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -37,7 +40,7 @@ public class CaretakerCommandTest {
 
     @Test
     public void execute_addCaretaker_success() throws Exception {
-        Patient patient = new PatientBuilder().build();
+        Patient patient = new PatientBuilder().withCaretaker(null).build();
         Caretaker caretaker = new CaretakerBuilder().build();
 
         model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
@@ -45,7 +48,8 @@ public class CaretakerCommandTest {
         CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
 
         Patient updatedPatient = patient.addCaretaker(caretaker);
-        String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS, Messages.format(updatedPatient));
+        String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS, Messages.format(caretaker),
+                Messages.shortFormat(updatedPatient));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.setPerson(patient, updatedPatient);
@@ -54,6 +58,35 @@ public class CaretakerCommandTest {
 
         assertEquals(expectedMessage, result.getFeedbackToUser());
         assertEquals(expectedModel.getFilteredPersonList(), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_patientHasCaretaker_throwsCommandException() throws Exception {
+        Patient patient = new PatientBuilder().build();
+        Caretaker caretaker = new CaretakerBuilder().build();
+
+        model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
+
+        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
+
+        assertThrows(CommandException.class,
+                String.format(MESSAGE_PATIENT_HAS_CARETAKER,
+                        shortFormat(patient)), () -> command.execute(model));
+    }
+
+    @Test
+    public void execute_caretakerExistsAsPatient_throwsCommandException() throws Exception {
+        Patient patient1 = new PatientBuilder().build();
+        Patient patient2 = new PatientBuilder().withName("Bob Ross").withPhone("81234567").withCaretaker(null).build();
+        Caretaker caretaker = new CaretakerBuilder().withName("Betty Bee").withPhone("85355255").build();
+
+        model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient1);
+        model.setPerson(model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased()), patient2);
+
+        CaretakerCommand command = new CaretakerCommand(INDEX_SECOND_PERSON, caretaker);
+
+        assertThrows(CommandException.class,
+                String.format(MESSAGE_CARETAKER_ALREADY_EXISTS), () -> command.execute(model));
     }
 
     @Test
