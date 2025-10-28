@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.NoteCommand.MESSAGE_INVALID_ITEM_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
 
@@ -67,7 +68,7 @@ public class DeleteNoteCommandTest {
 
         DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(patientIndex, 1);
 
-        String expectedMessage = String.format(DeleteNoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0);
+        String expectedMessage = String.format(MESSAGE_INVALID_ITEM_INDEX, 1, 0);
         assertCommandFailure(deleteNoteCommand, model, expectedMessage);
     }
 

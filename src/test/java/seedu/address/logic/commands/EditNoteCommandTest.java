@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.NoteCommand.MESSAGE_INVALID_ITEM_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
@@ -106,7 +107,7 @@ public class EditNoteCommandTest {
 
         EditNoteCommand editNoteCommand = new EditNoteCommand(patientIndex, descriptor);
 
-        String expectedMessage = String.format(EditNoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0);
+        String expectedMessage = String.format(MESSAGE_INVALID_ITEM_INDEX, 1, 0);
         assertCommandFailure(editNoteCommand, model, expectedMessage);
     }
 
