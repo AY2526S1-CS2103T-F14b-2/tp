@@ -38,6 +38,8 @@ public class CaretakerCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Caretaker created: %1$s\n"
             + "%2$s";
+    public static final String MESSAGE_CARETAKER_ALREADY_EXISTS = "Caretaker already exists.\n"
+            + "%1$s";
 
     private final Index targetIndex;
     private final Caretaker caretaker;
@@ -68,6 +70,12 @@ public class CaretakerCommand extends Command {
         }
 
         Patient patientToAddCaretaker = (Patient) personToAddCaretaker;
+
+        if (patientToAddCaretaker.getCaretaker() != null) {
+            String caretakerExistsMessage = String.format(MESSAGE_CARETAKER_ALREADY_EXISTS,
+                    Messages.shortFormat(patientToAddCaretaker));
+            throw new CommandException(caretakerExistsMessage);
+        }
 
         try {
             Patient updatedPatient = patientToAddCaretaker.addCaretaker(caretaker);
