@@ -1,6 +1,6 @@
 package seedu.address.ui;
 
-import static seedu.address.logic.commands.HelpCommand.HELP_MESSAGE;
+import static seedu.address.logic.commands.HelpCommand.getFormattedHelpMessages;
 
 import java.util.logging.Logger;
 
@@ -27,7 +27,7 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow(Stage root) {
         super(FXML, root);
-        helpMessage.setText(HELP_MESSAGE);
+        helpMessage.setText(getFormattedHelpMessages());
     }
 
     /**
