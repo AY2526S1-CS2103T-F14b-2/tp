@@ -138,7 +138,7 @@ public class AppointmentTest {
     public void compareTo_withNotes_comparesByDateTimeOnly() {
         Note note1 = new Note("First appointment");
         Note note2 = new Note("Second appointment");
-        
+
         Appointment earlier = new Appointment("15-11-2099", "10:00", note1);
         Appointment later = new Appointment("20-12-2099", "10:00", note2);
 
