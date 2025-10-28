@@ -12,7 +12,7 @@ import seedu.address.model.Model;
 public class UndoCommand extends Command {
     public static final String COMMAND_WORD = "undo";
 
-    public static final String MESSAGE_SUCCESS = "Undo previous command.";
+    public static final String MESSAGE_SUCCESS = "Previous command undone.";
 
     public static final String MESSAGE_NO_COMMANDS_TO_UNDO = "No record of successful commands to undo.";
 

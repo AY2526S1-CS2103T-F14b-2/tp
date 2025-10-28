@@ -165,7 +165,7 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
         <tr>
           <td rowspan="1">TAG (Optional)</td>
           <td>Must be low, medium and high only (case-insensitive)</td>
-          <td>"Invalid value: "Invalid tag. Only 'high', 'medium', or 'low' are allowed""</td>
+          <td>"Invalid value for tag. Only 'high', 'medium', or 'low' are allowed."</td>
         </tr>
     </tbody>
 </table>
@@ -177,9 +177,14 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
   - In Command Feedback Box: "New patient added: John Tan, Phone: 91234567, Address: Blk 123 Clementi Ave 3, Tag: High Priority"
 - Failure: Error Messages above
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Patient's name is auto capitalised (Eg: John doe will be saved as John Doe)
+</div>
+
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
 Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This patient already exists in MediSaveContact"
 </div>
+
 
 ### Adding an appointment : `appointment`
 

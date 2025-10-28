@@ -14,7 +14,7 @@ public class Name {
 
     public static final String INVALID_CHARS =
             "Name contains invalid characters. "
-                    + "Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.";
+                    + "Only letters, hyphen (-), slash (/) and comma (,) are allowed.";
 
     public static final String MESSAGE_CONSTRAINTS =
             "String is in invalid format";
@@ -22,7 +22,9 @@ public class Name {
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
+    public static final String VALIDATION_REGEX = "^[A-Za-z](?:[A-Za-z ,/\\-]*[A-Za-z])?$";
+
+
 
     public final String fullName;
 
@@ -34,24 +36,28 @@ public class Name {
     public Name(String name) {
         requireNonNull(name);
         final String trimmedName = name.trim();
-        checkArgument(isValidName(name), MESSAGE_CONSTRAINTS);
-        fullName = toTitleCase(trimmedName).trim();
+        checkArgument(isValidName(name), INVALID_CHARS);
+        fullName = formatName(trimmedName).trim();
     }
 
-    private static String toTitleCase(String s) {
+    private static String formatName(String s) {
         if (s.isEmpty()) {
             return s;
         }
+        final String delimiters = " -/,";
         StringBuilder sb = new StringBuilder();
-        String[] parts = s.toLowerCase().split("\\s+");
-        for (int i = 0; i < parts.length; i++) {
-            String word = parts[i];
-            sb.append(Character.toUpperCase(word.charAt(0)));
-            if (word.length() > 1) {
-                sb.append(word.substring(1));
+        boolean capitaliseNextLetter = true;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (delimiters.indexOf(c) >= 0) {
+                sb.append(c);
+                capitaliseNextLetter = true;
+            } else {
+                sb.append(capitaliseNextLetter ? Character.toTitleCase(c) : Character.toLowerCase(c));
+                capitaliseNextLetter = false;
             }
-            sb.append(' ');
         }
+
         return sb.toString();
     }
 
