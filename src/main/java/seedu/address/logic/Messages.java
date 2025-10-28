@@ -1,10 +1,12 @@
 package seedu.address.logic;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
+import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
@@ -75,16 +77,16 @@ public class Messages {
 
         patient.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
 
+        List<Appointment> appointmentList = patient.getAppointment();
 
-        builder.append("; Appointment: ")
-                .append(appointment);
-
+        if (!appointmentList.isEmpty()) {
+            builder.append(" ; Appointment: ").append(appointment);
+        }
 
         if (patient.getNotes() != null && !patient.getNotes().isEmpty()) {
             String notesString = patient.getNotes().stream()
                 .map(Object::toString)
                 .collect(java.util.stream.Collectors.joining(", "));
-
 
             builder.append("; Notes: ").append(notesString);
         }

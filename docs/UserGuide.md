@@ -270,6 +270,10 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
   - In Command Feedback Box: <br>"Patient created: [Name]; Phone: [Phone]; Address: [Address]; Tag: [Tag]"
 - Failure: Error Messages above
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Patient's name is auto capitalised (Eg: John doe will be saved as John Doe)
+</div>
+
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
 Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This patient already exists in MediSaveContact"
 </div>
