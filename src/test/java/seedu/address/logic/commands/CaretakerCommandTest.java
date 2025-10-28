@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.shortFormat;
+import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_CARETAKER_ALREADY_EXISTS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -37,7 +39,7 @@ public class CaretakerCommandTest {
 
     @Test
     public void execute_addCaretaker_success() throws Exception {
-        Patient patient = new PatientBuilder().build();
+        Patient patient = new PatientBuilder().withCaretaker(null).build();
         Caretaker caretaker = new CaretakerBuilder().build();
 
         model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
@@ -55,6 +57,20 @@ public class CaretakerCommandTest {
 
         assertEquals(expectedMessage, result.getFeedbackToUser());
         assertEquals(expectedModel.getFilteredPersonList(), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_caretakerExists_throwsCommandException() throws Exception {
+        Patient patient = new PatientBuilder().build();
+        Caretaker caretaker = new CaretakerBuilder().build();
+
+        model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
+
+        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
+
+        assertThrows(CommandException.class,
+                String.format(MESSAGE_CARETAKER_ALREADY_EXISTS, shortFormat(patient)),
+                () -> command.execute(model));
     }
 
     @Test
