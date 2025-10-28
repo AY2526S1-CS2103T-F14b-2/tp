@@ -70,7 +70,8 @@ public class Patient extends Person {
      * @param tag the urgency associated with the patient condition, can be null if no tag is given
      * @param notes the list of notes for the patient, must not be null (can be empty)
      * @param appointment the list of appointments for the patient, must not be null (can be empty)
-     * @param caretaker the patient's caretaker, can be null if no caretaker is provided* @throws NullPointerException if any required parameter is null
+     * @param caretaker the patient's caretaker, can be null if no caretaker is provided
+     * @throws NullPointerException if any required parameter is null
      */
     public Patient(Name name, Phone phone, Address address, Tag tag, List<Note> notes, List<Appointment> appointment,
                    Caretaker caretaker) {

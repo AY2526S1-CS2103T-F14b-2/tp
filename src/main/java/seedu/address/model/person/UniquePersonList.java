@@ -99,6 +99,10 @@ public class UniquePersonList implements Iterable<Person> {
         internalList.setAll(persons);
     }
 
+    /**
+     * Sort the list of persons using the given {@link Comparator}
+     * @param comparator the ordering to use for {@link Person} elements
+     */
     public void sort(Comparator<? super Person> comparator) {
         requireNonNull(comparator);
         internalList.sort(comparator);
