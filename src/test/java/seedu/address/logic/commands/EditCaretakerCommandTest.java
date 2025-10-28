@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -170,7 +171,7 @@ public class EditCaretakerCommandTest {
         EditCaretakerCommand editCaretakerCommand = new EditCaretakerCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editCaretakerCommand, model,
-                String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize()));
+                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
     }
 
     /**
@@ -188,7 +189,7 @@ public class EditCaretakerCommandTest {
                 new EditCaretakerDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editCaretakerCommand, model,
-                String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize()));
+                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
     }
     @Test
     public void toStringMethod() {
