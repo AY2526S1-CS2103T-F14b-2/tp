@@ -34,7 +34,7 @@ public abstract class AbstractDeleteCommand<T> extends Command {
         List<T> targetList = getTargetList(model);
 
         if (targetIndex.getZeroBased() >= targetList.size()) {
-            throw new CommandException(getInvalidIndexMessage());
+            throw new CommandException(getInvalidIndexMessage(model));
         }
 
         T itemToDelete = targetList.get(targetIndex.getZeroBased());
@@ -72,7 +72,7 @@ public abstract class AbstractDeleteCommand<T> extends Command {
      *
      * @return the invalid index error message
      */
-    protected abstract String getInvalidIndexMessage();
+    protected abstract String getInvalidIndexMessage(Model model);
 
     /**
      * Formats the success message for the deleted item.
