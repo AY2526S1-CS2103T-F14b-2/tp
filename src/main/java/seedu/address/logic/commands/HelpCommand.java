@@ -40,7 +40,8 @@ public class HelpCommand extends Command {
 
     private static final String LIST_PATIENT_MESSAGE = "List Patients\n"
             + "   Purpose: Show all patients in the list\n"
-            + "   Format: list\n";
+            + "   Format: list [tag/TAG]\n"
+            + "   Notes: TAG optional, values = high/medium/low (case-insensitive)\n";
 
     private static final String ADD_APPT_MESSAGE = "Add Appointment\n"
             + "   Purpose: Schedule an appointment for a patient\n"
