@@ -5,9 +5,10 @@ import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_DUPLICA
 import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_SUCCESS;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.Comparator;
+
 import org.junit.jupiter.api.Test;
 
-import java.util.Comparator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;

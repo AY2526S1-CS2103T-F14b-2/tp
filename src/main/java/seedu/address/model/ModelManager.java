@@ -201,11 +201,11 @@ public class ModelManager implements Model {
     }
 
     @Override
-
     public int getSize() {
         return addressBook.getPersonList().size();
     }
 
+    @Override
     public void sortPersons(Comparator<? super Person> comparator) {
         requireNonNull(comparator);
         addressBook.getAddressBook().sortPersons(comparator);

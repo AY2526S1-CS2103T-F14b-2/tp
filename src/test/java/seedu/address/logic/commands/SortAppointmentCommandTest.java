@@ -5,10 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
 import javafx.collections.ObservableList;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
@@ -37,19 +38,18 @@ public class SortAppointmentCommandTest {
 
     @Test
     public void execute_noPatients_throwsCommandException() {
-        AddressBook ab =new AddressBook();
+        AddressBook ab = new AddressBook();
 
         Model model = new ModelManager(ab, new UserPrefs());
         SortAppointmentCommand cmd = new SortAppointmentCommand();
 
         assertThrows(CommandException.class,
-                SortAppointmentCommand.MESSAGE_NO_PATIENTS,
-                () -> cmd.execute(model));
+                SortAppointmentCommand.MESSAGE_NO_PATIENTS, () -> cmd.execute(model));
 
     }
 
     @Test
-    public void execute_gotPatients_butNoAppointments_throwCommandException() {
+    public void execute_gotPatientsbutNoAppointments_throwsCommandException() {
         Patient alice = new PatientBuilder().withName("Alice").build();
         Patient bob = new PatientBuilder().withName("Bob").build();
 
@@ -57,8 +57,7 @@ public class SortAppointmentCommandTest {
         SortAppointmentCommand cmd = new SortAppointmentCommand();
 
         assertThrows(CommandException.class,
-                SortAppointmentCommand.MESSAGE_NO_APPOINTMENTS,
-                () -> cmd.execute(model));
+                SortAppointmentCommand.MESSAGE_NO_APPOINTMENTS, () -> cmd.execute(model));
 
     }
 
@@ -131,4 +130,4 @@ public class SortAppointmentCommandTest {
     }
 
 
- }
+}
