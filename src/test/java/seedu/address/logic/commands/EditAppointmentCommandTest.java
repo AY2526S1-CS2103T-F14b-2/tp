@@ -65,8 +65,8 @@ public class EditAppointmentCommandTest {
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(patientIndex, descriptor);
 
         Patient editedPatient = patientWithAppointments.editAppointment(1, updatedAppointment);
-        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-                Messages.format(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s; %s; Note: %s\nFor %s; Phone: %s",
+                2, UPDATED_DATE, UPDATED_TIME, "Follow up", editedPatient.getName(), editedPatient.getPhone());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointments, editedPatient);
@@ -101,8 +101,8 @@ public class EditAppointmentCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-            Messages.format(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s; %s\nFor %s; Phone: %s",
+                1, UPDATED_DATE, originalAppointment.getTime(), editedPatient.getName(), editedPatient.getPhone());
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -134,8 +134,8 @@ public class EditAppointmentCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-            Messages.format(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s; %s\nFor %s; Phone: %s",
+                1, INITIAL_DATE_ONE, UPDATED_TIME, editedPatient.getName(), editedPatient.getPhone());
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -164,8 +164,8 @@ public class EditAppointmentCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-            Messages.format(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s; %s; Note: %s\nFor %s; Phone: %s",
+                1, INITIAL_DATE_ONE, INITIAL_TIME_ONE, "Updated note", editedPatient.getName(), editedPatient.getPhone());
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -194,14 +194,14 @@ public class EditAppointmentCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-        String expectedMessage = String.format(EditAppointmentCommand.MESSAGE_EDIT_APPOINTMENT_SUCCESS,
-            Messages.format(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s; %s\nFor %s; Phone: %s",
+                1, INITIAL_DATE_ONE, INITIAL_TIME_ONE, editedPatient.getName(), editedPatient.getPhone());
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void execute_invalidPersonIndex_throwsCommandException() {
+    public void execute_notPatient_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         Appointment updatedAppointment = new Appointment(UPDATED_DATE, UPDATED_TIME, new Note("Updated"));
 
