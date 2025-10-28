@@ -105,6 +105,10 @@ public class Appointment implements Comparable<Appointment> {
         return Optional.ofNullable(desc);
     }
 
+    public LocalDateTime getDateTime() {
+        return LocalDateTime.of(date, time);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
