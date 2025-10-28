@@ -53,6 +53,7 @@ public class Patient extends Person {
         requireAllNonNull(notes, appointment);
         this.notes = new ArrayList<>(notes);
         this.appointment = new ArrayList<>(appointment);
+        Collections.sort(this.appointment);
         this.tag = tag;
         this.caretaker = null;
     }
@@ -77,6 +78,7 @@ public class Patient extends Person {
         requireAllNonNull(notes, appointment);
         this.notes = new ArrayList<>(notes);
         this.appointment = new ArrayList<>(appointment);
+        Collections.sort(this.appointment);
         this.tag = tag;
         this.caretaker = caretaker;
     }
