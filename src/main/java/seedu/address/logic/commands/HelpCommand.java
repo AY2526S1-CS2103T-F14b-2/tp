@@ -86,6 +86,11 @@ public class HelpCommand extends Command {
             + "   Purpose: Clear all entries from MediSaveContact.\n"
             + "   Format: clear\n";
 
+    private static final String UNDO_MESSAGE = "Undo last successful command\n"
+            + "   Purpose: Undo the effect of the previous successful command.\n"
+            + "   Format: undo\n"
+            + "   Notes:  Only works for commands which change the database.\n";
+
     public static final List<String> HELP_MESSAGES = new ArrayList<>(Arrays.asList(
             ADD_PATIENT_MESSAGE,
             FIND_PATIENT_MESSAGE,
@@ -100,7 +105,8 @@ public class HelpCommand extends Command {
             DELETE_NOTES_MESSAGE,
             ADD_CARETAKER_MESSAGE,
             DELETE_CARETAKER_MESSAGE,
-            CLEAR_MESSAGE
+            CLEAR_MESSAGE,
+            UNDO_MESSAGE
     ));
 
     public static String getFormattedHelpMessages() {
