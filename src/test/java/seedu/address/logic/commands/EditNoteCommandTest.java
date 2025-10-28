@@ -105,7 +105,8 @@ public class EditNoteCommandTest {
 
         EditNoteCommand editNoteCommand = new EditNoteCommand(patientIndex, descriptor);
 
-        assertCommandFailure(editNoteCommand, model, EditNoteCommand.MESSAGE_NO_NOTES);
+        String expectedMessage = String.format(EditNoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0);
+        assertCommandFailure(editNoteCommand, model, expectedMessage);
     }
 
     @Test
