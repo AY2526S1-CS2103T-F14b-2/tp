@@ -67,7 +67,8 @@ public class DeleteNoteCommandTest {
 
         DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(patientIndex, 1);
 
-        assertCommandFailure(deleteNoteCommand, model, DeleteNoteCommand.MESSAGE_NO_NOTES);
+        String expectedMessage = String.format(DeleteNoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0);
+        assertCommandFailure(deleteNoteCommand, model, expectedMessage);
     }
 
     @Test

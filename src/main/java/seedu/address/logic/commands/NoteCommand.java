@@ -24,7 +24,7 @@ public class NoteCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a note to the patient identified "
             + "by the index number used in the displayed patient list.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + PREFIX_NOTE + "NOTES\n"
+            + PREFIX_NOTE + "NOTE\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_NOTE + "Patient shows improved blood sugar levels today.";
 

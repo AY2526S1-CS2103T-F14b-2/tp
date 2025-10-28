@@ -37,7 +37,6 @@ public class EditNoteCommand extends AbstractEditCommand<Patient, EditNoteComman
     public static final String MESSAGE_EDIT_NOTE_SUCCESS = "Edited note for patient: %1$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Notes can only be edited for patients.";
-    public static final String MESSAGE_NO_NOTES = "Patient has no notes to edit.";
 
     /**
      * Creates an EditNoteCommand to edit the specified note of the patient at the specified index.
@@ -72,13 +71,8 @@ public class EditNoteCommand extends AbstractEditCommand<Patient, EditNoteComman
             throw new CommandException(String.format(MESSAGE_NOT_PATIENT, super.getIndex().getOneBased()));
         }
 
-        // Check if patient has notes
-        List<Note> notes = patientToEdit.getNotes();
-        if (notes.isEmpty()) {
-            throw new CommandException(MESSAGE_NO_NOTES);
-        }
-
         // Check if note index is valid
+        List<Note> notes = patientToEdit.getNotes();
         int noteIndex = editDescriptor.getNoteIndex();
         if (noteIndex < 1 || noteIndex > notes.size()) {
             throw new CommandException(String.format(MESSAGE_INVALID_ITEM_INDEX,

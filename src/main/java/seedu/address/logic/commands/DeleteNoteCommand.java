@@ -32,7 +32,6 @@ public class DeleteNoteCommand extends AbstractDeleteCommand<Patient> {
     public static final String MESSAGE_DELETE_NOTE_SUCCESS = "Deleted note for patient: %1$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Notes can only be deleted from patients.";
-    public static final String MESSAGE_NO_NOTES = "Patient has no notes to delete.";
 
     private final int noteIndex;
 
@@ -62,13 +61,8 @@ public class DeleteNoteCommand extends AbstractDeleteCommand<Patient> {
             throw new CommandException(String.format(MESSAGE_NOT_PATIENT, targetIndex.getOneBased()));
         }
 
-        // Check if patient has notes
-        List<Note> notes = patientToDelete.getNotes();
-        if (notes.isEmpty()) {
-            throw new CommandException(MESSAGE_NO_NOTES);
-        }
-
         // Check if note index is valid
+        List<Note> notes = patientToDelete.getNotes();
         if (noteIndex < 1 || noteIndex > notes.size()) {
             throw new CommandException(String.format(MESSAGE_INVALID_ITEM_INDEX,
                     noteIndex, notes.size()));
