@@ -203,14 +203,39 @@ help
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
 #### Command Format:
+
+`list [tag/TAG]`
+
+#### Example Commands:
 ```
 list
 ```
+```
+list tag/high
+```
+
+#### Parameters & Validation Rules
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>TAG</td>
+          <td>Must be low, medium and high only (case-insensitive)</td>
+          <td>"Invalid value. Only 'high', 'medium', or 'low' are allowed."</td>
+        </tr>
+    </tbody>
+</table>
 
 #### Outputs
 
-- Success: "Listed all patients"
-- Failure: List command would never result in failure
+- Success: "Listed all patients" / "Listed all patients with Tag: HIGH"
+- Failure: Error messages above
 
 ### Adding a patient: `patient`
 
