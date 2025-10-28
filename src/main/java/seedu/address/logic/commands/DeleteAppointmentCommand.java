@@ -7,7 +7,6 @@ import java.util.List;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Appointment;
@@ -87,7 +86,9 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
 
     @Override
     protected String formatSuccessMessage(Patient deletedPatient) {
-        return String.format(MESSAGE_DELETE_APPOINTMENT_SUCCESS, Integer.toString(this.apptIndex), deletedPatient.getName(), deletedPatient.getPhone());
+        return String.format(MESSAGE_DELETE_APPOINTMENT_SUCCESS,
+            Integer.toString(this.apptIndex), deletedPatient.getName(),
+            deletedPatient.getPhone());
     }
 
     @Override

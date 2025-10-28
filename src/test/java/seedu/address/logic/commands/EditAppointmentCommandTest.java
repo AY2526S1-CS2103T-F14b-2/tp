@@ -165,7 +165,8 @@ public class EditAppointmentCommandTest {
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
         String expectedMessage = String.format("Appointment %d edited: %s; %s; Note: %s\nFor %s; Phone: %s",
-                1, INITIAL_DATE_ONE, INITIAL_TIME_ONE, "Updated note", editedPatient.getName(), editedPatient.getPhone());
+            1, INITIAL_DATE_ONE, INITIAL_TIME_ONE, "Updated note",
+            editedPatient.getName(), editedPatient.getPhone());
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }

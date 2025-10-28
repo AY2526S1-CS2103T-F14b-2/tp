@@ -80,7 +80,9 @@ public class AddAppointmentCommand extends Command {
             List<Appointment> appointments = updatedPatient.getAppointment();
             Appointment newestAppointment = appointments.get(appointments.size() - 1);
             String parsedNote = desc == null ? "" : "; Note: " + this.desc;
-            String successMessage = String.format(MESSAGE_SUCCESS, this.date, this.time, parsedNote, updatedPatient.getName(), updatedPatient.getPhone());
+            String successMessage = String.format(MESSAGE_SUCCESS, this.date,
+                this.time, parsedNote, updatedPatient.getName(),
+                updatedPatient.getPhone());
             return new CommandResult(successMessage);
         } catch (IllegalArgumentException e) {
             throw new CommandException(e.getMessage());

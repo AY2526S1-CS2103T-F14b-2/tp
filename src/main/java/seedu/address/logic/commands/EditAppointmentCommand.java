@@ -12,7 +12,6 @@ import java.util.Optional;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Appointment;
@@ -23,7 +22,8 @@ import seedu.address.model.person.Person;
 /**
  * Edits an appointment of an existing patient in the address book.
  */
-public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditAppointmentCommand.EditAppointmentDescriptor> { 
+public class EditAppointmentCommand extends AbstractEditCommand<Patient,
+    EditAppointmentCommand.EditAppointmentDescriptor> {
 
     public static final String COMMAND_WORD = "editappt";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits an appointment of the patient identified "
@@ -130,11 +130,11 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient, EditApp
         EditAppointmentDescriptor descriptor = (EditAppointmentDescriptor) super.getEditDescriptor();
         int appointmentIndex = descriptor.getAppointmentIndex();
         Appointment editedAppointment = editedPatient.getAppointment().get(appointmentIndex - 1);
-        
+
         String noteString = editedAppointment.getNote()
                 .map(note -> "; Note: " + note.toString())
                 .orElse("");
-        
+
         return String.format("Appointment %d edited: %s; %s%s\nFor %s; Phone: %s",
                 appointmentIndex,
                 editedAppointment.getDate(),
