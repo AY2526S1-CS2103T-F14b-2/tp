@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
@@ -77,15 +76,6 @@ public abstract class AbstractEditCommand<T, D> extends Command {
      * @return the list of items
      */
     protected abstract List<T> getTargetList(Model model);
-
-    /**
-     * Gets the error message for invalid index.
-     *
-     * @return the invalid index error message
-     */
-    protected String getInvalidIndexMessage(Model model) {
-        return String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize());
-    }
 
     /**
      * Validates whether the edit can proceed.

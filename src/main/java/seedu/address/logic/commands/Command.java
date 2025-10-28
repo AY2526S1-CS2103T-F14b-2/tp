@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
@@ -16,5 +17,15 @@ public abstract class Command {
      * @throws CommandException If an error occurs during command execution.
      */
     public abstract CommandResult execute(Model model) throws CommandException;
+
+    /**
+     * Gets the error message for invalid patient index.
+     *
+     * @param model the model to get the patient count from
+     * @return the formatted invalid index error message
+     */
+    protected String getInvalidIndexMessage(Model model) {
+        return String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize());
+    }
 
 }

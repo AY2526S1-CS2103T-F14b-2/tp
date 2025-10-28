@@ -62,7 +62,7 @@ public class CaretakerCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(getInvalidIndexMessage(model));
         }
 
         Person personToAddCaretaker = lastShownList.get(targetIndex.getZeroBased());

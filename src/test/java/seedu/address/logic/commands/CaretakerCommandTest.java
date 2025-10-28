@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.shortFormat;
 import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_CARETAKER_ALREADY_EXISTS;
 import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_PATIENT_HAS_CARETAKER;
@@ -95,8 +94,10 @@ public class CaretakerCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         CaretakerCommand command = new CaretakerCommand(outOfBoundIndex, caretaker);
 
+        String expectedMessage = String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                model.getFilteredPersonList().size());
         assertThrows(CommandException.class,
-                MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () -> command.execute(model));
+                expectedMessage, () -> command.execute(model));
     }
 
     @Test
