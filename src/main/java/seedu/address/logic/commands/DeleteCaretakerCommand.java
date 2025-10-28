@@ -62,11 +62,6 @@ public class DeleteCaretakerCommand extends AbstractDeleteCommand<Patient> {
     }
 
     @Override
-    protected String getInvalidIndexMessage(Model model) {
-        return String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize());
-    }
-
-    @Override
     protected String formatSuccessMessage(Patient deletedPatient) {
         return String.format(MESSAGE_DELETE_CARETAKER_SUCCESS, Messages.shortFormat(deletedPatient));
     }

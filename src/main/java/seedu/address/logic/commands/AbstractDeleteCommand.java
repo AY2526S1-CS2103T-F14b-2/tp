@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
@@ -72,7 +73,9 @@ public abstract class AbstractDeleteCommand<T> extends Command {
      *
      * @return the invalid index error message
      */
-    protected abstract String getInvalidIndexMessage(Model model);
+    protected String getInvalidIndexMessage(Model model) {
+        return String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize());
+    }
 
     /**
      * Formats the success message for the deleted item.
