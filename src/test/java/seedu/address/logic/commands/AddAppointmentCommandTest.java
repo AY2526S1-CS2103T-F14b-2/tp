@@ -59,7 +59,7 @@ public class AddAppointmentCommandTest {
         AddAppointmentCommand command = new AddAppointmentCommand(Index.fromOneBased(2), FUTURE_DATE, FUTURE_TIME);
 
         assertThrows(CommandException.class,
-                String.format(seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                String.format(seedu.address.logic.Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
                         modelStub.getSize()), () ->
                 command.execute(modelStub));
     }
