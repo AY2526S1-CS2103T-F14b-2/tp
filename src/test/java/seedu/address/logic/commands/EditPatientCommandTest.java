@@ -158,7 +158,7 @@ public class EditPatientCommandTest {
         EditPatientCommand editPatientCommand = new EditPatientCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editPatientCommand, model,
-                String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize()));
+                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
     }
 
     /**
@@ -176,7 +176,7 @@ public class EditPatientCommandTest {
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editPatientCommand, model,
-                String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize()));
+                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
     }
 
     @Test

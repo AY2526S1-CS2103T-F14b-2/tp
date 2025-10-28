@@ -48,7 +48,7 @@ public class DeletePatientCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         DeletePatientCommand deleteCommand = new DeletePatientCommand(outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+        assertCommandFailure(deleteCommand, model, String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
                 model.getSize()));
     }
 
@@ -79,7 +79,7 @@ public class DeletePatientCommandTest {
 
         DeletePatientCommand deleteCommand = new DeletePatientCommand(outOfBoundIndex);
 
-        assertCommandFailure(deleteCommand, model, String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+        assertCommandFailure(deleteCommand, model, String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
                 model.getSize()));
     }
 
