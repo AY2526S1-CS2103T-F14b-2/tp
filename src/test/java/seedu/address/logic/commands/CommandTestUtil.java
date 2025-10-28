@@ -42,6 +42,8 @@ public class CommandTestUtil {
     public static final String VALID_TAG_LOW = "low";
     public static final String VALID_NOTE_AMY = "Patient has diabetes";
     public static final String VALID_NOTE_BOB = "Patient requires regular checkups";
+    public static final String VALID_RELATIONSHIP_AMY = "Father";
+    public static final String VALID_RELATIONSHIP_BOB = "Mother";
 
     public static final String NAME_DESC_ALICE = " " + PREFIX_NAME + VALID_NAME_ALICE;
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;

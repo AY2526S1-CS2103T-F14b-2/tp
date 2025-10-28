@@ -248,6 +248,7 @@ public class EditCaretakerCommand extends AbstractEditCommand<Patient, EditCaret
 
         public void setRelationship(Relationship relationship) {
             this.relationship = relationship;
+            setRelationshipEdited();
         }
 
         public void setRelationshipEdited() {
