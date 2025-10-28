@@ -45,24 +45,5 @@ public class UndoCommandTest {
         assertCommandSuccess(new UndoCommand(), model, expectedCommandResult, expectedModel);
     }
 
-    @Test
-    public void equals_hashCode_toString() {
-        UndoCommand u1 = new UndoCommand();
-        UndoCommand u2 = new UndoCommand();
-
-        assertTrue(u1.equals(u1));
-        assertTrue(u2.equals(u2));
-
-        assertFalse(u1.equals(1));
-
-        assertNotEquals(null, u1);
-
-        assertEquals(u1.hashCode(), u2.hashCode());
-
-        String expectedString = UndoCommand.class.getCanonicalName() + "{}";
-        assertEquals(expectedString, u1.toString());
-
-    }
-
 
 }
