@@ -60,7 +60,8 @@ public class AbstractEditCommandTest {
 
         CommandException exception = assertThrows(CommandException.class, () ->
             command.execute(model));
-        assertEquals(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, exception.getMessage());
+        assertEquals(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize()),
+                exception.getMessage());
     }
 
     @Test
@@ -209,7 +210,8 @@ public class AbstractEditCommandTest {
 
         CommandException exception = assertThrows(CommandException.class, () ->
             command.execute(model));
-        assertEquals(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, exception.getMessage());
+        assertEquals(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize()),
+                exception.getMessage());
     }
 
     @Test
@@ -244,7 +246,8 @@ public class AbstractEditCommandTest {
 
         CommandException exception = assertThrows(CommandException.class, () ->
             command.execute(model));
-        assertEquals(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, exception.getMessage());
+        assertEquals(String.format(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, model.getSize()),
+                exception.getMessage());
     }
 
     @Test
@@ -417,7 +420,7 @@ public class AbstractEditCommandTest {
         }
 
         @Override
-        protected String getInvalidIndexMessage() {
+        protected String getInvalidIndexMessage(Model model) {
             return "Custom invalid index message";
         }
     }
