@@ -106,4 +106,6 @@ public interface Model {
     boolean canUndo();
 
     void undo();
+
+    int getSize();
 }

@@ -84,11 +84,6 @@ public class DeleteNoteCommand extends AbstractDeleteCommand<Patient> {
     }
 
     @Override
-    protected String getInvalidIndexMessage() {
-        return Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-    }
-
-    @Override
     protected String formatSuccessMessage(Patient deletedFromPatient) {
         return String.format(MESSAGE_DELETE_NOTE_SUCCESS, Messages.format(editedPatient));
     }
