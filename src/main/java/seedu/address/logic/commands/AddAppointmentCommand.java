@@ -30,7 +30,7 @@ public class AddAppointmentCommand extends Command {
         + PREFIX_TIME + "TIME "
         + "[" + PREFIX_NOTE + "NOTE]" + "\n"
         + "Example: " + COMMAND_WORD + " 1 "
-        + PREFIX_DATE + "10-10-2026 "
+        + PREFIX_DATE + "26-10-2026 "
         + PREFIX_TIME + "14:00 "
         + PREFIX_NOTE + "Monthly checkup";
 
