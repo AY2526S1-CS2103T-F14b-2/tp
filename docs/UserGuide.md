@@ -595,9 +595,7 @@ appointment 1 d/15-11-2026 t/20:03
 
 ### Sorting appointments by time: `sortappt`
 Sorts the current list of patients in MediSaveContact by their soonest upcoming appointment (earliest first).
-Patients without appointments are placed after those with appointment. Patients with same date and time for their soonest appointment
-will be sorted by their name alphabetically (case-insensitive)
-
+Patients without appointments are placed after those with appointment. 
 #### Command Format: 
 ```
 sortappt
