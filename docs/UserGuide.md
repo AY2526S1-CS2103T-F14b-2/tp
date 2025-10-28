@@ -319,7 +319,7 @@ editpatient 2 n/Betsy Crower tag/
 
 #### Outputs
 
-- Success: 
+- Success:
   - In Command Feedback Box: <br>"Patient edited: [changed fields]<br>For [Name]; Phone: [Phone]"
 - Failure: Error messages above
 
