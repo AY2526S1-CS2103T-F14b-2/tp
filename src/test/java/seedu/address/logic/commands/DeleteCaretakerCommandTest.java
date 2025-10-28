@@ -34,7 +34,7 @@ public class DeleteCaretakerCommandTest {
         DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(DeleteCaretakerCommand.MESSAGE_DELETE_CARETAKER_SUCCESS,
-                Messages.format(patientToDeleteFrom.getCaretaker()));
+                Messages.shortFormat(patientToDeleteFrom));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
@@ -64,7 +64,7 @@ public class DeleteCaretakerCommandTest {
         DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(DeleteCaretakerCommand.MESSAGE_DELETE_CARETAKER_SUCCESS,
-                Messages.format(patientToDeleteFrom.getCaretaker()));
+                Messages.shortFormat(patientToDeleteFrom));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         Patient replacementPatient = new Patient(patientToDeleteFrom.getName(), patientToDeleteFrom.getPhone(),

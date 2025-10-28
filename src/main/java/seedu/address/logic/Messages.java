@@ -101,8 +101,7 @@ public class Messages {
      */
     public static String format(Caretaker caretaker) {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Name: ")
-                .append(caretaker.getName())
+        builder.append(caretaker.getName())
                 .append("; Phone: ")
                 .append(caretaker.getPhone())
                 .append("; Address: ")
@@ -113,6 +112,18 @@ public class Messages {
         return builder.toString();
     }
 
+    /**
+     * Formats the {@code patient} for display to the user.
+     */
+    public static String shortFormat(Patient patient) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("For ")
+                .append(patient.getName())
+                .append("; Phone: ")
+                .append(patient.getPhone());
+
+        return builder.toString();
+    }
 
     private static String capitalise(String s) {
         String lower = s.toLowerCase();
