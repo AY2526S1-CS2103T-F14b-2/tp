@@ -45,7 +45,7 @@ public class HelpCommand extends Command {
 
     private static final String ADD_APPT_MESSAGE = "Add Appointment\n"
             + "   Purpose: Schedule an appointment for a patient\n"
-            + "   Format: appointment INDEX d/DATE t/TIME [note/NOTE]\n"
+            + "   Format: appt INDEX d/DATE t/TIME [note/NOTE]\n"
             + "   Notes: DATE = DD-MM-YYYY, TIME = HH:MM 24-hour, cannot be in past\n";
 
     private static final String EDIT_APPT_MESSAGE = "Edit Appointment\n"
