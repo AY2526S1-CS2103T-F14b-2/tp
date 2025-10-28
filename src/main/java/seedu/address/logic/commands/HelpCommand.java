@@ -86,7 +86,7 @@ public class HelpCommand extends Command {
             + "   Purpose: Clear all entries from MediSaveContact.\n"
             + "   Format: clear\n";
 
-    private static final List<String> HELP_MESSAGES = new ArrayList<>(Arrays.asList(
+    public static final List<String> HELP_MESSAGES = new ArrayList<>(Arrays.asList(
             ADD_PATIENT_MESSAGE,
             FIND_PATIENT_MESSAGE,
             EDIT_PATIENT_MESSAGE,
