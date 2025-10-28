@@ -593,6 +593,25 @@ appointment 1 d/15-11-2026 t/20:03
   - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]"<br>"For [Name]; Phone: [Phone]"
 - Failure: Error Messages above
 
+### Sorting appointments by time: `sortappt`
+Sorts the current list of patients in MediSaveContact by their soonest upcoming appointment (earliest first).
+Patients without appointments are placed after those with appointment. Patients with same date and time for their soonest appointment
+will be sorted by their name alphabetically (case-insensitive)
+
+#### Command Format: 
+```
+sortappt
+```
+
+#### Outputs: 
+- Success: "Patients sorted by earliest appointment!"
+- Failure: 
+  - If no patients: "There are no patients in MediSaveBook to sort!"
+  - If all patients have no appointment: "No appointments to sort!"
+
+
+
+
 ### Locating patients by name : `find`
 
 Finds persons whose names contain any of the given keywords.
