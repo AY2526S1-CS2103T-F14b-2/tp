@@ -53,10 +53,25 @@ public class HelpCommand extends Command {
             + "   Format: editappt INDEX i/APPOINTMENT_INDEX [d/DATE] [t/TIME] [note/NOTE]\n"
             + "   Notes: Provide at least one of DATE/TIME/NOTE; APPOINTMENT_INDEX is 1-based per patient\n";
 
+    private static final String DELETE_APPT_MESSAGE = "Delete Appointment\n"
+            + "   Purpose: Delete an existing appointment for a patient\n"
+            + "   Format: deleteappt INDEX i/APPOINTMENT_INDEX\n"
+            + "   Notes: INDEX and APPOINTMENT_INDEX must exist, positive integer\n";
+
     private static final String ADD_NOTES_MESSAGE = "Add Medical Notes\n"
             + "   Purpose: Add notes to a patient’s record\n"
-            + "   Format: note INDEX note/NOTES\n"
-            + "   Notes: NOTES max 200 characters\n";
+            + "   Format: note INDEX note/NOTE\n"
+            + "   Notes: NOTE max 200 characters & cannot be empty\n";
+
+    private static final String EDIT_NOTES_MESSAGE = "Edit Medical Notes\n"
+            + "   Purpose: Edit an existing note in a patient’s record\n"
+            + "   Format: editnote INDEX i/ITEM_INDEX note/NOTE\n"
+            + "   Notes: NOTE max 200 characters & cannot be empty\n";
+
+    private static final String DELETE_NOTES_MESSAGE = "Delete Medical Notes\n"
+            + "   Purpose: Delete an existing note in a patient’s record\n"
+            + "   Format: deletenote INDEX i/ITEM_INDEX\n"
+            + "   Notes: INDEX and ITEM_INDEX must exist, positive integer\n";
 
     private static final String ADD_CARETAKER_MESSAGE = "Add Caretaker\n"
             + "   Purpose: Add caretaker to a patient’s record\n"
@@ -67,6 +82,10 @@ public class HelpCommand extends Command {
             + "   Format: deletecaretaker INDEX\n"
             + "   Notes: Patient must have a caretaker already assigned\n";
 
+    private static final String CLEAR_MESSAGE = "Clear all entries\n"
+            + "   Purpose: Clear all entries from MediSaveContact.\n"
+            + "   Format: clear\n";
+
     private static final List<String> HELP_MESSAGES = new ArrayList<>(Arrays.asList(
             ADD_PATIENT_MESSAGE,
             FIND_PATIENT_MESSAGE,
@@ -75,15 +94,19 @@ public class HelpCommand extends Command {
             LIST_PATIENT_MESSAGE,
             ADD_APPT_MESSAGE,
             EDIT_APPT_MESSAGE,
+            DELETE_APPT_MESSAGE,
             ADD_NOTES_MESSAGE,
+            EDIT_NOTES_MESSAGE,
+            DELETE_NOTES_MESSAGE,
             ADD_CARETAKER_MESSAGE,
-            DELETE_CARETAKER_MESSAGE
+            DELETE_CARETAKER_MESSAGE,
+            CLEAR_MESSAGE
     ));
 
     public static String getFormattedHelpMessages() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < HELP_MESSAGES.size(); i++) {
-            sb.append("[").append(i + 1).append("]. ")
+            sb.append(i + 1).append(". ")
                     .append(HELP_MESSAGES.get(i))
                     .append("\n");
         }
