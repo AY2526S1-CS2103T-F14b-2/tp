@@ -43,21 +43,6 @@ public class HelpCommand extends Command {
             + "   Format: list [tag/TAG]\n"
             + "   Notes: TAG optional, values = high/medium/low (case-insensitive)\n";
 
-    private static final String ADD_APPT_MESSAGE = "Add Appointment\n"
-            + "   Purpose: Schedule an appointment for a patient\n"
-            + "   Format: appt INDEX d/DATE t/TIME [note/NOTE]\n"
-            + "   Notes: DATE = DD-MM-YYYY, TIME = HH:MM 24-hour, cannot be in past\n";
-
-    private static final String EDIT_APPT_MESSAGE = "Edit Appointment\n"
-            + "   Purpose: Update an existing appointment for a patient\n"
-            + "   Format: editappt INDEX i/APPOINTMENT_INDEX [d/DATE] [t/TIME] [note/NOTE]\n"
-            + "   Notes: Provide at least one of DATE/TIME/NOTE; APPOINTMENT_INDEX is 1-based per patient\n";
-
-    private static final String DELETE_APPT_MESSAGE = "Delete Appointment\n"
-            + "   Purpose: Delete an existing appointment for a patient\n"
-            + "   Format: deleteappt INDEX i/APPOINTMENT_INDEX\n"
-            + "   Notes: INDEX and APPOINTMENT_INDEX must exist, positive integer\n";
-
     private static final String ADD_NOTES_MESSAGE = "Add Medical Notes\n"
             + "   Purpose: Add notes to a patient’s record\n"
             + "   Format: note INDEX note/NOTE\n"
@@ -72,6 +57,21 @@ public class HelpCommand extends Command {
             + "   Purpose: Delete an existing note in a patient’s record\n"
             + "   Format: deletenote INDEX i/ITEM_INDEX\n"
             + "   Notes: INDEX and ITEM_INDEX must exist, positive integer\n";
+
+    private static final String ADD_APPT_MESSAGE = "Add Appointment\n"
+            + "   Purpose: Schedule an appointment for a patient\n"
+            + "   Format: appt INDEX d/DATE t/TIME [note/NOTE]\n"
+            + "   Notes: DATE = DD-MM-YYYY, TIME = HH:MM 24-hour, cannot be in past\n";
+
+    private static final String EDIT_APPT_MESSAGE = "Edit Appointment\n"
+            + "   Purpose: Update an existing appointment for a patient\n"
+            + "   Format: editappt INDEX i/APPOINTMENT_INDEX [d/DATE] [t/TIME] [note/NOTE]\n"
+            + "   Notes: Provide at least one of DATE/TIME/NOTE; APPOINTMENT_INDEX is 1-based per patient\n";
+
+    private static final String DELETE_APPT_MESSAGE = "Delete Appointment\n"
+            + "   Purpose: Delete an existing appointment for a patient\n"
+            + "   Format: deleteappt INDEX i/APPOINTMENT_INDEX\n"
+            + "   Notes: INDEX and APPOINTMENT_INDEX must exist, positive integer\n";
 
     private static final String ADD_CARETAKER_MESSAGE = "Add Caretaker\n"
             + "   Purpose: Add caretaker to a patient’s record\n"
@@ -97,12 +97,12 @@ public class HelpCommand extends Command {
             EDIT_PATIENT_MESSAGE,
             DELETE_PATIENT_MESSAGE,
             LIST_PATIENT_MESSAGE,
-            ADD_APPT_MESSAGE,
-            EDIT_APPT_MESSAGE,
-            DELETE_APPT_MESSAGE,
             ADD_NOTES_MESSAGE,
             EDIT_NOTES_MESSAGE,
             DELETE_NOTES_MESSAGE,
+            ADD_APPT_MESSAGE,
+            EDIT_APPT_MESSAGE,
+            DELETE_APPT_MESSAGE,
             ADD_CARETAKER_MESSAGE,
             DELETE_CARETAKER_MESSAGE,
             CLEAR_MESSAGE,
