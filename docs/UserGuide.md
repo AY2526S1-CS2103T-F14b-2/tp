@@ -270,6 +270,10 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
   - In Command Feedback Box: <br>"Patient created: [Name]; Phone: [Phone]; Address: [Address]; Tag: [Tag]"
 - Failure: Error Messages above
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Patient's name is auto capitalised (Eg: John doe will be saved as John Doe)
+</div>
+
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
 Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This patient already exists in MediSaveContact"
 </div>
@@ -588,6 +592,21 @@ appointment 1 d/15-11-2026 t/20:03
   - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]<br>For [Name]; Phone: [Phone]"
 - Failure: Error Messages above
 
+### Sorting appointments by time: `sortappt`
+Sorts the current list of patients in MediSaveContact by their soonest upcoming appointment (earliest first).
+Patients without appointments are placed after those with appointment. 
+#### Command Format: 
+```
+sortappt
+```
+
+#### Outputs: 
+- Success: "Patients sorted by earliest appointment!"
+- Failure: 
+  - If no patients: "There are no patients in MediSaveBook to sort!"
+  - If all patients have no appointment: "No appointments to sort!"
+
+    
 ### Locating patients by name : `find`
 
 Finds persons whose names contain any of the given keywords.
@@ -623,6 +642,33 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 #### Outputs
 - Success: "X persons listed!", where X is the number of matching persons
 - Failure: Error messages above
+
+### Undoing a previous command: `undo` 
+Undoes the effect of the most recent **successful** command, provided there was already a
+successful command given. This only works for commands which changes the database. 
+
+Command Format: 
+```
+undo
+```
+
+#### Outputs
+- Success: "Previous command undone."
+- Failure: "No record of successful commands to undo."
+
+### Navigating through command history: `↑ / ↓`
+Use arrow keys to cycle through command history.
+
+**Legend**: 
+- Up Arrow Key ↑
+- Down Arrow Key ↓
+
+**How It Works** 
+- Press ↑ to move backwards through command history
+- Press ↓ to move forward through command history
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Commands are only added if they are successful. 
+</div>
 
 
 ### Clearing all entries : `clear`

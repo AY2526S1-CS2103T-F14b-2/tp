@@ -1,10 +1,12 @@
 package seedu.address.logic;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
+import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
@@ -16,9 +18,9 @@ public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The patient index provided is invalid. "
+    public static final String MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX = "The patient index provided is invalid. "
             + "There are %1$s patient(s).";
-    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
+    public static final String MESSAGE_PATIENTS_LISTED_OVERVIEW = "%1$d patients listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_REQUIRE_PATIENT = "The person index provided is not a patient";
@@ -75,16 +77,16 @@ public class Messages {
 
         patient.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
 
+        List<Appointment> appointmentList = patient.getAppointment();
 
-        builder.append("; Appointment: ")
-                .append(appointment);
-
+        if (!appointmentList.isEmpty()) {
+            builder.append(" ; Appointment: ").append(appointment);
+        }
 
         if (patient.getNotes() != null && !patient.getNotes().isEmpty()) {
             String notesString = patient.getNotes().stream()
                 .map(Object::toString)
                 .collect(java.util.stream.Collectors.joining(", "));
-
 
             builder.append("; Notes: ").append(notesString);
         }
