@@ -629,6 +629,32 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 - Success: "X persons listed!", where X is the number of matching persons
 - Failure: Error messages above
 
+### Undoing a previous command: `undo` 
+Undo the effect of the previous successful command, provided there was already a
+successful command given. Only for commands which changes the database. 
+
+Command Format: 
+```
+undo
+```
+
+#### Outputs
+- Success: "Previous command undone."
+- Failure: "No record of successful commands to undo."
+
+### Navigating through command history: `↑ / ↓`
+
+**Legend**: 
+- Up Arrow Key ↑
+- Down Arrow Key ↓
+
+**How It Works** 
+- Press ↑ to move backwards through command history
+- Press ↓ to move forward through command history
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Commands are only added if they are successful. 
+</div>
+
 
 ### Clearing all entries : `clear`
 
