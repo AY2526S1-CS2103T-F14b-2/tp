@@ -184,16 +184,18 @@ public class AddCommandTest {
         public boolean canUndo() {
             throw new AssertionError("This method should not be called");
         }
-<<<<<<< HEAD
-        @Override
-        public int getSize() {
-=======
+
 
         @Override
         public void sortPersons(Comparator<? super Person> c) {
->>>>>>> a55100e0 (Resolve test compilation issues)
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public int getSize() {
+            throw new AssertionError("This method should not be called.");
+        }
+
 
     }
 
