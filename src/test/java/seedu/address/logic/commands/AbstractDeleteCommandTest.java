@@ -120,8 +120,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_validIndex_success() throws Exception {
-    TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(1));
-    Model model = createModelWithTypicalPatients();
+        TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(1));
+        Model model = createModelWithTypicalPatients();
 
         CommandResult result = command.execute(model);
         assertEquals("Successfully deleted: Item1", result.getFeedbackToUser());
@@ -131,8 +131,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_invalidIndex_throwsCommandException() {
-    TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(10));
-    Model model = createModelWithTypicalPatients();
+        TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(10));
+        Model model = createModelWithTypicalPatients();
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals("Invalid index message", exception.getMessage());
@@ -140,8 +140,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_indexAtBoundary_success() throws Exception {
-    TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(3));
-    Model model = createModelWithTypicalPatients();
+        TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(3));
+        Model model = createModelWithTypicalPatients();
 
         CommandResult result = command.execute(model);
         assertEquals("Successfully deleted: Item3", result.getFeedbackToUser());
@@ -149,8 +149,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_validationFails_throwsCommandException() {
-    TestDeleteCommandWithValidation command = new TestDeleteCommandWithValidation(Index.fromOneBased(1));
-    Model model = createModelWithTypicalPatients();
+        TestDeleteCommandWithValidation command = new TestDeleteCommandWithValidation(Index.fromOneBased(1));
+        Model model = createModelWithTypicalPatients();
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals("Validation failed", exception.getMessage());
@@ -164,9 +164,9 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_emptyTargetList_throwsCommandException() {
-    TestDeleteCommandWithEmptyList command = new TestDeleteCommandWithEmptyList(Index.fromOneBased(1));
-    Model model = createModelWithTypicalPatients();
-    model.updateFilteredPersonList(person -> false);
+        TestDeleteCommandWithEmptyList command = new TestDeleteCommandWithEmptyList(Index.fromOneBased(1));
+        Model model = createModelWithTypicalPatients();
+        model.updateFilteredPersonList(person -> false);
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals("Invalid index message", exception.getMessage());
@@ -174,8 +174,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_customInvalidIndexMessage_throwsCommandExceptionWithCustomMessage() {
-    TestDeleteCommandWithCustomMessage command = new TestDeleteCommandWithCustomMessage(Index.fromOneBased(10));
-    Model model = createModelWithTypicalPatients();
+        TestDeleteCommandWithCustomMessage command = new TestDeleteCommandWithCustomMessage(Index.fromOneBased(10));
+        Model model = createModelWithTypicalPatients();
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals("Custom invalid index message", exception.getMessage());
