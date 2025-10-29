@@ -67,7 +67,7 @@ public class EditAppointmentCommandTest {
     Patient editedPatient = patientWithAppointments.editAppointment(1, updatedAppointment);
     String expectedMessage = String.format("Appointment %d edited: %s\n%s",
         2,
-        Messages.formatAppointment(editedPatient.getAppointment().get(1)),
+        Messages.format(editedPatient.getAppointment().get(1)),
         Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
@@ -105,7 +105,7 @@ public class EditAppointmentCommandTest {
 
     String expectedMessage = String.format("Appointment %d edited: %s\n%s",
         1,
-        Messages.formatAppointment(expectedAppointment),
+        Messages.format(expectedAppointment),
         Messages.shortFormat(editedPatient));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -140,7 +140,7 @@ public class EditAppointmentCommandTest {
 
     String expectedMessage = String.format("Appointment %d edited: %s\n%s",
         1,
-        Messages.formatAppointment(expectedAppointment),
+        Messages.format(expectedAppointment),
         Messages.shortFormat(editedPatient));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);

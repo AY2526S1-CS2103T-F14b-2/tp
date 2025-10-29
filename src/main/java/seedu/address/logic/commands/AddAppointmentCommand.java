@@ -77,7 +77,7 @@ public class AddAppointmentCommand extends Command {
             List<Appointment> appointments = updatedPatient.getAppointment();
             Appointment newestAppointment = appointments.get(appointments.size() - 1);
             String successMessage = String.format(MESSAGE_SUCCESS,
-                Messages.formatAppointment(newestAppointment),
+                Messages.format(newestAppointment),
                 Messages.shortFormat(updatedPatient));
             return new CommandResult(successMessage);
         } catch (IllegalArgumentException e) {

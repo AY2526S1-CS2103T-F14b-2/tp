@@ -134,7 +134,7 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
 
     return String.format("Appointment %d edited: %s\n%s",
         appointmentIndex,
-        Messages.formatAppointment(editedAppointment),
+        Messages.format(editedAppointment),
         Messages.shortFormat(editedPatient));
     }
 

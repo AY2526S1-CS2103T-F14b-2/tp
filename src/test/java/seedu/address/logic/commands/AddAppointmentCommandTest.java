@@ -40,7 +40,7 @@ public class AddAppointmentCommandTest {
 
         Patient updatedPatient = (Patient) modelStub.getFilteredPersonList().get(0);
         assertEquals(String.format(MESSAGE_SUCCESS,
-            Messages.formatAppointment(updatedPatient.getAppointment().get(0)),
+            Messages.format(updatedPatient.getAppointment().get(0)),
             Messages.shortFormat(updatedPatient)),
             result.getFeedbackToUser());
         assertEquals(1, updatedPatient.getAppointment().size());

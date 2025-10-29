@@ -103,7 +103,7 @@ public class Messages {
     /**
      * Formats an {@link Appointment} for consistent display.
      */
-    public static String formatAppointment(Appointment appointment) {
+    public static String format(Appointment appointment) {
         Objects.requireNonNull(appointment);
         StringBuilder builder = new StringBuilder()
                 .append(appointment.getDate())
