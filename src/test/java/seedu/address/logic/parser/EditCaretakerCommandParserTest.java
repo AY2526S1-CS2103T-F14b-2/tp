@@ -76,7 +76,7 @@ public class EditCaretakerCommandParserTest {
     @Test
     public void parse_invalidValue_failure() {
         // invalid individual fields
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.INVALID_CHARS);
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.INVALID_DIGITS);
         assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, Address.BLANK_ADDRESS);
         assertParseFailure(parser, "1" + INVALID_RELATIONSHIP_DESC, Relationship.BLANK_RELATIONSHIP);
@@ -84,7 +84,7 @@ public class EditCaretakerCommandParserTest {
         // invalid combination
         assertParseFailure(parser,
                 "1" + INVALID_NAME_DESC + INVALID_ADDRESS_DESC + VALID_PHONE_AMY,
-                Name.MESSAGE_CONSTRAINTS);
+                Name.INVALID_CHARS);
     }
 
     @Test
