@@ -145,8 +145,8 @@ Patient indices adapt to the current view. If you use the `find` command to filt
       <td>"Name cannot be blank."</td>
     </tr>
     <tr>
-      <td>Must contain valid characters only (letters, hyphens, apostrophes, commas)</td>
-      <td>"Name contains invalid characters. Only letters, hyphen(-), apostrophe (/) and comma(,) are allowed."</td>
+      <td>Must contain valid characters only (letters, spaces, commas, parentheses, slashes, periods, at signs, hyphens, and apostrophes)</td>
+      <td>"Name contains invalid characters. Only letters, spaces, commas (,), parentheses (), slashes (/), periods (.), at signs (@), hyphens (-), and apostrophes (') are allowed."</td>
     </tr>
     <tr>
       <td rowspan="3"><strong>PHONE</strong></td>
@@ -545,14 +545,14 @@ Links a caretaker to a patient so their emergency contact information is tracked
 
 #### Command Format:
 
-`caretaker INDEX n/NAME p/PHONE a/ADDRESS r/RELATIONSHIP`
+`caretaker INDEX n/NAME p/PHONE [a/ADDRESS] r/RELATIONSHIP`
 
 #### Example Commands:
 ```
 caretaker 1 n/John Doe p/98765432 a/311 Clementi Ave 2 #10-05 r/Father
 ```
 ```
-caretaker 3 n/Alice Tan p/81234567 a/456 Bukit Timah Rd r/Home Nurse
+caretaker 3 n/Alice Tan p/81234567 r/Home Nurse
 ```
 
 #### Parameters & Validation Rules
@@ -571,12 +571,17 @@ caretaker 3 n/Alice Tan p/81234567 a/456 Bukit Timah Rd r/Home Nurse
       <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>NAME / PHONE / ADDRESS</strong></td>
+      <td><strong>NAME / PHONE</strong></td>
+      <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
+    </tr>
+    <tr>
+      <td><strong>ADDRESS (Optional)</strong></td>
       <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
     </tr>
     <tr>
       <td><strong>RELATIONSHIP</strong></td>
-      <td colspan="2">See <a href="#adding-a-caretaker--caretaker">caretaker command</a> for relationship requirements</td>
+      <td>Cannot be blank</td>
+      <td>"Relationship cannot be blank."</td>
     </tr>
   </tbody>
 </table>
@@ -593,8 +598,12 @@ caretaker 3 n/Alice Tan p/81234567 a/456 Bukit Timah Rd r/Home Nurse
     - "Patient already has a caretaker." (includes a short summary of the existing caretaker)
     - "This caretaker already exists as a patient in the address book."
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Omit the caretaker's address if the caretaker has the same address as their patient! MediSaveContact will copy the address for you.
+</div>
+
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
-Caretaker contact details must be unique. If the caretaker already exists as a patient entry, link the patient entry instead of duplicating it.
+Caretaker contact details must be unique. If the caretaker already exists as a patient entry, they might not feel well enough to act as a caretaker.
 </div>
 
 
