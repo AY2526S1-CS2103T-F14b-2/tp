@@ -54,8 +54,8 @@ public class DeleteNoteCommandTest {
 
         DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(outOfBoundIndex, 1);
 
-    assertCommandFailure(deleteNoteCommand, model, String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
-        model.getSize()));
+        assertCommandFailure(deleteNoteCommand, model, String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
+            model.getSize()));
     }
 
     @Test
@@ -67,8 +67,8 @@ public class DeleteNoteCommandTest {
 
         DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(patientIndex, 1);
 
-    assertCommandFailure(deleteNoteCommand, model,
-        String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0));
+        assertCommandFailure(deleteNoteCommand, model,
+            String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class DeleteNoteCommandTest {
         // Invalid - patient only has 1 note
         DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(patientIndex, 2);
 
-    assertCommandFailure(deleteNoteCommand, model,
-        String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
+        assertCommandFailure(deleteNoteCommand, model,
+            String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
     }
 
     @Test

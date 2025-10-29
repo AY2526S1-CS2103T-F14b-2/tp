@@ -71,8 +71,8 @@ public class EditNoteCommandTest {
 
         EditNoteCommand editNoteCommand = new EditNoteCommand(outOfBoundIndex, descriptor);
 
-    assertCommandFailure(editNoteCommand, model,
-        String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
+        assertCommandFailure(editNoteCommand, model,
+            String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
     }
 
     @Test
@@ -106,8 +106,8 @@ public class EditNoteCommandTest {
 
         EditNoteCommand editNoteCommand = new EditNoteCommand(patientIndex, descriptor);
 
-    assertCommandFailure(editNoteCommand, model,
-        String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0));
+        assertCommandFailure(editNoteCommand, model,
+            String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0));
     }
 
     @Test
@@ -123,8 +123,8 @@ public class EditNoteCommandTest {
 
         EditNoteCommand editNoteCommand = new EditNoteCommand(patientIndex, descriptor);
 
-    assertCommandFailure(editNoteCommand, model,
-        String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
+        assertCommandFailure(editNoteCommand, model,
+            String.format(NoteCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
     }
 
     @Test
