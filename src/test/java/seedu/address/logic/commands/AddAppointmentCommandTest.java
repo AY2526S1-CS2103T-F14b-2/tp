@@ -39,12 +39,18 @@ public class AddAppointmentCommandTest {
         CommandResult result = command.execute(modelStub);
 
         Patient updatedPatient = (Patient) modelStub.getFilteredPersonList().get(0);
-        assertEquals(String.format(MESSAGE_SUCCESS,
-            Messages.format(updatedPatient.getAppointment().get(0)),
-            Messages.shortFormat(updatedPatient)),
-            result.getFeedbackToUser());
         assertEquals(1, updatedPatient.getAppointment().size());
-        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), updatedPatient.getAppointment().get(0));
+        Appointment createdAppointment = updatedPatient.getAppointment().get(0);
+        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME), createdAppointment);
+
+        String expectedAppointmentDetails = String.format("%s; %s",
+                createdAppointment.getDate(),
+                createdAppointment.getTime());
+        String expectedMessage = String.format(MESSAGE_SUCCESS,
+                expectedAppointmentDetails,
+                Messages.shortFormat(updatedPatient));
+
+        assertEquals(expectedMessage, result.getFeedbackToUser());
     }
 
     @Test
@@ -92,7 +98,18 @@ public class AddAppointmentCommandTest {
 
         Patient updatedPatient = (Patient) modelStub.getFilteredPersonList().get(0);
         assertEquals(1, updatedPatient.getAppointment().size());
-        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME, testNote), updatedPatient.getAppointment().get(0));
+        Appointment createdAppointment = updatedPatient.getAppointment().get(0);
+        assertEquals(new Appointment(FUTURE_DATE, FUTURE_TIME, testNote), createdAppointment);
+
+        String expectedAppointmentDetails = String.format("%s; %s; Note: %s",
+                createdAppointment.getDate(),
+                createdAppointment.getTime(),
+                testNote.toString());
+        String expectedMessage = String.format(MESSAGE_SUCCESS,
+                expectedAppointmentDetails,
+                Messages.shortFormat(updatedPatient));
+
+        assertEquals(expectedMessage, result.getFeedbackToUser());
     }
 
     @Test
