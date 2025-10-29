@@ -55,10 +55,7 @@ public class NoteCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
-                    model.getSize()));
-        }
+        ensureValidPatientIndex(targetIndex, model);
 
         Person personToAddNote = lastShownList.get(targetIndex.getZeroBased());
 

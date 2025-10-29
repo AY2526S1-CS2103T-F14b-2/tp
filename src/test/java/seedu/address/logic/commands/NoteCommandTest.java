@@ -237,7 +237,7 @@ public class NoteCommandTest {
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
         assertCommandFailure(noteCommand, emptyModel,
-            String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, emptyModel.getSize()));
+                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, emptyModel.getSize()));
     }
 
     @Test

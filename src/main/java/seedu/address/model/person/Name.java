@@ -17,8 +17,6 @@ public class Name {
                     + "Only letters, spaces, commas (,), parentheses (), slashes (/), "
                     + "periods (.), at signs (@), hyphens (-), and apostrophes (') are allowed.";
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "String is in invalid format";
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.

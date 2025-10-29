@@ -203,7 +203,7 @@ public class ModelManager implements Model {
 
     @Override
     public int getSize() {
-        return addressBook.getPersonList().size();
+        return filteredPersons.size();
     }
 
     @Override
