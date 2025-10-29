@@ -16,8 +16,9 @@ public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-insensitive, letters, hyphens (-), slashes (/) and commas (,)) and displays"
-            + " them as a list with index numbers.\n"
+            + "the specified keywords (Only letters, spaces, commas (,), parentheses (), slashes (/), "
+            + "periods (.), at signs (@), hyphens (-), and apostrophes (') are allowed) and displays "
+            + "them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie";
 

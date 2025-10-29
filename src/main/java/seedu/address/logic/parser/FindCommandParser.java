@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 
 /**
@@ -28,7 +29,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         String[] nameKeywords = trimmedArgs.split("\\s+");
 
         for (String alphaArgs : nameKeywords) {
-            if (!alphaArgs.matches("[A-Za-z'/,\\-]+")) { // if string does not contain only letters, "-", "/", ","
+            if (!alphaArgs.matches(Name.NAME_VALIDATION_REGEX)) {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
