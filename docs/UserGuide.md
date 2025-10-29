@@ -594,19 +594,19 @@ appointment 1 d/15-11-2026 t/20:03
 
 ### Sorting appointments by time: `sortappt`
 Sorts the current list of patients in MediSaveContact by their soonest upcoming appointment (earliest first).
-Patients without appointments are placed after those with appointment. 
-#### Command Format: 
+Patients without appointments are placed after those with appointment.
+#### Command Format:
 ```
 sortappt
 ```
 
-#### Outputs: 
+#### Outputs:
 - Success: "Patients sorted by earliest appointment!"
-- Failure: 
+- Failure:
   - If no patients: "There are no patients in MediSaveBook to sort!"
   - If all patients have no appointment: "No appointments to sort!"
 
-    
+
 ### Locating patients by name : `find`
 
 Finds persons whose names contain any of the given keywords.
@@ -643,11 +643,11 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 - Success: "X persons listed!", where X is the number of matching persons
 - Failure: Error messages above
 
-### Undoing a previous command: `undo` 
+### Undoing a previous command: `undo`
 Undoes the effect of the most recent **successful** command, provided there was already a
-successful command given. This only works for commands which changes the database. 
+successful command given. This only works for commands which changes the database.
 
-Command Format: 
+Command Format:
 ```
 undo
 ```
@@ -659,15 +659,15 @@ undo
 ### Navigating through command history: `↑ / ↓`
 Use arrow keys to cycle through command history.
 
-**Legend**: 
+**Legend**:
 - Up Arrow Key ↑
 - Down Arrow Key ↓
 
-**How It Works** 
+**How It Works**
 - Press ↑ to move backwards through command history
 - Press ↓ to move forward through command history
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Commands are only added if they are successful. 
+Commands are only added if they are successful.
 </div>
 
 

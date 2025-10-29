@@ -64,11 +64,10 @@ public class EditAppointmentCommandTest {
 
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(patientIndex, descriptor);
 
-    Patient editedPatient = patientWithAppointments.editAppointment(1, updatedAppointment);
-    String expectedMessage = String.format("Appointment %d edited: %s\n%s",
-        2,
-        Messages.format(editedPatient.getAppointment().get(1)),
-        Messages.shortFormat(editedPatient));
+        Patient editedPatient = patientWithAppointments.editAppointment(1, updatedAppointment);
+        String expectedMessage = String.format("Appointment %d edited: %s\n%s", 2,
+            Messages.format(editedPatient.getAppointment().get(1)),
+            Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointments, editedPatient);
@@ -103,10 +102,9 @@ public class EditAppointmentCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-    String expectedMessage = String.format("Appointment %d edited: %s\n%s",
-        1,
-        Messages.format(expectedAppointment),
-        Messages.shortFormat(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s\n%s", 1,
+            Messages.format(expectedAppointment),
+            Messages.shortFormat(editedPatient));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -138,10 +136,9 @@ public class EditAppointmentCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-    String expectedMessage = String.format("Appointment %d edited: %s\n%s",
-        1,
-        Messages.format(expectedAppointment),
-        Messages.shortFormat(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s\n%s", 1,
+            Messages.format(expectedAppointment),
+            Messages.shortFormat(editedPatient));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -170,10 +167,9 @@ public class EditAppointmentCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-    String expectedMessage = String.format("Appointment %d edited: %s\n%s",
-        1,
-        Messages.format(expectedAppointment),
-        Messages.shortFormat(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s\n%s", 1,
+            Messages.format(expectedAppointment),
+            Messages.shortFormat(editedPatient));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
@@ -202,10 +198,9 @@ public class EditAppointmentCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithAppointment, editedPatient);
 
-    String expectedMessage = String.format("Appointment %d edited: %s\n%s",
-        1,
-        Messages.format(expectedAppointment),
-        Messages.shortFormat(editedPatient));
+        String expectedMessage = String.format("Appointment %d edited: %s\n%s", 1,
+            Messages.format(expectedAppointment),
+            Messages.shortFormat(editedPatient));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
