@@ -525,7 +525,8 @@ deletenote 3 i/1
     </tr>
     <tr>
       <td><strong>ITEM_INDEX</strong></td>
-      <td colspan="2">See <a href="#editing-a-note--editnote">editnote command</a></td>
+      <td>Must correspond to an existing note</td>
+      <td>"The note at index X is invalid. Patient has Y note(s)."</td>
     </tr>
   </tbody>
 </table>
