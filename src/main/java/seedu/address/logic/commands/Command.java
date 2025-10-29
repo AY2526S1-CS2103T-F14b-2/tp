@@ -44,7 +44,8 @@ public abstract class Command {
      * @throws CommandException if the index is out of bounds for the list
      */
     protected void ensureValidPatientIndex(Index index, java.util.List<?> displayedList) throws CommandException {
-        ensureValidPatientIndex(index, displayedList, size -> String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, size));
+        ensureValidPatientIndex(index, displayedList, size ->
+            String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, size));
     }
 
     /**

@@ -34,7 +34,7 @@ public abstract class AbstractDeleteCommand<T> extends Command {
         requireNonNull(model);
         List<T> targetList = getTargetList(model);
 
-    ensureValidPatientIndex(targetIndex, targetList, size -> getInvalidIndexMessage(model));
+        ensureValidPatientIndex(targetIndex, targetList, size -> getInvalidIndexMessage(model));
 
         T itemToDelete = targetList.get(targetIndex.getZeroBased());
 

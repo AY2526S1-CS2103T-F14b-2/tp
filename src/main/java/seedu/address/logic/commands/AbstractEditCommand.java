@@ -39,9 +39,9 @@ public abstract class AbstractEditCommand<T, D> extends Command {
     @Override
     public final CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-    List<T> targetList = getTargetList(model);
+        List<T> targetList = getTargetList(model);
 
-    ensureValidPatientIndex(index, targetList, size -> getInvalidIndexMessage(model));
+        ensureValidPatientIndex(index, targetList, size -> getInvalidIndexMessage(model));
 
         T itemToEdit = targetList.get(index.getZeroBased());
 

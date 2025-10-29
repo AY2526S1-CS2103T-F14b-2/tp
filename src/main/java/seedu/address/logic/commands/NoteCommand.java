@@ -48,10 +48,10 @@ public class NoteCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-    requireNonNull(model);
-    List<Person> lastShownList = model.getFilteredPersonList();
+        requireNonNull(model);
+        List<Person> lastShownList = model.getFilteredPersonList();
 
-    ensureValidPatientIndex(targetIndex, model);
+        ensureValidPatientIndex(targetIndex, model);
 
         Person personToAddNote = lastShownList.get(targetIndex.getZeroBased());
 
