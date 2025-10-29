@@ -29,11 +29,11 @@ patient information during busy schedules.
 
     * `help` : Shows all commands available in the application.
 
-   * `patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high` : Adds a patient named `John Tan` to MediSaveContact.
+    * `patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high` : Adds a patient named `John Tan` to MediSaveContact.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `exit` : Exits the app.
+    * `exit` : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -50,12 +50,12 @@ patient information during busy schedules.
 
 * Items in square brackets are optional.<br>
   e.g. `n/NAME [tag/TAG]` can be used as:
-  * `n/John Doe tag/High` ✅
-  * `n/John Doe` ✅
+    * `n/John Doe tag/High` ✅
+    * `n/John Doe` ✅
 
 * Parameters can be in any order.<br>
-  * `n/John Doe tag/high` ✅
-  * `tag/high n/John Doe` ✅
+    * `n/John Doe tag/high` ✅
+    * `tag/high n/John Doe` ✅
 
 * Extra parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if you type `list 123`, it will be interpreted as `list`.
@@ -145,8 +145,8 @@ Patient indices adapt to the current view. If you use the `find` command to filt
       <td>"Name cannot be blank."</td>
     </tr>
     <tr>
-      <td>Must contain valid characters only (letters, hyphens, apostrophes, commas)</td>
-      <td>"Name contains invalid characters. Only letters, hyphen(-), apostrophe (/) and comma(,) are allowed."</td>
+      <td>Must contain valid characters only (letters, spaces, commas, parentheses, slashes, periods, at signs, hyphens, and apostrophes)</td>
+      <td>"Name contains invalid characters. Only letters, spaces, commas (,), parentheses (), slashes (/), periods (.), at signs (@), hyphens (-), and apostrophes (') are allowed."</td>
     </tr>
     <tr>
       <td rowspan="3"><strong>PHONE</strong></td>
@@ -161,10 +161,15 @@ Patient indices adapt to the current view. If you use the `find` command to filt
       <td>Must be between 3 and 15 digits</td>
       <td>"Phone number must be between 3 and 15 digits."</td>
     </tr>
+    <tr>
+      <td><strong>ADDRESS</strong></td>
+      <td>Cannot be blank</td>
+      <td>"Address cannot be blank."</td>
+    </tr>
   </tbody>
 </table>
 
-**Usage**: Core person information fields (name, phone) shared by patients and caretakers.
+**Usage**: Core person information fields (name, phone, address) shared by patients and caretakers.
 
 ## Command summary
 
@@ -179,6 +184,9 @@ Action | Description
 **note** | Adds a note to specified patient
 **editnote** | Edits an existing note of a specified patient
 **deletenote** | Deletes a note from a specified patient
+**caretaker** | Adds a caretaker to a specified patient
+**editcaretaker** | Edits the caretaker details of a specified patient
+**deletecaretaker** | Removes the caretaker from a specified patient
 **list** | Shows a list of all patients in MediSaveContact
 **help** | Shows all commands available
 
@@ -203,34 +211,9 @@ help
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
 #### Command Format:
-
-`list [tag/TAG]`
-
-#### Example Commands:
 ```
 list
 ```
-```
-list tag/high
-```
-
-#### Parameters & Validation Rules
-<table>
-    <thead>
-        <tr>
-        <th>Parameter</th>
-        <th>Validation Rules</th>
-        <th>Error Message if Invalid </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>TAG</td>
-          <td>Must be low, medium and high only (case-insensitive)</td>
-          <td>"Invalid value. Only 'high', 'medium', or 'low' are allowed."</td>
-        </tr>
-    </tbody>
-</table>
 
 #### Outputs
 
@@ -291,8 +274,8 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
 #### Outputs
 
 - Success:
-  - In GUI: New Patient appears in Patient list
-  - In Command Feedback Box: <br>"Patient created: [Name]; Phone: [Phone]; Address: [Address]; Tag: [Tag]"
+    - In GUI: New Patient appears in Patient list
+    - In Command Feedback Box: <br>"Patient created: [Name]; Phone: [Phone]; Address: [Address]; Tag: [Tag]"
 - Failure: Error Messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -349,7 +332,7 @@ editpatient 2 n/Betsy Crower tag/
 #### Outputs
 
 - Success:
-  - In Command Feedback Box: <br>"Patient edited: [changed fields]<br>For [Name]; Phone: [Phone]"
+    - In Command Feedback Box: <br>"Patient edited: [changed fields]<br>For [Name]; Phone: [Phone]"
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -394,8 +377,8 @@ deletepatient 1
 #### Outputs
 
 - Success:
-  - In GUI: Patient removed from Patient list
-  - In Command Feedback Box: "Patient [Name]; Phone: [Phone] deleted."
+    - In GUI: Patient removed from Patient list
+    - In Command Feedback Box: "Patient [Name]; Phone: [Phone] deleted."
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -443,8 +426,8 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 #### Outputs
 
 - Success:
-  - In GUI: Note created in specified patient
-  - In Command Feedback Box: <br>"Note added: [Content]<br>For [Name]; Phone: [Phone]"
+    - In GUI: Note created in specified patient
+    - In Command Feedback Box: <br>"Note added: [Content]<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
 
@@ -503,8 +486,8 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
 #### Outputs
 
 - Success:
-  - In GUI: Note updated in specified patient
-  - In Command Feedback Box: <br>"Note [Index] edited: [Content]<br>For [Name]; Phone: [Phone]"
+    - In GUI: Note updated in specified patient
+    - In Command Feedback Box: <br>"Note [Index] edited: [Content]<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
 
@@ -542,7 +525,8 @@ deletenote 3 i/1
     </tr>
     <tr>
       <td><strong>ITEM_INDEX</strong></td>
-      <td colspan="2">See <a href="#editing-a-note--editnote">editnote command</a></td>
+      <td>Must correspond to an existing note</td>
+      <td>"The note at index X is invalid. Patient has Y note(s)."</td>
     </tr>
   </tbody>
 </table>
@@ -550,10 +534,190 @@ deletenote 3 i/1
 #### Outputs
 
 - Success:
-  - In GUI: Note removed from specified patient
-  - In Command Feedback Box: <br>"Note [Index] deleted.<br>For [Name]; Phone: [Phone]"
+    - In GUI: Note removed from specified patient
+    - In Command Feedback Box: <br>"Note [Index] deleted.<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
+
+
+### Adding a caretaker : `caretaker`
+
+Links a caretaker to a patient so their emergency contact information is tracked together with the patient record.
+
+#### Command Format:
+
+`caretaker INDEX n/NAME p/PHONE [a/ADDRESS] r/RELATIONSHIP`
+
+#### Example Commands:
+```
+caretaker 1 n/John Doe p/98765432 a/311 Clementi Ave 2 #10-05 r/Father
+```
+```
+caretaker 3 n/Alice Tan p/81234567 r/Home Nurse
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+    </tr>
+    <tr>
+      <td><strong>NAME / PHONE</strong></td>
+      <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
+    </tr>
+    <tr>
+      <td><strong>ADDRESS (Optional)</strong></td>
+      <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
+    </tr>
+    <tr>
+      <td><strong>RELATIONSHIP</strong></td>
+      <td>Cannot be blank</td>
+      <td>"Relationship cannot be blank."</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+    - In GUI: Caretaker displayed in the selected patient card
+    - In Command Feedback Box: <br>"Caretaker created: [Caretaker details]<br>For [Name]; Phone: [Phone]"
+
+- Failure:
+    - "The patient index provided is invalid. There are X patient(s)."
+    - "The person index provided is not a patient"
+    - "Patient already has a caretaker." (includes a short summary of the existing caretaker)
+    - "This caretaker already exists as a patient in the address book."
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Omit the caretaker's address if the caretaker has the same address as their patient! MediSaveContact will copy the address for you.
+</div>
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
+Caretaker contact details must be unique. If the caretaker already exists as a patient entry, they might not feel well enough to act as a caretaker.
+</div>
+
+
+### Editing a caretaker : `editcaretaker`
+
+Updates the caretaker information linked to a patient.
+
+#### Command Format:
+
+`editcaretaker INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [r/RELATIONSHIP]`
+
+#### Example Commands:
+```
+editcaretaker 1 p/91234567
+```
+```
+editcaretaker 2 n/Jane Ong r/Sister
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+    </tr>
+    <tr>
+      <td><strong>NAME / PHONE / ADDRESS / RELATIONSHIP</strong></td>
+      <td>At least one of these parameters must be present</td>
+      <td>"At least one field to edit must be provided."</td>
+    </tr>
+    <tr>
+      <td><strong>NAME / PHONE / ADDRESS</strong></td>
+      <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
+    </tr>
+    <tr>
+      <td><strong>RELATIONSHIP</strong></td>
+      <td>Cannot be blank</td>
+      <td>"Relationship cannot be blank."</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+    - In GUI: Caretaker details updated for the selected patient
+    - In Command Feedback Box: <br>"Caretaker edited: [Updated caretaker details]<br>For [Name]; Phone: [Phone]"
+
+- Failure:
+    - "The patient index provided is invalid. There are X patient(s)."
+    - "The person at index X is not a patient. Edit can only be done on Patients."
+    - "The patient at index X does not have a caretaker. Edit can only be done on patients with a caretaker."
+    - "At least one field to edit must be provided."
+    - "This caretaker already exists as a patient in the address book."
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can edit multiple caretaker fields in one command—just include each updated prefix once (e.g. `editcaretaker 1 n/Jane Tan p/94556677`).
+</div>
+
+
+### Deleting a caretaker : `deletecaretaker`
+
+Removes the caretaker that is currently linked to a patient.
+
+#### Command Format:
+
+`deletecaretaker INDEX`
+
+#### Example Command:
+```
+deletecaretaker 2
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+    - In GUI: Caretaker removed from the patient card
+    - In Command Feedback Box: <br>"Caretaker deleted.<br>For [Name]; Phone: [Phone]"
+
+- Failure:
+    - "The patient index provided is invalid. There are X patient(s)."
+    - "Specified patient has no caretaker!"
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:**
+If you delete a caretaker by mistake, use the `undo` command immediately to restore the previous state.
+</div>
 
 
 ### Adding an appointment : `appointment`
@@ -613,8 +777,8 @@ appointment 1 d/15-11-2026 t/20:03
 #### Outputs
 
 - Success:
-  - In GUI: Appointment created in specified patient
-  - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]<br>For [Name]; Phone: [Phone]"
+    - In GUI: Appointment created in specified patient
+    - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]<br>For [Name]; Phone: [Phone]"
 - Failure: Error Messages above
 
 ### Sorting appointments by time: `sortappt`
@@ -628,8 +792,8 @@ sortappt
 #### Outputs:
 - Success: "Patients sorted by earliest appointment!"
 - Failure:
-  - If no patients: "There are no patients in MediSaveBook to sort!"
-  - If all patients have no appointment: "No appointments to sort!"
+    - If no patients: "There are no patients in MediSaveBook to sort!"
+    - If all patients have no appointment: "No appointments to sort!"
 
 
 ### Locating patients by name : `find`
