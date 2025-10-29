@@ -30,11 +30,11 @@ public class AddAppointmentCommand extends Command {
         + PREFIX_TIME + "TIME "
         + "[" + PREFIX_NOTE + "NOTE]" + "\n"
         + "Example: " + COMMAND_WORD + " 1 "
-        + PREFIX_DATE + "10-10-2026 "
+        + PREFIX_DATE + "26-10-2026 "
         + PREFIX_TIME + "14:00 "
         + PREFIX_NOTE + "Monthly checkup";
 
-    public static final String MESSAGE_SUCCESS = "Appointment Created at %1$s!";
+    public static final String MESSAGE_SUCCESS = "Appointment created at %1$s!";
     public static final String MESSAGE_DUPLICATE_APPOINTMENT = "This appointment already exists in the address book";
 
     private final Index targetIndex;
