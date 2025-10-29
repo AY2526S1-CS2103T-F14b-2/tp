@@ -25,7 +25,7 @@ public abstract class Person {
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Address address) {
-        requireAllNonNull(name, phone, address);
+        requireAllNonNull(name, phone);
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -81,9 +81,9 @@ public abstract class Person {
 
         Person otherPerson = (Person) other;
 
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && address.equals(otherPerson.address);
+        return Objects.equals(name, otherPerson.name)
+                && Objects.equals(phone, otherPerson.phone)
+                && Objects.equals(address, otherPerson.address);
     }
 
     @Override

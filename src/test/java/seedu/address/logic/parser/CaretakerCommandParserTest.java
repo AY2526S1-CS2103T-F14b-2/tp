@@ -63,9 +63,6 @@ public class CaretakerCommandParserTest {
         // missing phone
         assertParseFailure(parser, "1" + NAME_DESC + ADDRESS_DESC + RELATIONSHIP_DESC, expectedMessage);
 
-        // missing address
-        assertParseFailure(parser, "1" + NAME_DESC + PHONE_DESC + RELATIONSHIP_DESC, expectedMessage);
-
         // missing relationship
         assertParseFailure(parser, "1" + NAME_DESC + PHONE_DESC + ADDRESS_DESC, expectedMessage);
 
@@ -113,5 +110,21 @@ public class CaretakerCommandParserTest {
         assertParseFailure(parser, "1" + NAME_DESC + PHONE_DESC + ADDRESS_DESC + RELATIONSHIP_DESC + RELATIONSHIP_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_RELATIONSHIP));
     }
+
+    @Test
+    public void parse_missingAddress_success() {
+        Index targetIndex = Index.fromOneBased(1);
+        Caretaker expectedCaretaker = new Caretaker(
+                new Name(VALID_NAME),
+                new Phone(VALID_PHONE),
+                null, // address omitted
+                new Relationship(VALID_RELATIONSHIP)
+        );
+
+        String userInput = "1" + NAME_DESC + PHONE_DESC + RELATIONSHIP_DESC;
+
+        assertParseSuccess(parser, userInput, new CaretakerCommand(targetIndex, expectedCaretaker));
+    }
+
 
 }

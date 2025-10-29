@@ -111,9 +111,6 @@ public class CaretakerTest {
                 new Caretaker(new Name("John Doe"), null, new Address("123 Street"),
                         new Relationship("Brother")));
         assertThrows(NullPointerException.class, () ->
-                new Caretaker(new Name("John Doe"), new Phone("91234567"), null,
-                        new Relationship("Brother")));
-        assertThrows(NullPointerException.class, () ->
                 new Caretaker(new Name("John Doe"), new Phone("91234567"), new Address("123 Street"), null));
     }
 
@@ -144,4 +141,20 @@ public class CaretakerTest {
         Optional<Tag> tagOpt = caretaker.getTag();
         assertTrue(tagOpt.isEmpty());
     }
+
+    @Test
+    public void constructor_nullAddress_allowedIfHandledGracefully() {
+        Name name = new Name("Jane Doe");
+        Phone phone = new Phone("98765432");
+        Relationship relationship = new Relationship("Mother");
+
+        // Expect no exception if your Caretaker constructor allows null address
+        Caretaker caretaker = new Caretaker(name, phone, null, relationship);
+
+        assertEquals(name, caretaker.getName());
+        assertEquals(phone, caretaker.getPhone());
+        assertEquals(relationship, caretaker.getRelationship());
+        assertEquals(null, caretaker.getAddress());
+    }
+
 }
