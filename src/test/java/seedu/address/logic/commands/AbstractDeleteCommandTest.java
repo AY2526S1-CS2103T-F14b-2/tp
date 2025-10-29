@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
+import seedu.address.testutil.TypicalPatients;
 
 /**
  * Tests for AbstractDeleteCommand equals/hashCode behavior.
@@ -117,8 +120,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_validIndex_success() throws Exception {
-        TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(1));
-        seedu.address.model.Model model = new seedu.address.model.ModelManager();
+    TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(1));
+    Model model = createModelWithTypicalPatients();
 
         CommandResult result = command.execute(model);
         assertEquals("Successfully deleted: Item1", result.getFeedbackToUser());
@@ -128,8 +131,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_invalidIndex_throwsCommandException() {
-        TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(10));
-        seedu.address.model.Model model = new seedu.address.model.ModelManager();
+    TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(10));
+    Model model = createModelWithTypicalPatients();
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals("Invalid index message", exception.getMessage());
@@ -137,8 +140,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_indexAtBoundary_success() throws Exception {
-        TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(3));
-        seedu.address.model.Model model = new seedu.address.model.ModelManager();
+    TestDeleteCommand command = new TestDeleteCommand(Index.fromOneBased(3));
+    Model model = createModelWithTypicalPatients();
 
         CommandResult result = command.execute(model);
         assertEquals("Successfully deleted: Item3", result.getFeedbackToUser());
@@ -146,8 +149,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_validationFails_throwsCommandException() {
-        TestDeleteCommandWithValidation command = new TestDeleteCommandWithValidation(Index.fromOneBased(1));
-        seedu.address.model.Model model = new seedu.address.model.ModelManager();
+    TestDeleteCommandWithValidation command = new TestDeleteCommandWithValidation(Index.fromOneBased(1));
+    Model model = createModelWithTypicalPatients();
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals("Validation failed", exception.getMessage());
@@ -161,8 +164,9 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_emptyTargetList_throwsCommandException() {
-        TestDeleteCommandWithEmptyList command = new TestDeleteCommandWithEmptyList(Index.fromOneBased(1));
-        seedu.address.model.Model model = new seedu.address.model.ModelManager();
+    TestDeleteCommandWithEmptyList command = new TestDeleteCommandWithEmptyList(Index.fromOneBased(1));
+    Model model = createModelWithTypicalPatients();
+    model.updateFilteredPersonList(person -> false);
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals("Invalid index message", exception.getMessage());
@@ -170,8 +174,8 @@ public class AbstractDeleteCommandTest {
 
     @Test
     public void execute_customInvalidIndexMessage_throwsCommandExceptionWithCustomMessage() {
-        TestDeleteCommandWithCustomMessage command = new TestDeleteCommandWithCustomMessage(Index.fromOneBased(10));
-        seedu.address.model.Model model = new seedu.address.model.ModelManager();
+    TestDeleteCommandWithCustomMessage command = new TestDeleteCommandWithCustomMessage(Index.fromOneBased(10));
+    Model model = createModelWithTypicalPatients();
 
         CommandException exception = assertThrows(CommandException.class, () -> command.execute(model));
         assertEquals("Custom invalid index message", exception.getMessage());
@@ -196,6 +200,10 @@ public class AbstractDeleteCommandTest {
         DeletePersonStub command1 = new DeletePersonStub(Index.fromOneBased(1));
         DeleteNoteStub command2 = new DeleteNoteStub(Index.fromOneBased(1));
         assertNotEquals(command1.hashCode(), command2.hashCode());
+    }
+
+    private Model createModelWithTypicalPatients() {
+        return new ModelManager(TypicalPatients.getTypicalAddressBook(), new UserPrefs());
     }
 
     /**

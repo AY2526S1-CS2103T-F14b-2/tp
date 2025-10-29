@@ -10,7 +10,6 @@ import java.util.Objects;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Appointment;
@@ -68,10 +67,7 @@ public class AddAppointmentCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
-                    model.getSize()));
-        }
+        ensureValidPatientIndex(targetIndex, model);
 
         Person personToAddAppointment = lastShownList.get(targetIndex.getZeroBased());
 
