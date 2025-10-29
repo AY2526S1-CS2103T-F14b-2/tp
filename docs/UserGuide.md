@@ -172,8 +172,8 @@ Action | Description
 --------|------------------
 **patient** | Adds a patient to MediSaveContact
 **clear** | Deletes all patients from MediSaveContact
-**delete** | Deletes specified patient from MediSaveContact
-**edit** | Edits specified patient's details
+**deletepatient** | Deletes specified patient from MediSaveContact
+**editpatient** | Edits specified patient's details
 **find** | Finds patient(s) with name containing specified keyword
 **appointment** | Adds an appointment to specified patient
 **note** | Adds a note to specified patient
@@ -203,14 +203,39 @@ help
 Shows a list of all patients in MediSaveContact, even if it is empty.
 
 #### Command Format:
+
+`list [tag/TAG]`
+
+#### Example Commands:
 ```
 list
 ```
+```
+list tag/high
+```
+
+#### Parameters & Validation Rules
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>TAG</td>
+          <td>Must be low, medium and high only (case-insensitive)</td>
+          <td>"Invalid value. Only 'high', 'medium', or 'low' are allowed."</td>
+        </tr>
+    </tbody>
+</table>
 
 #### Outputs
 
-- Success: "Listed all patients"
-- Failure: List command would never result in failure
+- Success: "Listed all patients" / "Listed all patients with Tag: HIGH"
+- Failure: Error messages above
 
 ### Adding a patient: `patient`
 
@@ -332,7 +357,7 @@ You can remove all the person’s tags by typing `tag/` without
     specifying any tags after it.
 </div>
 
-### Deleting a patient: `delete`
+### Deleting a patient: `deletepatient`
 
 Deletes a patient at a specified index from the address book.
 The index refers to the index number shown in the displayed person list.
@@ -340,12 +365,12 @@ The index refers to the index number shown in the displayed person list.
 
 #### Command Format:
 
-`delete INDEX`
+`deletepatient INDEX`
 
 #### Example Commands:
 
 ```
-delete 1
+deletepatient 1
 ```
 
 #### Parameters & Validation Rules
