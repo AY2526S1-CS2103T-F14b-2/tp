@@ -144,6 +144,18 @@ public class Messages {
         return builder.toString();
     }
 
+    /**
+     * Formats the {@code patient} for display to the user.
+     */
+    public static String shortFormatWithNoFor(Person patient) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(patient.getName())
+                .append("; Phone: ")
+                .append(patient.getPhone());
+
+        return builder.toString();
+    }
+
     private static String capitalise(String s) {
         String lower = s.toLowerCase();
         return Character.toUpperCase(lower.charAt(0)) + lower.substring(1);

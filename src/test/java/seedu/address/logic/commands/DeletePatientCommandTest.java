@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.DeletePatientCommand.MESSAGE_DELETE_PATIENT_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
@@ -34,8 +35,8 @@ public class DeletePatientCommandTest {
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         DeletePatientCommand deleteCommand = new DeletePatientCommand(INDEX_FIRST_PERSON);
 
-        String expectedMessage = String.format(DeletePatientCommand.MESSAGE_DELETE_PATIENT_SUCCESS,
-                Messages.format(personToDelete));
+        String expectedMessage = String.format(MESSAGE_DELETE_PATIENT_SUCCESS,
+                Messages.shortFormatWithNoFor(personToDelete));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
@@ -59,8 +60,8 @@ public class DeletePatientCommandTest {
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         DeletePatientCommand deleteCommand = new DeletePatientCommand(INDEX_FIRST_PERSON);
 
-        String expectedMessage = String.format(DeletePatientCommand.MESSAGE_DELETE_PATIENT_SUCCESS,
-                Messages.format(personToDelete));
+        String expectedMessage = String.format(MESSAGE_DELETE_PATIENT_SUCCESS,
+                Messages.shortFormatWithNoFor(personToDelete));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
