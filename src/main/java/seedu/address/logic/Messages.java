@@ -1,6 +1,7 @@
 package seedu.address.logic;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -95,6 +96,21 @@ public class Messages {
             String caretakerString = format(patient.getCaretaker());
             builder.append("; Caretaker: {").append(caretakerString).append("}");
         }
+
+        return builder.toString();
+    }
+
+    /**
+     * Formats an {@link Appointment} for consistent display.
+     */
+    public static String format(Appointment appointment) {
+        Objects.requireNonNull(appointment);
+        StringBuilder builder = new StringBuilder()
+                .append(appointment.getDate())
+                .append("; ")
+                .append(appointment.getTime());
+
+        appointment.getNote().ifPresent(note -> builder.append("; Note: ").append(note));
 
         return builder.toString();
     }
