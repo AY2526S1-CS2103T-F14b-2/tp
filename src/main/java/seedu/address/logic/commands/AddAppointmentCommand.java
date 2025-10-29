@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Appointment;
@@ -29,11 +30,11 @@ public class AddAppointmentCommand extends Command {
         + PREFIX_TIME + "TIME "
         + "[" + PREFIX_NOTE + "NOTE]" + "\n"
         + "Example: " + COMMAND_WORD + " 1 "
-        + PREFIX_DATE + "10-10-2026 "
+        + PREFIX_DATE + "26-10-2026 "
         + PREFIX_TIME + "14:00 "
         + PREFIX_NOTE + "Monthly checkup";
 
-    public static final String MESSAGE_SUCCESS = "Appointment Created at %1$s!";
+    public static final String MESSAGE_SUCCESS = "Appointment created: %1$s\n%2$s";
     public static final String MESSAGE_DUPLICATE_APPOINTMENT = "This appointment already exists in the address book";
 
     private final Index targetIndex;
@@ -75,7 +76,9 @@ public class AddAppointmentCommand extends Command {
             Patient updatedPatient = model.addAppointment(personToAddAppointment, date, time, desc);
             List<Appointment> appointments = updatedPatient.getAppointment();
             Appointment newestAppointment = appointments.get(appointments.size() - 1);
-            String successMessage = String.format(MESSAGE_SUCCESS, newestAppointment);
+            String successMessage = String.format(MESSAGE_SUCCESS,
+                Messages.format(newestAppointment),
+                Messages.shortFormat(updatedPatient));
             return new CommandResult(successMessage);
         } catch (IllegalArgumentException e) {
             throw new CommandException(e.getMessage());
