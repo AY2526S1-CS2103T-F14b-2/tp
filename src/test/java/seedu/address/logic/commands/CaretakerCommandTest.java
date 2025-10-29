@@ -22,7 +22,10 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Caretaker;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Patient;
+import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.testutil.CaretakerBuilder;
 import seedu.address.testutil.PatientBuilder;
 
@@ -96,7 +99,8 @@ public class CaretakerCommandTest {
         CaretakerCommand command = new CaretakerCommand(outOfBoundIndex, caretaker);
 
         assertThrows(CommandException.class,
-                MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, () -> command.execute(model));
+            String.format(MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()), ()
+                -> command.execute(model));
     }
 
     @Test
@@ -139,6 +143,32 @@ public class CaretakerCommandTest {
         // different caretaker -> false
         CaretakerCommand differentCaretaker = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerB);
         assertFalse(addCaretakerA.equals(differentCaretaker));
+    }
+
+
+    @Test
+    public void execute_addCaretakerWithoutAddress_successUsesPatientAddress() throws Exception {
+        // Patient has an address, caretaker has none
+        Patient patient = new PatientBuilder().withCaretaker(null)
+                .withAddress("123 Clementi Road").build();
+        Caretaker caretaker = new Caretaker(new Name("TestName"), new Phone("12345678"),
+                null, new Relationship("TestRelationship"));
+
+        model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
+        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
+
+        Patient updatedPatient = patient.addCaretaker(
+                new Caretaker(caretaker.getName(), caretaker.getPhone(),
+                        patient.getAddress(), caretaker.getRelationship()));
+
+        String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS,
+                Messages.format(updatedPatient.getCaretaker()),
+                Messages.shortFormat(updatedPatient));
+
+        CommandResult result = command.execute(model);
+
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+        assertEquals(updatedPatient.getCaretaker().getAddress(), patient.getAddress());
     }
 }
 

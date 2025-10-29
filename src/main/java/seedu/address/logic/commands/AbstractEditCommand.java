@@ -41,9 +41,7 @@ public abstract class AbstractEditCommand<T, D> extends Command {
         requireNonNull(model);
         List<T> targetList = getTargetList(model);
 
-        if (index.getZeroBased() >= targetList.size()) {
-            throw new CommandException(getInvalidIndexMessage(model));
-        }
+        ensureValidPatientIndex(index, targetList, size -> getInvalidIndexMessage(model));
 
         T itemToEdit = targetList.get(index.getZeroBased());
 
@@ -84,7 +82,8 @@ public abstract class AbstractEditCommand<T, D> extends Command {
      * @return the invalid index error message
      */
     protected String getInvalidIndexMessage(Model model) {
-        return String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize());
+        return String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
+                model.getFilteredPersonList().size());
     }
 
     /**

@@ -71,7 +71,7 @@ public class DeleteAppointmentCommandTest {
 
         DeleteAppointmentCommand command = new DeleteAppointmentCommand(Index.fromOneBased(1), 1);
         String expectedMessage = String.format(DeleteAppointmentCommand.MESSAGE_DELETE_APPOINTMENT_SUCCESS,
-            Messages.format(patientWithAppointment));
+            "1", Messages.shortFormat(patientWithAppointment));
 
         try {
             CommandResult result = command.execute(model);

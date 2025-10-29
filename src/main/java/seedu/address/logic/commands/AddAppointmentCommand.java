@@ -68,10 +68,7 @@ public class AddAppointmentCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
-                    model.getSize()));
-        }
+        ensureValidPatientIndex(targetIndex, model);
 
         Person personToAddAppointment = lastShownList.get(targetIndex.getZeroBased());
 
@@ -79,7 +76,9 @@ public class AddAppointmentCommand extends Command {
             Patient updatedPatient = model.addAppointment(personToAddAppointment, date, time, desc);
             List<Appointment> appointments = updatedPatient.getAppointment();
             Appointment newestAppointment = appointments.get(appointments.size() - 1);
-            String successMessage = String.format(MESSAGE_SUCCESS, newestAppointment);
+            String successMessage = String.format(MESSAGE_SUCCESS,
+                Messages.format(newestAppointment),
+                Messages.shortFormat(updatedPatient));
             return new CommandResult(successMessage);
         } catch (IllegalArgumentException e) {
             throw new CommandException(e.getMessage());

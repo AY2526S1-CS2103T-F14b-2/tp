@@ -35,14 +35,14 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
             + "[" + PREFIX_DATE + "NEW_DATE] "
             + "[" + PREFIX_TIME + "NEW_TIME] "
             + "[" + PREFIX_NOTE + "NEW_NOTE]\n"
-            + "At least one of NEW_DATE, NEW_TIME, or NEW_NOTE must be provided.\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_ITEM_INDEX + "2 "
             + PREFIX_DATE + "12-10-2026 "
             + PREFIX_TIME + "12:00 "
             + PREFIX_NOTE + "Dental visit";
 
-    public static final String MESSAGE_EDIT_APPOINTMENT_SUCCESS = "Edited appointment for patient: %1$s";
+    public static final String MESSAGE_EDIT_APPOINTMENT_SUCCESS = "Appointment Created: %1$s; %2$s %3$s\n"
+        + "For Patient: %4$s, " + "%5$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Appointment can only be edited for patients.";
     public static final String MESSAGE_INVALID_ITEM_INDEX = "The appointment index %1$s is invalid. "
@@ -128,7 +128,14 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
 
     @Override
     protected String formatSuccessMessage(Patient editedPatient) {
-        return String.format(MESSAGE_EDIT_APPOINTMENT_SUCCESS, Messages.format(editedPatient));
+        EditAppointmentDescriptor descriptor = (EditAppointmentDescriptor) super.getEditDescriptor();
+        int appointmentIndex = descriptor.getAppointmentIndex();
+        Appointment editedAppointment = editedPatient.getAppointment().get(appointmentIndex - 1);
+
+        return String.format("Appointment %d edited: %s\n%s",
+            appointmentIndex,
+            Messages.format(editedAppointment),
+            Messages.shortFormat(editedPatient));
     }
 
     @Override

@@ -16,6 +16,8 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
+import seedu.address.testutil.TypicalPatients;
 
 /**
  * Contains unit tests for AbstractEditCommand.
@@ -32,7 +34,7 @@ public class AbstractEditCommandTest {
     private static final TestEditDescriptor EMPTY_DESCRIPTOR = new TestEditDescriptor(false);
     private static final TestEditDescriptor DUPLICATE_DESCRIPTOR = new TestEditDescriptor(true, true);
 
-    private Model model = new ModelManager();
+    private final Model model = new ModelManager(TypicalPatients.getTypicalAddressBook(), new UserPrefs());
 
     @Test
     public void constructor_nullIndex_throwsNullPointerException() {
