@@ -172,7 +172,7 @@ public class EditAppointmentCommandTest {
 
     String expectedMessage = String.format("Appointment %d edited: %s\n%s",
         1,
-        Messages.formatAppointment(expectedAppointment),
+        Messages.format(expectedAppointment),
         Messages.shortFormat(editedPatient));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -204,7 +204,7 @@ public class EditAppointmentCommandTest {
 
     String expectedMessage = String.format("Appointment %d edited: %s\n%s",
         1,
-        Messages.formatAppointment(expectedAppointment),
+        Messages.format(expectedAppointment),
         Messages.shortFormat(editedPatient));
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);

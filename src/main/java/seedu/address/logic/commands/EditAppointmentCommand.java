@@ -132,10 +132,10 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
         int appointmentIndex = descriptor.getAppointmentIndex();
         Appointment editedAppointment = editedPatient.getAppointment().get(appointmentIndex - 1);
 
-    return String.format("Appointment %d edited: %s\n%s",
-        appointmentIndex,
-        Messages.format(editedAppointment),
-        Messages.shortFormat(editedPatient));
+        return String.format("Appointment %d edited: %s\n%s",
+            appointmentIndex,
+            Messages.format(editedAppointment),
+            Messages.shortFormat(editedPatient));
     }
 
     @Override
