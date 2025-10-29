@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Caretaker;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
@@ -96,6 +97,18 @@ public class Messages {
             String caretakerString = format(patient.getCaretaker());
             builder.append("; Caretaker: {").append(caretakerString).append("}");
         }
+
+        return builder.toString();
+    }
+
+    /**
+     * Formats an {@link Appointment} for consistent display.
+     */
+    public static String format(Note note) {
+        Objects.requireNonNull(note);
+        StringBuilder builder = new StringBuilder()
+                .append(note.toString())
+                .append(";");
 
         return builder.toString();
     }
