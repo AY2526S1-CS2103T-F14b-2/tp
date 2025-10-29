@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,6 +54,7 @@ public class Patient extends Person {
         requireAllNonNull(notes, appointment);
         this.notes = new ArrayList<>(notes);
         this.appointment = new ArrayList<>(appointment);
+        Collections.sort(this.appointment);
         this.tag = tag;
         this.caretaker = null;
     }
@@ -77,6 +79,7 @@ public class Patient extends Person {
         requireAllNonNull(notes, appointment);
         this.notes = new ArrayList<>(notes);
         this.appointment = new ArrayList<>(appointment);
+        Collections.sort(this.appointment);
         this.tag = tag;
         this.caretaker = caretaker;
     }
@@ -209,6 +212,11 @@ public class Patient extends Person {
         return Optional.ofNullable(tag);
     }
 
+    public Optional <LocalDateTime> getEarliestAppointmentDateTime() {
+        return getAppointment().stream()
+                .map(Appointment::getDateTime)
+                .min(LocalDateTime::compareTo);
+    }
     /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.

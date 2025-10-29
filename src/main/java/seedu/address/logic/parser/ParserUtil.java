@@ -51,7 +51,7 @@ public class ParserUtil {
             throw new ParseException(Name.BLANK_NAME);
         }
         if (!Name.isValidName(trimmedName)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Name.INVALID_CHARS);
         }
         return new Name(trimmedName);
     }

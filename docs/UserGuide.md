@@ -70,7 +70,7 @@ patient information during busy schedules.
 
 Many commands share similar parameters with identical validation rules. Here are the common parameter types used throughout MediSaveContact:
 
-### INDEX Parameter
+### Index Parameter
 {: #index-parameter }
 
 <table>
@@ -89,7 +89,7 @@ Many commands share similar parameters with identical validation rules. Here are
     </tr>
     <tr>
       <td>Must be a positive integer </td>
-      <td>"Invalid command format!"<br>[Command format will be shown]</td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
     </tr>
   </tbody>
 </table>
@@ -265,11 +265,11 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
     <tbody>
         <tr>
           <td><strong>NAME</strong></td>
-          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a> (NAME section)</td>
+          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
         </tr>
         <tr>
           <td><strong>PHONE</strong></td>
-          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a> (PHONE section)</td>
+          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
         </tr>
         <tr>
           <td><strong>ADDRESS</strong></td>
@@ -294,6 +294,10 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
   - In GUI: New Patient appears in Patient list
   - In Command Feedback Box: <br>"Patient created: [Name]; Phone: [Phone]; Address: [Address]; Tag: [Tag]"
 - Failure: Error Messages above
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Patient's name is auto capitalised (Eg: John doe will be saved as John Doe)
+</div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
 Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This patient already exists in MediSaveContact"
@@ -344,8 +348,8 @@ editpatient 2 n/Betsy Crower tag/
 
 #### Outputs
 
-- Success: 
-  - In Command Feedback Box: <br>"Patient edited: [changed fields]"<br>"For [Name]; Phone: [Phone]"
+- Success:
+  - In Command Feedback Box: <br>"Patient edited: [changed fields]<br>For [Name]; Phone: [Phone]"
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -426,13 +430,8 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2">INDEX</td>
-      <td>Must exist in patient list </td>
-      <td>"The person index provided is invalid"</td>
-    </tr>
-    <tr>
-      <td>Must be a positive integer</td>
-      <td>"Invalid command format!"</td>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
     </tr>
     <tr>
       <td><strong>NOTE</strong></td>
@@ -445,7 +444,7 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 - Success:
   - In GUI: Note created in specified patient
-  - In Command Feedback Box: <br>"Note added: [Content]"<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Note added: [Content]<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
 
@@ -488,7 +487,7 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
     <tr>
       <td rowspan="2"><strong>ITEM_INDEX</strong></td>
       <td>Must be a positive integer</td>
-      <td>"Invalid command format!"</td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
     </tr>
     <tr>
       <td>Must correspond to an existing note</td>
@@ -496,7 +495,7 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
     </tr>
     <tr>
       <td><strong>NOTE</strong></td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a> (NOTE section)</td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
     </tr>
   </tbody>
 </table>
@@ -505,7 +504,7 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
 
 - Success:
   - In GUI: Note updated in specified patient
-  - In Command Feedback Box: <br>"Note [Index] edited: [Content]"<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Note [Index] edited: [Content]<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
 
@@ -543,7 +542,7 @@ deletenote 3 i/1
     </tr>
     <tr>
       <td><strong>ITEM_INDEX</strong></td>
-      <td colspan="2">See <a href="#editing-a-note--editnote">editnote command</a> (ITEM_INDEX section)</td>
+      <td colspan="2">See <a href="#editing-a-note--editnote">editnote command</a></td>
     </tr>
   </tbody>
 </table>
@@ -552,7 +551,7 @@ deletenote 3 i/1
 
 - Success:
   - In GUI: Note removed from specified patient
-  - In Command Feedback Box: <br>"Note [Index] deleted."<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Note [Index] deleted.<br>For [Name]; Phone: [Phone]"
 
 - Failure: Error messages above
 
@@ -606,7 +605,7 @@ appointment 1 d/15-11-2026 t/20:03
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a> (NOTE section)</td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
     </tr>
   </tbody>
 </table>
@@ -615,9 +614,24 @@ appointment 1 d/15-11-2026 t/20:03
 
 - Success:
   - In GUI: Appointment created in specified patient
-  - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]"<br>"For [Name]; Phone: [Phone]"
+  - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]<br>For [Name]; Phone: [Phone]"
 - Failure: Error Messages above
 
+### Sorting appointments by time: `sortappt`
+Sorts the current list of patients in MediSaveContact by their soonest upcoming appointment (earliest first).
+Patients without appointments are placed after those with appointment. 
+#### Command Format: 
+```
+sortappt
+```
+
+#### Outputs: 
+- Success: "Patients sorted by earliest appointment!"
+- Failure: 
+  - If no patients: "There are no patients in MediSaveBook to sort!"
+  - If all patients have no appointment: "No appointments to sort!"
+
+    
 ### Locating patients by name : `find`
 
 Finds persons whose names contain any of the given keywords.
@@ -641,7 +655,7 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 
 | Parameter               | Validation Rules                   | Error Message if Invalid                                                                                                                                                                                                                                                |
 |-------------------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format!" |
+| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format!"<br>[Command format shown] |
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
@@ -653,6 +667,33 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 #### Outputs
 - Success: "X persons listed!", where X is the number of matching persons
 - Failure: Error messages above
+
+### Undoing a previous command: `undo` 
+Undoes the effect of the most recent **successful** command, provided there was already a
+successful command given. This only works for commands which changes the database. 
+
+Command Format: 
+```
+undo
+```
+
+#### Outputs
+- Success: "Previous command undone."
+- Failure: "No record of successful commands to undo."
+
+### Navigating through command history: `↑ / ↓`
+Use arrow keys to cycle through command history.
+
+**Legend**: 
+- Up Arrow Key ↑
+- Down Arrow Key ↓
+
+**How It Works** 
+- Press ↑ to move backwards through command history
+- Press ↓ to move forward through command history
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Commands are only added if they are successful. 
+</div>
 
 
 ### Clearing all entries : `clear`

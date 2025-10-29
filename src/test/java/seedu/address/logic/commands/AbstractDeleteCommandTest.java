@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
 
 /**
  * Tests for AbstractDeleteCommand equals/hashCode behavior.
@@ -31,7 +32,7 @@ public class AbstractDeleteCommandTest {
         }
 
         @Override
-        protected String getInvalidIndexMessage() {
+        protected String getInvalidIndexMessage(Model model) {
             return "invalid";
         }
 
@@ -57,7 +58,7 @@ public class AbstractDeleteCommandTest {
         }
 
         @Override
-        protected String getInvalidIndexMessage() {
+        protected String getInvalidIndexMessage(Model model) {
             return "invalid";
         }
 
@@ -222,7 +223,7 @@ public class AbstractDeleteCommandTest {
         }
 
         @Override
-        protected String getInvalidIndexMessage() {
+        protected String getInvalidIndexMessage(Model model) {
             return "Invalid index message";
         }
 
@@ -279,7 +280,7 @@ public class AbstractDeleteCommandTest {
         }
 
         @Override
-        protected String getInvalidIndexMessage() {
+        protected String getInvalidIndexMessage(Model model) {
             return "Invalid index message";
         }
 
@@ -298,7 +299,7 @@ public class AbstractDeleteCommandTest {
         }
 
         @Override
-        protected String getInvalidIndexMessage() {
+        protected String getInvalidIndexMessage(Model model) {
             return "Custom invalid index message";
         }
     }

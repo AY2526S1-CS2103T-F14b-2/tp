@@ -85,11 +85,6 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     }
 
     @Override
-    protected String getInvalidIndexMessage() {
-        return Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-    }
-
-    @Override
     protected String formatSuccessMessage(Patient deletedPatient) {
         return String.format(MESSAGE_DELETE_APPOINTMENT_SUCCESS, Messages.format(deletedPatient));
     }

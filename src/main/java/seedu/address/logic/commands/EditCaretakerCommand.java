@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
@@ -17,48 +17,45 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.person.Relationship;
 
 /**
- * Edits the details of an existing patient in the address book.
+ * Edits the caretaker of an existing patient in the address book.
  */
-public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatientCommand.EditPersonDescriptor> {
+public class EditCaretakerCommand extends AbstractEditCommand<Patient, EditCaretakerCommand.EditCaretakerDescriptor> {
 
-    public static final String COMMAND_WORD = "editpatient";
+    public static final String COMMAND_WORD = "editcaretaker";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the patient identified "
             + "by the index number used in the displayed person list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_TAG + "TAG]\n"
+            + "[" + PREFIX_RELATIONSHIP + "RELATIONSHIP]\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 ";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Patient: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_EDIT_CARETAKER_SUCCESS = "Caretaker edited: %1$s\n"
+            + "%2$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
-            + "edit can only be done on Patients.";
+            + "Edit can only be done on Patients.";
+    public static final String MESSAGE_NO_CARETAKER = "The patient at index %1$s does not have a caretaker. "
+            + "Edit can only be done on patients with a caretaker.";
+    public static final String MESSAGE_CARETAKER_ALREADY_EXISTS = "This caretaker already exists as a "
+            + "patient in the address book.";
 
     /**
-     * @param index of the person in the filtered person list to edit
-     * @param editPatientDescriptor details to edit the person with
+     * @param index of the patient in the filtered person list to edit
+     * @param editCaretakerDescriptor details to edit the caretaker with
      */
-    public EditPatientCommand(Index index, EditPatientDescriptor editPatientDescriptor) {
-        super(index, editPatientDescriptor);
-    }
-
-    /**
-     * @param index of the person in the filtered person list to edit
-     * @param editPersonDescriptor details to edit the person with
-     */
-    public EditPatientCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
-        super(index, editPersonDescriptor);
+    public EditCaretakerCommand(Index index, EditCaretakerDescriptor editCaretakerDescriptor) {
+        super(index, editCaretakerDescriptor);
     }
 
     @Override
@@ -71,50 +68,44 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
     }
 
     @Override
-    protected void validateEdit(Model model, Patient patientToEdit, EditPersonDescriptor editDescriptor)
+    protected void validateEdit(Model model, Patient patientToEdit, EditCaretakerDescriptor editDescriptor)
             throws CommandException {
-        // Check if the item at the index is actually a patient
-        // Since we're casting above, we need to check the original person
         Object originalPerson = model.getFilteredPersonList().get(index.getZeroBased());
-        if (!(originalPerson instanceof Patient)) {
+        if (!(originalPerson instanceof Patient patient)) {
             throw new CommandException(String.format(MESSAGE_NOT_PATIENT, index.getOneBased()));
+        }
+        if (patient.getCaretaker() == null) {
+            throw new CommandException(String.format(MESSAGE_NO_CARETAKER, index.getOneBased()));
         }
     }
 
     @Override
-    protected boolean isAnyFieldEdited(EditPersonDescriptor editDescriptor) {
+    protected boolean isAnyFieldEdited(EditCaretakerDescriptor editDescriptor) {
         return editDescriptor.isAnyFieldEdited();
     }
 
     @Override
-    protected Patient createEditedItem(Patient patientToEdit, EditPersonDescriptor editPersonDescriptor) {
+    protected Patient createEditedItem(Patient patientToEdit, EditCaretakerDescriptor editCaretakerDescriptor) {
         assert patientToEdit != null;
 
-        Name updatedName = editPersonDescriptor.getName().orElse(patientToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(patientToEdit.getPhone());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(patientToEdit.getAddress());
+        Caretaker oldCaretaker = patientToEdit.getCaretaker();
+        Name updatedName = editCaretakerDescriptor.getName().orElse(oldCaretaker.getName());
+        Phone updatedPhone = editCaretakerDescriptor.getPhone().orElse(oldCaretaker.getPhone());
+        Address updatedAddress = editCaretakerDescriptor.getAddress().orElse(oldCaretaker.getAddress());
+        Relationship updatedRelationship = editCaretakerDescriptor.getRelationship()
+                .orElse(oldCaretaker.getRelationship());
 
-        // Handle tag field - only available if this is an EditPatientDescriptor
-        Tag updatedTag;
-        if (editPersonDescriptor instanceof EditPatientDescriptor) {
-            EditPatientDescriptor editPatientDescriptor = (EditPatientDescriptor) editPersonDescriptor;
-            updatedTag = editPatientDescriptor.isTagEdited()
-                    ? editPatientDescriptor.getTag().orElse(null)
-                    : patientToEdit.getTag().orElse(null);
-        } else {
-            // Keep existing tag if using base EditPersonDescriptor
-            updatedTag = patientToEdit.getTag().orElse(null);
-        }
-
-        return new Patient(updatedName, updatedPhone, updatedAddress, updatedTag, patientToEdit.getNotes(),
-                patientToEdit.getAppointment(), patientToEdit.getCaretaker());
+        Caretaker newCaretaker = new Caretaker(updatedName, updatedPhone, updatedAddress, updatedRelationship);
+        return new Patient(patientToEdit.getName(), patientToEdit.getPhone(), patientToEdit.getAddress(),
+                patientToEdit.getTag().orElse(null), patientToEdit.getNotes(),
+                patientToEdit.getAppointment(), newCaretaker);
     }
 
     @Override
     protected void validateUniqueItem(Model model, Patient originalPatient, Patient editedPatient)
             throws CommandException {
-        if (!originalPatient.isSamePerson(editedPatient) && model.hasPerson(editedPatient)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        if (!originalPatient.isSamePerson(editedPatient) || model.hasPerson(editedPatient.getCaretaker())) {
+            throw new CommandException(MESSAGE_CARETAKER_ALREADY_EXISTS);
         }
     }
 
@@ -130,7 +121,8 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
 
     @Override
     protected String formatSuccessMessage(Patient editedPatient) {
-        return String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPatient));
+        return String.format(MESSAGE_EDIT_CARETAKER_SUCCESS, Messages.format(editedPatient.getCaretaker()),
+                Messages.shortFormat(editedPatient));
     }
 
     @Override
@@ -234,40 +226,41 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
      * Stores the details to edit the patient with. Each non-empty field value will replace the
      * corresponding field value of the person.
      */
-    public static class EditPatientDescriptor extends EditPersonDescriptor {
-        private Tag tag;
-        private boolean tagEdited;
+    public static class EditCaretakerDescriptor extends EditPersonDescriptor {
+        private Relationship relationship;
+        private boolean relationshipEdited;
 
-        public EditPatientDescriptor() {}
+        public EditCaretakerDescriptor() {}
 
         /**
          * Copy constructor.
          * A defensive copy of {@code tags} is used internally.
          */
-        public EditPatientDescriptor(EditPatientDescriptor toCopy) {
+        public EditCaretakerDescriptor(EditCaretakerDescriptor toCopy) {
             super(toCopy);
-            this.tag = toCopy.tag;
-            this.tagEdited = toCopy.tagEdited;
+            this.relationship = toCopy.relationship;
+            this.relationshipEdited = toCopy.relationshipEdited;
         }
 
-        public EditPatientDescriptor(EditPersonDescriptor toCopyPerson) {
+        public EditCaretakerDescriptor(EditPersonDescriptor toCopyPerson) {
             super(toCopyPerson);
         }
 
-        public void setTag(Tag tag) {
-            this.tag = tag;
+        public void setRelationship(Relationship relationship) {
+            this.relationship = relationship;
+            setRelationshipEdited();
         }
 
-        public void setTagEdited() {
-            this.tagEdited = true;
+        public void setRelationshipEdited() {
+            this.relationshipEdited = true;
         }
 
-        public Optional<Tag> getTag() {
-            return Optional.ofNullable(tag);
+        public Optional<Relationship> getRelationship() {
+            return Optional.ofNullable(relationship);
         }
 
-        public boolean isTagEdited() {
-            return this.tagEdited;
+        public boolean isRelationshipEdited() {
+            return this.relationshipEdited;
         }
 
         /**
@@ -275,7 +268,7 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
          */
         @Override
         public boolean isAnyFieldEdited() {
-            return super.isAnyFieldEdited() || tagEdited;
+            return super.isAnyFieldEdited() || relationshipEdited;
         }
 
         @Override
@@ -285,19 +278,19 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
             }
 
             // instanceof handles nulls
-            if (!(other instanceof EditPatientDescriptor otherEditPatientDescriptor)) {
+            if (!(other instanceof EditCaretakerDescriptor otherEditCaretakerDescriptor)) {
                 return false;
             }
 
-            return super.equals(otherEditPatientDescriptor)
-                    && Objects.equals(tag, otherEditPatientDescriptor.tag);
+            return super.equals(otherEditCaretakerDescriptor)
+                    && Objects.equals(relationship, otherEditCaretakerDescriptor.relationship);
         }
 
         @Override
         public String toString() {
 
             ToStringBuilder sb = super.getStringBuilder();
-            sb.add("tag", tag);
+            sb.add("relationship", relationship);
 
             return sb.toString();
         }

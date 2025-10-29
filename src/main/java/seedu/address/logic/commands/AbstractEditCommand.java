@@ -42,7 +42,7 @@ public abstract class AbstractEditCommand<T, D> extends Command {
         List<T> targetList = getTargetList(model);
 
         if (index.getZeroBased() >= targetList.size()) {
-            throw new CommandException(getInvalidIndexMessage());
+            throw new CommandException(getInvalidIndexMessage(model));
         }
 
         T itemToEdit = targetList.get(index.getZeroBased());
@@ -83,8 +83,8 @@ public abstract class AbstractEditCommand<T, D> extends Command {
      *
      * @return the invalid index error message
      */
-    protected String getInvalidIndexMessage() {
-        return Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+    protected String getInvalidIndexMessage(Model model) {
+        return String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize());
     }
 
     /**

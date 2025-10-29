@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javafx.collections.ObservableList;
@@ -82,7 +83,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
-
         persons.setPerson(target, editedPerson);
     }
 
@@ -90,8 +90,18 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
+
     public void removePerson(Person key) {
         persons.remove(key);
+    }
+
+    /**
+     * Sort the persons list using given {@link Comparator}
+     * @param comparator the comparator used to order the {@link Person} elements
+     */
+    public void sortPersons(Comparator<? super Person> comparator) {
+        requireNonNull(comparator);
+        persons.sort(comparator);
     }
 
     //// util methods

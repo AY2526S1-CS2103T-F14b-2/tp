@@ -18,6 +18,7 @@ import seedu.address.logic.commands.DeleteCaretakerCommand;
 import seedu.address.logic.commands.DeleteNoteCommand;
 import seedu.address.logic.commands.DeletePatientCommand;
 import seedu.address.logic.commands.EditAppointmentCommand;
+import seedu.address.logic.commands.EditCaretakerCommand;
 import seedu.address.logic.commands.EditNoteCommand;
 import seedu.address.logic.commands.EditPatientCommand;
 import seedu.address.logic.commands.ExitCommand;
@@ -25,6 +26,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.NoteCommand;
+import seedu.address.logic.commands.SortAppointmentCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -113,8 +115,14 @@ public class AddressBookParser {
         case DeleteCaretakerCommand.COMMAND_WORD:
             return new DeleteCaretakerCommandParser().parse(arguments);
 
+        case EditCaretakerCommand.COMMAND_WORD:
+            return new EditCaretakerCommandParser().parse(arguments);
+
         case UndoCommand.COMMAND_WORD:
             return new UndoCommand();
+
+        case SortAppointmentCommand.COMMAND_WORD:
+            return new SortAppointmentCommand();
 
         default:
             logger.finer(() -> "This user input caused a ParseException: " + userInput);

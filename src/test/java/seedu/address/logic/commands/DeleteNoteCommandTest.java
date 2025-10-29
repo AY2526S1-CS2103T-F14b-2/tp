@@ -54,7 +54,8 @@ public class DeleteNoteCommandTest {
 
         DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(outOfBoundIndex, 1);
 
-        assertCommandFailure(deleteNoteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(deleteNoteCommand, model, String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
+                model.getSize()));
     }
 
     @Test
@@ -66,7 +67,8 @@ public class DeleteNoteCommandTest {
 
         DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(patientIndex, 1);
 
-        assertCommandFailure(deleteNoteCommand, model, DeleteNoteCommand.MESSAGE_NO_NOTES);
+        String expectedMessage = String.format(DeleteNoteCommand.MESSAGE_INVALID_ITEM_INDEX, 1, 0);
+        assertCommandFailure(deleteNoteCommand, model, expectedMessage);
     }
 
     @Test

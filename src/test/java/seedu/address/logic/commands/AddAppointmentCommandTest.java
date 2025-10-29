@@ -5,6 +5,8 @@ import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_DUPLICA
 import static seedu.address.logic.commands.AddAppointmentCommand.MESSAGE_SUCCESS;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.util.Comparator;
+
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
@@ -59,7 +61,8 @@ public class AddAppointmentCommandTest {
         AddAppointmentCommand command = new AddAppointmentCommand(Index.fromOneBased(2), FUTURE_DATE, FUTURE_TIME);
 
         assertThrows(CommandException.class,
-                seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, () ->
+                String.format(seedu.address.logic.Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
+                        modelStub.getSize()), () ->
                 command.execute(modelStub));
     }
 
@@ -238,6 +241,14 @@ public class AddAppointmentCommandTest {
         public void undo() {
             throw new AssertionError();
         }
+        @Override
+        public int getSize() {
+            return this.persons.size();
+        }
+        @Override
+        public void sortPersons(Comparator<? super Person> c) {
+            throw new AssertionError();
+        }
     }
 
     private static class ModelStubAcceptingAppointment implements Model {
@@ -331,6 +342,14 @@ public class AddAppointmentCommandTest {
         public void undo() {
             throw new AssertionError();
         }
+        @Override
+        public int getSize() {
+            return this.persons.size();
+        }
+        public void sortPersons(Comparator<? super Person> c) {
+            throw new AssertionError();
+        }
+
 
     }
 }
