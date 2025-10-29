@@ -33,6 +33,10 @@ public class NoteCommand extends Command {
             + "Notes can only be added to patients.";
     public static final String MESSAGE_EMPTY_NOTE = "Note cannot be empty.";
 
+    // Shared constants for note operations
+    public static final String MESSAGE_INVALID_ITEM_INDEX = "The note at index %1$s is invalid. "
+            + "Patient has %2$s note(s).";
+
     private final Index targetIndex;
     private final Note note;
 
@@ -52,7 +56,8 @@ public class NoteCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX);
+            throw new CommandException(String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
+                    model.getSize()));
         }
 
         Person personToAddNote = lastShownList.get(targetIndex.getZeroBased());
