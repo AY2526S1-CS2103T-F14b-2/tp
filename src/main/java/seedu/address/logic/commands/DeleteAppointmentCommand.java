@@ -7,6 +7,7 @@ import java.util.List;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Appointment;
@@ -28,8 +29,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
         + "Example: " + COMMAND_WORD + " 1 " + PREFIX_ITEM_INDEX + "2";
 
 
-    public static final String MESSAGE_DELETE_APPOINTMENT_SUCCESS = "Appointment %1$s deleted.\n"
-        + "For %2$s; Phone: %3$s";
+    public static final String MESSAGE_DELETE_APPOINTMENT_SUCCESS = "Appointment %1$s deleted.\n%2$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
         + "Appointments can only be deleted for patients.";
     public static final String MESSAGE_NO_APPOINTMENT = "Patient has no appointment to delete.";
@@ -87,8 +87,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     @Override
     protected String formatSuccessMessage(Patient deletedPatient) {
         return String.format(MESSAGE_DELETE_APPOINTMENT_SUCCESS,
-            Integer.toString(this.apptIndex), deletedPatient.getName(),
-            deletedPatient.getPhone());
+            Integer.toString(this.apptIndex), Messages.shortFormat(deletedPatient));
     }
 
     @Override

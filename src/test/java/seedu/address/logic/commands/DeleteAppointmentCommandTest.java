@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -70,7 +71,7 @@ public class DeleteAppointmentCommandTest {
 
         DeleteAppointmentCommand command = new DeleteAppointmentCommand(Index.fromOneBased(1), 1);
         String expectedMessage = String.format(DeleteAppointmentCommand.MESSAGE_DELETE_APPOINTMENT_SUCCESS,
-            "1", patientWithAppointment.getName(), patientWithAppointment.getPhone());
+            "1", Messages.shortFormat(patientWithAppointment));
 
         try {
             CommandResult result = command.execute(model);

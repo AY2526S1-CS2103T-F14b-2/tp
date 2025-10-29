@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Appointment;
@@ -131,17 +132,10 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
         int appointmentIndex = descriptor.getAppointmentIndex();
         Appointment editedAppointment = editedPatient.getAppointment().get(appointmentIndex - 1);
 
-        String noteString = editedAppointment.getNote()
-                .map(note -> "; Note: " + note.toString())
-                .orElse("");
-
-        return String.format("Appointment %d edited: %s; %s%s\nFor %s; Phone: %s",
-                appointmentIndex,
-                editedAppointment.getDate(),
-                editedAppointment.getTime(),
-                noteString,
-                editedPatient.getName(),
-                editedPatient.getPhone());
+    return String.format("Appointment %d edited: %s\n%s",
+        appointmentIndex,
+        Messages.formatAppointment(editedAppointment),
+        Messages.shortFormat(editedPatient));
     }
 
     @Override
