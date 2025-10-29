@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -81,8 +82,9 @@ public class ModelManager implements Model {
     //=========== AddressBook ================================================================================
 
     @Override
-    public void setAddressBook(ReadOnlyAddressBook addressBook) {
-        this.addressBook.getAddressBook().resetData(addressBook);
+    public void setAddressBook(ReadOnlyAddressBook newData) {
+        addressBook.update();
+        this.addressBook.getAddressBook().resetData(newData);
     }
 
     @Override
@@ -197,6 +199,17 @@ public class ModelManager implements Model {
     public void undo() {
         addressBook.undo();
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
+    public int getSize() {
+        return addressBook.getPersonList().size();
+    }
+
+    @Override
+    public void sortPersons(Comparator<? super Person> comparator) {
+        requireNonNull(comparator);
+        addressBook.getAddressBook().sortPersons(comparator);
     }
 
 

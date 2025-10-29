@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -106,4 +107,9 @@ public interface Model {
     boolean canUndo();
 
     void undo();
+
+    int getSize();
+
+    void sortPersons(Comparator<? super Person> comparator);
+
 }

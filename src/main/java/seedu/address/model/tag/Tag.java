@@ -14,7 +14,7 @@ public class Tag {
     public static final Set<String> ALLOWED = Set.of("low", "medium", "high");
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Invalid value. Only 'high', 'medium', or 'low' are allowed.";
+            "Invalid value for tag. Only 'high', 'medium', or 'low' are allowed.";
 
 
     public static final String VALIDATION_REGEX = "\\p{Alnum}+";

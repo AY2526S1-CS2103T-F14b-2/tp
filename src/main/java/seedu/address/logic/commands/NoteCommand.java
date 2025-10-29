@@ -24,7 +24,7 @@ public class NoteCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a note to the patient identified "
             + "by the index number used in the displayed patient list.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + PREFIX_NOTE + "NOTES\n"
+            + PREFIX_NOTE + "NOTE\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_NOTE + "Patient shows improved blood sugar levels today.";
 
@@ -52,7 +52,7 @@ public class NoteCommand extends Command {
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX);
         }
 
         Person personToAddNote = lastShownList.get(targetIndex.getZeroBased());

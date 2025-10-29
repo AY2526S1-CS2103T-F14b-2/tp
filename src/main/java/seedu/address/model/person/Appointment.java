@@ -16,7 +16,7 @@ import java.util.Optional;
  * Guarantees: immutable; is valid as declared in
  * {@link #isValidAppointment(String)}
  */
-public class Appointment {
+public class Appointment implements Comparable<Appointment> {
 
     public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format DD-MM-YYYY HH:MM";
     public static final String MESSAGE_PAST_APPOINTMENT = "Appointment must be set in the future.";
@@ -105,6 +105,10 @@ public class Appointment {
         return Optional.ofNullable(desc);
     }
 
+    public LocalDateTime getDateTime() {
+        return LocalDateTime.of(date, time);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -125,5 +129,19 @@ public class Appointment {
     @Override
     public int hashCode() {
         return Objects.hash(date, time, desc);
+    }
+
+    /**
+     * Compares this appointment with another appointment for chronological ordering.
+     * Appointments are ordered by date and time combined (earliest first).
+     *
+     * @param other the appointment to compare to
+     * @return negative if this appointment is earlier, positive if later, zero if equal
+     */
+    @Override
+    public int compareTo(Appointment other) {
+        LocalDateTime thisDateTime = LocalDateTime.of(this.date, this.time);
+        LocalDateTime otherDateTime = LocalDateTime.of(other.date, other.time);
+        return thisDateTime.compareTo(otherDateTime);
     }
 }

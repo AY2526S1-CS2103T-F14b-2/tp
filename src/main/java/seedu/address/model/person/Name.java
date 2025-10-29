@@ -14,15 +14,16 @@ public class Name {
 
     public static final String INVALID_CHARS =
             "Name contains invalid characters. "
-                    + "Only letters, numbers, spaces, hyphens (-), and apostrophes (') are allowed.";
+                    + "Only letters, spaces, commas (,), parentheses (), slashes (/), "
+                    + "periods (.), at signs (@), hyphens (-), and apostrophes (') are allowed.";
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "String is in invalid format";
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
+    public static final String NAME_VALIDATION_REGEX = "^[A-Za-z()/@.'-][A-Za-z ,()/@.'-]*$";
+
+
 
     public final String fullName;
 
@@ -34,11 +35,11 @@ public class Name {
     public Name(String name) {
         requireNonNull(name);
         final String trimmedName = name.trim();
-        checkArgument(isValidName(name), MESSAGE_CONSTRAINTS);
-        fullName = toTitleCase(trimmedName).trim();
+        checkArgument(isValidName(name), INVALID_CHARS);
+        fullName = formatName(trimmedName).trim();
     }
 
-    private static String toTitleCase(String s) {
+    private static String formatName(String s) {
         if (s.isEmpty()) {
             return s;
         }
@@ -52,6 +53,7 @@ public class Name {
             }
             sb.append(' ');
         }
+
         return sb.toString();
     }
 
@@ -61,7 +63,7 @@ public class Name {
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidName(String test) {
-        return test.matches(VALIDATION_REGEX);
+        return test.matches(NAME_VALIDATION_REGEX);
     }
 
 

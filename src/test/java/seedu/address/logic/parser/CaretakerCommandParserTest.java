@@ -77,7 +77,7 @@ public class CaretakerCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + PHONE_DESC + ADDRESS_DESC + RELATIONSHIP_DESC,
-                Name.MESSAGE_CONSTRAINTS);
+                Name.INVALID_CHARS);
 
         // invalid phone
         assertParseFailure(parser, "1" + NAME_DESC + INVALID_PHONE_DESC + ADDRESS_DESC + RELATIONSHIP_DESC,
