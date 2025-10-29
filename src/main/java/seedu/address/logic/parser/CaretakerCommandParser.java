@@ -1,11 +1,9 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
+import static seedu.address.logic.parser.CliSyntax.*;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
@@ -39,7 +37,7 @@ public class CaretakerCommandParser implements Parser<CaretakerCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, CaretakerCommand.MESSAGE_USAGE), pe);
         }
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_RELATIONSHIP)) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_RELATIONSHIP)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, CaretakerCommand.MESSAGE_USAGE));
         }
 
@@ -47,8 +45,13 @@ public class CaretakerCommandParser implements Parser<CaretakerCommand> {
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Relationship relationship = ParserUtil.parseRelationship(argMultimap.getValue(PREFIX_RELATIONSHIP).get());
+
+        Address address = null;
+        Optional<String> addressValue = argMultimap.getValue(PREFIX_ADDRESS);
+        if (addressValue.isPresent()) {
+            address = ParserUtil.parseAddress(addressValue.get());
+        }
 
         Caretaker caretaker = new Caretaker(name, phone, address, relationship);
 

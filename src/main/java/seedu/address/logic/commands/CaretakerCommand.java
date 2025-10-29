@@ -14,9 +14,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Caretaker;
-import seedu.address.model.person.Patient;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.*;
 
 /**
  * Adds a caretaker to a specified patient in the address book.
@@ -27,8 +25,8 @@ public class CaretakerCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a caretaker to the specified patient.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + PREFIX_NAME + "NAME "
-            + PREFIX_PHONE + "PHONE "
-            + PREFIX_ADDRESS + "ADDRESS "
+            + PREFIX_PHONE + "PHONE ["
+            + PREFIX_ADDRESS + "ADDRESS] "
             + PREFIX_RELATIONSHIP + "RELATIONSHIP\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_NAME + "John Doe "
@@ -44,7 +42,7 @@ public class CaretakerCommand extends Command {
             + "patient in the address book.";
 
     private final Index targetIndex;
-    private final Caretaker caretaker;
+    private Caretaker caretaker;
 
     /**
      * Creates an AddCommand to add the specified {@code Person}
@@ -79,6 +77,16 @@ public class CaretakerCommand extends Command {
 
         if (model.hasPerson(caretaker)) {
             throw new CommandException(MESSAGE_CARETAKER_ALREADY_EXISTS);
+        }
+
+        Address address = caretaker.getAddress();
+
+        if (address == null) {
+            Name name = caretaker.getName();
+            Phone phone = caretaker.getPhone();
+            Relationship relationship = caretaker.getRelationship();
+            Address newAddress = patientToAddCaretaker.getAddress();
+            caretaker = new Caretaker(name, phone, newAddress, relationship);
         }
 
         try {
