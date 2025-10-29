@@ -634,7 +634,7 @@ sortappt
     
 ### Locating patients by name : `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds patients whose names contain any of the given keywords.
 
 #### Command Format:
 
@@ -663,10 +663,15 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Find only searches for patient names, not caretaker names.
 
 #### Outputs
 - Success: "X persons listed!", where X is the number of matching persons
 - Failure: Error messages above
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Indexes of commands are based on the updated list after using Find. To restore the original list, consider using the List command!
+</div>
 
 ### Undoing a previous command: `undo` 
 Undoes the effect of the most recent **successful** command, provided there was already a
