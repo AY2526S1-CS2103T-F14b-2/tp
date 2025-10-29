@@ -957,7 +957,7 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 Indexes of commands are based on the updated list after using Find. To restore the original list, consider using the List command!
 </div>
 
-### Undoing a previous command: `undo` 
+### Undoing a previous command: `undo`
 Undoes the effect of the most recent **successful** command, provided there was already a
 successful command given. This only works for commands which changes the database.
 

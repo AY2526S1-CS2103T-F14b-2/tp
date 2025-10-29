@@ -77,9 +77,9 @@ public class AddAppointmentCommand extends Command {
             Appointment newAppointment = desc == null
                     ? new Appointment(date, time)
                     : new Appointment(date, time, desc);
-            
+
             Patient updatedPatient = model.addAppointment(personToAddAppointment, date, time, desc);
-            
+
             String successMessage = String.format(MESSAGE_SUCCESS,
                 Messages.format(newAppointment),
                 Messages.shortFormat(updatedPatient));
