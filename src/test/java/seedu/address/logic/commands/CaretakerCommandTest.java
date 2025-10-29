@@ -96,7 +96,8 @@ public class CaretakerCommandTest {
         CaretakerCommand command = new CaretakerCommand(outOfBoundIndex, caretaker);
 
         assertThrows(CommandException.class,
-                MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, () -> command.execute(model));
+            String.format(MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()), ()
+                -> command.execute(model));
     }
 
     @Test
