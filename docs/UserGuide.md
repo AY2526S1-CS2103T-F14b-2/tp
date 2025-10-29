@@ -180,7 +180,9 @@ Action | Description
 **deletepatient** | Deletes specified patient from MediSaveContact
 **editpatient** | Edits specified patient's details
 **find** | Finds patient(s) with name containing specified keyword
-**appointment** | Adds an appointment to specified patient
+**appt** | Adds an appointment to specified patient
+**editappt** | Edits an existing appointment of a specified patient
+**deleteappt** | Deletes an appointment from a specified patient
 **note** | Adds a note to specified patient
 **editnote** | Edits an existing note of a specified patient
 **deletenote** | Deletes a note from a specified patient
@@ -726,12 +728,15 @@ Schedule an appointment for a patient using a specified index.
 
 #### Command Format:
 
-`appointment INDEX d/DATE t/TIME [note/APPT_DESCRIPTION]`
+`appt INDEX d/DATE t/TIME [note/APPT_DESCRIPTION]`
 
 #### Example Commands:
 
 ```
-appointment 1 d/15-11-2026 t/20:03
+appt 1 d/15-11-2025 t/20:03
+```
+```
+appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
 ```
 
 #### Parameters & Validation Rules
@@ -752,20 +757,20 @@ appointment 1 d/15-11-2026 t/20:03
     <tr>
       <td rowspan="2"><strong>DATE</strong></td>
       <td>Must follow DD-MM-YYYY format</td>
-      <td>"Invalid date. Must follow DD-MM-YYYY format!"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
     </tr>
     <tr>
       <td>Must be today or later</td>
-      <td>"Appointment cannot be set in the past!"</td>
+      <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td rowspan="2">TIME</td>
+      <td rowspan="2"><strong>TIME</strong></td>
       <td>	Must follow HH:MM 24-hour format</td>
-      <td>“Invalid time. Must follow HH:MM 24-hour format!”</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
-      <td>"Appointment cannot be set in the past!"</td>
+      <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
@@ -777,9 +782,124 @@ appointment 1 d/15-11-2026 t/20:03
 #### Outputs
 
 - Success:
-    - In GUI: Appointment created in specified patient
-    - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]<br>For [Name]; Phone: [Phone]"
-- Failure: Error Messages above
+  - In GUI: Appointment created in specified patient
+  - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]<br>
+    For [Name]; Phone: [Phone]"
+- Failure: Error messages above
+
+### Editing an appointment : `editappt`
+
+Modify an existing appointment for a patient. You can change the date, time, note, or clear the existing note.
+
+#### Command Format:
+
+`editappt INDEX i/ITEM_INDEX [d/NEW_DATE] [t/NEW_TIME] [note/NEW_NOTE]`
+
+#### Example Commands:
+```
+editappt 1 i/2 d/12-10-2026 t/12:00 note/Dental review
+```
+```
+editappt 2 i/1 note/
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+    </tr>
+    <tr>
+      <td><strong>ITEM_INDEX</strong></td>
+      <td>1-based index of the appointment to edit</td>
+      <td>"Appointment index must be a positive integer starting from 1."</td>
+    </tr>
+    <tr>
+      <td rowspan="2"><strong>NEW_DATE</strong> (Optional)</td>
+      <td>Must follow DD-MM-YYYY format</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+    </tr>
+    <tr>
+      <td>Must be today or later</td>
+      <td>"Appointment must be set in the future."</td>
+    </tr>
+    <tr>
+      <td rowspan="2"><strong>NEW_TIME</strong> (Optional)</td>
+      <td>Must follow HH:MM 24-hour format</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+    </tr>
+    <tr>
+      <td>If the appointment is today, time must be later than the current time</td>
+      <td>"Appointment must be set in the future."</td>
+    </tr>
+    <tr>
+      <td><strong>NEW_NOTE</strong> (Optional)</td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameters</a>. Use <code>note/</code> with no value to clear the note.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:** At least one of `d/`, `t/`, or `note/` must be provided.</div>
+
+#### Outputs
+
+- Success:
+  - In GUI: Appointment updated for the specified patient
+  - In Command Feedback Box: <br>"Appointment [Index] edited: [Date]; [Time]; Note: [Note]<br>
+    For [Name]; Phone: [Phone]"
+- Failure: Error messages above
+
+### Deleting an appointment : `deleteappt`
+
+Remove an appointment from a patient using the appointment's index.
+
+#### Command Format:
+
+`deleteappt INDEX i/ITEM_INDEX`
+
+#### Example Commands:
+```
+deleteappt 1 i/1
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+    </tr>
+    <tr>
+      <td><strong>ITEM_INDEX</strong></td>
+      <td>1-based index of the appointment to delete</td>
+      <td>"Appointment index must be a positive integer starting from 1."</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+  - In GUI: Appointment removed from the specified patient
+  - In Command Feedback Box: <br>"Appointment [Index] deleted.<br>For [Name]; Phone: [Phone]"
+- Failure: Error messages above
 
 ### Sorting appointments by time: `sortappt`
 Sorts the current list of patients in MediSaveContact by their soonest upcoming appointment (earliest first).
@@ -837,7 +957,7 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 Indexes of commands are based on the updated list after using Find. To restore the original list, consider using the List command!
 </div>
 
-### Undoing a previous command: `undo` 
+### Undoing a previous command: `undo`
 Undoes the effect of the most recent **successful** command, provided there was already a
 successful command given. This only works for commands which changes the database.
 

@@ -73,11 +73,15 @@ public class AddAppointmentCommand extends Command {
         Person personToAddAppointment = lastShownList.get(targetIndex.getZeroBased());
 
         try {
+            // Create the appointment first to use in success message
+            Appointment newAppointment = desc == null
+                    ? new Appointment(date, time)
+                    : new Appointment(date, time, desc);
+
             Patient updatedPatient = model.addAppointment(personToAddAppointment, date, time, desc);
-            List<Appointment> appointments = updatedPatient.getAppointment();
-            Appointment newestAppointment = appointments.get(appointments.size() - 1);
+
             String successMessage = String.format(MESSAGE_SUCCESS,
-                Messages.format(newestAppointment),
+                Messages.format(newAppointment),
                 Messages.shortFormat(updatedPatient));
             return new CommandResult(successMessage);
         } catch (IllegalArgumentException e) {
