@@ -596,51 +596,130 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ## **Appendix: Instructions for manual testing**
 
-Given below are instructions to test the app manually.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
-
-</div>
+Given below are instructions to test the app manually. They cover the core MediSaveContact features and a handful of negative scenarios. After completing these scripts, continue with exploratory testing to uncover edge cases specific to your environment.
 
 ### Launch and shutdown
 
-1. Initial launch
+1. **Initial launch**
+   1. Download the release JAR and place it in an empty folder (e.g. `~/medisavecontact-test`).
+   2. Double-click (Windows/macOS) or run `java -jar medisavecontact.jar` (Linux).<br>
+      **Expected:** The GUI opens with sample patients loaded. Status bar shows the data file path.
+2. **Saving window preferences**
+   1. Resize the window and drag it to a different monitor corner.
+   2. Close the app using the window close button.
+   3. Re-launch the app.<br>
+      **Expected:** The remembered size and position are restored.
+3. **Exit command**
+   1. Enter `exit`.<br>
+      **Expected:** Application shuts down cleanly with no lingering Java processes.
 
-   1. Download the jar file and copy into an empty folder
+### Managing patients
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+1. **Adding a patient**
+   1. Ensure the list view shows the full patient list via `list`.
+   2. Execute `patient n/Lim Siew Mei p/93334444 a/88 Redhill Lane tag/high`.<br>
+      **Expected:** Patient is appended to the list with the supplied details and `tag/HIGH`. Feedback panel confirms creation.
+2. **Preventing duplicates**
+   1. Repeat the exact command above.<br>
+      **Expected:** Error message “This patient already exists in MediSaveContact.”
+3. **Editing a patient**
+   1. Run `editpatient INDEX p/98887777 tag/medium`, replacing `INDEX` with the position of the patient added earlier.<br>
+      **Expected:** Phone number and tag update; other details remain unchanged.
+   2. Run `editpatient INDEX` with no additional prefixes.<br>
+      **Expected:** Error “At least one field to edit must be provided.”
+4. **Deleting and clearing**
+   1. Execute `deletepatient INDEX` on the same patient.<br>
+      **Expected:** Patient disappears from the list; success message shows the removed details.
+   2. Execute `deletepatient 0` and `deletepatient 999`.<br>
+      **Expected:** Both fail with invalid index messages.
+   3. (Optional) Run `clear` to wipe all data.<br>
+      **Expected:** Patient list becomes empty. Restore data manually from a backup JSON file after this test.
 
-1. Saving window preferences
+### Managing caretakers
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+1. **Assigning a caretaker**
+   1. With patients listed, pick one without a caretaker (or add a fresh patient).
+   2. Execute `caretaker INDEX n/Lee Wei Jun p/90001234 a/Blk 22 Pasir Ris r/Brother`.<br>
+      **Expected:** Patient card displays a caretaker section with the supplied details.
+2. **Validation**
+   1. Run `caretaker INDEX n/` with a blank name.<br>
+      **Expected:** Validation error referencing the name constraint.
+   2. Run `caretaker INDEX ...` on the same patient again.<br>
+      **Expected:** Error stating the patient already has a caretaker.
+3. **Editing and removing caretaker**
+   1. Execute `editcaretaker INDEX p/98889999`.<br>
+      **Expected:** Caretaker phone updates in the UI and success message.
+   2. Execute `deletecaretaker INDEX`.<br>
+      **Expected:** Caretaker section disappears. Running the command again should return an error indicating no caretaker exists.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
+### Managing appointments
 
-1. _{ more test cases …​ }_
+1. **Adding an appointment**
+   1. Prepare a patient (INDEX) and run `appt INDEX d/2025-12-01 t/14:30 note/Follow-up blood test`.<br>
+      **Expected:** Appointment list for the patient shows the new entry. Feedback confirms addition.
+2. **Rejecting invalid dates/times**
+   1. Run `appt INDEX d/2020-01-01 t/09:00` (past date).<br>
+      **Expected:** Error describing date/time constraint.
+   2. Run `appt INDEX d/2025-13-40 t/25:61`.<br>
+      **Expected:** Parsing error for invalid date/time.
+3. **Editing and deleting appointments**
+   1. Add a second appointment, then run `editappt INDEX ITEM_INDEX t/16:00 note/Updated timing`.<br>
+      **Expected:** Specified appointment updates the time and note.
+   2. Execute `deleteappt INDEX ITEM_INDEX` on the updated appointment.<br>
+      **Expected:** Appointment is removed. Trying to delete the same index again should fail.
 
-### Deleting a person
+### Managing notes
 
-1. Deleting a person while all persons are being shown
+1. **Adding a note**
+   1. Run `note INDEX note/Patient responded well to medication.`<br>
+      **Expected:** Note appears under the patient with a green success message.
+2. **Character limit enforcement**
+   1. Attempt `note INDEX note/` followed by 250 characters.<br>
+      **Expected:** Error “Note exceeds maximum length of 200 characters.”
+   2. Execute `note INDEX note/   ` (whitespace only).<br>
+      **Expected:** Error about blank notes.
+3. **Editing and deleting notes**
+   1. Run `editnote INDEX ITEM_INDEX note/Stable vitals recorded.`<br>
+      **Expected:** Note content updates in place.
+   2. Run `deletenote INDEX ITEM_INDEX`.<br>
+      **Expected:** Note disappears; repeated deletion of the same `ITEM_INDEX` fails gracefully.
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+### Searching and filtering
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+1. Execute `find tan` after the sample data is restored.<br>
+   **Expected:** Only patients whose names contain “tan” (case-insensitive) remain in the list, with indices renumbered.
+2. Run `list`.<br>
+   **Expected:** Full patient list is restored.
+3. Combine with other commands: run `find high`, then try `deletepatient 1`.<br>
+   **Expected:** Deletes the first patient in the filtered view; confirm via `list` that the correct patient was removed.
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+### Data persistence and autosave
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+1. Add a unique patient and caretaker as above.
+2. Close the app using `exit`.
+3. Reopen MediSaveContact.<br>
+   **Expected:** The newly added patient and caretaker are still present, demonstrating autosave.
+4. Navigate to `data/medisavecontact.json` and confirm the new patient entry exists in the JSON.
 
-1. _{ more test cases …​ }_
+### Handling invalid commands
 
-### Saving data
+1. Enter a random string such as `foobar`.<br>
+   **Expected:** Error “Unknown command” with a hint to use `help`.
+2. Enter a valid command with missing prefixes, e.g. `patient John`.<br>
+   **Expected:** Error message showing the correct usage format.
+3. Enter extra prefixes for commands that should ignore them, e.g. `list 123`.<br>
+   **Expected:** Command succeeds and extraneous tokens are ignored.
 
-1. Dealing with missing/corrupted data files
+### Recovering from corrupted storage files
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+1. Close the app. Open `data/medisavecontact.json` in a text editor.
+2. Remove a closing brace or truncate the file intentionally.
+3. Relaunch MediSaveContact.<br>
+   **Expected:** Application starts with an empty data set and warns about the corrupted file.
+4. Close the app, restore the JSON from a backup (or delete it to let the app regenerate sample data), then relaunch.<br>
+   **Expected:** Normal startup with data restored.
 
-1. _{ more test cases …​ }_
+### Resetting between test runs
+
+* To return to the default sample data, delete `data/medisavecontact.json` before launching the application.
+* Alternatively, keep a copy of a known-good JSON file and overwrite the data directory after each scenario.
