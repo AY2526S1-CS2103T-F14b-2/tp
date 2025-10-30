@@ -14,7 +14,7 @@ UniquePersonList -right-> "*" Person
 
 Person -up-> "*" Tag
 
-class Person <<abstract>> {
+abstract class Person {
 }
 
 class Patient {
@@ -38,6 +38,6 @@ Caretaker *--> "1" Relationship
 
 class VersionedAddressBook {
 }
-VersionedAddressBook *-right-> "1" AddressBook
+VersionedAddressBook --right-> "1" AddressBook
 
 @enduml
