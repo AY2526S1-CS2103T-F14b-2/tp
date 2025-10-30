@@ -652,22 +652,6 @@ Given below are instructions to test the app manually. They cover the core MediS
    2. Execute `deletecaretaker INDEX`.<br>
       **Expected:** Caretaker section disappears. Running the command again should return an error indicating no caretaker exists.
 
-### Managing appointments
-
-1. **Adding an appointment**
-   1. Prepare a patient (INDEX) and run `appt INDEX d/2025-12-01 t/14:30 note/Follow-up blood test`.<br>
-      **Expected:** Appointment list for the patient shows the new entry. Feedback confirms addition.
-2. **Rejecting invalid dates/times**
-   1. Run `appt INDEX d/2020-01-01 t/09:00` (past date).<br>
-      **Expected:** Error describing date/time constraint.
-   2. Run `appt INDEX d/2025-13-40 t/25:61`.<br>
-      **Expected:** Parsing error for invalid date/time.
-3. **Editing and deleting appointments**
-   1. Add a second appointment, then run `editappt INDEX ITEM_INDEX t/16:00 note/Updated timing`.<br>
-      **Expected:** Specified appointment updates the time and note.
-   2. Execute `deleteappt INDEX ITEM_INDEX` on the updated appointment.<br>
-      **Expected:** Appointment is removed. Trying to delete the same index again should fail.
-
 ### Managing notes
 
 1. **Adding a note**
@@ -683,6 +667,22 @@ Given below are instructions to test the app manually. They cover the core MediS
       **Expected:** Note content updates in place.
    2. Run `deletenote INDEX ITEM_INDEX`.<br>
       **Expected:** Note disappears; repeated deletion of the same `ITEM_INDEX` fails gracefully.
+
+### Managing appointments
+
+1. **Adding an appointment**
+   1. Prepare a patient (INDEX) and run `appt INDEX d/2025-12-01 t/14:30 note/Follow-up blood test`.<br>
+      **Expected:** Appointment list for the patient shows the new entry. Feedback confirms addition.
+2. **Rejecting invalid dates/times**
+   1. Run `appt INDEX d/2020-01-01 t/09:00` (past date).<br>
+      **Expected:** Error describing date/time constraint.
+   2. Run `appt INDEX d/2025-13-40 t/25:61`.<br>
+      **Expected:** Parsing error for invalid date/time.
+3. **Editing and deleting appointments**
+   1. Add a second appointment, then run `editappt INDEX ITEM_INDEX t/16:00 note/Updated timing`.<br>
+      **Expected:** Specified appointment updates the time and note.
+   2. Execute `deleteappt INDEX ITEM_INDEX` on the updated appointment.<br>
+      **Expected:** Appointment is removed. Trying to delete the same index again should fail.
 
 ### Searching and filtering
 
