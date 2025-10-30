@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -31,8 +32,8 @@ public class CaretakerCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a caretaker to the specified patient.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + PREFIX_NAME + "NAME "
-            + PREFIX_PHONE + "PHONE ["
-            + PREFIX_ADDRESS + "ADDRESS] "
+            + PREFIX_PHONE + "PHONE "
+            + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + PREFIX_RELATIONSHIP + "RELATIONSHIP\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_NAME + "John Doe "
@@ -48,16 +49,21 @@ public class CaretakerCommand extends Command {
             + "patient in the address book.";
 
     private final Index targetIndex;
-    private Caretaker caretaker;
+    private final Name name;
+    private final Phone phone;
+    private final Relationship relationship;
+    private final Optional<Address> addressOpt;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
+     * Creates a CaretakerCommand with the target index and caretaker fields.
      */
-    public CaretakerCommand(Index targetIndex, Caretaker caretaker) {
-        requireNonNull(targetIndex);
-        requireNonNull(caretaker);
-        this.targetIndex = targetIndex;
-        this.caretaker = caretaker;
+    public CaretakerCommand(Index targetIndex, Name name, Phone phone,
+                            Relationship relationship, Optional<Address> addressOpt) {
+        this.targetIndex = requireNonNull(targetIndex);
+        this.name = requireNonNull(name);
+        this.phone = requireNonNull(phone);
+        this.relationship = requireNonNull(relationship);
+        this.addressOpt = requireNonNull(addressOpt);
     }
 
     @Override
@@ -68,35 +74,29 @@ public class CaretakerCommand extends Command {
         ensureValidPatientIndex(targetIndex, model);
 
         Person personToAddCaretaker = lastShownList.get(targetIndex.getZeroBased());
-
         if (!(personToAddCaretaker instanceof Patient)) {
             throw new CommandException(Messages.MESSAGE_REQUIRE_PATIENT);
         }
+        Patient patient = (Patient) personToAddCaretaker;
 
-        Patient patientToAddCaretaker = (Patient) personToAddCaretaker;
-
-        if (patientToAddCaretaker.getCaretaker() != null) {
-            String caretakerExistsMessage = String.format(MESSAGE_PATIENT_HAS_CARETAKER,
-                    Messages.shortFormat(patientToAddCaretaker));
-            throw new CommandException(caretakerExistsMessage);
+        if (patient.getCaretaker() != null) {
+            String msg = String.format(MESSAGE_PATIENT_HAS_CARETAKER, Messages.shortFormat(patient));
+            throw new CommandException(msg);
         }
 
+        // Resolve final non-null address (use patient's address if absent in input)
+        Address finalAddress = addressOpt.orElse(patient.getAddress());
+
+        // Only now construct a fully valid Caretaker (no nulls)
+        Caretaker caretaker = new Caretaker(name, phone, finalAddress, relationship);
+
+        // Prevent duplicate person (caretaker already exists as a patient)
         if (model.hasPerson(caretaker)) {
             throw new CommandException(MESSAGE_CARETAKER_ALREADY_EXISTS);
         }
 
-        Address address = caretaker.getAddress();
-
-        if (address == null) {
-            Name name = caretaker.getName();
-            Phone phone = caretaker.getPhone();
-            Relationship relationship = caretaker.getRelationship();
-            Address newAddress = patientToAddCaretaker.getAddress();
-            caretaker = new Caretaker(name, phone, newAddress, relationship);
-        }
-
         try {
-            Patient updatedPatient = patientToAddCaretaker.addCaretaker(caretaker);
+            Patient updatedPatient = patient.addCaretaker(caretaker);
             model.setPerson(personToAddCaretaker, updatedPatient);
             String successMessage = String.format(MESSAGE_SUCCESS, Messages.format(caretaker),
                     Messages.shortFormat(updatedPatient));
@@ -104,7 +104,6 @@ public class CaretakerCommand extends Command {
         } catch (IllegalArgumentException e) {
             throw new CommandException(e.getMessage());
         }
-
     }
 
     @Override
@@ -112,27 +111,30 @@ public class CaretakerCommand extends Command {
         if (other == this) {
             return true;
         }
-
-        // instanceof handles nulls
         if (!(other instanceof CaretakerCommand)) {
             return false;
         }
-
-        CaretakerCommand otherCaretakerCommand = (CaretakerCommand) other;
-        return targetIndex.equals(otherCaretakerCommand.targetIndex)
-                && caretaker.equals(otherCaretakerCommand.caretaker);
+        CaretakerCommand o = (CaretakerCommand) other;
+        return targetIndex.equals(o.targetIndex)
+                && name.equals(o.name)
+                && phone.equals(o.phone)
+                && relationship.equals(o.relationship)
+                && addressOpt.equals(o.addressOpt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(targetIndex, caretaker);
+        return Objects.hash(targetIndex, name, phone, relationship, addressOpt);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("targetIndex", targetIndex)
-                .add("caretaker", caretaker)
+                .add("name", name)
+                .add("phone", phone)
+                .add("relationship", relationship)
+                .add("addressOpt", addressOpt)
                 .toString();
     }
 }
