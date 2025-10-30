@@ -283,32 +283,35 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​             | I want to …​                                         | So that I can…​                                         |
-|----------|---------------------|------------------------------------------------------|---------------------------------------------------------|
-| `* * *`  | home-visiting nurse | view the records without needing internet            | work at places with no cellular signal                  |
-| `* * *`  | new user            | view all the commands of the MediSaveContact         | onboarding in the application is easy                   |
-| `* * *`  | nurse               | add a new patient with personal details              | I can keep track of who I’m caring for                  |
-| `* * *`  | nurse               | view a patient’s details quickly                     | I can recall important info during visits               |
-| `* * *`  | nurse               | delete a patient’s record                            | I can remove patients I no longer manage                |
-| `* * *`  | nurse               | list all patients                                    | I can get an overview of my caseload                    |
-| `* * *`  | nurse               | add medical notes to a patient                       | I can record observations and treatment history         |
-| `* * *`  | nurse               | add an appointment for a patient                     | I can remember when to visit them                       |
-| `* *`    | nurse               | receive reminders for appointments                   | I won’t forget important visits                         |
-| `* *`    | nurse               | filter patients by condition/notes                   | I can prioritize certain groups of patients             |
-| `* *`    | nurse               | undo my last action                                  | I can recover from mistakes                             |
-| `*`      | new user            | view detailed error message                          | I know if I am using the product wrongly and how to fix |
-| `*`      | nurse               | update a patient's details                           | I can keep information accurate                         |
-| `*`      | nurse               | search for a patient by name                         | I can find records quickly                              |
-| `*`      | nurse               | view upcoming appointments                           | I can plan my schedule efficiently                      |
-| `*`      | nurse               | delete an appointment                                | I can manage changes in patient schedules               |
-| `*`      | nurse               | mark an appointment as completed                     | I can track which visits I've done                      |
-| `*`      | nurse               | sort patients by name                                | I can find them more easily                             |
-| `*`      | nurse               | add medication info to a patient                     | I can track prescriptions and dosages                   |
-| `*`      | nurse               | view patients with ongoing medication                | I can check who needs regular follow-ups                |
-| `*`      | nurse               | export patient records to a text file                | I can back up my data                                   |
-| `*`      | nurse               | import patient records from a text file              | I can restore data if needed                            |
-| `*`      | nurse               | tag patients with labels (e.g., "diabetes", "rehab") | I can organise them by health needs                     |
-| `*`      | nurse               | search patients by tag                               | I can quickly find patients with similar conditions     |
+| Priority | As a …​             | I want to …​                                 | So that I can…​                                         |
+|----------|---------------------|----------------------------------------------|---------------------------------------------------------|
+| `* * *`  | home-visiting nurse | view the records without needing internet    | work at places with no cellular signal                  |
+| `* * *`  | new user            | view all the commands of the MediSaveContact | onboarding in the application is easy                   |
+| `* * *`  | nurse               | add a new patient with personal details      | I can keep track of who I’m caring for                  |
+| `* * *`  | nurse               | view a patient’s details quickly             | I can access important info during visits               |
+| `* * *`  | nurse               | edit a patient’s details                     | I can correct wrong information                         |                     |                                                      |                                                         |
+| `* * *`  | nurse               | delete a patient’s record                    | I can remove patients I no longer manage                |
+| `* * *`  | nurse               | list all patients                            | I can get an overview of my caseload                    |
+| `* * *`  | nurse               | add medical notes to a patient               | I can record observations and treatment history         |
+| `* * *`  | nurse               | delete medical notes to a patient            | I can remove outdated notes about patient               |
+| `* * *`  | nurse               | add an appointment for a patient             | I can remember when to visit them                       |
+| `* * *`  | nurse               | delete an appointment                        | I can remove incorrect appointments                     |
+| `* *`    | nurse               | edit medical notes of a patient              | I can update any changes in patient's condition         |                     |                                              |                                                         |
+| `* *`    | nurse               | view appointments in chronological order     | I can quickly see when is my next visit                 |
+| `* *`    | nurse               | edit appointment details for patient         | I can reschedule my appointments                        |                     |                                                      |                                                         |
+| `* *`    | nurse               | add caretaker information to patient         | I can know who to contact in case of emergencies        |                     |                                              |                                                         |
+| `* *`    | nurse               | edit caretaker information for patient       | I can update changes in caretaker's information         |                     |                                              |                                                         |
+| `* *`    | nurse               | delete caretaker information from patient    | I can remove incorrect caretaker information            |                     |                                              |                                                         |
+| `* *`    | nurse               | list patients by tag                         | I can prioritize certain groups of patients             |
+| `* *`    | nurse               | search for a patient by name                 | I can find records quickly                              |
+| `* *`    | nurse               | undo my last action                          | I can recover from mistakes                             |
+| `* *`    | nurse               | access previous commands                     | I can check what commands I entered                     |                     |                                              |                                                         |
+| `* *`    | new user            | view detailed error message                  | I know if I am using the product wrongly and how to fix |
+| `*`      | nurse               | mark an appointment as completed             | I can track which visits I've done                      |
+| `*`      | nurse               | sort patients by name                        | I can find them more easily                             |
+| `*`      | nurse               | view patients with ongoing medication        | I can check who needs regular follow-ups                |
+| `*`      | nurse               | export patient records to a text file        | I can back up my data                                   |
+| `*`      | nurse               | import patient records from a text file      | I can restore data if needed                            |
 
 
 
