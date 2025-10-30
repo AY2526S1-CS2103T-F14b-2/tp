@@ -279,7 +279,7 @@ Each command operates on the currently displayed list, reuses `Command#ensureVal
 </div>
 
 #### Example usage scenario
-Step 1. The user runs `appt 3 d/31-12-2099 t/13:00 p/Year-end review`. `AddressBookParser` dispatches the command to `AddAppointmentCommandParser`, which validates the prefixes, parses the index, and builds the domain values (`Index`, `String` date/time, optional `Note`).
+Step 1. The user runs `appt 3 d/31-12-2099 t/13:00 note/Year-end review`. `AddressBookParser` dispatches the command to `AddAppointmentCommandParser`, which validates the prefixes, parses the index, and builds the domain values (`Index`, `String` date/time, optional `Note`).
 
 Step 2. `AddAppointmentCommand#execute(...)` retrieves patient 3 from the filtered list, instantiates a new `Appointment`, and delegates to `ModelManager#addAppointment(...)`.
 
@@ -303,7 +303,7 @@ Step 4. The command formats feedback (`Appointment created: <formatted appointme
 #### Validation and error handling
 - `Appointment` performs definitive validation: it parses `dd-MM-yyyy` and `HH:mm` values to `LocalDateTime` and rejects past timestamps via `MESSAGE_PAST_APPOINTMENT`. Optional notes are wrapped in `Note`, inheriting the same length and character checks as patient notes.
 - Duplicate detection resides in the model layer rather than the parser so both CLI and future UI surfaces share the same safeguard. Attempts to schedule the same date/time for a patient trigger `MESSAGE_DUPLICATE_APPOINTMENT`.
-- Editing supports note removal by treating empty `p/n` inputs as `EditAppointmentDescriptor#clearNote()`. The descriptor tracks this through the `noteCleared` flag and `isAnyFieldEdited()` prevents no-op updates from reaching the model.
+- Editing supports note removal by treating empty `note/` inputs as `EditAppointmentDescriptor#clearNote()`. The descriptor tracks this through the `noteCleared` flag and `isAnyFieldEdited()` prevents no-op updates from reaching the model.
 
 #### Testing guidance
 - `AddAppointmentCommandTest`, `EditAppointmentCommandTest`, and `DeleteAppointmentCommandTest` cover the command flows, including duplicate detection, invalid indices, and success messaging.
