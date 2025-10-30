@@ -169,6 +169,22 @@ public class Messages {
         return builder.toString();
     }
 
+    /**
+     * Formats the {@code patient} for display to the user for edit command.
+     * Should not have Appointment, Notes, and Caretaker
+     */
+    public static String formatForEdit(Patient patient) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(patient.getName())
+                .append("; Phone: ")
+                .append(patient.getPhone())
+                .append("; Address: ")
+                .append(patient.getAddress());
+
+        patient.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
+        return builder.toString();
+    }
+
     private static String capitalise(String s) {
         String lower = s.toLowerCase();
         return Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
