@@ -314,116 +314,273 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `MediSaveContact` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `MediSaveContact` and the **Actor** is the nurse user unless specified otherwise.)
 
-**Use case 1: Delete a person**
+---
 
-**MSS**
+**Use case: UC01 – Add a patient**
 
-1.  User requests to list persons
-2.  MediSaveContact shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  MediSaveContact deletes the person
+**Actor:** Nurse
+
+**Preconditions:** MediSaveContact is running and the nurse has the new patient’s name, phone number, address and optional priority tag.
+
+**Guarantees:** A new patient record is stored and displayed in the patient list.
+
+**Main success scenario (MSS):**
+
+1. Nurse enters `patient n/NAME p/PHONE a/ADDRESS [tag/TAG]`.
+2. MediSaveContact validates every field.
+3. MediSaveContact adds the patient, refreshes the patient list and shows a confirmation message.
 
     Use case ends.
 
-**Extensions**
+**Extensions:**
 
-* 2a. The list is empty.
+* 1a. The nurse omits a mandatory prefix (e.g. `n/`).
 
-  Use case ends.
+      * 1a1. MediSaveContact displays the command usage message.
 
-* 3a. The given index is invalid.
+         Use case ends.
 
-    * 3a1. MediSaveContact shows an error message.
+* 2a. The phone number contains non-digits or has an invalid length.
 
-      Use case resumes at step 2.
+      * 2a1. MediSaveContact rejects the command and highlights the phone constraint.
 
-**Use case 2: Add an appointment to a patient**
+         Use case ends.
 
-**MSS**
+* 2b. An existing patient has the same name and phone number.
 
-1. User requests to list persons
-2. MediSaveContact shows a list of persons
-3. User requests to update a specific person's appointment
-4. MediSaveContact updates the information
+      * 2b1. MediSaveContact shows “This patient already exists in MediSaveContact.”
 
-   Use case ends.
+         Use case ends.
 
-**Extensions**
+* 3a. Saving to `data/addressbook.json` fails (e.g. disk is read-only).
 
-* 2a. The list is empty.
+      * 3a1. MediSaveContact informs the nurse that the data could not be saved and reverts the addition.
 
-  Use case ends.
+         Use case ends.
 
-* 3a. The given index is invalid.
+---
 
-    * 3a1. MediSaveContact shows an error message.
+**Use case: UC02 – Assign a caretaker to a patient**
 
-      Use case resumes at step 2.
+**Actor:** Nurse
 
-* 3b. The given date is invalid.
+**Preconditions:** The target patient exists and currently has no caretaker linked.
 
-    * 3b1. MediSaveContact shows an error message.
+**Guarantees:** The patient record is updated with the caretaker details.
 
-      Use case resumes at step 2.
+**Main success scenario (MSS):**
 
-**Use case 3: Add a medical note to a patient**
+1. Nurse lists patients (optional) and identifies the desired index.
+2. Nurse enters `caretaker INDEX n/NAME p/PHONE a/ADDRESS r/RELATIONSHIP`.
+3. MediSaveContact links the caretaker to the patient, preserves the patient’s other data and shows a success message.
 
-**MSS**
+    Use case ends.
 
-1. User requests to list persons
-2. MediSaveContact shows a list of persons
-3. User requests to update a specific person's medical note
-4. MediSaveContact updates the information
+**Extensions:**
 
-   Use case ends.
+* 1a. The patient list is empty.
 
-**Extensions**
+      Use case ends.
 
-* 2a. The list is empty.
+* 2a. `INDEX` is out of bounds of the displayed patient list.
 
-  Use case ends.
+      * 2a1. MediSaveContact shows “The patient index provided is invalid …”.
 
-* 3a. The given index is invalid.
+         Use case resumes at step 1.
 
-    * 3a1. MediSaveContact shows an error message.
+* 2b. The person at `INDEX` is not a patient (e.g. already a caretaker entry).
 
-      Use case resumes at step 2.
+      * 2b1. MediSaveContact shows “The person index provided is not a patient”.
 
-* 3b. The given note is empty.
+         Use case resumes at step 1.
 
-    * 3b1. MediSaveContact shows an error message.
+* 2c. The patient already has a caretaker.
 
-      Use case resumes at step 2.
+      * 2c1. MediSaveContact explains that the patient already has a caretaker and aborts the command.
 
-* 3c. The given note is too long.
+         Use case ends.
 
-    * 3c1. MediSaveContact shows an error message.
+* 2d. The caretaker details match an existing patient record.
 
-      Use case resumes at step 2.
+      * 2d1. MediSaveContact warns that the caretaker already exists as a patient and rejects the command.
 
-*{More to be added}*
+         Use case ends.
+
+---
+
+**Use case: UC03 – Schedule an appointment for a patient**
+
+**Actor:** Nurse
+
+**Preconditions:** The patient exists. The proposed appointment slot is not duplicated for the patient.
+
+**Guarantees:** The appointment is appended to the patient’s appointment list.
+
+**Main success scenario (MSS):**
+
+1. Nurse enters `appt INDEX d/DATE t/TIME [note/DESCRIPTION]`.
+2. MediSaveContact validates the index, date, time and optional note.
+3. MediSaveContact adds the appointment and shows the scheduled slot.
+
+    Use case ends.
+
+**Extensions:**
+
+* 1a. `INDEX` is invalid.
+
+      * 1a1. MediSaveContact shows “The patient index provided is invalid …”.
+
+         Use case resumes at step 1 with a new index.
+
+* 1b. The target person is not a patient.
+
+      * 1b1. MediSaveContact displays “The person index provided is not a patient”.
+
+         Use case resumes at step 1.
+
+* 2a. The date or time format is invalid or represents a past slot.
+
+      * 2a1. MediSaveContact explains the constraint violation.
+
+         Use case resumes at step 1.
+
+* 2b. The patient already has an appointment at the same date and time.
+
+      * 2b1. MediSaveContact shows “This appointment already exists in the address book”.
+
+         Use case ends.
+
+---
+
+**Use case: UC04 – Record a medical note for a patient**
+
+**Actor:** Nurse
+
+**Preconditions:** The patient exists and the nurse has the observation to log.
+
+**Guarantees:** The note is appended to the patient’s note list.
+
+**Main success scenario (MSS):**
+
+1. Nurse enters `note INDEX note/CONTENT`.
+2. MediSaveContact validates that the content is non-empty and within 200 characters.
+3. MediSaveContact adds the note, shows the confirmation and displays the updated patient summary.
+
+    Use case ends.
+
+**Extensions:**
+
+* 1a. `INDEX` is invalid.
+
+      * 1a1. MediSaveContact reports the invalid patient index.
+
+         Use case resumes at step 1.
+
+* 1b. The target entry is not a patient.
+
+      * 1b1. MediSaveContact shows “The person index provided is not a patient”.
+
+         Use case resumes at step 1.
+
+* 2a. The note is empty or consists only of whitespace.
+
+      * 2a1. MediSaveContact shows the note constraint message and rejects the command.
+
+         Use case ends.
+
+* 2b. The note exceeds 200 characters.
+
+      * 2b1. MediSaveContact shows “Note exceeds maximum length of 200 characters.”
+
+         Use case ends.
+
+---
+
+**Use case: UC05 – Update caretaker details**
+
+**Actor:** Nurse
+
+**Preconditions:** The patient already has a caretaker linked.
+
+**Guarantees:** The caretaker information is updated with the provided fields.
+
+**Main success scenario (MSS):**
+
+1. Nurse enters `editcaretaker INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [r/RELATIONSHIP]`.
+2. MediSaveContact verifies the index, checks that a caretaker exists and confirms that at least one field is provided.
+3. MediSaveContact updates the caretaker information and displays a success message with the new details.
+
+    Use case ends.
+
+**Extensions:**
+
+* 1a. `INDEX` is invalid.
+
+      * 1a1. MediSaveContact indicates the invalid index.
+
+         Use case resumes at step 1.
+
+* 1b. The target entry is not a patient.
+
+      * 1b1. MediSaveContact reports that only patients can have caretakers edited.
+
+         Use case resumes at step 1.
+
+* 1c. The patient has no caretaker yet.
+
+      * 1c1. MediSaveContact informs the nurse that there is no caretaker to edit and aborts.
+
+         Use case ends.
+
+* 2a. No fields are supplied after the index.
+
+      * 2a1. MediSaveContact shows “At least one field to edit must be provided.”
+
+         Use case resumes at step 1.
+
+* 2b. The edited details match an existing patient (name + phone).
+
+      * 2b1. MediSaveContact warns that the caretaker already exists as a patient and rejects the command.
+
+         Use case ends.
 
 ### Non-Functional Requirements
-### Business
-1. Single nurse profile can support <= 5000 patients
-2. A nurse cannot create two appointments that overlap for the same patient
-#### Constraints
-1. Release is one JAR <= 100 MB, runs via java -jar
-2. Features work 100% offline, no dependency on external servers
+
+#### Usability
+1. Core workflows (add/list/delete patient, appointment, note, caretaker) are executable with keyboard-only navigation; acceptance testers must complete the scripted scenario without touching the mouse.
+2. A first-time user following the User Guide can add a patient within 3 minutes and with no more than 2 command validation errors during usability testing.
+
 #### Performance
-1. Listing up to 1000 patients render first screen in <300 ms and filter/search updates re-render in <150 ms
-2. Prompt can be typed in <2.5s from java -jar
-#### Quality
-1. User can perform commands without using a mouse
-2. Proper response to invalid commands (showing expected syntax, reason why commands are invalid, etc.)
-#### Technical
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+1. During performance testing with up to 1000 sample patients, rendering the first screen takes less than 300 ms, and subsequent filter or search commands re-render results within 150 ms.
+2. From executing `java -jar medisavecontact.jar` to the command box becoming responsive, startup completes within 2.5 seconds under typical team testing conditions.
+
+#### Reliability
+1. The application autosaves after every mutating command; in a forced termination test, at most the last command’s changes may be lost.
+2. During a 2-hour exploratory test session covering at least 200 mixed commands, the application must not crash or hang; any defects are logged with reproduction steps.
+
+#### Security and Privacy
+1. Patient data remains on the local machine only. No external network connections are initiated during normal operation.
+2. Saved data files inherit the operating system’s default user permissions; documentation instructs nurses to secure the data directory if using shared machines.
+
+#### Maintainability
+1. `gradlew checkstyleMain checkstyleTest` runs clean with zero warnings before every release.
+2. `gradlew jacocoTestReport` shows at least 80% line coverage for the `logic` and `model` packages on the main branch.
+3. All public classes and methods added in each iteration include Javadoc describing purpose, parameters, and error cases.
+
+#### Portability
+1. The application runs on Windows 10+, macOS 12+, and Ubuntu 22.04+ provided Java 17 or later is installed; smoke tests for core commands are executed on each platform before release.
+
+#### Deployment Constraints
+1. The distributable artifact is a single executable JAR ≤ 100 MB that runs via `java -jar` without extra dependencies.
+2. All features operate fully offline; there are no hard dependencies on external REST services or cloud storage.
+
 #### Process
-1. Project to be conducted in Brownfield increments, by every week, a new release of the product is made available
-#### Notes about project scope
-1. The product should maintain a single local profile, no access to the same data file by another user
+1. The team performs brownfield increments with time-boxed weekly releases; each Friday’s release candidate passes the regression suite and is archived.
+
+#### Product Scope Notes
+1. MediSaveContact maintains a single local nurse profile per installation; concurrent access to the same data file by multiple users is out of scope.
 
 ### Glossary
 
@@ -439,51 +596,130 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ## **Appendix: Instructions for manual testing**
 
-Given below are instructions to test the app manually.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
-
-</div>
+Given below are instructions to test the app manually. They cover the core MediSaveContact features and a handful of negative scenarios. After completing these scripts, continue with exploratory testing to uncover edge cases specific to your environment.
 
 ### Launch and shutdown
 
-1. Initial launch
+1. **Initial launch**
+   1. Download the release JAR and place it in an empty folder (e.g. `~/medisavecontact-test`).
+   2. Double-click (Windows/macOS) or run `java -jar medisavecontact.jar` (Linux).<br>
+      **Expected:** The GUI opens with sample patients loaded. Status bar shows the data file path.
+2. **Saving window preferences**
+   1. Resize the window and drag it to a different monitor corner.
+   2. Close the app using the window close button.
+   3. Re-launch the app.<br>
+      **Expected:** The remembered size and position are restored.
+3. **Exit command**
+   1. Enter `exit`.<br>
+      **Expected:** Application shuts down cleanly with no lingering Java processes.
 
-   1. Download the jar file and copy into an empty folder
+### Managing patients
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+1. **Adding a patient**
+   1. Ensure the list view shows the full patient list via `list`.
+   2. Execute `patient n/Lim Siew Mei p/93334444 a/88 Redhill Lane tag/high`.<br>
+      **Expected:** Patient is appended to the list with the supplied details and `tag/HIGH`. Feedback panel confirms creation.
+2. **Preventing duplicates**
+   1. Repeat the exact command above.<br>
+      **Expected:** Error message “This patient already exists in MediSaveContact.”
+3. **Editing a patient**
+   1. Run `editpatient INDEX p/98887777 tag/medium`, replacing `INDEX` with the position of the patient added earlier.<br>
+      **Expected:** Phone number and tag update; other details remain unchanged.
+   2. Run `editpatient INDEX` with no additional prefixes.<br>
+      **Expected:** Error “At least one field to edit must be provided.”
+4. **Deleting and clearing**
+   1. Execute `deletepatient INDEX` on the same patient.<br>
+      **Expected:** Patient disappears from the list; success message shows the removed details.
+   2. Execute `deletepatient 0` and `deletepatient 999`.<br>
+      **Expected:** Both fail with invalid index messages.
+   3. (Optional) Run `clear` to wipe all data.<br>
+      **Expected:** Patient list becomes empty. Restore data manually from a backup JSON file after this test.
 
-1. Saving window preferences
+### Managing caretakers
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+1. **Assigning a caretaker**
+   1. With patients listed, pick one without a caretaker (or add a fresh patient).
+   2. Execute `caretaker INDEX n/Lee Wei Jun p/90001234 a/Blk 22 Pasir Ris r/Brother`.<br>
+      **Expected:** Patient card displays a caretaker section with the supplied details.
+2. **Validation**
+   1. Run `caretaker INDEX n/` with a blank name.<br>
+      **Expected:** Validation error referencing the name constraint.
+   2. Run `caretaker INDEX ...` on the same patient again.<br>
+      **Expected:** Error stating the patient already has a caretaker.
+3. **Editing and removing caretaker**
+   1. Execute `editcaretaker INDEX p/98889999`.<br>
+      **Expected:** Caretaker phone updates in the UI and success message.
+   2. Execute `deletecaretaker INDEX`.<br>
+      **Expected:** Caretaker section disappears. Running the command again should return an error indicating no caretaker exists.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
+### Managing appointments
 
-1. _{ more test cases …​ }_
+1. **Adding an appointment**
+   1. Prepare a patient (INDEX) and run `appt INDEX d/2025-12-01 t/14:30 note/Follow-up blood test`.<br>
+      **Expected:** Appointment list for the patient shows the new entry. Feedback confirms addition.
+2. **Rejecting invalid dates/times**
+   1. Run `appt INDEX d/2020-01-01 t/09:00` (past date).<br>
+      **Expected:** Error describing date/time constraint.
+   2. Run `appt INDEX d/2025-13-40 t/25:61`.<br>
+      **Expected:** Parsing error for invalid date/time.
+3. **Editing and deleting appointments**
+   1. Add a second appointment, then run `editappt INDEX ITEM_INDEX t/16:00 note/Updated timing`.<br>
+      **Expected:** Specified appointment updates the time and note.
+   2. Execute `deleteappt INDEX ITEM_INDEX` on the updated appointment.<br>
+      **Expected:** Appointment is removed. Trying to delete the same index again should fail.
 
-### Deleting a person
+### Managing notes
 
-1. Deleting a person while all persons are being shown
+1. **Adding a note**
+   1. Run `note INDEX note/Patient responded well to medication.`<br>
+      **Expected:** Note appears under the patient with a green success message.
+2. **Character limit enforcement**
+   1. Attempt `note INDEX note/` followed by 250 characters.<br>
+      **Expected:** Error “Note exceeds maximum length of 200 characters.”
+   2. Execute `note INDEX note/   ` (whitespace only).<br>
+      **Expected:** Error about blank notes.
+3. **Editing and deleting notes**
+   1. Run `editnote INDEX ITEM_INDEX note/Stable vitals recorded.`<br>
+      **Expected:** Note content updates in place.
+   2. Run `deletenote INDEX ITEM_INDEX`.<br>
+      **Expected:** Note disappears; repeated deletion of the same `ITEM_INDEX` fails gracefully.
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+### Searching and filtering
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+1. Execute `find tan` after the sample data is restored.<br>
+   **Expected:** Only patients whose names contain “tan” (case-insensitive) remain in the list, with indices renumbered.
+2. Run `list`.<br>
+   **Expected:** Full patient list is restored.
+3. Combine with other commands: run `find high`, then try `deletepatient 1`.<br>
+   **Expected:** Deletes the first patient in the filtered view; confirm via `list` that the correct patient was removed.
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+### Data persistence and autosave
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+1. Add a unique patient and caretaker as above.
+2. Close the app using `exit`.
+3. Reopen MediSaveContact.<br>
+   **Expected:** The newly added patient and caretaker are still present, demonstrating autosave.
+4. Navigate to `data/medisavecontact.json` and confirm the new patient entry exists in the JSON.
 
-1. _{ more test cases …​ }_
+### Handling invalid commands
 
-### Saving data
+1. Enter a random string such as `foobar`.<br>
+   **Expected:** Error “Unknown command” with a hint to use `help`.
+2. Enter a valid command with missing prefixes, e.g. `patient John`.<br>
+   **Expected:** Error message showing the correct usage format.
+3. Enter extra prefixes for commands that should ignore them, e.g. `list 123`.<br>
+   **Expected:** Command succeeds and extraneous tokens are ignored.
 
-1. Dealing with missing/corrupted data files
+### Recovering from corrupted storage files
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+1. Close the app. Open `data/medisavecontact.json` in a text editor.
+2. Remove a closing brace or truncate the file intentionally.
+3. Relaunch MediSaveContact.<br>
+   **Expected:** Application starts with an empty data set and warns about the corrupted file.
+4. Close the app, restore the JSON from a backup (or delete it to let the app regenerate sample data), then relaunch.<br>
+   **Expected:** Normal startup with data restored.
 
-1. _{ more test cases …​ }_
+### Resetting between test runs
+
+* To return to the default sample data, delete `data/medisavecontact.json` before launching the application.
+* Alternatively, keep a copy of a known-good JSON file and overwrite the data directory after each scenario.
