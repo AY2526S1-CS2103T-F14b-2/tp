@@ -246,6 +246,91 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 _{more aspects and alternatives to be added}_
 
+### Appointment feature
+
+#### Overview
+The appointment feature lets each `Patient` maintain a chronologically sorted list of upcoming visits. The workflow mirrors the undo/redo walkthrough above: start with a command issued at the CLI, flow through parsing, run model validations, and finally persist the state with undo support. Three commands participate:
+* `appt` creates a new appointment for a patient.
+* `editappt` updates an existing appointment.
+* `deleteappt` removes an appointment.
+
+Each command operates on the currently displayed list, reuses `Command#ensureValidPatientIndex(...)` for index safety, and surfaces results via `Messages.shortFormat(...)` so the UI stays consistent.
+
+<figure>
+   <img src="images/AddAppointmentSequenceDiagram.png" alt="Add appointment sequence diagram" />
+   <figcaption>Figure 1: `appt` command flow from parser to model.</figcaption>
+</figure>
+
+<figure>
+   <img src="images/EditAppointmentSequenceDiagram.png" alt="Edit appointment sequence diagram" />
+   <figcaption>Figure 2: `editappt` command updating an existing entry.</figcaption>
+</figure>
+
+<figure>
+   <img src="images/DeleteAppointmentSequenceDiagram.png" alt="Delete appointment sequence diagram" />
+   <figcaption>Figure 3: `deleteappt` command removing an appointment.</figcaption>
+</figure>
+
+<div markdown="span" class="alert alert-info">
+:information_source: **Note:** Generate the PNG assets in `docs/images/` from the corresponding `.puml` sources in `docs/diagrams/` using PlantUML before publishing.
+</div>
+
+#### Example usage scenario
+Step 1. The user runs `appt 3 d/31-12-2099 t/13:00 p/Year-end review`. `AddressBookParser` dispatches the command to `AddAppointmentCommandParser`, which validates the prefixes, parses the index, and builds the domain values (`Index`, `String` date/time, optional `Note`).
+
+Step 2. `AddAppointmentCommand#execute(...)` retrieves patient 3 from the filtered list, instantiates a new `Appointment`, and delegates to `ModelManager#addAppointment(...)`.
+
+Step 3. The model performs duplicate checks, creates an updated immutable patient via `Patient#addAppointment(...)`, and replaces the stored patient with `Model#setPerson(...)`. `VersionedAddressBook.update()` snapshots the pre-change state so undo continues to work (the behaviour mirrors the undo/redo diagrams above).
+
+Step 4. The command formats feedback (`Appointment created: <formatted appointment>`) using the freshly constructed appointment rather than relying on list ordering, then returns the `CommandResult` to the UI.
+
+`editappt` and `deleteappt` follow the same lifecycle: parse input, locate the patient, validate the target appointment, produce an updated `Patient` instance, and persist it through the model. Undoing any of these commands restores the previous snapshot just like the undo walkthrough earlier.
+
+#### Command implementation notes
+- `AddressBookParser` tokenises raw CLI input and dispatches to the relevant `*AppointmentCommandParser`. Each parser enforces mandatory prefixes, rejects duplicates via `ArgumentMultimap#verifyNoDuplicatePrefixesFor(...)`, and converts user input into domain objects with `ParserUtil`. Parse-time failures throw `ParseException`, surfacing format errors before model work begins.
+- `AddAppointmentCommand` constructs the appointment immediately, which ensures invalid dates/times fail fast and allows the same instance to be reused in the success message.
+- `EditAppointmentCommand` extends `AbstractEditCommand`. Its `EditAppointmentDescriptor` records only the mutated fields and provides `buildUpdatedAppointment(...)` to merge edits with the original appointment. `validateEdit(...)` performs type checks (patient vs. caretaker), ensures the appointment list is non-empty, and verifies the target index before any model mutation.
+- `DeleteAppointmentCommand` extends `AbstractDeleteCommand`. After validation it copies the patient’s appointment list, removes the target entry, and delegates to the model to persist the updated patient.
+
+#### Model updates and undo support
+- `ModelManager#addAppointment(...)` is the entry point for creation. It guards against non-`Patient` targets, rebuilds the authoritative `Appointment`, and prevents double booking by comparing date/time pairs. Successful additions call `Patient#addAppointment(...)`, which returns a new immutable patient with a sorted appointment list, before handing control to `setPerson(...)`.
+- Editing and deletion follow the same pattern by constructing new `Patient` instances with the edited or trimmed appointment lists. Because every mutation first invokes `VersionedAddressBook.update()`, undo/redo can revert or replay these operations without bespoke logic.
+- `Patient` encapsulates appointment storage. Its mutators (`addAppointment`, `editAppointment`) copy the underlying list, apply the change, and sort the result, ensuring consumers never observe partially updated state.
+
+#### Validation and error handling
+- `Appointment` performs definitive validation: it parses `dd-MM-yyyy` and `HH:mm` values to `LocalDateTime` and rejects past timestamps via `MESSAGE_PAST_APPOINTMENT`. Optional notes are wrapped in `Note`, inheriting the same length and character checks as patient notes.
+- Duplicate detection resides in the model layer rather than the parser so both CLI and future UI surfaces share the same safeguard. Attempts to schedule the same date/time for a patient trigger `MESSAGE_DUPLICATE_APPOINTMENT`.
+- Editing supports note removal by treating empty `p/n` inputs as `EditAppointmentDescriptor#clearNote()`. The descriptor tracks this through the `noteCleared` flag and `isAnyFieldEdited()` prevents no-op updates from reaching the model.
+
+#### Testing guidance
+- `AddAppointmentCommandTest`, `EditAppointmentCommandTest`, and `DeleteAppointmentCommandTest` cover the command flows, including duplicate detection, invalid indices, and success messaging.
+- Parser-focused coverage in `AddAppointmentCommandParserTest`, `EditAppointmentCommandParserTest`, and `DeleteAppointmentCommandParserTest` verifies prefix handling, optional note parsing, and error reporting for malformed indices.
+- `PatientTest` and `AppointmentTest` verify list immutability, chronological ordering, and validation logic so downstream commands can rely on the documented invariants.
+
+#### Design considerations
+**Aspect: Where to enforce appointment invariants**
+
+* **Alternative 1 (current choice):** Validate in the model layer (`Appointment`, `ModelManager`).
+   * Pros: Guarantees consistency for all entry points (CLI, potential GUI).
+   * Cons: Commands need to surface validation errors up to the UI.
+* **Alternative 2:** Validate in individual commands and parsers.
+   * Pros: Simpler error messaging per command.
+   * Cons: Tight coupling, duplicated checks, and increased risk when introducing new entry points.
+
+#### Additional diagrams
+
+<figure>
+   <img src="images/AppointmentLifecycleStateDiagram.png" alt="Appointment lifecycle state diagram" />
+   <figcaption>Figure 4: Appointment lifecycle across creation, edits, deletion, and undo/redo.</figcaption>
+</figure>
+
+<figure>
+   <img src="images/AppointmentWorkflowActivityDiagram.png" alt="Appointment workflow activity diagram" />
+   <figcaption>Figure 5: Shared activity flow for appointment commands.</figcaption>
+</figure>
+
+All PlantUML sources are located alongside other diagrams in `docs/diagrams/` for future edits.
+
 ### \[Proposed\] Data archiving
 
 _{Explain here how the data archiving feature will be implemented}_
