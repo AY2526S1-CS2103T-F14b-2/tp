@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.DeleteNoteCommand.MESSAGE_DELETE_NOTE_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
 
@@ -30,17 +31,19 @@ public class DeleteNoteCommandTest {
     public void execute_validPatientAndNoteIndex_success() {
         // Create a patient with notes and add to model
         Patient patientWithNotes = PatientBuilder.withMultipleNotes().build();
+        int noteIndex = 1;
 
         model.addPerson(patientWithNotes);
 
         // Get the index of the added patient
         Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
 
-        DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(patientIndex, 2); // Delete second note (1-based)
+        // Delete first note (1-based)
+        DeleteNoteCommand deleteNoteCommand = new DeleteNoteCommand(patientIndex, noteIndex);
 
-        Patient editedPatient = patientWithNotes.deleteNote(1); // 0-based internally
-        String expectedMessage = String.format(DeleteNoteCommand.MESSAGE_DELETE_NOTE_SUCCESS,
-                Messages.format(editedPatient));
+        Patient editedPatient = patientWithNotes.deleteNote(noteIndex - 1); // 0-based internally
+        String expectedMessage = String.format(MESSAGE_DELETE_NOTE_SUCCESS, Integer.toString(noteIndex),
+                Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithNotes, editedPatient);
