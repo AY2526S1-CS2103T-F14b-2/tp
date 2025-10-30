@@ -317,18 +317,6 @@ Step 4. The command formats feedback (`Appointment created: <formatted appointme
    * Pros: Simpler error messaging per command.
    * Cons: Tight coupling, duplicated checks, and increased risk when introducing new entry points.
 
-#### Additional diagrams
-
-<figure>
-   <img src="images/AppointmentLifecycleStateDiagram.png" alt="Appointment lifecycle state diagram" />
-   <figcaption>Figure 4: Appointment lifecycle across creation, edits, deletion, and undo/redo.</figcaption>
-</figure>
-
-<figure>
-   <img src="images/AppointmentWorkflowActivityDiagram.png" alt="Appointment workflow activity diagram" />
-   <figcaption>Figure 5: Shared activity flow for appointment commands.</figcaption>
-</figure>
-
 All PlantUML sources are located alongside other diagrams in `docs/diagrams/` for future edits.
 
 ### \[Proposed\] Data archiving
