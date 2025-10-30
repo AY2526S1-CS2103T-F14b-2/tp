@@ -172,4 +172,19 @@ public class EditCaretakerCommandParserTest {
         assertParseFailure(parser, userInput,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_ADDRESS));
     }
+
+    @Test
+    public void parse_addressBlankCopyFromPatient_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+
+        // " a/" with no value after the prefix
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_ADDRESS;
+
+        EditCaretakerDescriptor descriptor = new EditCaretakerDescriptor();
+        descriptor.markCopyAddressFromPatient();
+
+        EditCaretakerCommand expectedCommand = new EditCaretakerCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
 }
