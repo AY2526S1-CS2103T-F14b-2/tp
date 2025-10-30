@@ -135,14 +135,14 @@ The `Model` component
 
 The `Patient` class
 
-* `Patient` extends from `Person**`.
+* `Patient` extends from `Person`.
 * `Patient` would have additional fields `Note` and `Appointment`.
 * A `Patient` can have any number of `Note` and `Appointment`.
 * `Patient` can have 0 or 1 number of `Caretaker`.
 
 The `Caretaker` class
 * `Caretaker` extends from `Person`.
-* `Caretaker` must have 1 `Relationship`
+* `Caretaker` must have 1 `Relationship`.
 
 ### Storage component
 
