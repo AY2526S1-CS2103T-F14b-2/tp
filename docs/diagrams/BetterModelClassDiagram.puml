@@ -36,5 +36,8 @@ Patient *--> "0..1" Caretaker
 
 Caretaker *--> "1" Relationship
 
+class VersionedAddressBook {
+}
+VersionedAddressBook *-right-> "1" AddressBook
 
 @enduml
