@@ -596,10 +596,7 @@ caretaker 3 n/Alice Tan p/81234567 r/Home Nurse
     - In Command Feedback Box: <br>"Caretaker created: [Caretaker details]<br>For [Name]; Phone: [Phone]"
 
 - Failure:
-    - "The patient index provided is invalid. There are X patient(s)."
-    - "The person index provided is not a patient"
-    - "Patient already has a caretaker." (includes a short summary of the existing caretaker)
-    - "This caretaker already exists as a patient in the address book."
+    - Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Omit the caretaker's address if the caretaker has the same address as their patient! MediSaveContact will copy the address for you.
@@ -665,11 +662,7 @@ editcaretaker 2 n/Jane Ong r/Sister
     - In Command Feedback Box: <br>"Caretaker edited: [Updated caretaker details]<br>For [Name]; Phone: [Phone]"
 
 - Failure:
-    - "The patient index provided is invalid. There are X patient(s)."
-    - "The person at index X is not a patient. Edit can only be done on Patients."
-    - "The patient at index X does not have a caretaker. Edit can only be done on patients with a caretaker."
-    - "At least one field to edit must be provided."
-    - "This caretaker already exists as a patient in the address book."
+    - Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 You can edit multiple caretaker fields in one command—just include each updated prefix once (e.g. `editcaretaker 1 n/Jane Tan p/94556677`).
@@ -714,8 +707,7 @@ deletecaretaker 2
     - In Command Feedback Box: <br>"Caretaker deleted.<br>For [Name]; Phone: [Phone]"
 
 - Failure:
-    - "The patient index provided is invalid. There are X patient(s)."
-    - "Specified patient has no caretaker!"
+    - Error messages above
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:**
 If you delete a caretaker by mistake, use the `undo` command immediately to restore the previous state.
@@ -1009,7 +1001,7 @@ MediSaveContact data are saved in the hard disk automatically after any command 
 
 ### Editing the data file
 
-MediSaveContact data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+MediSaveContact data are saved automatically as a JSON file `[JAR file location]/data/medisavecontact.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, MediSaveContact will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
