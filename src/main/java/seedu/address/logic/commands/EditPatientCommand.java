@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 ";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Patient: %1$s";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Patient Edited: %s%n%s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "edit can only be done on Patients.";
@@ -130,7 +131,33 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
 
     @Override
     protected String formatSuccessMessage(Patient editedPatient) {
-        return String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPatient));
+        String details = formatEditedFields(editDescriptor);
+        return String.format(MESSAGE_EDIT_PERSON_SUCCESS, details, Messages.shortFormat(editedPatient));
+    }
+
+    /**
+     * Builds a human-readable summary of the fields supplied in an {@link EditPersonDescriptor}.
+     * <p>
+     * The output includes only values that are present in the descriptor (i.e., fields the user
+     * provided during edit). It does <b>not</b> compare against the original patient to check if
+     * the value actually changed.
+     * </p>
+     * @param d the edit descriptor containing any user-supplied fields
+     * @return a formatted string describing only the supplied fields, or {@code "no fields edited"}
+     *         if none were provided
+     */
+    public static String formatEditedFields(EditPersonDescriptor d) {
+        List<String> parts = new ArrayList<>();
+
+        d.getName().ifPresent(n -> parts.add(" New Name: " + n));
+        d.getPhone().ifPresent(p -> parts.add(" New Phone: " + p));
+        d.getAddress().ifPresent(a -> parts.add(" New Address: " + a));
+
+        if (d instanceof EditPatientDescriptor epd && epd.isTagEdited()) {
+            parts.add(" New Tag: " + epd.getTag().map(t -> t.toString()).orElse("(removed)"));
+        }
+
+        return parts.isEmpty() ? "no fields edited" : String.join(", ", parts);
     }
 
     @Override

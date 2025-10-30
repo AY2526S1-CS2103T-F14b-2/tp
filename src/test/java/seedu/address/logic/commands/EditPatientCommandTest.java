@@ -12,6 +12,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS;
+import static seedu.address.logic.commands.EditPatientCommand.formatEditedFields;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
@@ -30,6 +32,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPatientDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PatientBuilder;
@@ -64,8 +67,9 @@ public class EditPatientCommandTest {
                 .withAddress(VALID_ADDRESS_AMY)
                 .build();
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPatient));
+        String details = formatEditedFields(descriptor);
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, details,
+                Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(firstPatient, editedPatient);
@@ -80,18 +84,19 @@ public class EditPatientCommandTest {
 
         Patient lastPatient = (Patient) lastPerson;
         PatientBuilder patientInList = new PatientBuilder(lastPatient);
-        Person editedPerson = patientInList.withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+        Patient editedPatient = patientInList.withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                                             .build();
 
         EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).build();
         EditPatientCommand editPatientCommand = new EditPatientCommand(indexLastPerson, descriptor);
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPerson));
+        String details = formatEditedFields(descriptor);
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, details,
+                Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(lastPerson, editedPerson);
+        expectedModel.setPerson(lastPerson, editedPatient);
 
         assertCommandSuccess(editPatientCommand, model, expectedMessage, expectedModel);
     }
@@ -117,11 +122,13 @@ public class EditPatientCommandTest {
 
         Patient patientInFilteredList = (Patient) personInFilteredList;
         Patient editedPatient = new PatientBuilder(patientInFilteredList).withName(VALID_NAME_BOB).build();
+        EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditPatientCommand editPatientCommand = new EditPatientCommand(INDEX_FIRST_PERSON,
-                new EditPatientDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                descriptor);
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPatient));
+        String details = formatEditedFields(descriptor);
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, details,
+                Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPatient);
@@ -241,8 +248,9 @@ public class EditPatientCommandTest {
                 .withTag("high")
                 .build();
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPatient));
+        String details = formatEditedFields(descriptor);
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, details,
+                Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(firstPatient, editedPatient);
@@ -271,8 +279,9 @@ public class EditPatientCommandTest {
                 firstPatient.getAppointment(),
                 firstPatient.getCaretaker());
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPatient));
+        String details = formatEditedFields(descriptor);
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, details,
+                Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(firstPatient, editedPatient);
@@ -436,6 +445,120 @@ public class EditPatientCommandTest {
         String result = descriptor.toString();
         assertTrue(result.contains("name"));
         assertTrue(result.contains("tag"));
+    }
+
+    // formatEditedFields method
+    @Test
+    public void formatEditedFieldsNoneEdited_returnsNoFieldsEdited() {
+        EditPersonDescriptor d = new EditPersonDescriptor();
+        String result = TestHook.formatEditedFields(d);
+        assertEquals("no fields edited", result);
+    }
+
+    @Test
+    public void formatEditedFields_nameOnly() {
+        EditPatientDescriptor d = new EditPatientDescriptorBuilder()
+                .withName(VALID_NAME_AMY)
+                .build();
+
+        String result = TestHook.formatEditedFields(d);
+        // Note: function intentionally prefixes a leading space before each label
+        assertEquals(" New Name: " + VALID_NAME_AMY, result);
+    }
+
+    @Test
+    public void formatEditedFields_phoneOnly() {
+        EditPatientDescriptor d = new EditPatientDescriptorBuilder()
+                .withPhone(VALID_PHONE_AMY)
+                        .build();
+
+        String result = TestHook.formatEditedFields(d);
+        assertEquals(" New Phone: " + VALID_PHONE_AMY, result);
+    }
+
+    @Test
+    public void formatEditedFields_addressOnly() {
+        EditPatientDescriptor d = new EditPatientDescriptorBuilder()
+                .withAddress(VALID_ADDRESS_AMY)
+                .build();
+
+        String result = TestHook.formatEditedFields(d);
+        assertEquals(" New Address: " + VALID_ADDRESS_AMY, result);
+    }
+
+    @Test
+    public void formatEditedFields_multipleFields_orderIsNamePhoneAddress() {
+        EditPatientDescriptor d = new EditPatientDescriptorBuilder()
+                .withName(VALID_NAME_AMY)
+                .withPhone(VALID_PHONE_AMY)
+                .withAddress(VALID_ADDRESS_AMY)
+                .build();
+
+        String result = TestHook.formatEditedFields(d);
+        assertEquals(" New Name: " + VALID_NAME_AMY
+                        + ",  New Phone: " + VALID_PHONE_AMY
+                        + ",  New Address: " + VALID_ADDRESS_AMY,
+                result);
+    }
+
+    @Test
+    public void formatEditedFields_tagEditedIncluded() {
+        EditPatientDescriptor d = new EditPatientDescriptor();
+        d.setTag(new Tag("HIGH"));
+        d.setTagEdited(); // must be set to include tag
+
+        String result = TestHook.formatEditedFields(d);
+        assertEquals(" New Tag: HIGH", result);
+    }
+
+    @Test
+    public void formatEditedFields_tagProvidedButNotMarkedEditedExcluded() {
+        EditPatientDescriptor d = new EditPatientDescriptor();
+        d.setTag(new Tag("HIGH"));
+        // not calling setTagEdited()
+
+        String result = TestHook.formatEditedFields(d);
+        assertEquals("no fields edited", result);
+    }
+
+    @Test
+    public void formatEditedFields_tagRemovedShowsRemoved() {
+        EditPatientDescriptor d = new EditPatientDescriptor();
+        // tag intentionally left null
+        d.setTagEdited(); // indicates user edited tag and cleared it
+
+        String result = TestHook.formatEditedFields(d);
+        assertEquals(" New Tag: (removed)", result);
+    }
+
+    @Test
+    public void formatEditedFields_mixPatientFields_includesTagLast() {
+        EditPatientDescriptor d = new EditPatientDescriptorBuilder()
+                .withName(VALID_NAME_AMY)
+                .withPhone(VALID_PHONE_AMY)
+                .build();
+        d.setTag(new Tag("HIGH"));
+        d.setTagEdited();
+
+        String result = TestHook.formatEditedFields(d);
+        assertEquals(" New Name: " + VALID_NAME_AMY
+                        + ",  New Phone: " + VALID_PHONE_AMY
+                        + ",  New Tag: HIGH",
+                result);
+    }
+
+    /**
+     * Small hook so tests can call the static without exposing it publicly on the command.
+     * Replace with a direct call to EditPatientCommand.formatEditedFields if it is public.
+     */
+    private static final class TestHook extends EditPatientCommand {
+        private TestHook() {
+            super(null, (EditPersonDescriptor) null);
+        }
+
+        public static String formatEditedFields(EditPersonDescriptor d) {
+            return EditPatientCommand.formatEditedFields(d);
+        }
     }
 
 }
