@@ -135,14 +135,14 @@ The `Model` component
 
 The `Patient` class
 
-* `Patient` extends from `Person**`.
+* `Patient` extends from `Person`.
 * `Patient` would have additional fields `Note` and `Appointment`.
 * A `Patient` can have any number of `Note` and `Appointment`.
 * `Patient` can have 0 or 1 number of `Caretaker`.
 
 The `Caretaker` class
 * `Caretaker` extends from `Person`.
-* `Caretaker` must have 1 `Relationship`
+* `Caretaker` must have 1 `Relationship`.
 
 ### Storage component
 
@@ -165,89 +165,104 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### Undo feature
 
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo mechanism is facilitated by `VersionedAddressBook`. It wraps `AddressBook` with an undo history, stored internally as an internal stack of past states `historyLog`
+and a pointer to the current state `current`. It provides the following operations:
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+* `VersionedAddressBook#update()` —  Saves the current address book state into the history as a new snapshot.
+* `VersionedAddressBook#hasHistory()` —  Returns `true` if there is at least one previous snapshot of `AddressBook` to restore.
+* `VersionedAddressBook#undo()` —  Restores the address book to a previous address book state from history
+* `VersionedAddressBook#getAddressBook()` - Exposes live `AddressBook` instance that the UI is connected to
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+These operations are exposed in the `Model` interface
+* Model operations that changes its content (e.g `addPerson`, `deletePerson`, `setPerson`, `clear`, `sortPersons`, etc.) calls `VersionedAddressBook#update()`
+  to create a snapshot before applying the change
+* Model#canUndo() calls `VersionedAddressBook#hasHistory()`
+* Model#undo() calls `VersionedAddressBook#undo()` and passes the new filtered list to the UI `PREDICATE_SHOW_ALL_PERSONS` to refresh the UI list to show the
+  list of patients in the latest snapshot of `AddressBook`
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+#### When we snapshot
+Only mutating operations lead to snapshots. The `ModelManager` methods that mutate the book call `update()`, then pperform the change
+* Mutating examples which captures snapshot: `add`, `delete`, `edit`, `clear`, `addappt`, `note`
+* Non-mutating examples that does not capture snapshot: `list`, `find`, `help`, `sortappt`
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
 
-![UndoRedoState0](images/UndoRedoState0.png)
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+#### Example Usage and Behaviour
+Step 1: **Initial Launch**
+`VersionedAddressBook` will have the initial `AddressBook` state as its `current` property (i.e `current` points to
+the newly initialised `AddressBook`
 
-![UndoRedoState1](images/UndoRedoState1.png)
+Step 2: **User executes**
+```
+deletepatient 5
+```
 
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Inside `ModeManager.deletePerson()`:
+1. `update()` snapshots the **pre-delete** state.
+2. Deletes the 5th patient
+3. Filtered list refreshes
 
-![UndoRedoState2](images/UndoRedoState2.png)
+Step 3: **User executes**
+```
+patient n/David p/98765432 a/Blk 312 tag/high
+```
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+Inside `ModelManager.addPerson()`:
+1. `update()` snapshots the **pre-add** state/
+2. Adds the new patient.
+3. Filtered list refreshes
 
-</div>
+New `AddressBook` snapshot is pushed to `historyLog`
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4: **User executes**
+```undo```
+1. `UndoCommand` checks `canUndo()`
+2. `model.undo()` -> moves `current` pointer left by one, restores snapshot
+   with `resetData(...)`
+3. `updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)` clears any active filters, so full person UI is displayed
 
-![UndoRedoState3](images/UndoRedoState3.png)
+New `AddressBook` snapshot is pushed to `historyLog`
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
 
-</div>
+Step 5: **User executes**
+```list```
+```historyLog``` and ```current``` pointer unchanged. List continues to show all patients.
 
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
+Step 6: **Behaviour summary**
+* Mutating commands (`patient`, `deletepatient`, `edit`, `clear`, `appt`,
+  `note`, `sort`) snapshot before changing data
+* Undo reverts one step, restore state of latest snapshot captured in `historyLog`, and show all patients
+* Non-mutating commands (`list`, `find`, `help`) does not affect content of historyLog.
 
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Logic.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-</div>
-
-Similarly, how an undo operation goes through the `Model` component is shown below:
-
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
-
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-</div>
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
-
-![UndoRedoState4](images/UndoRedoState4.png)
-
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
-
-![UndoRedoState5](images/UndoRedoState5.png)
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-<img src="images/CommitActivityDiagram.png" width="250" />
 
 #### Design considerations:
 
-**Aspect: How undo & redo executes:**
+**Aspect: How undo executes:**
 
-* **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
+* **Alternative 1 (current choice):** Whole-book snapshots in the model
+    * Pros:
+        * Consistent design, snapshot timing centralized in `ModelManager`
+        * Minimal coupling between commands and undo logic;
+        * Easier to test
+    * Cons:
+        * For sessions with large history of commands, can be more memory-intensive
 
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
+* **Alternative 2:** Command-specific inverse operations
+    * Pros:
+        * Lower memory (eg: deleted `Patient` for `deletepatient`), potentially faster performance sessions with large history of commands.
+    * Cons:
+        * Harder to implement, every mutating command require precise inverse behaviour upon redo
+        * Greater risk of encountering bugs across commands
+        * Harder to evolve as number of commands increase
 
-_{more aspects and alternatives to be added}_
+Why we chose Alternative 1:
+* It keeps our codebase easy to maintain as we add more mutating command. Every reversal follows a history log with minimal guesswork
+  and edge cases, strengthening clarity and maintainability of system. We can introduce target optimisations, if memory scale becomes a concern later on
+
 
 ### Appointment feature
 
