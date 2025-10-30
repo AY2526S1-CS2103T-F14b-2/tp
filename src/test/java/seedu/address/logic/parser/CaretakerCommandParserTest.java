@@ -8,6 +8,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_RELATIONSHIP;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -18,6 +20,7 @@ import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Relationship;
+
 
 public class CaretakerCommandParserTest {
 
@@ -50,7 +53,9 @@ public class CaretakerCommandParserTest {
 
         String userInput = "1" + NAME_DESC + PHONE_DESC + ADDRESS_DESC + RELATIONSHIP_DESC;
 
-        assertParseSuccess(parser, userInput, new CaretakerCommand(targetIndex, expectedCaretaker));
+        assertParseSuccess(parser, userInput, new CaretakerCommand(targetIndex, expectedCaretaker.getName(),
+                expectedCaretaker.getPhone(), expectedCaretaker.getRelationship(),
+                Optional.of(expectedCaretaker.getAddress())));
     }
 
     @Test
@@ -114,17 +119,37 @@ public class CaretakerCommandParserTest {
     @Test
     public void parse_missingAddress_success() {
         Index targetIndex = Index.fromOneBased(1);
-        Caretaker expectedCaretaker = new Caretaker(
-                new Name(VALID_NAME),
-                new Phone(VALID_PHONE),
-                null, // address omitted
-                new Relationship(VALID_RELATIONSHIP)
-        );
 
         String userInput = "1" + NAME_DESC + PHONE_DESC + RELATIONSHIP_DESC;
 
-        assertParseSuccess(parser, userInput, new CaretakerCommand(targetIndex, expectedCaretaker));
+        CaretakerCommand expected =
+                new CaretakerCommand(
+                        targetIndex,
+                        new Name(VALID_NAME),
+                        new Phone(VALID_PHONE),
+                        new Relationship(VALID_RELATIONSHIP),
+                        Optional.empty() // address omitted
+                );
+
+        assertParseSuccess(parser, userInput, expected);
     }
 
+    @Test
+    public void parse_withAddress_success() {
+        Index targetIndex = Index.fromOneBased(1);
+
+        String userInput = "1" + NAME_DESC + PHONE_DESC + ADDRESS_DESC + RELATIONSHIP_DESC;
+
+        CaretakerCommand expected =
+                new CaretakerCommand(
+                        targetIndex,
+                        new Name(VALID_NAME),
+                        new Phone(VALID_PHONE),
+                        new Relationship(VALID_RELATIONSHIP),
+                        Optional.of(new Address(VALID_ADDRESS))
+                );
+
+        assertParseSuccess(parser, userInput, expected);
+    }
 
 }

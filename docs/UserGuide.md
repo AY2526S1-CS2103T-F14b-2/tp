@@ -514,7 +514,7 @@ editcaretaker 2 n/Jane Ong r/Sister
     - Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-You can edit multiple caretaker fields in one command—just include each updated prefix once (e.g. `editcaretaker 1 n/Jane Tan p/94556677`).
+You can change a caretaker's address to be the same as their patient's by typing `a/` without specifying any address after it.
 </div>
 
 

@@ -142,19 +142,4 @@ public class CaretakerTest {
         assertTrue(tagOpt.isEmpty());
     }
 
-    @Test
-    public void constructor_nullAddress_allowedIfHandledGracefully() {
-        Name name = new Name("Jane Doe");
-        Phone phone = new Phone("98765432");
-        Relationship relationship = new Relationship("Mother");
-
-        // Expect no exception if your Caretaker constructor allows null address
-        Caretaker caretaker = new Caretaker(name, phone, null, relationship);
-
-        assertEquals(name, caretaker.getName());
-        assertEquals(phone, caretaker.getPhone());
-        assertEquals(relationship, caretaker.getRelationship());
-        assertEquals(null, caretaker.getAddress());
-    }
-
 }

@@ -10,11 +10,13 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Appointment;
+import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Relationship;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -27,7 +29,12 @@ public class SampleDataUtil {
                 new Address("Blk 30 Geylang Street 29, #06-40"),
                 new Tag("low"),
                 List.of(new Note("Peanut allergy")),
-                List.of(new Appointment("12-11-2025", "09:00"))),
+                List.of(new Appointment("12-11-2025", "09:00")),
+                    new Caretaker(
+                            new Name("Barley"),
+                            new Phone("93201842"),
+                            new Address("Lorong Chuan 36, #10-21"),
+                            new Relationship("Brother"))),
             new Patient(new Name("Bernice Yu"), new Phone("99272758"),
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
                 new Tag("medium"),
@@ -38,7 +45,12 @@ public class SampleDataUtil {
                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
                 new Tag("low"),
                 List.of(new Note("Asthma (persistent)")),
-                Collections.emptyList()),
+                Collections.emptyList(),
+                    new Caretaker(
+                            new Name("Charles"),
+                            new Phone("93821910"),
+                            new Address("Ang Mo Kio Ave 5, Block 120 #11-12"),
+                            new Relationship("Father"))),
             new Patient(new Name("David Li"), new Phone("91031282"),
                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
                 new Tag("medium"),

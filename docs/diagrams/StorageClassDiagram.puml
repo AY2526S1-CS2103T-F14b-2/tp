@@ -1,5 +1,10 @@
 @startuml
 !include style.puml
+
+' show +/-/# instead of icons
+skinparam classAttributeIconSize 0
+skinparam classMethodIconSize 0   ' (optional, if you also want methods)
+
 skinparam arrowThickness 1.1
 skinparam arrowColor STORAGE_COLOR
 skinparam classBackgroundColor STORAGE_COLOR
@@ -7,31 +12,31 @@ skinparam classBackgroundColor STORAGE_COLOR
 package Storage as StoragePackage {
 
 package "UserPrefs Storage" #F4F6F6{
-Class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
-Class JsonUserPrefsStorage
+class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
+class JsonUserPrefsStorage
 }
 
-Class "<<interface>>\nStorage" as Storage
-Class StorageManager
+class "<<interface>>\nStorage" as Storage
+class StorageManager
 
 package "AddressBook Storage" #F4F6F6{
-Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
-Class JsonAddressBookStorage
-Class JsonSerializableAddressBook
-Class JsonAdaptedPerson
-Class JsonAdaptedPatient {
+class "<<interface>>\nAddressBookStorage" as AddressBookStorage
+class JsonAddressBookStorage
+class JsonSerializableAddressBook
+class JsonAdaptedPerson
+class JsonAdaptedPatient {
   - List<String> notes
   - List<List<String>> appointments
 }
-Class JsonAdaptedCaretaker
-Class JsonAdaptedTag
+class JsonAdaptedCaretaker
+class JsonAdaptedTag
 }
 
 }
 
 show JsonAdaptedPatient fields
 
-Class HiddenOutside #FFFFFF
+class HiddenOutside #FFFFFF
 HiddenOutside ..> Storage
 
 StorageManager .up.|> Storage

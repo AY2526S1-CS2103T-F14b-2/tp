@@ -20,7 +20,7 @@ public class DeletePatientCommand extends AbstractDeleteCommand<Patient> {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PATIENT_SUCCESS = "Deleted Patient: %1$s";
+    public static final String MESSAGE_DELETE_PATIENT_SUCCESS = "Patient %s deleted.";
 
     public DeletePatientCommand(Index targetIndex) {
         super(targetIndex);
@@ -42,7 +42,7 @@ public class DeletePatientCommand extends AbstractDeleteCommand<Patient> {
 
     @Override
     protected String formatSuccessMessage(Patient deletedPatient) {
-        return String.format(MESSAGE_DELETE_PATIENT_SUCCESS, Messages.format(deletedPatient));
+        return String.format(MESSAGE_DELETE_PATIENT_SUCCESS, Messages.shortFormatWithNoFor(deletedPatient));
     }
 
     @Override

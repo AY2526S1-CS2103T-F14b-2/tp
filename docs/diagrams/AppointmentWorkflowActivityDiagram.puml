@@ -1,0 +1,30 @@
+@startuml AppointmentWorkflowActivity
+!include style.puml
+skinparam ArrowFontStyle plain
+
+start
+:User enters appointment-related command;
+if (Command word?) then (appt)
+  :Parse index/date/time/note;
+  :Construct appointment instance;
+  :Invoke ModelManager.addAppointment();
+elseif (editappt)
+  :Parse patient/appmt indices and optional fields;
+  :Build EditAppointmentDescriptor;
+  :Create updated Appointment;
+  :Replace target in Patient via ModelManager.setPerson();
+else (deleteappt)
+  :Parse patient and appointment indices;
+  :Remove appointment from copied list;
+  :Persist updated Patient with ModelManager.setPerson();
+endif
+:VersionedAddressBook.update();
+if (Model detects duplicates or past date?) then (yes)
+  :Throw CommandException with validation message;
+  stop
+else (no)
+  :Format success message (Messages.shortFormat);
+endif
+:Return CommandResult to UI;
+stop
+@enduml
