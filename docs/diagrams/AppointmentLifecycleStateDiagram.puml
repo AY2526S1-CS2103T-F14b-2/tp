@@ -1,0 +1,16 @@
+@startuml AppointmentLifecycleState
+!include style.puml
+skinparam ArrowFontStyle plain
+
+[*] --> "User Input"
+"User Input" --> "Validated" : ParserUtil + Appointment constructor
+"Validated" --> "Persisted" : ModelManager#setPerson()
+"Persisted" --> "Updated" : editappt
+"Updated" --> "Persisted" : Appointment replaced
+"Persisted" --> "Removed" : deleteappt
+"Removed" --> [*]
+"Persisted" --> "Snapshot Stored" : VersionedAddressBook.update()
+"Snapshot Stored" --> "Persisted" : redo
+"Snapshot Stored" --> "Restored" : undo
+"Restored" --> "Persisted"
+@enduml
