@@ -20,7 +20,7 @@ public class DeletePatientCommand extends AbstractDeleteCommand<Patient> {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PATIENT_SUCCESS = "Patient %s deleted";
+    public static final String MESSAGE_DELETE_PATIENT_SUCCESS = "Patient %s deleted.";
 
     public DeletePatientCommand(Index targetIndex) {
         super(targetIndex);
