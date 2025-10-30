@@ -276,7 +276,7 @@ Each command operates on the currently displayed list, reuses `Command#ensureVal
 </div>
 
 #### Example usage scenario
-Step 1. The user runs `appt 3 d/31-12-2099 t/13:00 p/Year-end review`. `AddressBookParser` dispatches the command to `AddAppointmentCommandParser`, which validates the prefixes, parses the index, and builds the domain values (`Index`, `String` date/time, optional `Note`).
+Step 1. The user runs `appt 3 d/31-12-2025 t/13:00 p/Year-end review`. `AddressBookParser` dispatches the command to `AddAppointmentCommandParser`, which validates the prefixes, parses the index, and builds the domain values (`Index`, `String` date/time, optional `Note`).
 
 Step 2. `AddAppointmentCommand#execute(...)` retrieves patient 3 from the filtered list, instantiates a new `Appointment`, and delegates to `ModelManager#addAppointment(...)`.
 
