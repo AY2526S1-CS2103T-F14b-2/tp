@@ -314,96 +314,237 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `MediSaveContact` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `MediSaveContact` and the **Actor** is the nurse user unless specified otherwise.)
 
-**Use case 1: Delete a person**
+---
 
-**MSS**
+**Use case: UC01 – Add a patient**
 
-1.  User requests to list persons
-2.  MediSaveContact shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  MediSaveContact deletes the person
+**Actor:** Nurse
+
+**Preconditions:** MediSaveContact is running and the nurse has the new patient’s name, phone number, address and optional priority tag.
+
+**Guarantees:** A new patient record is stored and displayed in the patient list.
+
+**Main success scenario (MSS):**
+
+1. Nurse enters `patient n/NAME p/PHONE a/ADDRESS [tag/TAG]`.
+2. MediSaveContact validates every field.
+3. MediSaveContact adds the patient, refreshes the patient list and shows a confirmation message.
 
     Use case ends.
 
-**Extensions**
+**Extensions:**
 
-* 2a. The list is empty.
+* 1a. The nurse omits a mandatory prefix (e.g. `n/`).
 
-  Use case ends.
+      * 1a1. MediSaveContact displays the command usage message.
 
-* 3a. The given index is invalid.
+         Use case ends.
 
-    * 3a1. MediSaveContact shows an error message.
+* 2a. The phone number contains non-digits or has an invalid length.
 
-      Use case resumes at step 2.
+      * 2a1. MediSaveContact rejects the command and highlights the phone constraint.
 
-**Use case 2: Add an appointment to a patient**
+         Use case ends.
 
-**MSS**
+* 2b. An existing patient has the same name and phone number.
 
-1. User requests to list persons
-2. MediSaveContact shows a list of persons
-3. User requests to update a specific person's appointment
-4. MediSaveContact updates the information
+      * 2b1. MediSaveContact shows “This patient already exists in MediSaveContact.”
 
-   Use case ends.
+         Use case ends.
 
-**Extensions**
+* 3a. Saving to `data/addressbook.json` fails (e.g. disk is read-only).
 
-* 2a. The list is empty.
+      * 3a1. MediSaveContact informs the nurse that the data could not be saved and reverts the addition.
 
-  Use case ends.
+         Use case ends.
 
-* 3a. The given index is invalid.
+---
 
-    * 3a1. MediSaveContact shows an error message.
+**Use case: UC02 – Assign a caretaker to a patient**
 
-      Use case resumes at step 2.
+**Actor:** Nurse
 
-* 3b. The given date is invalid.
+**Preconditions:** The target patient exists and currently has no caretaker linked.
 
-    * 3b1. MediSaveContact shows an error message.
+**Guarantees:** The patient record is updated with the caretaker details.
 
-      Use case resumes at step 2.
+**Main success scenario (MSS):**
 
-**Use case 3: Add a medical note to a patient**
+1. Nurse lists patients (optional) and identifies the desired index.
+2. Nurse enters `caretaker INDEX n/NAME p/PHONE a/ADDRESS r/RELATIONSHIP`.
+3. MediSaveContact links the caretaker to the patient, preserves the patient’s other data and shows a success message.
 
-**MSS**
+    Use case ends.
 
-1. User requests to list persons
-2. MediSaveContact shows a list of persons
-3. User requests to update a specific person's medical note
-4. MediSaveContact updates the information
+**Extensions:**
 
-   Use case ends.
+* 1a. The patient list is empty.
 
-**Extensions**
+      Use case ends.
 
-* 2a. The list is empty.
+* 2a. `INDEX` is out of bounds of the displayed patient list.
 
-  Use case ends.
+      * 2a1. MediSaveContact shows “The patient index provided is invalid …”.
 
-* 3a. The given index is invalid.
+         Use case resumes at step 1.
 
-    * 3a1. MediSaveContact shows an error message.
+* 2b. The person at `INDEX` is not a patient (e.g. already a caretaker entry).
 
-      Use case resumes at step 2.
+      * 2b1. MediSaveContact shows “The person index provided is not a patient”.
 
-* 3b. The given note is empty.
+         Use case resumes at step 1.
 
-    * 3b1. MediSaveContact shows an error message.
+* 2c. The patient already has a caretaker.
 
-      Use case resumes at step 2.
+      * 2c1. MediSaveContact explains that the patient already has a caretaker and aborts the command.
 
-* 3c. The given note is too long.
+         Use case ends.
 
-    * 3c1. MediSaveContact shows an error message.
+* 2d. The caretaker details match an existing patient record.
 
-      Use case resumes at step 2.
+      * 2d1. MediSaveContact warns that the caretaker already exists as a patient and rejects the command.
 
-*{More to be added}*
+         Use case ends.
+
+---
+
+**Use case: UC03 – Schedule an appointment for a patient**
+
+**Actor:** Nurse
+
+**Preconditions:** The patient exists. The proposed appointment slot is not duplicated for the patient.
+
+**Guarantees:** The appointment is appended to the patient’s appointment list.
+
+**Main success scenario (MSS):**
+
+1. Nurse enters `appt INDEX d/DATE t/TIME [note/DESCRIPTION]`.
+2. MediSaveContact validates the index, date, time and optional note.
+3. MediSaveContact adds the appointment and shows the scheduled slot.
+
+    Use case ends.
+
+**Extensions:**
+
+* 1a. `INDEX` is invalid.
+
+      * 1a1. MediSaveContact shows “The patient index provided is invalid …”.
+
+         Use case resumes at step 1 with a new index.
+
+* 1b. The target person is not a patient.
+
+      * 1b1. MediSaveContact displays “The person index provided is not a patient”.
+
+         Use case resumes at step 1.
+
+* 2a. The date or time format is invalid or represents a past slot.
+
+      * 2a1. MediSaveContact explains the constraint violation.
+
+         Use case resumes at step 1.
+
+* 2b. The patient already has an appointment at the same date and time.
+
+      * 2b1. MediSaveContact shows “This appointment already exists in the address book”.
+
+         Use case ends.
+
+---
+
+**Use case: UC04 – Record a medical note for a patient**
+
+**Actor:** Nurse
+
+**Preconditions:** The patient exists and the nurse has the observation to log.
+
+**Guarantees:** The note is appended to the patient’s note list.
+
+**Main success scenario (MSS):**
+
+1. Nurse enters `note INDEX note/CONTENT`.
+2. MediSaveContact validates that the content is non-empty and within 200 characters.
+3. MediSaveContact adds the note, shows the confirmation and displays the updated patient summary.
+
+    Use case ends.
+
+**Extensions:**
+
+* 1a. `INDEX` is invalid.
+
+      * 1a1. MediSaveContact reports the invalid patient index.
+
+         Use case resumes at step 1.
+
+* 1b. The target entry is not a patient.
+
+      * 1b1. MediSaveContact shows “The person index provided is not a patient”.
+
+         Use case resumes at step 1.
+
+* 2a. The note is empty or consists only of whitespace.
+
+      * 2a1. MediSaveContact shows the note constraint message and rejects the command.
+
+         Use case ends.
+
+* 2b. The note exceeds 200 characters.
+
+      * 2b1. MediSaveContact shows “Note exceeds maximum length of 200 characters.”
+
+         Use case ends.
+
+---
+
+**Use case: UC05 – Update caretaker details**
+
+**Actor:** Nurse
+
+**Preconditions:** The patient already has a caretaker linked.
+
+**Guarantees:** The caretaker information is updated with the provided fields.
+
+**Main success scenario (MSS):**
+
+1. Nurse enters `editcaretaker INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [r/RELATIONSHIP]`.
+2. MediSaveContact verifies the index, checks that a caretaker exists and confirms that at least one field is provided.
+3. MediSaveContact updates the caretaker information and displays a success message with the new details.
+
+    Use case ends.
+
+**Extensions:**
+
+* 1a. `INDEX` is invalid.
+
+      * 1a1. MediSaveContact indicates the invalid index.
+
+         Use case resumes at step 1.
+
+* 1b. The target entry is not a patient.
+
+      * 1b1. MediSaveContact reports that only patients can have caretakers edited.
+
+         Use case resumes at step 1.
+
+* 1c. The patient has no caretaker yet.
+
+      * 1c1. MediSaveContact informs the nurse that there is no caretaker to edit and aborts.
+
+         Use case ends.
+
+* 2a. No fields are supplied after the index.
+
+      * 2a1. MediSaveContact shows “At least one field to edit must be provided.”
+
+         Use case resumes at step 1.
+
+* 2b. The edited details match an existing patient (name + phone).
+
+      * 2b1. MediSaveContact warns that the caretaker already exists as a patient and rejects the command.
+
+         Use case ends.
 
 ### Non-Functional Requirements
 ### Business
