@@ -1,8 +1,6 @@
 package seedu.address.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.shortFormat;
 import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_CARETAKER_ALREADY_EXISTS;
@@ -29,6 +27,8 @@ import seedu.address.model.person.Relationship;
 import seedu.address.testutil.CaretakerBuilder;
 import seedu.address.testutil.PatientBuilder;
 
+import java.util.Optional;
+
 /**
  * Contains integration tests (interaction with the Model) and unit tests for {@code CaretakerCommand}.
  */
@@ -48,7 +48,8 @@ public class CaretakerCommandTest {
 
         model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
 
-        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
+        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker.getName(),
+                caretaker.getPhone(), caretaker.getRelationship(), Optional.of(caretaker.getAddress()));
 
         Patient updatedPatient = patient.addCaretaker(caretaker);
         String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS, Messages.format(caretaker),
@@ -70,7 +71,8 @@ public class CaretakerCommandTest {
 
         model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
 
-        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
+        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker.getName(),
+                caretaker.getPhone(), caretaker.getRelationship(), Optional.of(caretaker.getAddress()));
 
         assertThrows(CommandException.class,
                 String.format(MESSAGE_PATIENT_HAS_CARETAKER,
@@ -86,7 +88,8 @@ public class CaretakerCommandTest {
         model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient1);
         model.setPerson(model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased()), patient2);
 
-        CaretakerCommand command = new CaretakerCommand(INDEX_SECOND_PERSON, caretaker);
+        CaretakerCommand command = new CaretakerCommand(INDEX_SECOND_PERSON, caretaker.getName(),
+                caretaker.getPhone(), caretaker.getRelationship(), Optional.of(caretaker.getAddress()));
 
         assertThrows(CommandException.class,
                 String.format(MESSAGE_CARETAKER_ALREADY_EXISTS), () -> command.execute(model));
@@ -96,7 +99,8 @@ public class CaretakerCommandTest {
     public void execute_invalidIndex_throwsCommandException() {
         Caretaker caretaker = new CaretakerBuilder().build();
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        CaretakerCommand command = new CaretakerCommand(outOfBoundIndex, caretaker);
+        CaretakerCommand command = new CaretakerCommand(outOfBoundIndex, caretaker.getName(),
+                caretaker.getPhone(), caretaker.getRelationship(), Optional.of(caretaker.getAddress()));
 
         assertThrows(CommandException.class,
             String.format(MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()), ()
@@ -110,7 +114,8 @@ public class CaretakerCommandTest {
         model.setPerson(model.getFilteredPersonList().get(0), nonPatient);
 
         Caretaker caretaker = new CaretakerBuilder().build();
-        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
+        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker.getName(),
+                caretaker.getPhone(), caretaker.getRelationship(), Optional.of(caretaker.getAddress()));
 
         assertThrows(CommandException.class,
                 Messages.MESSAGE_REQUIRE_PATIENT, () -> command.execute(model));
@@ -121,14 +126,17 @@ public class CaretakerCommandTest {
         Caretaker caretakerA = new CaretakerBuilder().withName("Alice").build();
         Caretaker caretakerB = new CaretakerBuilder().withName("Bob").build();
 
-        CaretakerCommand addCaretakerA = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerA);
-        CaretakerCommand addCaretakerB = new CaretakerCommand(INDEX_SECOND_PERSON, caretakerB);
+        CaretakerCommand addCaretakerA = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerA.getName(),
+                caretakerA.getPhone(), caretakerA.getRelationship(), Optional.of(caretakerA.getAddress()));
+        CaretakerCommand addCaretakerB = new CaretakerCommand(INDEX_SECOND_PERSON, caretakerB.getName(),
+                caretakerB.getPhone(), caretakerB.getRelationship(), Optional.of(caretakerB.getAddress()));
 
         // same object -> true
         assertTrue(addCaretakerA.equals(addCaretakerA));
 
         // same values -> true
-        CaretakerCommand addCaretakerACopy = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerA);
+        CaretakerCommand addCaretakerACopy = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerA.getName(),
+                caretakerA.getPhone(), caretakerA.getRelationship(), Optional.of(caretakerA.getAddress()));
         assertTrue(addCaretakerA.equals(addCaretakerACopy));
 
         // different types -> false
@@ -141,34 +149,48 @@ public class CaretakerCommandTest {
         assertFalse(addCaretakerA.equals(addCaretakerB));
 
         // different caretaker -> false
-        CaretakerCommand differentCaretaker = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerB);
+        CaretakerCommand differentCaretaker = new CaretakerCommand(INDEX_FIRST_PERSON, caretakerB.getName(),
+                caretakerB.getPhone(), caretakerB.getRelationship(), Optional.of(caretakerB.getAddress()));
         assertFalse(addCaretakerA.equals(differentCaretaker));
     }
 
 
+
     @Test
-    public void execute_addCaretakerWithoutAddress_successUsesPatientAddress() throws Exception {
-        // Patient has an address, caretaker has none
-        Patient patient = new PatientBuilder().withCaretaker(null)
-                .withAddress("123 Clementi Road").build();
-        Caretaker caretaker = new Caretaker(new Name("TestName"), new Phone("12345678"),
-                null, new Relationship("TestRelationship"));
-
+    public void execute_addCaretakerWithoutAddress_usesPatientAddress() throws Exception {
+        // Arrange: patient has an address; no caretaker yet
+        Patient patient = new PatientBuilder()
+                .withAddress("123 Clementi Road")
+                .withCaretaker(null)
+                .build();
         model.setPerson(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), patient);
-        CaretakerCommand command = new CaretakerCommand(INDEX_FIRST_PERSON, caretaker);
 
-        Patient updatedPatient = patient.addCaretaker(
-                new Caretaker(caretaker.getName(), caretaker.getPhone(),
-                        patient.getAddress(), caretaker.getRelationship()));
+        Name name = new Name("TestName");
+        Phone phone = new Phone("12345678");
+        Relationship relationship = new Relationship("TestRelationship");
 
-        String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS,
-                Messages.format(updatedPatient.getCaretaker()),
-                Messages.shortFormat(updatedPatient));
+        // Pass Optional.empty() so the command resolves to patient's address
+        CaretakerCommand command = new CaretakerCommand(
+                INDEX_FIRST_PERSON, name, phone, relationship, Optional.empty());
 
+        // Act
         CommandResult result = command.execute(model);
 
+        // Assert state: patient now has a caretaker whose address == patient's address
+        Patient updatedPatient =
+                (Patient) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        assertNotNull(updatedPatient.getCaretaker());
+        Caretaker savedCaretaker = updatedPatient.getCaretaker();
+
+        assertEquals(name, savedCaretaker.getName());
+        assertEquals(phone, savedCaretaker.getPhone());
+        assertEquals(relationship, savedCaretaker.getRelationship());
+        assertEquals(patient.getAddress(), savedCaretaker.getAddress());
+
+        // Assert message matches what the command reports
+        String expectedMessage = String.format(CaretakerCommand.MESSAGE_SUCCESS,
+                Messages.format(savedCaretaker), Messages.shortFormat(updatedPatient));
         assertEquals(expectedMessage, result.getFeedbackToUser());
-        assertEquals(updatedPatient.getCaretaker().getAddress(), patient.getAddress());
     }
 }
 

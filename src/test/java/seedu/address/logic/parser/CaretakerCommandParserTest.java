@@ -19,6 +19,8 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Relationship;
 
+import java.util.Optional;
+
 public class CaretakerCommandParserTest {
 
     private static final String VALID_NAME = "John Doe";
@@ -50,7 +52,9 @@ public class CaretakerCommandParserTest {
 
         String userInput = "1" + NAME_DESC + PHONE_DESC + ADDRESS_DESC + RELATIONSHIP_DESC;
 
-        assertParseSuccess(parser, userInput, new CaretakerCommand(targetIndex, expectedCaretaker));
+        assertParseSuccess(parser, userInput, new CaretakerCommand(targetIndex, expectedCaretaker.getName(),
+                expectedCaretaker.getPhone(), expectedCaretaker.getRelationship(),
+                Optional.of(expectedCaretaker.getAddress())));
     }
 
     @Test
@@ -114,17 +118,37 @@ public class CaretakerCommandParserTest {
     @Test
     public void parse_missingAddress_success() {
         Index targetIndex = Index.fromOneBased(1);
-        Caretaker expectedCaretaker = new Caretaker(
-                new Name(VALID_NAME),
-                new Phone(VALID_PHONE),
-                null, // address omitted
-                new Relationship(VALID_RELATIONSHIP)
-        );
 
         String userInput = "1" + NAME_DESC + PHONE_DESC + RELATIONSHIP_DESC;
 
-        assertParseSuccess(parser, userInput, new CaretakerCommand(targetIndex, expectedCaretaker));
+        CaretakerCommand expected =
+                new CaretakerCommand(
+                        targetIndex,
+                        new Name(VALID_NAME),
+                        new Phone(VALID_PHONE),
+                        new Relationship(VALID_RELATIONSHIP),
+                        Optional.empty() // address omitted
+                );
+
+        assertParseSuccess(parser, userInput, expected);
     }
 
+    @Test
+    public void parse_withAddress_success() {
+        Index targetIndex = Index.fromOneBased(1);
+
+        String userInput = "1" + NAME_DESC + PHONE_DESC + ADDRESS_DESC + RELATIONSHIP_DESC;
+
+        CaretakerCommand expected =
+                new CaretakerCommand(
+                        targetIndex,
+                        new Name(VALID_NAME),
+                        new Phone(VALID_PHONE),
+                        new Relationship(VALID_RELATIONSHIP),
+                        Optional.of(new Address(VALID_ADDRESS))
+                );
+
+        assertParseSuccess(parser, userInput, expected);
+    }
 
 }

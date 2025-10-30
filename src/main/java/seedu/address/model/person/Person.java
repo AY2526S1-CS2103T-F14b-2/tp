@@ -25,7 +25,7 @@ public abstract class Person {
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Address address) {
-        requireAllNonNull(name, phone);
+        requireAllNonNull(name, phone, address);
         this.name = name;
         this.phone = phone;
         this.address = address;
