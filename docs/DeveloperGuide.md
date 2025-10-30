@@ -547,24 +547,40 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
          Use case ends.
 
 ### Non-Functional Requirements
-### Business
-1. Single nurse profile can support <= 5000 patients
-2. A nurse cannot create two appointments that overlap for the same patient
-#### Constraints
-1. Release is one JAR <= 100 MB, runs via java -jar
-2. Features work 100% offline, no dependency on external servers
+
+#### Usability
+1. Core workflows (add/list/delete patient, appointment, note, caretaker) are executable with keyboard-only navigation; acceptance testers must complete the scripted scenario without touching the mouse.
+2. A first-time user following the User Guide can add a patient within 3 minutes and with no more than 2 command validation errors during usability testing.
+
 #### Performance
-1. Listing up to 1000 patients render first screen in <300 ms and filter/search updates re-render in <150 ms
-2. Prompt can be typed in <2.5s from java -jar
-#### Quality
-1. User can perform commands without using a mouse
-2. Proper response to invalid commands (showing expected syntax, reason why commands are invalid, etc.)
-#### Technical
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+1. During performance testing with up to 1000 sample patients, rendering the first screen takes less than 300 ms, and subsequent filter or search commands re-render results within 150 ms.
+2. From executing `java -jar medisavecontact.jar` to the command box becoming responsive, startup completes within 2.5 seconds under typical team testing conditions.
+
+#### Reliability
+1. The application autosaves after every mutating command; in a forced termination test, at most the last command’s changes may be lost.
+2. During a 2-hour exploratory test session covering at least 200 mixed commands, the application must not crash or hang; any defects are logged with reproduction steps.
+
+#### Security and Privacy
+1. Patient data remains on the local machine only. No external network connections are initiated during normal operation.
+2. Saved data files inherit the operating system’s default user permissions; documentation instructs nurses to secure the data directory if using shared machines.
+
+#### Maintainability
+1. `gradlew checkstyleMain checkstyleTest` runs clean with zero warnings before every release.
+2. `gradlew jacocoTestReport` shows at least 80% line coverage for the `logic` and `model` packages on the main branch.
+3. All public classes and methods added in each iteration include Javadoc describing purpose, parameters, and error cases.
+
+#### Portability
+1. The application runs on Windows 10+, macOS 12+, and Ubuntu 22.04+ provided Java 17 or later is installed; smoke tests for core commands are executed on each platform before release.
+
+#### Deployment Constraints
+1. The distributable artifact is a single executable JAR ≤ 100 MB that runs via `java -jar` without extra dependencies.
+2. All features operate fully offline; there are no hard dependencies on external REST services or cloud storage.
+
 #### Process
-1. Project to be conducted in Brownfield increments, by every week, a new release of the product is made available
-#### Notes about project scope
-1. The product should maintain a single local profile, no access to the same data file by another user
+1. The team performs brownfield increments with time-boxed weekly releases; each Friday’s release candidate passes the regression suite and is archived.
+
+#### Product Scope Notes
+1. MediSaveContact maintains a single local nurse profile per installation; concurrent access to the same data file by multiple users is out of scope.
 
 ### Glossary
 
