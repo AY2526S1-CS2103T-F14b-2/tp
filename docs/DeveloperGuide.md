@@ -162,6 +162,30 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Adding a caretaker to a patient
+
+#### Command Format:
+`caretaker INDEX n/NAME p/PHONE [a/ADDRESS] r/RELATIONSHIP`
+
+#### Prechecks:
+
+* Validates INDEX against `model.getFilteredPersonList()` to ensure that index provided is shown on the screen.
+
+* Checks that the target is a `Patient`; otherwise throws with a formatted "patient required" message.
+
+* Checks that the `Patient` has no existing `Caretaker`; otherwise throws with a formatted “already has caretaker” message.
+
+* Guards against duplicates by rejecting if the `Caretaker` already exists as a `Patient`, by calling `model.hasPerson(caretaker)`.
+
+#### Defaulting logic:
+
+* If the incoming `Caretaker` has null address, it clones the `Patient’s` address into the `Caretaker` before saving (name/phone/relationship preserved).
+
+#### State update: 
+
+* Calls `patient.addCaretaker(caretaker)` to get an updated `Patient`
+* Then calls `model.setPerson(originalPatient, updatedPatient)` to persist into the `model`.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
