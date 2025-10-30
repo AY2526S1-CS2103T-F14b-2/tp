@@ -1,6 +1,9 @@
 package seedu.address.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX;
 import static seedu.address.logic.Messages.shortFormat;
 import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_CARETAKER_ALREADY_EXISTS;
@@ -9,6 +12,8 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +32,6 @@ import seedu.address.model.person.Relationship;
 import seedu.address.testutil.CaretakerBuilder;
 import seedu.address.testutil.PatientBuilder;
 
-import java.util.Optional;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for {@code CaretakerCommand}.

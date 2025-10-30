@@ -141,6 +141,5 @@ public class CaretakerTest {
         Optional<Tag> tagOpt = caretaker.getTag();
         assertTrue(tagOpt.isEmpty());
     }
-    
 
 }
