@@ -102,7 +102,7 @@ public class Messages {
     }
 
     /**
-     * Formats an {@link Appointment} for consistent display.
+     * Formats an {@link Note} for consistent display.
      */
     public static String format(Note note) {
         Objects.requireNonNull(note);
