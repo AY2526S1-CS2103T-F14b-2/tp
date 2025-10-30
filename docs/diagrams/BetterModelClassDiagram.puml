@@ -32,7 +32,7 @@ Person *--> "1" Address
 
 Patient *--> "*" Note
 Patient *--> "*" Appointment
-Patient *--> "1" Caretaker
+Patient *--> "0..1" Caretaker
 
 Caretaker *--> "1" Relationship
 
