@@ -602,7 +602,7 @@ Given below are instructions to test the app manually. They cover the core MediS
 
 1. **Initial launch**
    1. Download the release JAR and place it in an empty folder (e.g. `~/medisavecontact-test`).
-   2. Double-click (Windows/macOS) or run `java -jar medisavecontact.jar` (Linux).<br>
+   2. Double-click (Windows) or run `java -jar medisavecontact.jar` (Linux/macOS).<br>
       **Expected:** The GUI opens with sample patients loaded. Status bar shows the data file path.
 2. **Saving window preferences**
    1. Resize the window and drag it to a different monitor corner.
