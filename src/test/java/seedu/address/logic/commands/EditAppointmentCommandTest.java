@@ -288,6 +288,28 @@ public class EditAppointmentCommandTest {
     }
 
     @Test
+    public void execute_duplicateAppointment_throwsCommandException() {
+    Patient patientWithTwoAppointments = new PatientBuilder()
+        .withName("Dana Park")
+        .withPhone("75553333")
+        .withAddress("12 Palm Street")
+        .withAppointment(INITIAL_DATE_ONE, INITIAL_TIME_ONE)
+        .withAppointment(INITIAL_DATE_TWO, INITIAL_TIME_TWO)
+        .build();
+    model.addPerson(patientWithTwoAppointments);
+    Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+
+    EditAppointmentDescriptor descriptor = new EditAppointmentDescriptor();
+    descriptor.setAppointmentIndex(1);
+    descriptor.setDate(INITIAL_DATE_TWO);
+    descriptor.setTime(INITIAL_TIME_TWO);
+
+    EditAppointmentCommand command = new EditAppointmentCommand(patientIndex, descriptor);
+
+    assertCommandFailure(command, model, AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT);
+    }
+
+    @Test
     public void execute_noFieldsEdited_throwsCommandException() {
         Patient patientWithAppointment = new PatientBuilder()
                 .withName("Carl Jones")

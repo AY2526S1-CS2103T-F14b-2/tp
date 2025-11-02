@@ -96,10 +96,19 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
         }
 
         Appointment originalAppointment = appointments.get(appointmentIndex - 1);
+        Appointment updatedAppointment;
         try {
-            editDescriptor.buildUpdatedAppointment(originalAppointment);
+            updatedAppointment = editDescriptor.buildUpdatedAppointment(originalAppointment);
         } catch (IllegalArgumentException iae) {
             throw new CommandException(iae.getMessage(), iae);
+        }
+
+        boolean hasDuplicate = appointments.stream()
+                .filter(existing -> existing != originalAppointment)
+                .anyMatch(existing -> existing.getDate().equals(updatedAppointment.getDate())
+                        && existing.getTime().equals(updatedAppointment.getTime()));
+        if (hasDuplicate) {
+            throw new CommandException(AddAppointmentCommand.MESSAGE_DUPLICATE_APPOINTMENT);
         }
     }
 
