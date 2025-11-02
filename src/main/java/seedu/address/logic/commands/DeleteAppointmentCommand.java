@@ -63,7 +63,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
         updatedAppointments.remove(apptIndex - 1);
         Patient updatedPatient = new Patient(patient.getName(),
             patient.getPhone(), patient.getAddress(), patient.getTag().orElse(null),
-            patient.getNotes(), updatedAppointments);
+            patient.getNotes(), updatedAppointments, patient.getCaretaker());
         model.setPerson(patient, updatedPatient);
     }
 
