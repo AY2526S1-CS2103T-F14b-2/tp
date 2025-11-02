@@ -21,7 +21,8 @@ patient information during busy schedules.
 
 1. For **Windows** users: Locate MediSaveContact in your file manager and double click on the application.<br>
    For **Mac/Linux** users: Open a command terminal, `cd` (change directory) into the folder you put the jar file in, and use the `java -jar MediSaveContact.jar` command to run the application.<br>
-   An application similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
+   
+1. An application similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png) <br>
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
