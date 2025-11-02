@@ -129,11 +129,6 @@ public class EditCaretakerCommand extends AbstractEditCommand<Patient, EditCaret
     }
 
     @Override
-    protected void updateModelAfterEdit(Model model) {
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-    }
-
-    @Override
     protected String formatSuccessMessage(Patient editedPatient) {
         return String.format(MESSAGE_EDIT_CARETAKER_SUCCESS, Messages.format(editedPatient.getCaretaker()),
                 Messages.shortFormat(editedPatient));
