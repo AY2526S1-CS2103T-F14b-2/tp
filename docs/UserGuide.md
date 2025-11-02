@@ -812,7 +812,7 @@ editappt 2 i/1 note/
     </tr>
     <tr>
       <td rowspan="3"><strong>ITEM_INDEX</strong></td>
-      <td>1-based index of the appointment to edit</td>
+      <td>Appointment index must be a positive integer starting from 1</td>
       <td>"Appointment index must be a positive integer starting from 1."</td>
     </tr>
     <tr>
@@ -888,7 +888,7 @@ deleteappt 1 i/1
     </tr>
     <tr>
       <td rowspan="3"><strong>ITEM_INDEX</strong></td>
-      <td>1-based index of the appointment to delete</td>
+      <td>Appointment index must be a positive integer starting from 1</td>
       <td>"Appointment index must be a positive integer starting from 1."</td>
     </tr>
     <tr>
