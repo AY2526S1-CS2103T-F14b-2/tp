@@ -81,8 +81,8 @@ Action | Description
     * `n/John Doe tag/high` ✅
     * `tag/high n/John Doe` ✅
 
-* Extra parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if you type `list 123`, it will be interpreted as `list`.
+* Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
+  e.g. if you type `clear 123`, it will be interpreted as `clear`.
 
 * When a compulsory parameter is not provided, an error message regarding the missing parameter will appear, and the command will not be executed.
 
@@ -214,12 +214,29 @@ help
 
 ### Listing all patients : `list`
 {: #list-command }
-Shows a list of all patients in MediSaveContact, even if it is empty.
+Shows a list of all patients in MediSaveContact, even if it is empty. Tag can also be specified to list only patients with the specified tag.
 
 #### Command Format:
 ```
-list
+list [tag/TAG]
 ```
+#### Parameters & Validation Rules
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td rowspan="2"><strong>TAG</strong> (Optional)</td>
+          <td>Must be 'low', 'medium', or 'high' only (case-insensitive)</td>
+          <td>"Invalid tag. Only 'high', 'medium', or 'low' are allowed"</td>
+        </tr>
+    </tbody>
+</table>
 
 #### Outputs
 
@@ -935,9 +952,21 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 
 #### Parameters & Validation Rules
 
-| Parameter               | Validation Rules                   | Error Message if Invalid                                                                                                                                                                                                                                                |
-|-------------------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format!"<br>[Command format shown] |
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><strong>KEYWORD & MORE_KEYWORDS</strong></td>
+          <td colspan="2">See <a href="#person-info-parameters">Person NAME Parameters</a></td>
+        </tr>
+    </tbody>
+</table>
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
