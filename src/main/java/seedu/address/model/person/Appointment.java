@@ -7,8 +7,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 
 /**
@@ -19,10 +21,16 @@ import java.util.Optional;
 public class Appointment implements Comparable<Appointment> {
 
     public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format DD-MM-YYYY HH:MM";
+    public static final String MESSAGE_INVALID_DATE_TIME = "The specified date or time does not exist.";
     public static final String MESSAGE_PAST_APPOINTMENT = "Appointment must be set in the future.";
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu")
+        .withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm")
+        .withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu HH:mm")
+        .withResolverStyle(ResolverStyle.STRICT);
+    private static final Pattern DATE_TIME_PATTERN = Pattern.compile("\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}");
 
     private final LocalDate date;
     private final LocalTime time;
@@ -39,16 +47,25 @@ public class Appointment implements Comparable<Appointment> {
         requireNonNull(date);
         requireNonNull(time);
 
-        try {
-            this.date = LocalDate.parse(date, DATE_FORMATTER);
-            this.time = LocalTime.parse(time, TIME_FORMATTER);
-            this.desc = desc;
-            LocalDateTime appointmentDateTime = LocalDateTime.of(this.date, this.time);
-            if (appointmentDateTime.isBefore(LocalDateTime.now())) {
-                throw new IllegalArgumentException(MESSAGE_PAST_APPOINTMENT);
-            }
-        } catch (DateTimeParseException e) {
+        LocalDateTime parsedDateTime = parseDateTime(date, time);
+        this.date = parsedDateTime.toLocalDate();
+        this.time = parsedDateTime.toLocalTime();
+        this.desc = desc;
+        if (parsedDateTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException(MESSAGE_PAST_APPOINTMENT);
+        }
+    }
+
+    private static LocalDateTime parseDateTime(String date, String time) {
+        String candidate = date + " " + time;
+        if (!DATE_TIME_PATTERN.matcher(candidate).matches()) {
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
+        }
+
+        try {
+            return LocalDateTime.parse(candidate, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException(MESSAGE_INVALID_DATE_TIME);
         }
     }
 

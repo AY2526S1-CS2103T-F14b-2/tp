@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 public class AppointmentTest {
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu");
 
     @Test
     public void constructor_validDateTime_success() {
@@ -27,6 +27,20 @@ public class AppointmentTest {
     @Test
     public void constructor_invalidFormat_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> new Appointment("2023-12-12", "1000"));
+    }
+
+    @Test
+    public void constructor_impossibleCalendarDate_throwsIllegalArgumentException() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> new Appointment("31-02-2026", "10:00"));
+        assertEquals(Appointment.MESSAGE_INVALID_DATE_TIME, exception.getMessage());
+    }
+
+    @Test
+    public void constructor_impossibleClockTime_throwsIllegalArgumentException() {
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> new Appointment("15-11-2099", "24:00"));
+        assertEquals(Appointment.MESSAGE_INVALID_DATE_TIME, exception.getMessage());
     }
 
     @Test
