@@ -315,9 +315,6 @@ Step 4. The command formats feedback (`Appointment created: <formatted appointme
 
 All PlantUML sources are located alongside other diagrams in `docs/diagrams/` for future edits.
 
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
 
 
 --------------------------------------------------------------------------------------------------------------------
