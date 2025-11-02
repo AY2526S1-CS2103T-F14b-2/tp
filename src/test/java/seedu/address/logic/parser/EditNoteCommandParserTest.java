@@ -48,15 +48,15 @@ public class EditNoteCommandParserTest {
     @Test
     public void parse_invalidValue_failure() {
         // invalid note index - negative
-    assertParseFailure(parser, "1 i/-1 note/Updated note",
-        MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 i/-1 note/Updated note",
+            MESSAGE_INVALID_FORMAT);
 
         // invalid note index - zero
-    assertParseFailure(parser, "1 i/0 note/Updated note",
-        MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 i/0 note/Updated note",
+            MESSAGE_INVALID_FORMAT);
 
         // invalid note index - not a number
-    assertParseFailure(parser, "1 i/abc note/Updated note", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 i/abc note/Updated note", MESSAGE_INVALID_FORMAT);
 
         // empty note content
         assertParseFailure(parser, "1 i/1 note/", "Note cannot be empty.");
