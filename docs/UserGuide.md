@@ -77,7 +77,7 @@ Action | Description
     * `n/John Doe tag/High` ✅
     * `n/John Doe` ✅
 
-* Parameters can be in any order.<br>
+* Parameters with prefixes can be in any order.<br>
     * `n/John Doe tag/high` ✅
     * `tag/high n/John Doe` ✅
 
