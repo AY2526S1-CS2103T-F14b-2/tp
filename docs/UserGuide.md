@@ -714,7 +714,7 @@ If you delete a caretaker by mistake, use the `undo` command immediately to rest
 </div>
 
 
-### Adding an appointment : `appointment`
+### Adding an appointment : `appt`
 
 Schedule an appointment for a patient using a specified index.
 
@@ -811,9 +811,17 @@ editappt 2 i/1 note/
       <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>ITEM_INDEX</strong></td>
+      <td rowspan="3"><strong>ITEM_INDEX</strong></td>
       <td>1-based index of the appointment to edit</td>
       <td>"Appointment index must be a positive integer starting from 1."</td>
+    </tr>
+    <tr>
+      <td>Must correspond to an existing appointment</td>
+      <td>"The appointment index X is invalid. Patient has N appointment(s)."</td>
+    </tr>
+    <tr>
+      <td>Selected patient must have an appointment</td>
+      <td>"Patient has no appointment to edit."</td>
     </tr>
     <tr>
       <td rowspan="2"><strong>NEW_DATE</strong> (Optional)</td>
@@ -879,9 +887,17 @@ deleteappt 1 i/1
       <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>ITEM_INDEX</strong></td>
+      <td rowspan="3"><strong>ITEM_INDEX</strong></td>
       <td>1-based index of the appointment to delete</td>
       <td>"Appointment index must be a positive integer starting from 1."</td>
+    </tr>
+    <tr>
+      <td>Must correspond to an existing appointment</td>
+      <td>"The appointment index X is invalid. Patient has N appointment(s)."</td>
+    </tr>
+    <tr>
+      <td>Selected patient must have an appointment</td>
+      <td>"Patient has no appointment to delete."</td>
     </tr>
   </tbody>
 </table>
