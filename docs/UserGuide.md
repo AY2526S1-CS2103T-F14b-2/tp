@@ -85,7 +85,7 @@ Action | Description
 * Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if you type `clear 123`, it will be interpreted as `clear`.
 
-* When a compulsory parameter is not provided, an error message regarding the missing parameter will appear, and the command will not be executed.
+* When a compulsory parameter is not provided, an error message regarding the command's proper usage will appear, and the command will not be executed.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
