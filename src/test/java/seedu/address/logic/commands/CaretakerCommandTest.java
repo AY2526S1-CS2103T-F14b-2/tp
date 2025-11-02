@@ -80,7 +80,7 @@ public class CaretakerCommandTest {
 
         assertThrows(CommandException.class,
                 String.format(MESSAGE_PATIENT_HAS_CARETAKER,
-                        shortFormat(patient)), () -> command.execute(model));
+                        INDEX_FIRST_PERSON.getOneBased()), () -> command.execute(model));
     }
 
     @Test

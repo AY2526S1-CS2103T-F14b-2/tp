@@ -419,8 +419,12 @@ caretaker 3 n/Alice Tan p/81234567 r/Home Nurse
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must not already have a caretaker</td>
+      <td>"The patient at index X already has a caretaker."</td>
     </tr>
     <tr>
       <td><strong>NAME / PHONE</strong></td>
@@ -552,7 +556,7 @@ deletecaretaker 2
     </tr>
     <tr>
       <td>Target patient must already have a caretaker</td>
-      <td>"Specified patient has no caretaker!"</td>
+      <td>"The patient at index X does not have a caretaker."</td>
     </tr>
   </tbody>
 </table>
