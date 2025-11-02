@@ -747,7 +747,7 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
       <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>DATE</strong></td>
+      <td rowspan="3"><strong>DATE</strong></td>
       <td>Must follow DD-MM-YYYY format</td>
       <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
     </tr>
@@ -756,13 +756,21 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
       <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>TIME</strong></td>
-      <td>	Must follow HH:MM 24-hour format</td>
+      <td>Appointment date must exist in the calender</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>TIME</strong></td>
+      <td>Must follow HH:MM 24-hour format</td>
       <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
       <td>"Appointment must be set in the future."</td>
+    </tr>
+    <tr>
+      <td>Appointment time must exist within 24 hours</td>
+      <td>"The specified date or time does not exist."</td>
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
@@ -824,7 +832,7 @@ editappt 2 i/1 note/
       <td>"Patient has no appointment to edit."</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>NEW_DATE</strong> (Optional)</td>
+      <td rowspan="3"><strong>NEW_DATE</strong> (Optional)</td>
       <td>Must follow DD-MM-YYYY format</td>
       <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
     </tr>
@@ -833,13 +841,21 @@ editappt 2 i/1 note/
       <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>NEW_TIME</strong> (Optional)</td>
+      <td>Appointment date must exist in the calender</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>NEW_TIME</strong> (Optional)</td>
       <td>Must follow HH:MM 24-hour format</td>
       <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
       <td>"Appointment must be set in the future."</td>
+    </tr>
+    <tr>
+      <td>Appointment time must exist within 24 hours</td>
+      <td>"The specified date or time does not exist."</td>
     </tr>
     <tr>
       <td><strong>NEW_NOTE</strong> (Optional)</td>
