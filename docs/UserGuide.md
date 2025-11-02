@@ -484,8 +484,12 @@ editcaretaker 2 n/Jane Ong r/Sister
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must already have a caretaker</td>
+      <td>"The patient at index X does not have a caretaker."</td>
     </tr>
     <tr>
       <td><strong>NAME / PHONE / ADDRESS / RELATIONSHIP</strong></td>
@@ -543,8 +547,12 @@ deletecaretaker 2
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must already have a caretaker</td>
+      <td>"Specified patient has no caretaker!"</td>
     </tr>
   </tbody>
 </table>
