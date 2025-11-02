@@ -45,7 +45,7 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
         + "For Patient: %4$s, " + "%5$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Appointment can only be edited for patients.";
-    public static final String MESSAGE_INVALID_ITEM_INDEX = "The appointment index %1$s is invalid. "
+    public static final String MESSAGE_INVALID_ITEM_INDEX = "The appointment at index %1$s is invalid. "
             + "Patient has %2$s appointment(s).";
     public static final String MESSAGE_NO_APPOINTMENT = "Patient has no appointment to edit.";
 

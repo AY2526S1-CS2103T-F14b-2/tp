@@ -283,8 +283,8 @@ public class EditAppointmentCommandTest {
         descriptor.setNote(new Note("Updated"));
 
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(patientIndex, descriptor);
-        assertCommandFailure(editAppointmentCommand, model,
-                String.format(EditAppointmentCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
+    assertCommandFailure(editAppointmentCommand, model,
+        String.format(EditAppointmentCommand.MESSAGE_INVALID_ITEM_INDEX, 2, 1));
     }
 
     @Test

@@ -33,7 +33,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
         + "Appointments can only be deleted for patients.";
     public static final String MESSAGE_NO_APPOINTMENT = "Patient has no appointment to delete.";
-    public static final String MESSAGE_INVALID_APPOINTMENT_INDEX = "The appointment index %1$s is invalid. "
+    public static final String MESSAGE_INVALID_APPOINTMENT_INDEX = "The appointment at index %1$s is invalid. "
         + "Patient has %2$s appointment(s).";
 
     public final int apptIndex;

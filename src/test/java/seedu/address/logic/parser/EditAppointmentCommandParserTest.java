@@ -119,6 +119,6 @@ public class EditAppointmentCommandParserTest {
                 + PREFIX_DATE + FUTURE_DATE + " "
                 + PREFIX_TIME + FUTURE_TIME;
         assertParseFailure(parser, userInput,
-                "Appointment index must be a positive integer starting from 1.");
+        String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditAppointmentCommand.MESSAGE_USAGE));
     }
 }
