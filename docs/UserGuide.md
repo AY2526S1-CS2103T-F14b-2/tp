@@ -756,7 +756,7 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
       <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td>Appointment date must exist in the calender</td>
+      <td>Appointment date must exist in the calendar</td>
       <td>"The specified date or time does not exist."</td>
     </tr>
     <tr>
@@ -771,6 +771,11 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
     <tr>
       <td>Appointment time must exist within 24 hours</td>
       <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td><strong>DATE &amp; TIME</strong></td>
+      <td>Must be unique amongst the patient's appointments</td>
+      <td>"This appointment already exists in the address book"</td>
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
@@ -819,17 +824,13 @@ editappt 2 i/1 note/
       <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
     </tr>
     <tr>
-      <td rowspan="3"><strong>ITEM_INDEX</strong></td>
-      <td>Appointment index must be a positive integer starting from 1</td>
-      <td>"Appointment index must be a positive integer starting from 1."</td>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br/>[Command format shown]</td>
     </tr>
     <tr>
       <td>Must correspond to an existing appointment</td>
-      <td>"The appointment index X is invalid. Patient has N appointment(s)."</td>
-    </tr>
-    <tr>
-      <td>Selected patient must have an appointment</td>
-      <td>"Patient has no appointment to edit."</td>
+      <td>"The appointment at index X is invalid. Patient has Y appointment(s)."</td>
     </tr>
     <tr>
       <td rowspan="3"><strong>NEW_DATE</strong> (Optional)</td>
@@ -856,6 +857,11 @@ editappt 2 i/1 note/
     <tr>
       <td>Appointment time must exist within 24 hours</td>
       <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td><strong>DATE &amp; TIME</strong></td>
+      <td>Updated appointment must not duplicate another appointment's date and time</td>
+      <td>"This appointment already exists in the address book"</td>
     </tr>
     <tr>
       <td><strong>NEW_NOTE</strong> (Optional)</td>
@@ -903,17 +909,13 @@ deleteappt 1 i/1
       <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
     </tr>
     <tr>
-      <td rowspan="3"><strong>ITEM_INDEX</strong></td>
-      <td>Appointment index must be a positive integer starting from 1</td>
-      <td>"Appointment index must be a positive integer starting from 1."</td>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br/>[Command format shown]</td>
     </tr>
     <tr>
       <td>Must correspond to an existing appointment</td>
-      <td>"The appointment index X is invalid. Patient has N appointment(s)."</td>
-    </tr>
-    <tr>
-      <td>Selected patient must have an appointment</td>
-      <td>"Patient has no appointment to delete."</td>
+      <td>"The appointment at index X is invalid. Patient has Y appointment(s)."</td>
     </tr>
   </tbody>
 </table>
