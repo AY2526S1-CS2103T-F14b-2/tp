@@ -952,9 +952,21 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 
 #### Parameters & Validation Rules
 
-| Parameter               | Validation Rules                   | Error Message if Invalid                                                                                                                                                                                                                                                |
-|-------------------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format!"<br>[Command format shown] |
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><strong>KEYWORD & MORE_KEYWORDS</strong></td>
+          <td colspan="2">See <a href="#person-info-parameters">Person NAME Parameters</a></td>
+        </tr>
+    </tbody>
+</table>
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
