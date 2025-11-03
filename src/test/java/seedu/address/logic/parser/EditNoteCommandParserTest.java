@@ -49,14 +49,14 @@ public class EditNoteCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid note index - negative
         assertParseFailure(parser, "1 i/-1 note/Updated note",
-                "Note index must be a positive integer starting from 1.");
+            MESSAGE_INVALID_FORMAT);
 
         // invalid note index - zero
         assertParseFailure(parser, "1 i/0 note/Updated note",
-                "Note index must be a positive integer starting from 1.");
+            MESSAGE_INVALID_FORMAT);
 
         // invalid note index - not a number
-        assertParseFailure(parser, "1 i/abc note/Updated note", "Note index must be a valid positive integer.");
+        assertParseFailure(parser, "1 i/abc note/Updated note", MESSAGE_INVALID_FORMAT);
 
         // empty note content
         assertParseFailure(parser, "1 i/1 note/", "Note cannot be empty.");
