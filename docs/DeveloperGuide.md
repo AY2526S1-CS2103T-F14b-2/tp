@@ -622,7 +622,7 @@ Given below are instructions to test the app manually. They cover the core MediS
    **Expected:** Error “Unknown command” with a hint to use `help`.
 2. Enter a valid command with missing prefixes, e.g. `patient John`.<br>
    **Expected:** Error message showing the correct usage format.
-3. Enter extra prefixes for commands that should ignore them, e.g. `list 123`.<br>
+3. Enter extra prefixes for commands that should ignore them, e.g. `clear 123`.<br>
    **Expected:** Command succeeds and extraneous tokens are ignored.
 
 ### Recovering from corrupted storage files
