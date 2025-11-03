@@ -5,7 +5,7 @@ title: User Guide
 
 ## Rationale
 
-MediSaveContact is designed for nurses and healthcare workers who provide care outside traditional hospital settings.
+MediSaveContact is designed for home care nurses who provide care outside traditional hospital settings.
 The application focuses on quick data entry and retrieval through a command-line interface, making it faster to manage
 patient information during busy schedules.
 
@@ -15,7 +15,7 @@ patient information during busy schedules.
 
 1. Ensure you have Java 17 or above installed in your computer, following this [guide](https://se-education.org/guides/tutorials/javaInstallation.html).
 
-1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases).
+1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases/download/v1.5/MediSaveContact.jar).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your MediSaveContact.
 
@@ -25,24 +25,26 @@ patient information during busy schedules.
 1. An application similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png) <br>
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+1. Type the command and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
     * `help` : Shows all commands available in the application.
 
     * `patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high` : Adds a patient named `John Tan` to MediSaveContact.
 
-    * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `deletepatient 3` : Deletes the 3rd contact shown in the current list.
 
     * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+1. Refer to the features below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
 
-## Command summary
+MediSaveContact provides comprehensive patient management tools including patient records, caretaker contacts, medical notes, and appointment scheduling. The following sections detail each command's usage, parameters, and validation rules.
+
+### Command summary
 
 Action | Description
 --------|------------------
@@ -89,114 +91,9 @@ Action | Description
 
 * When a command accepts an input prefix only once, entering it more than once will show an error about duplicate fields and the command will not be executed.
 
-* When a compulsory parameter is not provided, an error message regarding the missing parameter will appear, and the command will not be executed.
-
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
-
-## Common Parameters Reference
-{: #common-parameters }
-
-Many commands share similar parameters with identical validation rules. Here are the common parameter types used throughout MediSaveContact:
-
-### Index Parameter
-{: #index-parameter }
-
-<table>
-  <thead>
-    <tr>
-      <th>Parameter</th>
-      <th>Validation Rules</th>
-      <th>Error Message if Invalid</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td rowspan="2"><strong>INDEX</strong></td>
-      <td>Must exist in patient list</td>
-      <td>"The patient index provided is invalid. There is/are X patient(s)."</td>
-    </tr>
-    <tr>
-      <td>Must be a positive integer </td>
-      <td>"Invalid command format!"<br>[Command format shown]</td>
-    </tr>
-  </tbody>
-</table>
-
-**Usage**: Refers to the index number shown in the displayed patient list. Use the [`list`](#list-command) command to view all patient indices. `ITEM_INDEX` refers to the position of items within a patient's record (e.g., notes).
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Patient indices adapt to the current view. If you use the `find` command to filter patients, the indices will be renumbered based on the filtered results (e.g., if only 3 patients match your search, they will be numbered 1, 2, 3 regardless of their original positions).
-</div>
-
-### Note Parameters
-{: #note-parameters }
-
-<table>
-  <thead>
-    <tr>
-      <th>Parameter</th>
-      <th>Validation Rules</th>
-      <th>Error Message if Invalid</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td rowspan="2"><strong>NOTE</strong></td>
-      <td>Max 200 characters</td>
-      <td>"Note exceeds maximum length of 200 characters."</td>
-    </tr>
-    <tr>
-      <td>Cannot be empty or whitespace only</td>
-      <td>"Notes can take any values, and it should not be blank"</td>
-    </tr>
-  </tbody>
-</table>
-
-**Usage**: `NOTE` refers to text content for patient notes with length and content validation.
-
-### Person Information Parameters
-{: #person-info-parameters }
-
-  <thead>
-    <tr>
-      <th>Parameter</th>
-      <th>Validation Rules</th>
-      <th>Error Message if Invalid</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td rowspan="2"><strong>NAME</strong></td>
-      <td>Cannot be blank</td>
-      <td>"Name cannot be blank."</td>
-    </tr>
-    <tr>
-      <td>Must contain valid characters only (letters, spaces, commas, parentheses, slashes, periods, at signs, hyphens, and apostrophes)</td>
-      <td>"Name contains invalid characters. Only letters, spaces, commas, open parentheses ( ), slashes /, periods ., at signs @, hyphens -, and apostrophes ' are allowed."</td>
-    </tr>
-    <tr>
-      <td rowspan="3"><strong>PHONE</strong></td>
-      <td>Cannot be blank</td>
-      <td>"Phone number cannot be blank."</td>
-    </tr>
-    <tr>
-      <td>Must contain digits only</td>
-      <td>"Phone number must contain digits only."</td>
-    </tr>
-    <tr>
-      <td>Must be between 3 and 15 digits</td>
-      <td>"Phone number must be between 3 and 15 digits."</td>
-    </tr>
-    <tr>
-      <td><strong>ADDRESS</strong></td>
-      <td>Cannot be blank</td>
-      <td>"Address cannot be blank."</td>
-    </tr>
-  </tbody>
-</table>
-
-**Usage**: Core person information fields (name, phone, address) shared by patients and caretakers.
+--------------------------------------------------------------------------------------------------------------------
 
 
 ### Viewing help : `help`
@@ -215,13 +112,16 @@ help
 
 - Failure: Help command would never result in failure
 
+--------------------------------------------------------------------------------------------------------------------
 ### Listing all patients : `list`
 {: #list-command }
 Shows a list of all patients in MediSaveContact, even if it is empty. Tag can also be specified to list only patients with the specified tag.
 
 #### Command Format:
+`list [tag/TAG]`
+#### Example Commands:
 ```
-list [tag/TAG]
+list tag/high
 ```
 #### Parameters & Validation Rules
 <table>
@@ -243,9 +143,10 @@ list [tag/TAG]
 
 #### Outputs
 
-- Success: "Listed all patients" / "Listed all patients with Tag: HIGH"
+- Success: "Listed all patients" / "Listed all patients with tag: [TAG]"
 - Failure: Error messages above
 
+--------------------------------------------------------------------------------------------------------------------
 ### Adding a patient: `patient`
 
 Adds a patient to MediSaveContact.
@@ -256,7 +157,7 @@ Adds a patient to MediSaveContact.
 
 #### Example Commands:
 ```
-patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 tag/high
+patient n/John Tan p/91234567 a/Blk 123 Clementi Ave 3 
 ```
 ```
 patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
@@ -273,25 +174,13 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
     </thead>
     <tbody>
         <tr>
-          <td><strong>NAME</strong></td>
+          <td><strong>NAME / PHONE / ADDRESS</strong></td>
           <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
         </tr>
         <tr>
-          <td><strong>PHONE</strong></td>
-          <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
-        </tr>
-        <tr>
-          <td><strong>ADDRESS</strong></td>
-           <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
-        </tr>
-        <tr>
-          <td rowspan="2"><strong>TAG</strong> (Optional)</td>
+          <td rowspan="1"><strong>TAG</strong> (Optional)</td>
           <td>Must be 'low', 'medium', or 'high' only (case-insensitive)</td>
           <td>"Invalid tag. Only 'high', 'medium', or 'low' are allowed"</td>
-        </tr>
-        <tr>
-          <td>Can be empty to remove tag</td>
-          <td>N/A</td>
         </tr>
     </tbody>
 </table>
@@ -308,13 +197,10 @@ Patient's name is auto capitalised (Eg: John doe will be saved as John Doe)
 </div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
-Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This person already exists as a patient in the address book"
+Persons are duplicates if both name and phone number match (case-insensitive). You cannot add a patient who is already registered as a patient or a caretaker. 
 </div>
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
-You cannot add a patient who is already registered as a caretaker. If you attempt to do so, you will see the error: "This person already exists as a caretaker in the address book"
-</div>
-
+--------------------------------------------------------------------------------------------------------------------
 ### Editing a patient : `editpatient`
 
 Edits an existing patient in MediSaveContact.
@@ -360,7 +246,8 @@ editpatient 2 n/Betsy Crower tag/
 #### Outputs
 
 - Success:
-    - In Command Feedback Box: <br>"Patient edited: [Name]; Phone: [Phone]; Address: [Address]"
+    - In GUI: Edited Patient appears in Patient list
+    - In Command Feedback Box: <br>"Patient edited: [Name]; Phone: [Phone]; Address: [Address]; Tag: [Tag]"
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -368,6 +255,7 @@ You can remove the patient’s tag by typing `tag/` without
     specifying any tag after it.
 </div>
 
+--------------------------------------------------------------------------------------------------------------------
 ### Deleting a patient: `deletepatient`
 
 Deletes a patient at a specified index from the address book.
@@ -410,9 +298,10 @@ deletepatient 1
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Run [list](#list-command) command to view the respective index for each patient.
+Run [list](#list-command) command to view all patients.
 </div>
 
+--------------------------------------------------------------------------------------------------------------------
 ### Adding a caretaker : `caretaker`
 
 Links a caretaker to a patient so their emergency contact information is tracked together with the patient record.
@@ -449,12 +338,11 @@ caretaker 3 n/Alice Tan p/81234567 r/Home Nurse
       <td>"The patient at index X already has a caretaker."</td>
     </tr>
     <tr>
-      <td><strong>NAME / PHONE</strong></td>
-      <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
+      <td><strong>NAME / PHONE </strong></td>
+      <td rowspan="2" colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
     </tr>
     <tr>
       <td><strong>ADDRESS (Optional)</strong></td>
-      <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
     </tr>
     <tr>
       <td><strong>RELATIONSHIP</strong></td>
@@ -482,6 +370,7 @@ Caretaker contact details must be unique. If the caretaker already exists as a p
 </div>
 
 
+--------------------------------------------------------------------------------------------------------------------
 ### Editing a caretaker : `editcaretaker`
 
 Updates the caretaker information linked to a patient.
@@ -548,6 +437,7 @@ You can change a caretaker's address to be the same as their patient's by typing
 </div>
 
 
+--------------------------------------------------------------------------------------------------------------------
 ### Deleting a caretaker : `deletecaretaker`
 
 Removes the caretaker that is currently linked to a patient.
@@ -598,6 +488,7 @@ If you delete a caretaker by mistake, use the `undo` command immediately to rest
 
 
 
+--------------------------------------------------------------------------------------------------------------------
 ### Adding a note : `note`
 
 Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
@@ -609,9 +500,6 @@ Adds a note to a patient's record for tracking medical observations, treatment u
 #### Example Commands:
 ```
 note 1 note/Patient shows improved blood sugar levels today.
-```
-```
-note 3 note/Allergic reaction to penicillin - avoid in future treatments
 ```
 
 #### Parameters & Validation Rules
@@ -631,7 +519,7 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
     </tr>
     <tr>
       <td><strong>NOTE</strong></td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameter</a></td>
     </tr>
   </tbody>
 </table>
@@ -646,13 +534,11 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
+Notes are appended to existing notes so you can add notes repeatedly.
 </div>
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
-Only one `note/` prefix is allowed per command. If you provide multiple `note/` prefixes, MediSaveContact will stop the command and show "Multiple values specified for the following single-valued field(s): note/".
-</div>
 
+--------------------------------------------------------------------------------------------------------------------
 ### Editing a note : `editnote`
 
 Edits an existing note in a patient's record. This allows you to update medical observations, correct information, or modify treatment notes.
@@ -665,10 +551,6 @@ Edits an existing note in a patient's record. This allows you to update medical 
 ```
 editnote 1 i/2 note/Patient shows significant improvement in blood sugar levels.
 ```
-```
-editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during treatment.
-```
-
 #### Parameters & Validation Rules
 
 <table>
@@ -695,7 +577,7 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
     </tr>
     <tr>
       <td><strong>NOTE</strong></td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameter</a></td>
     </tr>
   </tbody>
 </table>
@@ -709,6 +591,7 @@ editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during 
 - Failure: Error messages above
 
 
+--------------------------------------------------------------------------------------------------------------------
 ### Deleting a note : `deletenote`
 
 Deletes a specific note from a patient's record. This permanently removes the note from the patient's medical history.
@@ -721,9 +604,7 @@ Deletes a specific note from a patient's record. This permanently removes the no
 ```
 deletenote 1 i/2
 ```
-```
-deletenote 3 i/1
-```
+
 
 #### Parameters & Validation Rules
 
@@ -762,13 +643,14 @@ deletenote 3 i/1
 
 
 
+--------------------------------------------------------------------------------------------------------------------
 ### Adding an appointment : `appt`
 
 Schedule an appointment for a patient using a specified index.
 
 #### Command Format:
 
-`appt INDEX d/DATE t/TIME [note/APPT_DESCRIPTION]`
+`appt INDEX d/DATE t/TIME [note/NOTE]`
 
 #### Example Commands:
 
@@ -822,12 +704,12 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
     </tr>
     <tr>
       <td><strong>DATE &amp; TIME</strong></td>
-      <td>Must be unique amongst the patient's appointments</td>
+      <td>Must be unique amongst this patient's appointments</td>
       <td>"This appointment already exists in the address book."</td>
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameter</a></td>
     </tr>
   </tbody>
 </table>
@@ -836,17 +718,19 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
 
 - Success:
   - In GUI: Appointment created in specified patient
-  - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Note]<br>
+  - In Command Feedback Box: <br>"Appointment created: [Date]; [Time]; Note: [Content]<br>
     For [Name]; Phone: [Phone]"
 - Failure: Error messages above
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:** Appointments are automatically sorted in chronological order.</div>
+--------------------------------------------------------------------------------------------------------------------
 ### Editing an appointment : `editappt`
 
 Modify an existing appointment for a patient. You can change the date, time, note, or clear the existing note.
 
 #### Command Format:
 
-`editappt INDEX i/ITEM_INDEX [d/NEW_DATE] [t/NEW_TIME] [note/NEW_NOTE]`
+`editappt INDEX i/ITEM_INDEX [d/DATE] [t/TIME] [note/NOTE]`
 
 #### Example Commands:
 ```
@@ -881,12 +765,12 @@ editappt 2 i/1 note/
       <td>"The appointment at index X is invalid. Patient has Y appointment(s)."</td>
     </tr>
     <tr>
-      <td rowspan="1"><strong>NEW_DATE / NEW_TIME / NEW_NOTE</strong></td>
+      <td rowspan="1"><strong>DATE / TIME / NOTE</strong></td>
       <td>At least one of these parameters must be present</td>
       <td>"At least one field to edit must be provided."</td>
     </tr>
     <tr>
-      <td rowspan="3"><strong>NEW_DATE</strong> (Optional)</td>
+      <td rowspan="3"><strong>DATE</strong> (Optional)</td>
       <td>Must follow DD-MM-YYYY format</td>
       <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
@@ -899,7 +783,7 @@ editappt 2 i/1 note/
       <td>"The specified date or time does not exist."</td>
     </tr>
     <tr>
-      <td rowspan="3"><strong>NEW_TIME</strong> (Optional)</td>
+      <td rowspan="3"><strong>TIME</strong> (Optional)</td>
       <td>Must follow HH:MM 24-hour format</td>
       <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
@@ -917,22 +801,23 @@ editappt 2 i/1 note/
       <td>"This appointment already exists in the address book."</td>
     </tr>
     <tr>
-      <td><strong>NEW_NOTE</strong> (Optional)</td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a>. Use <code>note/</code> with no value to clear the note.</td>
+      <td><strong>NOTE</strong> (Optional)</td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameter</a>. Use <code>note/</code> with no value to clear the note.</td>
     </tr>
   </tbody>
 </table>
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:** At least one of `d/`, `t/`, or `note/` must be provided.</div>
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:** You can remove the appointment's note by typing note/ without specifying any content after it.</div>
 
 #### Outputs
 
 - Success:
   - In GUI: Appointment updated for the specified patient
-  - In Command Feedback Box: <br>"Appointment [Index] edited: [Date]; [Time]; Note: [Note]<br>
+  - In Command Feedback Box: <br>"Appointment [Index] edited: [Date]; [Time]; Note: [Content]<br>
     For [Name]; Phone: [Phone]"
 - Failure: Error messages above
 
+--------------------------------------------------------------------------------------------------------------------
 ### Deleting an appointment : `deleteappt`
 
 Remove an appointment from a patient using the appointment's index.
@@ -980,8 +865,9 @@ deleteappt 1 i/1
   - In Command Feedback Box: <br>"Appointment [Index] deleted.<br>For [Name]; Phone: [Phone]"
 - Failure: Error messages above
 
-### Sorting appointments by time: `sortappt`
-Sorts the current list of patients in MediSaveContact by their soonest upcoming appointment (earliest first).
+--------------------------------------------------------------------------------------------------------------------
+### Sorting patients by appointment time: `sortappt`
+Sorts the current list of patients in MediSaveContact by their upcoming appointment (earliest first).
 Patients without appointments are placed after those with appointment.
 #### Command Format:
 ```
@@ -995,6 +881,7 @@ sortappt
     - If all patients have no appointment: "No appointments to sort!"
 
 
+--------------------------------------------------------------------------------------------------------------------
 ### Locating patients by name : `find`
 
 Finds patients whose names contain any of the given keywords.
@@ -1050,9 +937,10 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 Indexes of commands are based on the updated list after using Find. To restore the original list, consider using the List command!
 </div>
 
+--------------------------------------------------------------------------------------------------------------------
 ### Undoing a previous command: `undo`
-Undoes the effect of the most recent **successful** command, provided there was already a
-successful command given. This only works for commands which changes the database.
+Undoes the effect of the most recent successful command, provided there was already a
+successful command given. This only works for commands which change the database.
 
 #### Command Format:
 ```
@@ -1062,6 +950,9 @@ undo
 #### Outputs
 - Success: "Previous command undone."
 - Failure: "No record of successful commands to undo."
+
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Navigating through command history: `↑ / ↓`
 Use arrow keys to cycle through command history.
@@ -1074,10 +965,11 @@ Use arrow keys to cycle through command history.
 - Press ↑ to move backwards through command history
 - Press ↓ to move forward through command history
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Commands are only added if they are successful.
+Commands are only added to command history if they are successful.
 </div>
 
 
+--------------------------------------------------------------------------------------------------------------------
 ### Clearing all entries : `clear`
 
 Clears all entries from MediSaveContact.
@@ -1087,6 +979,7 @@ Clears all entries from MediSaveContact.
 clear
 ```
 
+--------------------------------------------------------------------------------------------------------------------
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -1095,14 +988,122 @@ Exits the program.
 ```
 exit
 ```
+--------------------------------------------------------------------------------------------------------------------
+### Common Parameters Reference
+{: #common-parameters }
 
+Many commands share similar parameters with identical validation rules. Here are the common parameter types used throughout MediSaveContact:
+
+### Index Parameter
+{: #index-parameter }
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2"><strong>INDEX</strong></td>
+      <td>Must exist in patient list</td>
+      <td>"The patient index provided is invalid. There is/are X patient(s)."</td>
+    </tr>
+    <tr>
+      <td>Must be a positive integer </td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
+    </tr>
+  </tbody>
+</table>
+
+**Usage**: Refers to the index number shown in the displayed patient list. Use the [`list`](#list-command) command to view all patient indices. `ITEM_INDEX` refers to the position of items within a patient's record (e.g., notes).
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Patient indices adapt to the current view. If you use the `find` command to filter patients, the indices will be renumbered based on the filtered results (e.g., if only 3 patients match your search, they will be numbered 1, 2, 3 regardless of their original positions).
+</div>
+
+### Note Parameter
+{: #note-parameters }
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2"><strong>NOTE</strong></td>
+      <td>Max 200 characters</td>
+      <td>"Note exceeds maximum length of 200 characters."</td>
+    </tr>
+    <tr>
+      <td>Cannot be empty or whitespace only</td>
+      <td>"Notes can take any values, and it should not be blank"</td>
+    </tr>
+  </tbody>
+</table>
+
+**Usage**: `NOTE` refers to text content for patient notes with length and content validation.
+
+### Person Information Parameters
+{: #person-info-parameters }
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2"><strong>NAME</strong></td>
+      <td>Cannot be blank</td>
+      <td>"Name cannot be blank."</td>
+    </tr>
+    <tr>
+      <td>Must contain valid characters only (letters, spaces, commas, parentheses, slashes, periods, at signs, hyphens, and apostrophes)</td>
+      <td>"Name contains invalid characters. Only letters, spaces, commas, open parentheses ( ), slashes /, periods ., at signs @, hyphens -, and apostrophes ' are allowed."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>PHONE</strong></td>
+      <td>Cannot be blank</td>
+      <td>"Phone number cannot be blank."</td>
+    </tr>
+    <tr>
+      <td>Must contain digits only</td>
+      <td>"Phone number must contain digits only."</td>
+    </tr>
+    <tr>
+      <td>Must be between 3 and 15 digits</td>
+      <td>"Phone number must be between 3 and 15 digits."</td>
+    </tr>
+    <tr>
+      <td><strong>ADDRESS</strong></td>
+      <td>Cannot be blank</td>
+      <td>"Address cannot be blank."</td>
+    </tr>
+  </tbody>
+</table>
+
+**Usage**: Core person information fields (name, phone, address) shared by patients and caretakers.
+
+
+--------------------------------------------------------------------------------------------------------------------
 ### Saving the data
 
 MediSaveContact data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
+--------------------------------------------------------------------------------------------------------------------
 ### Editing the data file
 
-MediSaveContact data are saved automatically as a JSON file `[JAR file location]/data/medisavecontact.json`. Advanced users are welcome to update data directly by editing that data file.
+MediSaveContact data are saved automatically as a JSON file `[JAR file location]/data/medisavecontact.json` after the first successful command. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, MediSaveContact will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
@@ -1117,9 +1118,28 @@ Furthermore, certain edits can cause the application to behave in unexpected way
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the data file it creates with the file that contains the data of your previous MediSaveContact home folder.
 
+**Q**: Can I edit a patient's information after adding them?<br>
+**A**: Yes, use the `editpatient` command followed by the patient's index and the fields you want to update. For example, `editpatient 1 p/91234567` updates the phone number of the first patient.
+
+**Q**: What happens to appointments and notes when I delete a patient?<br>
+**A**: When you delete a patient, all associated data including their appointments, notes, and caretaker information are permanently removed from the system.
+
+**Q**: Can a patient have multiple caretakers?<br>
+**A**: No, each patient can only have one caretaker assigned at a time. If you need to change the caretaker, you can use the `editcaretaker` command or delete the existing caretaker and add a new one.
+
+**Q**: How do I find a specific patient quickly?<br>
+**A**: Use the `find` command followed by keywords from the patient's name. For example, `find John` will list all patients with "John" in their name. You can also use the `list` command with a tag filter like `list tag/high` to show only high-priority patients.
+
+**Q**: Can I undo a command if I made a mistake?<br>
+**A**: Yes, use the `undo` command to reverse the most recent successful command that modified the database. This works for commands like adding, editing, or deleting patients, caretakers, notes, and appointments.
+
+**Q**: Why can't I add duplicate appointments with the same date and time?<br>
+**A**: MediSaveContact prevents scheduling conflicts by only checking the date and time for duplicates. The appointment note/description is not considered, so you cannot schedule two appointments for the same patient at the same date and time, even with different notes.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+3. **Very long input values** may cause UI display issues. Extremely long names, addresses, or notes might be truncated in the display panel. While MediSaveContact accepts inputs up to reasonable limits (e.g., names with valid characters, notes up to 200 characters), very lengthy values may not display completely in the UI. The data is still stored correctly and can be viewed by scrolling within the respective panels.
