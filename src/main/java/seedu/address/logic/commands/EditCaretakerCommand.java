@@ -44,8 +44,7 @@ public class EditCaretakerCommand extends AbstractEditCommand<Patient, EditCaret
             + "%2$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Edit can only be done on Patients.";
-    public static final String MESSAGE_NO_CARETAKER = "The patient at index %1$s does not have a caretaker. "
-            + "Edit can only be done on patients with a caretaker.";
+    public static final String MESSAGE_NO_CARETAKER = "The patient at index %1$s does not have a caretaker.";
     public static final String MESSAGE_CARETAKER_ALREADY_EXISTS = "This caretaker already exists as a "
             + "patient in the address book.";
 

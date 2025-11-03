@@ -21,7 +21,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     public static final String COMMAND_WORD = "deleteappt";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-        + ": Deletes the appointment of the patient identified by the index"
+        + ": Deletes the appointment of the patient identified by the index "
         + "number used in the displayed patient list.\n"
         + "The appointment to delete is identified by its appointment index (1-based).\n"
         + "Parameters: INDEX (must be a positive integer) "
@@ -32,8 +32,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     public static final String MESSAGE_DELETE_APPOINTMENT_SUCCESS = "Appointment %1$s deleted.\n%2$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
         + "Appointments can only be deleted for patients.";
-    public static final String MESSAGE_NO_APPOINTMENT = "Patient has no appointment to delete.";
-    public static final String MESSAGE_INVALID_APPOINTMENT_INDEX = "The appointment index %1$s is invalid. "
+    public static final String MESSAGE_INVALID_APPOINTMENT_INDEX = "The appointment at index %1$s is invalid. "
         + "Patient has %2$s appointment(s).";
 
     public final int apptIndex;
@@ -63,7 +62,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
         updatedAppointments.remove(apptIndex - 1);
         Patient updatedPatient = new Patient(patient.getName(),
             patient.getPhone(), patient.getAddress(), patient.getTag().orElse(null),
-            patient.getNotes(), updatedAppointments);
+            patient.getNotes(), updatedAppointments, patient.getCaretaker());
         model.setPerson(patient, updatedPatient);
     }
 
@@ -74,10 +73,6 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
         }
 
         List<Appointment> appointments = patient.getAppointment();
-        if (appointments.isEmpty()) {
-            throw new CommandException(MESSAGE_NO_APPOINTMENT);
-        }
-
         if (apptIndex < 1 || apptIndex > appointments.size()) {
             throw new CommandException(String.format(MESSAGE_INVALID_APPOINTMENT_INDEX,
                     apptIndex, appointments.size()));

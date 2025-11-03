@@ -98,7 +98,8 @@ public class DeleteCaretakerCommandTest {
         //last person in typicalPatients has no caretaker
         DeleteCaretakerCommand deleteCommand = new DeleteCaretakerCommand(lastPersonIndex);
 
-        assertCommandFailure(deleteCommand, model, DeleteCaretakerCommand.MESSAGE_NO_CARETAKER_FOUND);
+        assertCommandFailure(deleteCommand, model,
+                String.format(DeleteCaretakerCommand.MESSAGE_NO_CARETAKER_FOUND, lastPersonIndex.getOneBased()));
     }
 
     @Test

@@ -28,12 +28,20 @@ public class AddAppointmentCommandParser implements Parser<AddAppointmentCommand
     public AddAppointmentCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_DATE, PREFIX_TIME, PREFIX_NOTE);
 
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_DATE, PREFIX_TIME, PREFIX_NOTE);
+
         if (!arePrefixesPresent(argMultimap, PREFIX_DATE, PREFIX_TIME) || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AddAppointmentCommand.MESSAGE_USAGE));
         }
 
-        Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        Index index;
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (ParseException pe) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddAppointmentCommand.MESSAGE_USAGE), pe);
+        }
         String date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
         String time = ParserUtil.parseTime(argMultimap.getValue(PREFIX_TIME).get());
 

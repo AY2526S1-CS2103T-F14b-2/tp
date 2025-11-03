@@ -78,7 +78,7 @@ Action | Description
     * `n/John Doe tag/High` ✅
     * `n/John Doe` ✅
 
-* Parameters can be in any order.<br>
+* Parameters with prefixes can be in any order.<br>
     * `n/John Doe tag/high` ✅
     * `tag/high n/John Doe` ✅
 
@@ -86,6 +86,10 @@ Action | Description
   e.g. if you type `clear 123`, it will be interpreted as `clear`.
 
 * When a compulsory parameter is not provided, an error message regarding the command's proper usage will appear, and the command will not be executed.
+
+* When a command accepts an input prefix only once, entering it more than once will show an error about duplicate fields and the command will not be executed.
+
+* When a compulsory parameter is not provided, an error message regarding the missing parameter will appear, and the command will not be executed.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
@@ -437,8 +441,12 @@ caretaker 3 n/Alice Tan p/81234567 r/Home Nurse
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must not already have a caretaker</td>
+      <td>"The patient at index X already has a caretaker."</td>
     </tr>
     <tr>
       <td><strong>NAME / PHONE</strong></td>
@@ -502,8 +510,12 @@ editcaretaker 2 n/Jane Ong r/Sister
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must already have a caretaker</td>
+      <td>"The patient at index X does not have a caretaker."</td>
     </tr>
     <tr>
       <td><strong>NAME / PHONE / ADDRESS / RELATIONSHIP</strong></td>
@@ -561,8 +573,12 @@ deletecaretaker 2
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must already have a caretaker</td>
+      <td>"The patient at index X does not have a caretaker."</td>
     </tr>
   </tbody>
 </table>
@@ -631,6 +647,10 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
+</div>
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
+Only one `note/` prefix is allowed per command. If you provide multiple `note/` prefixes, MediSaveContact will stop the command and show "Multiple values specified for the following single-valued field(s): note/".
 </div>
 
 ### Editing a note : `editnote`
@@ -721,7 +741,11 @@ deletenote 3 i/1
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>ITEM_INDEX</strong></td>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
+    </tr>
+    <tr>
       <td>Must correspond to an existing note</td>
       <td>"The note at index X is invalid. Patient has Y note(s)."</td>
     </tr>
@@ -771,22 +795,35 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>DATE</strong></td>
+      <td rowspan="3"><strong>DATE</strong></td>
       <td>Must follow DD-MM-YYYY format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>Must be today or later</td>
       <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>TIME</strong></td>
-      <td>	Must follow HH:MM 24-hour format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>Appointment date must exist in the calendar</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>TIME</strong></td>
+      <td>Must follow HH:MM 24-hour format</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
       <td>"Appointment must be set in the future."</td>
+    </tr>
+    <tr>
+      <td>Appointment time must exist within 24 hours</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td><strong>DATE &amp; TIME</strong></td>
+      <td>Must be unique amongst the patient's appointments</td>
+      <td>"This appointment already exists in the address book."</td>
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
@@ -835,27 +872,49 @@ editappt 2 i/1 note/
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>ITEM_INDEX</strong></td>
-      <td>1-based index of the appointment to edit</td>
-      <td>"Appointment index must be a positive integer starting from 1."</td>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br/>[Command format shown]</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>NEW_DATE</strong> (Optional)</td>
+      <td>Must correspond to an existing appointment</td>
+      <td>"The appointment at index X is invalid. Patient has Y appointment(s)."</td>
+    </tr>
+    <tr>
+      <td rowspan="1"><strong>NEW_DATE / NEW_TIME / NEW_NOTE</strong></td>
+      <td>At least one of these parameters must be present</td>
+      <td>"At least one field to edit must be provided."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>NEW_DATE</strong> (Optional)</td>
       <td>Must follow DD-MM-YYYY format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>Must be today or later</td>
       <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>NEW_TIME</strong> (Optional)</td>
+      <td>Appointment date must exist in the calender</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>NEW_TIME</strong> (Optional)</td>
       <td>Must follow HH:MM 24-hour format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
       <td>"Appointment must be set in the future."</td>
+    </tr>
+    <tr>
+      <td>Appointment time must exist within 24 hours</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td><strong>DATE &amp; TIME</strong></td>
+      <td>Updated appointment must not duplicate another appointment's date and time</td>
+      <td>"This appointment already exists in the address book."</td>
     </tr>
     <tr>
       <td><strong>NEW_NOTE</strong> (Optional)</td>
@@ -903,9 +962,13 @@ deleteappt 1 i/1
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>ITEM_INDEX</strong></td>
-      <td>1-based index of the appointment to delete</td>
-      <td>"Appointment index must be a positive integer starting from 1."</td>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br/>[Command format shown]</td>
+    </tr>
+    <tr>
+      <td>Must correspond to an existing appointment</td>
+      <td>"The appointment at index X is invalid. Patient has Y appointment(s)."</td>
     </tr>
   </tbody>
 </table>

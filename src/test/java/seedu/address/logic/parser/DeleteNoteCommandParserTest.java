@@ -41,13 +41,16 @@ public class DeleteNoteCommandParserTest {
     @Test
     public void parse_invalidNoteIndex_throwsParseException() {
         // zero note index
-        assertParseFailure(parser, "1 i/0", "Note index must be a positive integer starting from 1.");
+        assertParseFailure(parser, "1 i/0", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            DeleteNoteCommand.MESSAGE_USAGE));
 
         // negative note index
-        assertParseFailure(parser, "1 i/-1", "Note index must be a positive integer starting from 1.");
+        assertParseFailure(parser, "1 i/-1", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            DeleteNoteCommand.MESSAGE_USAGE));
 
         // non-numeric note index
-        assertParseFailure(parser, "1 i/abc", "Note index must be a valid positive integer.");
+        assertParseFailure(parser, "1 i/abc", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            DeleteNoteCommand.MESSAGE_USAGE));
 
         // empty note index
         assertParseFailure(parser, "1 i/", String.format(MESSAGE_INVALID_COMMAND_FORMAT,

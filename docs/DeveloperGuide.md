@@ -2,14 +2,10 @@
 layout: page
 title: Developer Guide
 ---
-* Table of Contents
-{:toc}
-
---------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+No third party libraries were used in the development of MediSaveContact.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -319,9 +315,6 @@ Step 4. The command formats feedback (`Appointment created: <formatted appointme
 
 All PlantUML sources are located alongside other diagrams in `docs/diagrams/` for future edits.
 
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -440,6 +433,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3b1. MediSaveContact shows an error message.
 
       Use case resumes at step 2.
+
+* 3c. The appointment details duplicate an existing appointment for that patient.
+
+   * 3c1. MediSaveContact shows an error message ("This appointment already exists in the address book").
+
+         Use case resumes at step 2.
 
 **Use case 3: Add a medical note to a patient**
 
