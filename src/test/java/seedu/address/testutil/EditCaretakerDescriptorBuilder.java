@@ -64,6 +64,14 @@ public class EditCaretakerDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Sets the field copyAddressFromPatient of the {@code EditCaretakerDescriptor} that we are building.
+     */
+    public EditCaretakerDescriptorBuilder withCopyAddressFromPatient() {
+        descriptor.markCopyAddressFromPatient();
+        return this;
+    }
+
     public EditCaretakerDescriptor build() {
         return descriptor;
     }

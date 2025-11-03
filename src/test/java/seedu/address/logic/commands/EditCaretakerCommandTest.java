@@ -283,4 +283,32 @@ public class EditCaretakerCommandTest {
         assertTrue(result.contains("name"));
         assertTrue(result.contains("relationship"));
     }
+
+    @Test
+    public void execute_copyAddressFromPatient_success() {
+        Patient original = (Patient) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        EditCaretakerDescriptor descriptor = new EditCaretakerDescriptorBuilder()
+                .withCopyAddressFromPatient()
+                .build();
+
+        EditCaretakerCommand cmd = new EditCaretakerCommand(INDEX_FIRST_PERSON, descriptor);
+        Caretaker expectedCaretaker = new Caretaker(
+                original.getCaretaker().getName(),
+                original.getCaretaker().getPhone(),
+                original.getAddress(),
+                original.getCaretaker().getRelationship()
+        );
+
+        Patient expectedEdited = new PatientBuilder(original).withCaretaker(expectedCaretaker).build();
+
+        String expectedMessage = String.format(EditCaretakerCommand.MESSAGE_EDIT_CARETAKER_SUCCESS,
+                Messages.format(expectedCaretaker), Messages.shortFormat(expectedEdited));
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(original, expectedEdited);
+
+        assertCommandSuccess(cmd, model, expectedMessage, expectedModel);
+    }
+
 }

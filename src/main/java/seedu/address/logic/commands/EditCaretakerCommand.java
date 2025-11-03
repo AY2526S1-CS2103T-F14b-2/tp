@@ -85,20 +85,34 @@ public class EditCaretakerCommand extends AbstractEditCommand<Patient, EditCaret
     }
 
     @Override
-    protected Patient createEditedItem(Patient patientToEdit, EditCaretakerDescriptor editCaretakerDescriptor) {
+    protected Patient createEditedItem(Patient patientToEdit, EditCaretakerDescriptor d) {
         assert patientToEdit != null;
 
-        Caretaker oldCaretaker = patientToEdit.getCaretaker();
-        Name updatedName = editCaretakerDescriptor.getName().orElse(oldCaretaker.getName());
-        Phone updatedPhone = editCaretakerDescriptor.getPhone().orElse(oldCaretaker.getPhone());
-        Address updatedAddress = editCaretakerDescriptor.getAddress().orElse(oldCaretaker.getAddress());
-        Relationship updatedRelationship = editCaretakerDescriptor.getRelationship()
-                .orElse(oldCaretaker.getRelationship());
+        Caretaker old = patientToEdit.getCaretaker();
+
+        Name updatedName = d.getName().orElse(old.getName());
+        Phone updatedPhone = d.getPhone().orElse(old.getPhone());
+
+        Address updatedAddress;
+        if (d.isCopyAddressFromPatient()) {
+            updatedAddress = patientToEdit.getAddress();
+        } else {
+            updatedAddress = d.getAddress().orElse(old.getAddress());
+        }
+
+        Relationship updatedRelationship = d.getRelationship().orElse(old.getRelationship());
 
         Caretaker newCaretaker = new Caretaker(updatedName, updatedPhone, updatedAddress, updatedRelationship);
-        return new Patient(patientToEdit.getName(), patientToEdit.getPhone(), patientToEdit.getAddress(),
-                patientToEdit.getTag().orElse(null), patientToEdit.getNotes(),
-                patientToEdit.getAppointment(), newCaretaker);
+
+        return new Patient(
+                patientToEdit.getName(),
+                patientToEdit.getPhone(),
+                patientToEdit.getAddress(),
+                patientToEdit.getTag().orElse(null),
+                patientToEdit.getNotes(),
+                patientToEdit.getAppointment(),
+                newCaretaker
+        );
     }
 
     @Override
@@ -229,6 +243,7 @@ public class EditCaretakerCommand extends AbstractEditCommand<Patient, EditCaret
     public static class EditCaretakerDescriptor extends EditPersonDescriptor {
         private Relationship relationship;
         private boolean relationshipEdited;
+        private boolean copyAddressFromPatient = false;
 
         public EditCaretakerDescriptor() {}
 
@@ -240,6 +255,7 @@ public class EditCaretakerCommand extends AbstractEditCommand<Patient, EditCaret
             super(toCopy);
             this.relationship = toCopy.relationship;
             this.relationshipEdited = toCopy.relationshipEdited;
+            this.copyAddressFromPatient = toCopy.copyAddressFromPatient;
         }
 
         public EditCaretakerDescriptor(EditPersonDescriptor toCopyPerson) {
@@ -263,12 +279,21 @@ public class EditCaretakerCommand extends AbstractEditCommand<Patient, EditCaret
             return this.relationshipEdited;
         }
 
+        public void markCopyAddressFromPatient() {
+            this.copyAddressFromPatient = true;
+        }
+
+        public boolean isCopyAddressFromPatient() {
+            return copyAddressFromPatient;
+        }
+
         /**
          * Returns true if at least one field is edited.
          */
         @Override
         public boolean isAnyFieldEdited() {
-            return super.isAnyFieldEdited() || relationshipEdited;
+            return super.isAnyFieldEdited() || this.isRelationshipEdited()
+                    || this.isCopyAddressFromPatient();
         }
 
         @Override

@@ -25,7 +25,7 @@ public abstract class Person {
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Address address) {
-        requireAllNonNull(name, phone);
+        requireAllNonNull(name, phone, address);
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -44,7 +44,7 @@ public abstract class Person {
     }
 
     /**
-     * Returns true if both persons have the same name.
+     * Returns true if both persons have the same name and phone number.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person other) {

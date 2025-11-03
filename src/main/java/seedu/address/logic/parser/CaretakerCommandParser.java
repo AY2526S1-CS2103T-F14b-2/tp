@@ -13,7 +13,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.CaretakerCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Caretaker;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Relationship;
@@ -50,15 +49,16 @@ public class CaretakerCommandParser implements Parser<CaretakerCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Relationship relationship = ParserUtil.parseRelationship(argMultimap.getValue(PREFIX_RELATIONSHIP).get());
 
-        Address address = null;
         Optional<String> addressValue = argMultimap.getValue(PREFIX_ADDRESS);
+        Optional<Address> addressOpt;
         if (addressValue.isPresent()) {
-            address = ParserUtil.parseAddress(addressValue.get());
+            Address parsedAddress = ParserUtil.parseAddress(addressValue.get());
+            addressOpt = Optional.of(parsedAddress);
+        } else {
+            addressOpt = Optional.empty();
         }
 
-        Caretaker caretaker = new Caretaker(name, phone, address, relationship);
-
-        return new CaretakerCommand(index, caretaker);
+        return new CaretakerCommand(index, name, phone, relationship, addressOpt);
     }
 
     /**

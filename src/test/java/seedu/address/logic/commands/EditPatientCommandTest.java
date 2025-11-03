@@ -12,6 +12,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
@@ -64,8 +65,7 @@ public class EditPatientCommandTest {
                 .withAddress(VALID_ADDRESS_AMY)
                 .build();
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPatient));
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.formatForEdit(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(firstPatient, editedPatient);
@@ -80,18 +80,17 @@ public class EditPatientCommandTest {
 
         Patient lastPatient = (Patient) lastPerson;
         PatientBuilder patientInList = new PatientBuilder(lastPatient);
-        Person editedPerson = patientInList.withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+        Patient editedPatient = patientInList.withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                                             .build();
 
         EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).build();
         EditPatientCommand editPatientCommand = new EditPatientCommand(indexLastPerson, descriptor);
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPerson));
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.formatForEdit(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(lastPerson, editedPerson);
+        expectedModel.setPerson(lastPerson, editedPatient);
 
         assertCommandSuccess(editPatientCommand, model, expectedMessage, expectedModel);
     }
@@ -117,11 +116,11 @@ public class EditPatientCommandTest {
 
         Patient patientInFilteredList = (Patient) personInFilteredList;
         Patient editedPatient = new PatientBuilder(patientInFilteredList).withName(VALID_NAME_BOB).build();
+        EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditPatientCommand editPatientCommand = new EditPatientCommand(INDEX_FIRST_PERSON,
-                new EditPatientDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                descriptor);
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPatient));
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.formatForEdit(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPatient);
@@ -241,8 +240,7 @@ public class EditPatientCommandTest {
                 .withTag("high")
                 .build();
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPatient));
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.formatForEdit(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(firstPatient, editedPatient);
@@ -271,8 +269,7 @@ public class EditPatientCommandTest {
                 firstPatient.getAppointment(),
                 firstPatient.getCaretaker());
 
-        String expectedMessage = String.format(EditPatientCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPatient));
+        String expectedMessage = String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.formatForEdit(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(firstPatient, editedPatient);
@@ -437,5 +434,4 @@ public class EditPatientCommandTest {
         assertTrue(result.contains("name"));
         assertTrue(result.contains("tag"));
     }
-
 }
