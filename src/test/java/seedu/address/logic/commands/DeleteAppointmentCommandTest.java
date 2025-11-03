@@ -32,7 +32,8 @@ public class DeleteAppointmentCommandTest {
 
         DeleteAppointmentCommand command = new DeleteAppointmentCommand(Index.fromOneBased(1), 1);
 
-        assertCommandFailure(command, model, DeleteAppointmentCommand.MESSAGE_NO_APPOINTMENT);
+        assertCommandFailure(command, model,
+                String.format(DeleteAppointmentCommand.MESSAGE_INVALID_APPOINTMENT_INDEX, 1, 0));
     }
 
     @Test

@@ -48,7 +48,8 @@ public class EditAppointmentCommandParser implements Parser<EditAppointmentComma
         try {
             appointmentIndex = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_ITEM_INDEX).get());
         } catch (ParseException pe) {
-            throw new ParseException("Appointment index must be a positive integer starting from 1.", pe);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    EditAppointmentCommand.MESSAGE_USAGE), pe);
         }
 
         EditAppointmentDescriptor editAppointmentDescriptor = new EditAppointmentDescriptor();

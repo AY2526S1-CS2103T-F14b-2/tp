@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +41,8 @@ public class AddAppointmentCommandParserTest {
     @Test
     public void parse_invalidIndex_throwsParseException() {
         String userInput = "0 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_TIME + FUTURE_TIME;
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_INDEX);
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAppointmentCommand.MESSAGE_USAGE));
     }
 
     @Test

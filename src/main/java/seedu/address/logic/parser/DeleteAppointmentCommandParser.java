@@ -42,7 +42,8 @@ public class DeleteAppointmentCommandParser implements Parser<DeleteAppointmentC
         try {
             appointmentIndex = ParserUtil.parseIndex(appointmentIndexValue);
         } catch (ParseException pe) {
-            throw new ParseException("Appointment index must be a positive integer starting from 1.", pe);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeleteAppointmentCommand.MESSAGE_USAGE), pe);
         }
 
         return new DeleteAppointmentCommand(patientIndex, appointmentIndex.getOneBased());

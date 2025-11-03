@@ -35,7 +35,7 @@ public class AddAppointmentCommand extends Command {
         + PREFIX_NOTE + "Monthly checkup";
 
     public static final String MESSAGE_SUCCESS = "Appointment created: %1$s\n%2$s";
-    public static final String MESSAGE_DUPLICATE_APPOINTMENT = "This appointment already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_APPOINTMENT = "This appointment already exists in the address book.";
 
     private final Index targetIndex;
     private final String date;
