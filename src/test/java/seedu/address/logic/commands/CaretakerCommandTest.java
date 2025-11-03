@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.Messages.shortFormat;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX;
 import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_CARETAKER_ALREADY_EXISTS;
 import static seedu.address.logic.commands.CaretakerCommand.MESSAGE_PATIENT_HAS_CARETAKER;
@@ -106,7 +107,7 @@ public class CaretakerCommandTest {
                 caretaker.getPhone(), caretaker.getRelationship(), Optional.of(caretaker.getAddress()));
 
         assertThrows(CommandException.class,
-            String.format(MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()), ()
+                Messages.invalidPatientIndex(model.getFilteredPersonList().size()), ()
                 -> command.execute(model));
     }
 

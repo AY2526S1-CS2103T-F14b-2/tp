@@ -72,8 +72,7 @@ public abstract class AbstractDeleteCommand<T> extends Command {
      * @return the invalid index error message
      */
     protected String getInvalidIndexMessage(Model model) {
-        return String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
-                model.getFilteredPersonList().size());
+        return Messages.invalidPatientIndex(model.getFilteredPersonList().size());
     }
 
     /**

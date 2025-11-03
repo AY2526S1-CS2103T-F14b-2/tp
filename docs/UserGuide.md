@@ -111,7 +111,7 @@ Many commands share similar parameters with identical validation rules. Here are
     <tr>
       <td rowspan="2"><strong>INDEX</strong></td>
       <td>Must exist in patient list</td>
-      <td>"The patient index provided is invalid. There are X patient(s)."</td>
+      <td>"The patient index provided is invalid. There is/are X patient(s)."</td>
     </tr>
     <tr>
       <td>Must be a positive integer </td>
@@ -152,11 +152,9 @@ Patient indices adapt to the current view. If you use the `find` command to filt
 
 **Usage**: `NOTE` refers to text content for patient notes with length and content validation.
 
-
 ### Person Information Parameters
 {: #person-info-parameters }
 
-<table>
   <thead>
     <tr>
       <th>Parameter</th>
@@ -172,7 +170,7 @@ Patient indices adapt to the current view. If you use the `find` command to filt
     </tr>
     <tr>
       <td>Must contain valid characters only (letters, spaces, commas, parentheses, slashes, periods, at signs, hyphens, and apostrophes)</td>
-      <td>"Name contains invalid characters. Only letters, spaces, commas (,), parentheses (), slashes (/), periods (.), at signs (@), hyphens (-), and apostrophes (') are allowed."</td>
+      <td>"Name contains invalid characters. Only letters, spaces, commas, open parentheses ( ), slashes /, periods ., at signs @, hyphens -, and apostrophes ' are allowed."</td>
     </tr>
     <tr>
       <td rowspan="3"><strong>PHONE</strong></td>
@@ -281,8 +279,7 @@ patient n/Amy Lee p/82345678 a/456 Bedok North Street 2 tag/medium
         </tr>
         <tr>
           <td><strong>ADDRESS</strong></td>
-          <td>Cannot be blank</td>
-          <td>"Address cannot be blank."</td>
+           <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
         </tr>
         <tr>
           <td rowspan="2"><strong>TAG</strong> (Optional)</td>
@@ -308,9 +305,12 @@ Patient's name is auto capitalised (Eg: John doe will be saved as John Doe)
 </div>
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
-Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This patient already exists in MediSaveContact"
+Patients are duplicates if both name and phone number match (case-insensitive). If attempting to add a duplicate patient, you will see the error: "This person already exists as a patient in the address book"
 </div>
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
+You cannot add a patient who is already registered as a caretaker. If you attempt to do so, you will see the error: "This person already exists as a caretaker in the address book"
+</div>
 
 ### Editing a patient : `editpatient`
 
@@ -349,7 +349,7 @@ editpatient 2 n/Betsy Crower tag/
       <td>"At least one field to edit must be provided."</td>
     </tr>
     <tr>
-      <td colspan="2">See <a href="#adding-a-patient-patient">patient command</a> for individual parameter validation rules and error messages</td>
+      <td colspan="2">See <a href="#person-info-parameters">Person Information Parameters</a></td>
     </tr>
   </tbody>
 </table>
@@ -1033,12 +1033,14 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
+* Patients matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 * Find only searches for patient names, not caretaker names.
 
 #### Outputs
-- Success: "X persons listed!", where X is the number of matching persons
+- Success: 
+  - If exactly one match: "1 patient listed!",
+  - If multiple matches: "X patients listed!", where X is the number of matching patients
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**

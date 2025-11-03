@@ -32,7 +32,9 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "high";
 
     public static final String MESSAGE_SUCCESS = "Patient created: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists as a patient in the address book";
+    public static final String MESSAGE_CARETAKER_ALREADY_EXISTS = "This person already exists as a "
+            + "caretaker in the address book";
 
     private final Person toAdd;
 
@@ -50,6 +52,10 @@ public class AddCommand extends Command {
 
         if (model.hasPerson(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        }
+
+        if (model.existAsCaretaker(toAdd)) {
+            throw new CommandException(MESSAGE_CARETAKER_ALREADY_EXISTS);
         }
 
         model.addPerson(toAdd);

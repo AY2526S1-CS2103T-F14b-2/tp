@@ -163,7 +163,7 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Undo feature
 
-#### Proposed Implementation
+#### Overview
 
 The proposed undo mechanism is facilitated by `VersionedAddressBook`. It wraps `AddressBook` with an undo history, stored internally as an internal stack of past states `historyLog`
 and a pointer to the current state `current`. It provides the following operations:
@@ -174,14 +174,14 @@ and a pointer to the current state `current`. It provides the following operatio
 * `VersionedAddressBook#getAddressBook()` - Exposes live `AddressBook` instance that the UI is connected to
 
 These operations are exposed in the `Model` interface
-* Model operations that changes its content (e.g `addPerson`, `deletePerson`, `setPerson`, `clear`, `sortPersons`, etc.) calls `VersionedAddressBook#update()`
+* Model operations that changes its content calls `VersionedAddressBook#update()`
   to create a snapshot before applying the change
 * Model#canUndo() calls `VersionedAddressBook#hasHistory()`
 * Model#undo() calls `VersionedAddressBook#undo()` and passes the new filtered list to the UI `PREDICATE_SHOW_ALL_PERSONS` to refresh the UI list to show the
   list of patients in the latest snapshot of `AddressBook`
 
 #### When we snapshot
-Only mutating operations lead to snapshots. The `ModelManager` methods that mutate the book call `update()`, then pperform the change
+Only mutating operations lead to snapshots. The `ModelManager` methods that mutate the book call `update()`, then perform the change
 * Mutating examples which captures snapshot: `add`, `delete`, `edit`, `clear`, `addappt`, `note`
 * Non-mutating examples that does not capture snapshot: `list`, `find`, `help`, `sortappt`
 
@@ -230,7 +230,7 @@ Step 5: **User executes**
 
 Step 6: **Behaviour summary**
 * Mutating commands (`patient`, `deletepatient`, `edit`, `clear`, `appt`,
-  `note`, `sort`) snapshot before changing data
+  `note`, `sortappt`) snapshot before changing data
 * Undo reverts one step, restore state of latest snapshot captured in `historyLog`, and show all patients
 * Non-mutating commands (`list`, `find`, `help`) does not affect content of historyLog.
 
@@ -257,7 +257,7 @@ Step 6: **Behaviour summary**
 
 Why we chose Alternative 1:
 * It keeps our codebase easy to maintain as we add more mutating command. Every reversal follows a history log with minimal guesswork
-  and edge cases, strengthening clarity and maintainability of system. We can introduce target optimisations, if memory scale becomes a concern later on
+  and edge cases, strengthening clarity and maintainability of system. We can introduce target optimisations, if memory scale becomes a concern later on.
 
 
 ### Appointment feature

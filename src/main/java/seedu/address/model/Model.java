@@ -112,4 +112,12 @@ public interface Model {
 
     void sortPersons(Comparator<? super Person> comparator);
 
+    /**
+     * Returns true if the patient to be added already exists as a caretaker in MediSaveContact
+     *
+     * @param person {@link Person} to be added into MediSaveContact
+     * @return whether a caretaker with the given name and phone exists
+     */
+    boolean existAsCaretaker(Person person);
+
 }

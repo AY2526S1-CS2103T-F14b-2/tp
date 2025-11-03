@@ -62,7 +62,7 @@ public class AbstractEditCommandTest {
 
         CommandException exception = assertThrows(CommandException.class, () ->
             command.execute(model));
-        assertEquals(String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()),
+        assertEquals(Messages.invalidPatientIndex(model.getFilteredPersonList().size()),
                 exception.getMessage());
     }
 
@@ -212,7 +212,7 @@ public class AbstractEditCommandTest {
 
         CommandException exception = assertThrows(CommandException.class, () ->
             command.execute(model));
-        assertEquals(String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()),
+        assertEquals(Messages.invalidPatientIndex(model.getSize()),
                 exception.getMessage());
     }
 
@@ -248,7 +248,7 @@ public class AbstractEditCommandTest {
 
         CommandException exception = assertThrows(CommandException.class, () ->
             command.execute(model));
-        assertEquals(String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()),
+        assertEquals(Messages.invalidPatientIndex(model.getFilteredPersonList().size()),
                 exception.getMessage());
     }
 

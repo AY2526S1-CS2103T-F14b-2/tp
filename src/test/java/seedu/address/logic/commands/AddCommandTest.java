@@ -57,6 +57,25 @@ public class AddCommandTest {
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
     }
 
+    @Test
+    public void execute_careTakerAlreadyExists_throwsCommandException() {
+        Patient patientClashesWithCaretaker = new PatientBuilder()
+                .withName("Smolder Poulder")
+                .withPhone("85355255")
+                .withAddress("123, Jurong West Ave 6, #08-123")
+                .build();
+
+        AddCommand addCommand = new AddCommand(patientClashesWithCaretaker);
+
+        ModelStub modelStub = new ModelStubCaretakerExists(patientClashesWithCaretaker);
+
+        assertThrows(CommandException.class,
+                AddCommand.MESSAGE_CARETAKER_ALREADY_EXISTS, () -> addCommand.execute(modelStub));
+
+
+
+    }
+
 
 
     @Test
@@ -196,6 +215,11 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        @Override
+        public boolean existAsCaretaker(Person p) {
+            return false;
+        }
+
 
     }
 
@@ -239,6 +263,26 @@ public class AddCommandTest {
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
+    }
+
+    private class ModelStubCaretakerExists extends ModelStub {
+        private final Person probe;
+
+        ModelStubCaretakerExists(Person probe) {
+            requireNonNull(probe);
+            this.probe = probe;
+        }
+
+        @Override
+        public boolean hasPerson(Person person) {
+            return false;
+        }
+
+        @Override
+        public boolean existAsCaretaker(Person p) {
+            return p.isSamePerson(probe);
+        }
+
     }
 
 }
