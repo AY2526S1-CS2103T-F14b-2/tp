@@ -134,6 +134,7 @@ public class EditCaretakerCommandTest {
                 Messages.format(newCaretaker), Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
         expectedModel.setPerson(firstPatient, editedPatient);
 
         assertCommandSuccess(editCaretakerCommand, model, expectedMessage, expectedModel);
