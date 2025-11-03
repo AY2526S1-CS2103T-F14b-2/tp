@@ -749,7 +749,7 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
     <tr>
       <td rowspan="3"><strong>DATE</strong></td>
       <td>Must follow DD-MM-YYYY format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>Must be today or later</td>
@@ -762,7 +762,7 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
     <tr>
       <td rowspan="3"><strong>TIME</strong></td>
       <td>Must follow HH:MM 24-hour format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
@@ -775,7 +775,7 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
     <tr>
       <td><strong>DATE &amp; TIME</strong></td>
       <td>Must be unique amongst the patient's appointments</td>
-      <td>"This appointment already exists in the address book"</td>
+      <td>"This appointment already exists in the address book."</td>
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
@@ -835,7 +835,7 @@ editappt 2 i/1 note/
     <tr>
       <td rowspan="3"><strong>NEW_DATE</strong> (Optional)</td>
       <td>Must follow DD-MM-YYYY format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>Must be today or later</td>
@@ -848,7 +848,7 @@ editappt 2 i/1 note/
     <tr>
       <td rowspan="3"><strong>NEW_TIME</strong> (Optional)</td>
       <td>Must follow HH:MM 24-hour format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
@@ -861,7 +861,7 @@ editappt 2 i/1 note/
     <tr>
       <td><strong>DATE &amp; TIME</strong></td>
       <td>Updated appointment must not duplicate another appointment's date and time</td>
-      <td>"This appointment already exists in the address book"</td>
+      <td>"This appointment already exists in the address book."</td>
     </tr>
     <tr>
       <td><strong>NEW_NOTE</strong> (Optional)</td>
