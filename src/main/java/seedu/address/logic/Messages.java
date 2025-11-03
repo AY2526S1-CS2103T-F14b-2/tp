@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Caretaker;
+import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
 
@@ -101,6 +102,18 @@ public class Messages {
     }
 
     /**
+     * Formats an {@link Note} for consistent display.
+     */
+    public static String format(Note note) {
+        Objects.requireNonNull(note);
+        StringBuilder builder = new StringBuilder()
+                .append(note.toString())
+                .append(";");
+
+        return builder.toString();
+    }
+
+    /**
      * Formats an {@link Appointment} for consistent display.
      */
     public static String format(Appointment appointment) {
@@ -141,6 +154,34 @@ public class Messages {
                 .append("; Phone: ")
                 .append(patient.getPhone());
 
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code patient} for display to the user.
+     */
+    public static String shortFormatWithNoFor(Person patient) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(patient.getName())
+                .append("; Phone: ")
+                .append(patient.getPhone());
+
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code patient} for display to the user for edit command.
+     * Should not have Appointment, Notes, and Caretaker
+     */
+    public static String formatForEdit(Patient patient) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(patient.getName())
+                .append("; Phone: ")
+                .append(patient.getPhone())
+                .append("; Address: ")
+                .append(patient.getAddress());
+
+        patient.getTag().ifPresent(t -> builder.append("; Tag: ").append(capitalise(t.toString()) + " Priority"));
         return builder.toString();
     }
 

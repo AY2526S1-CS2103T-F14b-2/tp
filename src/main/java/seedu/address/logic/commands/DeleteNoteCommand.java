@@ -29,7 +29,7 @@ public class DeleteNoteCommand extends AbstractDeleteCommand<Patient> {
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_ITEM_INDEX + "2";
 
-    public static final String MESSAGE_DELETE_NOTE_SUCCESS = "Deleted note for patient: %1$s";
+    public static final String MESSAGE_DELETE_NOTE_SUCCESS = "Note %1$s deleted.\n%2$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Notes can only be deleted from patients.";
 
@@ -78,7 +78,8 @@ public class DeleteNoteCommand extends AbstractDeleteCommand<Patient> {
 
     @Override
     protected String formatSuccessMessage(Patient deletedFromPatient) {
-        return String.format(MESSAGE_DELETE_NOTE_SUCCESS, Messages.format(editedPatient));
+        return String.format(MESSAGE_DELETE_NOTE_SUCCESS, Integer.toString(this.noteIndex),
+                Messages.shortFormat(deletedFromPatient));
     }
 
     @Override

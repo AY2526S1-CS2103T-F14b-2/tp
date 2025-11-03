@@ -52,6 +52,5 @@ Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
 
 
-
 ModelManager --> "~* filtered" Person
 @enduml

@@ -33,7 +33,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCaretakerCommand;
 import seedu.address.logic.commands.EditCaretakerCommand.EditCaretakerDescriptor;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Relationship;
@@ -78,7 +77,6 @@ public class EditCaretakerCommandParserTest {
         // invalid individual fields
         assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.INVALID_CHARS);
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.INVALID_DIGITS);
-        assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, Address.BLANK_ADDRESS);
         assertParseFailure(parser, "1" + INVALID_RELATIONSHIP_DESC, Relationship.BLANK_RELATIONSHIP);
 
         // invalid combination
@@ -174,4 +172,19 @@ public class EditCaretakerCommandParserTest {
         assertParseFailure(parser, userInput,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_ADDRESS));
     }
+
+    @Test
+    public void parse_addressBlankCopyFromPatient_success() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+
+        // " a/" with no value after the prefix
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_ADDRESS;
+
+        EditCaretakerDescriptor descriptor = new EditCaretakerDescriptor();
+        descriptor.markCopyAddressFromPatient();
+
+        EditCaretakerCommand expectedCommand = new EditCaretakerCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
 }

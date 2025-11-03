@@ -34,7 +34,8 @@ public class EditNoteCommand extends AbstractEditCommand<Patient, EditNoteComman
             + PREFIX_ITEM_INDEX + "2 "
             + PREFIX_NOTE + "Updated note content";
 
-    public static final String MESSAGE_EDIT_NOTE_SUCCESS = "Edited note for patient: %1$s";
+    public static final String MESSAGE_EDIT_NOTE_SUCCESS = "Note %1$s edited: %2$s\n"
+            + "%3$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Notes can only be edited for patients.";
 
@@ -105,7 +106,12 @@ public class EditNoteCommand extends AbstractEditCommand<Patient, EditNoteComman
 
     @Override
     protected String formatSuccessMessage(Patient editedPatient) {
-        return String.format(MESSAGE_EDIT_NOTE_SUCCESS, Messages.format(editedPatient));
+        EditNoteDescriptor descriptor = (EditNoteDescriptor) super.getEditDescriptor();
+        int noteIndex = descriptor.getNoteIndex();
+        Note editedNote = editedPatient.getNotes().get(noteIndex - 1);
+
+        return String.format(MESSAGE_EDIT_NOTE_SUCCESS, noteIndex, Messages.format(editedNote),
+                Messages.shortFormat(editedPatient));
     }
 
     @Override

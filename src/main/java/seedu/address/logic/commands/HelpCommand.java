@@ -75,7 +75,14 @@ public class HelpCommand extends Command {
 
     private static final String ADD_CARETAKER_MESSAGE = "Add Caretaker\n"
             + "   Purpose: Add caretaker to a patient’s record\n"
-            + "   Format: caretaker INDEX n/NAME p/PHONE a/ADDRESS r/RELATIONSHIP\n";
+            + "   Format: caretaker INDEX n/NAME p/PHONE [a/ADDRESS] r/RELATIONSHIP\n"
+            + "   Note: If Address is not provided, "
+            + "   the Address of the target Patient will be copied into the Caretaker\n";
+
+    private static final String EDIT_CARETAKER_MESSAGE = "Edit Caretaker\n"
+            + "   Purpose: Edit an existing caretaker's details\n"
+            + "   Format: editcaretaker INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [r/RELATIONSHIP]\n"
+            + "   Notes: One of NAME/PHONE/ADDRESS/RELATIONSHIP must be supplied\n";
 
     private static final String DELETE_CARETAKER_MESSAGE = "Delete Caretaker\n"
             + "   Purpose: Delete caretaker from a patient’s record\n"
@@ -104,6 +111,7 @@ public class HelpCommand extends Command {
             EDIT_APPT_MESSAGE,
             DELETE_APPT_MESSAGE,
             ADD_CARETAKER_MESSAGE,
+            EDIT_CARETAKER_MESSAGE,
             DELETE_CARETAKER_MESSAGE,
             CLEAR_MESSAGE,
             UNDO_MESSAGE

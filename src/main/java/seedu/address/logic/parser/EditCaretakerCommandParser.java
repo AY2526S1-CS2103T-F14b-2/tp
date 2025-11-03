@@ -48,7 +48,13 @@ public class EditCaretakerCommandParser implements Parser<EditCaretakerCommand> 
             editCaretakerDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editCaretakerDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
+            String raw = argMultimap.getValue(PREFIX_ADDRESS).get();
+            if (raw.isBlank()) {
+                // a/ with no value => copy from patient
+                editCaretakerDescriptor.markCopyAddressFromPatient();
+            } else {
+                editCaretakerDescriptor.setAddress(ParserUtil.parseAddress(raw));
+            }
         }
         if (argMultimap.getValue(PREFIX_RELATIONSHIP).isPresent()) {
             editCaretakerDescriptor.setRelationship(ParserUtil.parseRelationship(argMultimap

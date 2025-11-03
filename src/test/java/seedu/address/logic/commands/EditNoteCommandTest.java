@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.EditNoteCommand.MESSAGE_EDIT_NOTE_SUCCESS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPatients.getTypicalAddressBook;
@@ -39,6 +40,7 @@ public class EditNoteCommandTest {
     public void execute_validPatientAndNoteIndex_success() {
         // Create a patient with notes and add to model
         Patient patientWithNotes = PatientBuilder.withMultipleNotes().build();
+        int noteIndex = 2;
 
         model.addPerson(patientWithNotes);
 
@@ -46,15 +48,18 @@ public class EditNoteCommandTest {
         Index patientIndex = Index.fromOneBased(model.getFilteredPersonList().size());
 
         EditNoteDescriptor descriptor = new EditNoteDescriptor();
-        descriptor.setNoteIndex(2); // Edit second note (1-based)
+        descriptor.setNoteIndex(noteIndex); // Edit second note (1-based)
         descriptor.setNote(new Note("Updated second note"));
 
         EditNoteCommand editNoteCommand = new EditNoteCommand(patientIndex, descriptor);
 
-        Patient editedPatient = patientWithNotes.editNote(1, new Note("Updated second note")); // 0-based internally
+        Patient editedPatient = patientWithNotes.editNote(noteIndex - 1,
+                new Note("Updated second note")); // 0-based internally
 
-        String expectedMessage = String.format(EditNoteCommand.MESSAGE_EDIT_NOTE_SUCCESS,
-                Messages.format(editedPatient));
+        Note editedNote = editedPatient.getNotes().get(noteIndex - 1);
+
+        String expectedMessage = String.format(MESSAGE_EDIT_NOTE_SUCCESS, noteIndex, Messages.format(editedNote),
+                Messages.shortFormat(editedPatient));;
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithNotes, editedPatient);
