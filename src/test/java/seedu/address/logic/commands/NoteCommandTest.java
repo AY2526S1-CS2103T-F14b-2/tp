@@ -66,7 +66,9 @@ public class NoteCommandTest {
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
-        String expectedMessage = String.format(NoteCommand.MESSAGE_SUCCESS, Messages.format(editedPatient));
+        String expectedMessage = String.format(NoteCommand.MESSAGE_SUCCESS,
+            Messages.format(new Note(NOTE_STUB)),
+            Messages.shortFormat(editedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(firstPatient, editedPatient);
@@ -112,7 +114,9 @@ public class NoteCommandTest {
 
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(secondNoteText));
 
-        String expectedMessage = String.format(NoteCommand.MESSAGE_SUCCESS, Messages.format(expectedPatient));
+        String expectedMessage = String.format(NoteCommand.MESSAGE_SUCCESS,
+            Messages.format(new Note(secondNoteText)),
+            Messages.shortFormat(expectedPatient));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(patientWithInitialNote, expectedPatient);

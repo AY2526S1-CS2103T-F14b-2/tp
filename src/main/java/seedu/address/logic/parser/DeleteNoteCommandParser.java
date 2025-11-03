@@ -42,21 +42,12 @@ public class DeleteNoteCommandParser implements Parser<DeleteNoteCommand> {
 
         String noteIndexValue = argMultimap.getValue(PREFIX_ITEM_INDEX).get();
 
-        // Check for invalid format case: empty value or specific invalid patterns
-        String trimmedValue = noteIndexValue.trim();
-        if (trimmedValue.isEmpty() || trimmedValue.equals("string")) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    DeleteNoteCommand.MESSAGE_USAGE));
-        }
-
         int noteIndex;
         try {
-            noteIndex = Integer.parseInt(noteIndexValue.trim());
-            if (noteIndex < 1) {
-                throw new ParseException("Note index must be a positive integer starting from 1.");
-            }
-        } catch (NumberFormatException e) {
-            throw new ParseException("Note index must be a valid positive integer.");
+            noteIndex = ParserUtil.parseIndex(noteIndexValue).getOneBased();
+        } catch (ParseException pe) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeleteNoteCommand.MESSAGE_USAGE), pe);
         }
 
         return new DeleteNoteCommand(index, noteIndex);

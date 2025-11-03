@@ -720,7 +720,11 @@ deletenote 3 i/1
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>ITEM_INDEX</strong></td>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
+    </tr>
+    <tr>
       <td>Must correspond to an existing note</td>
       <td>"The note at index X is invalid. Patient has Y note(s)."</td>
     </tr>
