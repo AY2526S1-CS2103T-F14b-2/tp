@@ -84,6 +84,8 @@ Action | Description
 * Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if you type `clear 123`, it will be interpreted as `clear`.
 
+* When a command accepts an input prefix only once, entering it more than once will show an error about duplicate fields and the command will not run.
+
 * When a compulsory parameter is not provided, an error message regarding the missing parameter will appear, and the command will not be executed.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -630,6 +632,10 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
+</div>
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
+Only one `note/` prefix is allowed per command. If you provide multiple `note/` prefixes, MediSaveContact will stop the command and show "Multiple values specified for the following single-valued field(s): note/".
 </div>
 
 ### Editing a note : `editnote`

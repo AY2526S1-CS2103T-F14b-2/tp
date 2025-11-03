@@ -15,6 +15,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.NoteCommand;
 import seedu.address.model.person.Note;
 
@@ -69,13 +70,13 @@ public class NoteCommandParserTest {
     }
 
     @Test
-    public void parse_multipleRepeatedFields_acceptsLast() {
+    public void parse_duplicateNotePrefix_failure() {
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = targetIndex.getOneBased() + NOTE_DESC_AMY + NOTE_DESC_BOB;
 
-        NoteCommand expectedCommand = new NoteCommand(targetIndex, new Note(VALID_NOTE_BOB));
+        String expectedMessage = Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NOTE);
 
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseFailure(parser, userInput, expectedMessage);
     }
 
     @Test
