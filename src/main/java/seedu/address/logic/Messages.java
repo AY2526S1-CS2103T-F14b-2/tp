@@ -119,11 +119,7 @@ public class Messages {
      */
     public static String format(Note note) {
         Objects.requireNonNull(note);
-        StringBuilder builder = new StringBuilder()
-                .append(note.toString())
-                .append(";");
-
-        return builder.toString();
+        return note.toString();
     }
 
     /**

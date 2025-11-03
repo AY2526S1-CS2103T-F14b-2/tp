@@ -41,6 +41,30 @@ patient information during busy schedules.
 
 ## Features
 
+## Command summary
+
+Action | Description
+--------|------------------
+**help** | Shows all commands available
+**list** | Shows a list of all patients in MediSaveContact
+**patient** | Adds a patient to MediSaveContact
+**editpatient** | Edits specified patient's details
+**deletepatient** | Deletes specified patient from MediSaveContact
+**caretaker** | Adds a caretaker to a specified patient
+**editcaretaker** | Edits the caretaker details of a specified patient
+**deletecaretaker** | Removes the caretaker from a specified patient
+**note** | Adds a note to specified patient
+**editnote** | Edits an existing note of a specified patient
+**deletenote** | Deletes a note from a specified patient
+**appt** | Adds an appointment to specified patient
+**editappt** | Edits an existing appointment of a specified patient
+**deleteappt** | Deletes an appointment from a specified patient
+**sortappt** | Sorts patients by earliest appointment
+**find** | Finds patient(s) with name containing specified keyword
+**undo** | Undoes the most recent successful command
+**clear** | Deletes all patients from MediSaveContact
+**exit** | Exits the app
+
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes about the command format:**<br>
@@ -57,8 +81,8 @@ patient information during busy schedules.
     * `n/John Doe tag/high` ✅
     * `tag/high n/John Doe` ✅
 
-* Extra parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if you type `list 123`, it will be interpreted as `list`.
+* Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
+  e.g. if you type `clear 123`, it will be interpreted as `clear`.
 
 * When a compulsory parameter is not provided, an error message regarding the missing parameter will appear, and the command will not be executed.
 
@@ -169,26 +193,6 @@ Patient indices adapt to the current view. If you use the `find` command to filt
 
 **Usage**: Core person information fields (name, phone, address) shared by patients and caretakers.
 
-## Command summary
-
-Action | Description
---------|------------------
-**patient** | Adds a patient to MediSaveContact
-**clear** | Deletes all patients from MediSaveContact
-**deletepatient** | Deletes specified patient from MediSaveContact
-**editpatient** | Edits specified patient's details
-**find** | Finds patient(s) with name containing specified keyword
-**appt** | Adds an appointment to specified patient
-**editappt** | Edits an existing appointment of a specified patient
-**deleteappt** | Deletes an appointment from a specified patient
-**note** | Adds a note to specified patient
-**editnote** | Edits an existing note of a specified patient
-**deletenote** | Deletes a note from a specified patient
-**caretaker** | Adds a caretaker to a specified patient
-**editcaretaker** | Edits the caretaker details of a specified patient
-**deletecaretaker** | Removes the caretaker from a specified patient
-**list** | Shows a list of all patients in MediSaveContact
-**help** | Shows all commands available
 
 ### Viewing help : `help`
 
@@ -208,12 +212,29 @@ help
 
 ### Listing all patients : `list`
 {: #list-command }
-Shows a list of all patients in MediSaveContact, even if it is empty.
+Shows a list of all patients in MediSaveContact, even if it is empty. Tag can also be specified to list only patients with the specified tag.
 
 #### Command Format:
 ```
-list
+list [tag/TAG]
 ```
+#### Parameters & Validation Rules
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td rowspan="2"><strong>TAG</strong> (Optional)</td>
+          <td>Must be 'low', 'medium', or 'high' only (case-insensitive)</td>
+          <td>"Invalid tag. Only 'high', 'medium', or 'low' are allowed"</td>
+        </tr>
+    </tbody>
+</table>
 
 #### Outputs
 
@@ -318,7 +339,7 @@ editpatient 2 n/Betsy Crower tag/
   <tbody>
     <tr>
       <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
       <td rowspan="2"><strong>NAME / PHONE / ADDRESS / TAG</strong></td>
@@ -371,7 +392,7 @@ deletepatient 1
   <tbody>
     <tr>
       <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
   </tbody>
 </table>
@@ -386,161 +407,6 @@ deletepatient 1
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Run [list](#list-command) command to view the respective index for each patient.
 </div>
-
-### Adding a note : `note`
-
-Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
-
-#### Command Format:
-
-`note INDEX note/NOTE`
-
-Example Commands :
-```
-note 1 note/Patient shows improved blood sugar levels today.
-```
-```
-note 3 note/Allergic reaction to penicillin - avoid in future treatments
-```
-
-#### Parameters & Validation Rules
-
-<table>
-  <thead>
-    <tr>
-      <th>Parameter</th>
-      <th>Validation Rules</th>
-      <th>Error Message if Invalid </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
-    </tr>
-    <tr>
-      <td><strong>NOTE</strong></td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
-    </tr>
-  </tbody>
-</table>
-
-#### Outputs
-
-- Success:
-    - In GUI: Note created in specified patient
-    - In Command Feedback Box: <br>"Note added: [Content]<br>For [Name]; Phone: [Phone]"
-
-- Failure: Error messages above
-
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
-</div>
-
-### Editing a note : `editnote`
-
-Edits an existing note in a patient's record. This allows you to update medical observations, correct information, or modify treatment notes.
-
-#### Command Format:
-
-`editnote INDEX i/ITEM_INDEX note/NOTE`
-
-#### Example Commands:
-```
-editnote 1 i/2 note/Patient shows significant improvement in blood sugar levels.
-```
-```
-editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during treatment.
-```
-
-#### Parameters & Validation Rules
-
-<table>
-  <thead>
-    <tr>
-      <th>Parameter</th>
-      <th>Validation Rules</th>
-      <th>Error Message if Invalid </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
-    </tr>
-    <tr>
-      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
-      <td>Must be a positive integer</td>
-      <td>"Invalid command format!"<br>[Command format shown]</td>
-    </tr>
-    <tr>
-      <td>Must correspond to an existing note</td>
-      <td>"The note at index X is invalid. Patient has Y note(s)."</td>
-    </tr>
-    <tr>
-      <td><strong>NOTE</strong></td>
-      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
-    </tr>
-  </tbody>
-</table>
-
-#### Outputs
-
-- Success:
-    - In GUI: Note updated in specified patient
-    - In Command Feedback Box: <br>"Note [Index] edited: [Content]<br>For [Name]; Phone: [Phone]"
-
-- Failure: Error messages above
-
-
-### Deleting a note : `deletenote`
-
-Deletes a specific note from a patient's record. This permanently removes the note from the patient's medical history.
-
-#### Command Format:
-
-`deletenote INDEX i/ITEM_INDEX`
-
-#### Example Commands:
-```
-deletenote 1 i/2
-```
-```
-deletenote 3 i/1
-```
-
-#### Parameters & Validation Rules
-
-<table>
-  <thead>
-    <tr>
-      <th>Parameter</th>
-      <th>Validation Rules</th>
-      <th>Error Message if Invalid </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
-    </tr>
-    <tr>
-      <td><strong>ITEM_INDEX</strong></td>
-      <td>Must correspond to an existing note</td>
-      <td>"The note at index X is invalid. Patient has Y note(s)."</td>
-    </tr>
-  </tbody>
-</table>
-
-#### Outputs
-
-- Success:
-    - In GUI: Note removed from specified patient
-    - In Command Feedback Box: <br>"Note [Index] deleted.<br>For [Name]; Phone: [Phone]"
-
-- Failure: Error messages above
-
 
 ### Adding a caretaker : `caretaker`
 
@@ -571,7 +437,7 @@ caretaker 3 n/Alice Tan p/81234567 r/Home Nurse
   <tbody>
     <tr>
       <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
       <td><strong>NAME / PHONE</strong></td>
@@ -636,7 +502,7 @@ editcaretaker 2 n/Jane Ong r/Sister
   <tbody>
     <tr>
       <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
       <td><strong>NAME / PHONE / ADDRESS / RELATIONSHIP</strong></td>
@@ -695,7 +561,7 @@ deletecaretaker 2
   <tbody>
     <tr>
       <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
   </tbody>
 </table>
@@ -714,7 +580,168 @@ If you delete a caretaker by mistake, use the `undo` command immediately to rest
 </div>
 
 
-### Adding an appointment : `appointment`
+
+### Adding a note : `note`
+
+Adds a note to a patient's record for tracking medical observations, treatment updates, or other important information.
+
+#### Command Format:
+
+`note INDEX note/NOTE`
+
+Example Commands :
+```
+note 1 note/Patient shows improved blood sugar levels today.
+```
+```
+note 3 note/Allergic reaction to penicillin - avoid in future treatments
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td><strong>NOTE</strong></td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+    - In GUI: Note created in specified patient
+    - In Command Feedback Box: <br>"Note added: [Content]<br>For [Name]; Phone: [Phone]"
+
+- Failure: Error messages above
+
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
+</div>
+
+### Editing a note : `editnote`
+
+Edits an existing note in a patient's record. This allows you to update medical observations, correct information, or modify treatment notes.
+
+#### Command Format:
+
+`editnote INDEX i/ITEM_INDEX note/NOTE`
+
+#### Example Commands:
+```
+editnote 1 i/2 note/Patient shows significant improvement in blood sugar levels.
+```
+```
+editnote 3 i/1 note/Updated: No allergic reaction to penicillin observed during treatment.
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
+    </tr>
+    <tr>
+      <td>Must correspond to an existing note</td>
+      <td>"The note at index X is invalid. Patient has Y note(s)."</td>
+    </tr>
+    <tr>
+      <td><strong>NOTE</strong></td>
+      <td colspan="2">See <a href="#note-parameters">Note Parameters</a></td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+    - In GUI: Note updated in specified patient
+    - In Command Feedback Box: <br>"Note [Index] edited: [Content]<br>For [Name]; Phone: [Phone]"
+
+- Failure: Error messages above
+
+
+### Deleting a note : `deletenote`
+
+Deletes a specific note from a patient's record. This permanently removes the note from the patient's medical history.
+
+#### Command Format:
+
+`deletenote INDEX i/ITEM_INDEX`
+
+#### Example Commands:
+```
+deletenote 1 i/2
+```
+```
+deletenote 3 i/1
+```
+
+#### Parameters & Validation Rules
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Validation Rules</th>
+      <th>Error Message if Invalid </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>INDEX</strong></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br>[Command format shown]</td>
+    </tr>
+    <tr>
+      <td>Must correspond to an existing note</td>
+      <td>"The note at index X is invalid. Patient has Y note(s)."</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Outputs
+
+- Success:
+    - In GUI: Note removed from specified patient
+    - In Command Feedback Box: <br>"Note [Index] deleted.<br>For [Name]; Phone: [Phone]"
+
+- Failure: Error messages above
+
+
+
+### Adding an appointment : `appt`
 
 Schedule an appointment for a patient using a specified index.
 
@@ -744,25 +771,38 @@ appt 2 d/12-02-2026 t/09:15 note/Physiotherapy follow-up
   <tbody>
     <tr>
       <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>DATE</strong></td>
+      <td rowspan="3"><strong>DATE</strong></td>
       <td>Must follow DD-MM-YYYY format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>Must be today or later</td>
       <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>TIME</strong></td>
-      <td>	Must follow HH:MM 24-hour format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>Appointment date must exist in the calendar</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>TIME</strong></td>
+      <td>Must follow HH:MM 24-hour format</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
       <td>"Appointment must be set in the future."</td>
+    </tr>
+    <tr>
+      <td>Appointment time must exist within 24 hours</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td><strong>DATE &amp; TIME</strong></td>
+      <td>Must be unique amongst the patient's appointments</td>
+      <td>"This appointment already exists in the address book."</td>
     </tr>
     <tr>
       <td><strong>NOTE</strong> (Optional)</td>
@@ -808,30 +848,52 @@ editappt 2 i/1 note/
   <tbody>
     <tr>
       <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>ITEM_INDEX</strong></td>
-      <td>1-based index of the appointment to edit</td>
-      <td>"Appointment index must be a positive integer starting from 1."</td>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br/>[Command format shown]</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>NEW_DATE</strong> (Optional)</td>
+      <td>Must correspond to an existing appointment</td>
+      <td>"The appointment at index X is invalid. Patient has Y appointment(s)."</td>
+    </tr>
+    <tr>
+      <td rowspan="1"><strong>NEW_DATE / NEW_TIME / NEW_NOTE</strong></td>
+      <td>At least one of these parameters must be present</td>
+      <td>"At least one field to edit must be provided."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>NEW_DATE</strong> (Optional)</td>
       <td>Must follow DD-MM-YYYY format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>Must be today or later</td>
       <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td rowspan="2"><strong>NEW_TIME</strong> (Optional)</td>
+      <td>Appointment date must exist in the calender</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>NEW_TIME</strong> (Optional)</td>
       <td>Must follow HH:MM 24-hour format</td>
-      <td>"Date and time should be in the format DD-MM-YYYY HH:MM"</td>
+      <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
     </tr>
     <tr>
       <td>If the appointment is today, time must be later than the current time</td>
       <td>"Appointment must be set in the future."</td>
+    </tr>
+    <tr>
+      <td>Appointment time must exist within 24 hours</td>
+      <td>"The specified date or time does not exist."</td>
+    </tr>
+    <tr>
+      <td><strong>DATE &amp; TIME</strong></td>
+      <td>Updated appointment must not duplicate another appointment's date and time</td>
+      <td>"This appointment already exists in the address book."</td>
     </tr>
     <tr>
       <td><strong>NEW_NOTE</strong> (Optional)</td>
@@ -876,12 +938,16 @@ deleteappt 1 i/1
   <tbody>
     <tr>
       <td><strong>INDEX</strong></td>
-      <td colspan="2">See <a href="#index-parameter">INDEX Parameter</a></td>
+      <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
     </tr>
     <tr>
-      <td><strong>ITEM_INDEX</strong></td>
-      <td>1-based index of the appointment to delete</td>
-      <td>"Appointment index must be a positive integer starting from 1."</td>
+      <td rowspan="2"><strong>ITEM_INDEX</strong></td>
+      <td>Must be a positive integer</td>
+      <td>"Invalid command format!"<br/>[Command format shown]</td>
+    </tr>
+    <tr>
+      <td>Must correspond to an existing appointment</td>
+      <td>"The appointment at index X is invalid. Patient has Y appointment(s)."</td>
     </tr>
   </tbody>
 </table>
@@ -929,9 +995,21 @@ returns `Charlotte Oliveiro` and `David Li`<br>
 
 #### Parameters & Validation Rules
 
-| Parameter               | Validation Rules                   | Error Message if Invalid                                                                                                                                                                                                                                                |
-|-------------------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| KEYWORD & MORE_KEYWORDS | Must be a string of alphabets only | "Invalid command format!"<br>[Command format shown] |
+<table>
+    <thead>
+        <tr>
+        <th>Parameter</th>
+        <th>Validation Rules</th>
+        <th>Error Message if Invalid </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><strong>KEYWORD & MORE_KEYWORDS</strong></td>
+          <td colspan="2">See <a href="#person-info-parameters">Person NAME Parameters</a></td>
+        </tr>
+    </tbody>
+</table>
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`

@@ -47,7 +47,7 @@ public class DeleteAppointmentCommandParserTest {
     public void parse_invalidAppointmentIndex_failure() {
         String userInput = "1 " + PREFIX_ITEM_INDEX + "0";
         assertThrows(ParseException.class,
-            "Appointment index must be a positive integer starting from 1.", ()
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteAppointmentCommand.MESSAGE_USAGE), ()
                 -> parser.parse(userInput));
     }
 

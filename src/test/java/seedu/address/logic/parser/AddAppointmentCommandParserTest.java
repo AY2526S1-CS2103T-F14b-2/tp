@@ -6,11 +6,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddAppointmentCommand;
 import seedu.address.model.person.Note;
 
@@ -42,7 +42,8 @@ public class AddAppointmentCommandParserTest {
     @Test
     public void parse_invalidIndex_throwsParseException() {
         String userInput = "0 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_TIME + FUTURE_TIME;
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_INDEX);
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAppointmentCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -69,6 +70,38 @@ public class AddAppointmentCommandParserTest {
         String userInput = "1 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_TIME + FUTURE_TIME;
         AddAppointmentCommand expectedCommand = new AddAppointmentCommand(targetIndex, FUTURE_DATE, FUTURE_TIME, null);
         assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_duplicateDate_throwsParseException() {
+        String userInput = "1 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_DATE + "01-01-2100 "
+                + PREFIX_TIME + FUTURE_TIME;
+        assertParseFailure(parser, userInput,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE));
+    }
+
+    @Test
+    public void parse_duplicateTime_throwsParseException() {
+        String userInput = "1 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_TIME + FUTURE_TIME
+                + " " + PREFIX_TIME + "16:00";
+        assertParseFailure(parser, userInput,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_TIME));
+    }
+
+    @Test
+    public void parse_duplicateNote_throwsParseException() {
+        String userInput = "1 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_TIME + FUTURE_TIME
+                + " " + PREFIX_NOTE + "First note" + " " + PREFIX_NOTE + "Second note";
+        assertParseFailure(parser, userInput,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NOTE));
+    }
+
+    @Test
+    public void parse_multipleDuplicates_throwsParseException() {
+        String userInput = "1 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_DATE + "01-01-2100 "
+                + PREFIX_TIME + FUTURE_TIME + " " + PREFIX_TIME + "16:00";
+        assertParseFailure(parser, userInput,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_DATE, PREFIX_TIME));
     }
 
 
