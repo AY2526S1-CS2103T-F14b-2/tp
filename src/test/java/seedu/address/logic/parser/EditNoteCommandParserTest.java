@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.EditNoteCommand;
 import seedu.address.logic.commands.EditNoteCommand.EditNoteDescriptor;
+import seedu.address.logic.commands.NoteCommand;
 import seedu.address.model.person.Note;
 
 public class EditNoteCommandParserTest {
@@ -59,10 +60,10 @@ public class EditNoteCommandParserTest {
         assertParseFailure(parser, "1 i/abc note/Updated note", "Note index must be a valid positive integer.");
 
         // empty note content
-        assertParseFailure(parser, "1 i/1 note/", "Note cannot be empty.");
+    assertParseFailure(parser, "1 i/1 note/", NoteCommand.MESSAGE_EMPTY_NOTE);
 
         // note content with only whitespace
-        assertParseFailure(parser, "1 i/1 note/   ", "Note cannot be empty.");
+    assertParseFailure(parser, "1 i/1 note/   ", NoteCommand.MESSAGE_EMPTY_NOTE);
     }
 
     @Test
