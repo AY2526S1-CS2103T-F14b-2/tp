@@ -70,8 +70,7 @@ public class AddAppointmentCommandTest {
         AddAppointmentCommand command = new AddAppointmentCommand(Index.fromOneBased(2), FUTURE_DATE, FUTURE_TIME);
 
         assertThrows(CommandException.class,
-                String.format(seedu.address.logic.Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX,
-                        modelStub.getSize()), () ->
+                Messages.invalidPatientIndex(modelStub.getSize()), () ->
                 command.execute(modelStub));
     }
 
@@ -269,6 +268,10 @@ public class AddAppointmentCommandTest {
         public void sortPersons(Comparator<? super Person> c) {
             throw new AssertionError();
         }
+        @Override
+        public boolean existAsCaretaker(Person p) {
+            throw new AssertionError();
+        }
     }
 
     private static class ModelStubAcceptingAppointment implements Model {
@@ -366,7 +369,12 @@ public class AddAppointmentCommandTest {
         public int getSize() {
             return this.persons.size();
         }
+        @Override
         public void sortPersons(Comparator<? super Person> c) {
+            throw new AssertionError();
+        }
+        @Override
+        public boolean existAsCaretaker(Person p) {
             throw new AssertionError();
         }
 

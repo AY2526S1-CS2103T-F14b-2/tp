@@ -170,7 +170,7 @@ public class EditCaretakerCommandTest {
         EditCaretakerCommand editCaretakerCommand = new EditCaretakerCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editCaretakerCommand, model,
-                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
+                Messages.invalidPatientIndex(model.getFilteredPersonList().size()));
     }
 
     /**
@@ -188,7 +188,7 @@ public class EditCaretakerCommandTest {
                 new EditCaretakerDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editCaretakerCommand, model,
-                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
+                Messages.invalidPatientIndex(model.getFilteredPersonList().size()));
     }
     @Test
     public void toStringMethod() {

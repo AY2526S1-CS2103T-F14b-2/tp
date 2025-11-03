@@ -25,7 +25,9 @@ import seedu.address.model.person.Patient;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Relationship;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.CaretakerBuilder;
 import seedu.address.testutil.PatientBuilder;
+
 
 
 
@@ -229,5 +231,38 @@ public class ModelManagerTest {
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
+    }
+
+    @Test
+    public void existAsCareTaker_onlyPatientsInBook_returnFalse() {
+        AddressBook ab = new AddressBook();
+        ab.addPerson(new PatientBuilder().withName("Only Patient").build());
+        ModelManager manager = new ModelManager(ab, new UserPrefs());
+
+        Caretaker probe = new CaretakerBuilder().build();
+        assertFalse(manager.existAsCaretaker(probe));
+    }
+
+    @Test
+    public void existAsCareTaker_exactCaretakerInBook_returnsTrue() {
+        Caretaker ben = new CaretakerBuilder()
+                .withName("Ben Tan")
+                .withPhone("93334444")
+                .withAddress("67 O Block")
+                .withRelationship("Father")
+                .build();
+
+        AddressBook ab = new AddressBook();
+        Patient angela = new PatientBuilder()
+                .withName("Angela Tan")
+                .withPhone("91444444")
+                .withCaretaker(ben)
+                .withAddress("61 O Block")
+                .build();
+
+        ab.addPerson(angela);
+        ModelManager manager = new ModelManager(ab, new UserPrefs());
+
+        assertTrue(manager.existAsCaretaker(ben));
     }
 }

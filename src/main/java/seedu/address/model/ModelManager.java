@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -17,6 +18,7 @@ import seedu.address.model.person.Appointment;
 import seedu.address.model.person.Note;
 import seedu.address.model.person.Patient;
 import seedu.address.model.person.Person;
+
 
 /**
  * Represents the in-memory model of the address book data.
@@ -43,6 +45,18 @@ public class ModelManager implements Model {
     public ModelManager() {
         this(new AddressBook(), new UserPrefs());
     }
+
+    @Override
+    public boolean existAsCaretaker(Person person) {
+        return addressBook.getAddressBook().getPersonList().stream()
+                .filter(p -> p instanceof Patient)
+                .map(p -> (Patient) p)
+                .map(Patient::getCaretaker)
+                .filter(Objects::nonNull)
+                .anyMatch(c -> c.getName().equals(person.getName())
+                        && c.getPhone().equals(person.getPhone()));
+    }
+
 
     //=========== UserPrefs ==================================================================================
 

@@ -45,7 +45,7 @@ public abstract class Command {
      */
     protected void ensureValidPatientIndex(Index index, java.util.List<?> displayedList) throws CommandException {
         ensureValidPatientIndex(index, displayedList, size ->
-            String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, size));
+            Messages.invalidPatientIndex(size));
     }
 
     /**

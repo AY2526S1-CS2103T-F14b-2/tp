@@ -46,7 +46,7 @@ public class CaretakerCommand extends Command {
     public static final String MESSAGE_PATIENT_HAS_CARETAKER = "Patient already has a caretaker.\n"
             + "%1$s";
     public static final String MESSAGE_CARETAKER_ALREADY_EXISTS = "This caretaker already exists as a "
-            + "patient in the address book.";
+            + "patient in the address book";
 
     private final Index targetIndex;
     private final Name name;

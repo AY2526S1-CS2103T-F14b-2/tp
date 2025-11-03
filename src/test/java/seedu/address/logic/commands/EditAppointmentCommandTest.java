@@ -219,7 +219,7 @@ public class EditAppointmentCommandTest {
         EditAppointmentCommand editAppointmentCommand = new EditAppointmentCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editAppointmentCommand, model,
-                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
+                Messages.invalidPatientIndex(model.getFilteredPersonList().size()));
     }
 
     @Test

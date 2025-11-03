@@ -28,6 +28,12 @@ public class PatientBuilder {
     public static final String DEFAULT_TAG = "high";
     public static final String DEFAULT_RELATIONSHIP = "Father";
 
+
+    public static final String DEFAULT_CARETAKER_NAME = "Carl Henston";
+    public static final String DEFAULT_CARETAKER_PHONE = "83223222";
+    public static final String DEFAULT_CARETAKER_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_CARETAKER_RELATIONSHIP = "Father";
+
     private Name name;
     private Phone phone;
     private Address address;
@@ -46,8 +52,10 @@ public class PatientBuilder {
         tag = new Tag(DEFAULT_TAG);
         notes = new ArrayList<>();
         appointments = new ArrayList<>();
-        caretaker = new Caretaker(new Name(DEFAULT_NAME), new Phone(DEFAULT_PHONE), new Address(DEFAULT_ADDRESS),
-                new Relationship(DEFAULT_RELATIONSHIP));
+        caretaker = new Caretaker(new Name(DEFAULT_CARETAKER_NAME),
+                new Phone(DEFAULT_CARETAKER_PHONE),
+                new Address(DEFAULT_CARETAKER_ADDRESS),
+                new Relationship(DEFAULT_CARETAKER_RELATIONSHIP));
     }
 
     /**

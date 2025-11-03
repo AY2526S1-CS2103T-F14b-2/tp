@@ -20,12 +20,25 @@ public class Messages {
 
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX = "The patient index provided is invalid. "
-            + "There are %1$s patient(s).";
-    public static final String MESSAGE_PATIENTS_LISTED_OVERVIEW = "%1$d patients listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_REQUIRE_PATIENT = "The person index provided is not a patient";
+
+    public static String patientsListedOverview(int count) {
+        return count == 1 ? "1 patient listed!" : count + " patients listed!";
+    }
+
+    /**
+     * error message that accounts for grammar when number of patients is singular and plural in MediSaveContact
+     *
+     * @param total number of patients in MediSaveContact
+     * @return message displayed upon giving invalid patient index
+     */
+    public static String invalidPatientIndex(int total) {
+        String verb = (total <= 1) ? "is" : "are";
+        String noun = (total <= 1) ? "patient" : "patients";
+        return String.format("The patient index provided is invalid. There %s %d %s.", verb, total, noun);
+    }
 
     /**
      * Returns an error message indicating the duplicate prefixes.

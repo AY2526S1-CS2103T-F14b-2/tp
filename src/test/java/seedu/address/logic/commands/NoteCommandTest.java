@@ -151,7 +151,7 @@ public class NoteCommandTest {
         NoteCommand noteCommand = new NoteCommand(outOfBoundIndex, new Note(NOTE_STUB));
 
         assertCommandFailure(noteCommand, model,
-            String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
+                Messages.invalidPatientIndex(model.getSize()));
     }
 
     @Test
@@ -164,7 +164,7 @@ public class NoteCommandTest {
         NoteCommand noteCommand = new NoteCommand(outOfBoundIndex, new Note(NOTE_STUB));
 
         assertCommandFailure(noteCommand, model,
-            String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
+                Messages.invalidPatientIndex(model.getSize()));
     }
 
     @Test
@@ -237,7 +237,7 @@ public class NoteCommandTest {
         NoteCommand noteCommand = new NoteCommand(INDEX_FIRST_PERSON, new Note(NOTE_STUB));
 
         assertCommandFailure(noteCommand, emptyModel,
-                String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, emptyModel.getSize()));
+                Messages.invalidPatientIndex(emptyModel.getFilteredPersonList().size()));
     }
 
     @Test
@@ -248,6 +248,6 @@ public class NoteCommandTest {
 
         NoteCommand noteCommand = new NoteCommand(indexOutOfBounds, new Note(NOTE_STUB));
         assertCommandFailure(noteCommand, model,
-            String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
+                Messages.invalidPatientIndex(model.getFilteredPersonList().size()));
     }
 }

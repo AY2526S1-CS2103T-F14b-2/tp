@@ -14,14 +14,14 @@ public class Name {
 
     public static final String INVALID_CHARS =
             "Name contains invalid characters. "
-                    + "Only letters, spaces, commas (,), parentheses (), slashes (/), "
-                    + "periods (.), at signs (@), hyphens (-), and apostrophes (') are allowed.";
+                    + "Only letters, spaces, commas, open parentheses ( ), slashes /, "
+                    + "periods ., at signs @, hyphens -, and apostrophes ' are allowed.";
 
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String NAME_VALIDATION_REGEX = "^[A-Za-z()/@.'-][A-Za-z ,()/@.'-]*$";
+    public static final String NAME_VALIDATION_REGEX = "^[A-Za-z ,()/@.'-]+$";
 
 
 

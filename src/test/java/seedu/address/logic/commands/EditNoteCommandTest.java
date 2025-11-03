@@ -77,7 +77,7 @@ public class EditNoteCommandTest {
         EditNoteCommand editNoteCommand = new EditNoteCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editNoteCommand, model,
-            String.format(Messages.MESSAGE_INVALID_PATIENT_DISPLAYED_INDEX, model.getSize()));
+                Messages.invalidPatientIndex(model.getFilteredPersonList().size()));
     }
 
     @Test
