@@ -28,7 +28,7 @@ public class NoteCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_NOTE + "Patient shows improved blood sugar levels today.";
 
-    public static final String MESSAGE_SUCCESS = "Added note to patient: %1$s";
+    public static final String MESSAGE_SUCCESS = "Note added: %1$s\n%2$s";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "Notes can only be added to patients.";
     public static final String MESSAGE_EMPTY_NOTE = "Note cannot be empty.";
@@ -67,7 +67,9 @@ public class NoteCommand extends Command {
         Patient updatedPatient = patientToAddNote.addNote(note);
 
         model.setPerson(patientToAddNote, updatedPatient);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(updatedPatient)));
+        return new CommandResult(String.format(MESSAGE_SUCCESS,
+                Messages.format(note),
+                Messages.shortFormat(updatedPatient)));
     }
 
     @Override
