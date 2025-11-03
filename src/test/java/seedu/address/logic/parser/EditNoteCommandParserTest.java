@@ -60,10 +60,10 @@ public class EditNoteCommandParserTest {
         assertParseFailure(parser, "1 i/abc note/Updated note", "Note index must be a valid positive integer.");
 
         // empty note content
-    assertParseFailure(parser, "1 i/1 note/", NoteCommand.MESSAGE_EMPTY_NOTE);
+        assertParseFailure(parser, "1 i/1 note/", NoteCommand.MESSAGE_EMPTY_NOTE);
 
         // note content with only whitespace
-    assertParseFailure(parser, "1 i/1 note/   ", NoteCommand.MESSAGE_EMPTY_NOTE);
+        assertParseFailure(parser, "1 i/1 note/   ", NoteCommand.MESSAGE_EMPTY_NOTE);
     }
 
     @Test
