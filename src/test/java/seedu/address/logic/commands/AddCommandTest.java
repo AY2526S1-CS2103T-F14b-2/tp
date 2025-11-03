@@ -58,7 +58,7 @@ public class AddCommandTest {
     }
 
     @Test
-    public void execute_CareTakerAlreadyExists_throwsCommandException() {
+    public void execute_careTakerAlreadyExists_throwsCommandException() {
         Patient patientClashesWithCaretaker = new PatientBuilder()
                 .withName("Smolder Poulder")
                 .withPhone("85355255")
@@ -70,8 +70,7 @@ public class AddCommandTest {
         ModelStub modelStub = new ModelStubCaretakerExists(patientClashesWithCaretaker);
 
         assertThrows(CommandException.class,
-                AddCommand.MESSAGE_CARETAKER_ALREADY_EXISTS,
-                () -> addCommand.execute(modelStub));
+                AddCommand.MESSAGE_CARETAKER_ALREADY_EXISTS, () -> addCommand.execute(modelStub));
 
 
 
