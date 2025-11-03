@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  */
 public class Appointment implements Comparable<Appointment> {
 
-    public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format DD-MM-YYYY HH:MM";
+    public static final String MESSAGE_CONSTRAINTS = "Date and time should be in the format DD-MM-YYYY HH:MM.";
     public static final String MESSAGE_INVALID_DATE_TIME = "The specified date or time does not exist.";
     public static final String MESSAGE_PAST_APPOINTMENT = "Appointment must be set in the future.";
 

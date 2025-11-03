@@ -21,7 +21,7 @@ public class DeleteAppointmentCommand extends AbstractDeleteCommand<Patient> {
     public static final String COMMAND_WORD = "deleteappt";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-        + ": Deletes the appointment of the patient identified by the index"
+        + ": Deletes the appointment of the patient identified by the index "
         + "number used in the displayed patient list.\n"
         + "The appointment to delete is identified by its appointment index (1-based).\n"
         + "Parameters: INDEX (must be a positive integer) "

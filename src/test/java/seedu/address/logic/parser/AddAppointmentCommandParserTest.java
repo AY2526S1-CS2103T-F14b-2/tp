@@ -42,7 +42,8 @@ public class AddAppointmentCommandParserTest {
     @Test
     public void parse_invalidIndex_throwsParseException() {
         String userInput = "0 " + PREFIX_DATE + FUTURE_DATE + " " + PREFIX_TIME + FUTURE_TIME;
-        assertParseFailure(parser, userInput, MESSAGE_INVALID_INDEX);
+        assertParseFailure(parser, userInput,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAppointmentCommand.MESSAGE_USAGE));
     }
 
     @Test
