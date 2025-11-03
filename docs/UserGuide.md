@@ -320,7 +320,7 @@ Edits an existing patient in MediSaveContact.
 
 `editpatient INDEX [n/NAME] [p/PHONE] [a/ADDRESS] [tag/TAG]`
 
-#### Example Commands :
+#### Example Commands:
 ```
 editpatient 1 p/91234567
 ```
@@ -603,7 +603,7 @@ Adds a note to a patient's record for tracking medical observations, treatment u
 
 `note INDEX note/NOTE`
 
-Example Commands :
+#### Example Commands:
 ```
 note 1 note/Patient shows improved blood sugar levels today.
 ```
@@ -892,7 +892,7 @@ editappt 2 i/1 note/
       <td>"Appointment must be set in the future."</td>
     </tr>
     <tr>
-      <td>Appointment date must exist in the calender</td>
+      <td>Appointment date must exist in the calendar</td>
       <td>"The specified date or time does not exist."</td>
     </tr>
     <tr>
@@ -1049,7 +1049,7 @@ Indexes of commands are based on the updated list after using Find. To restore t
 Undoes the effect of the most recent **successful** command, provided there was already a
 successful command given. This only works for commands which changes the database.
 
-Command Format:
+#### Command Format:
 ```
 undo
 ```
@@ -1086,7 +1086,7 @@ clear
 
 Exits the program.
 
-Command Format:
+#### Command Format:
 ```
 exit
 ```
