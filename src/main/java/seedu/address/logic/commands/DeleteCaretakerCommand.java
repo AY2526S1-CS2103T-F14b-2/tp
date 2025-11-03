@@ -24,7 +24,7 @@ public class DeleteCaretakerCommand extends AbstractDeleteCommand<Patient> {
 
     public static final String MESSAGE_DELETE_CARETAKER_SUCCESS = "Caretaker deleted.\n"
             + "%1$s";
-    public static final String MESSAGE_NO_CARETAKER_FOUND = "Specified patient has no caretaker!";
+    public static final String MESSAGE_NO_CARETAKER_FOUND = "The patient at index %1$s does not have a caretaker.";
 
     public DeleteCaretakerCommand(Index targetIndex) {
         super(targetIndex);
@@ -50,7 +50,7 @@ public class DeleteCaretakerCommand extends AbstractDeleteCommand<Patient> {
     protected void validateDeletion(Model model, Patient patientToDeleteFrom) throws CommandException {
         Caretaker caretaker = patientToDeleteFrom.getCaretaker();
         if (caretaker == null) {
-            throw new CommandException(MESSAGE_NO_CARETAKER_FOUND);
+            throw new CommandException(String.format(MESSAGE_NO_CARETAKER_FOUND, targetIndex.getOneBased()));
         }
     }
 

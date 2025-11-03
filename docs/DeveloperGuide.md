@@ -434,6 +434,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+* 3c. The appointment details duplicate an existing appointment for that patient.
+
+   * 3c1. MediSaveContact shows an error message ("This appointment already exists in the address book").
+
+         Use case resumes at step 2.
+
 **Use case 3: Add a medical note to a patient**
 
 **MSS**

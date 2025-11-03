@@ -18,6 +18,10 @@ public class HelpCommand extends Command {
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
 
+    private static final String HELP_MESSAGE = "Show help message\n"
+            + "   Purpose: Shows a list of successful commands.\n"
+            + "   Format: help\n";
+
     private static final String ADD_PATIENT_MESSAGE = "Add Patient\n"
             + "   Purpose: Add a new patient with personal details\n"
             + "   Format: patient n/NAME p/PHONE a/ADDRESS [tag/TAG]\n"
@@ -89,6 +93,10 @@ public class HelpCommand extends Command {
             + "   Format: deletecaretaker INDEX\n"
             + "   Notes: Patient must have a caretaker already assigned\n";
 
+    private static final String SORT_APPT_MESSAGE = "Sort appointments by time\n"
+            + "   Purpose: Sorts the current list of patients by their most upcoming appointment.\n"
+            + "   Format: sortappt\n";
+
     private static final String CLEAR_MESSAGE = "Clear all entries\n"
             + "   Purpose: Clear all entries from MediSaveContact.\n"
             + "   Format: clear\n";
@@ -98,7 +106,12 @@ public class HelpCommand extends Command {
             + "   Format: undo\n"
             + "   Notes:  Only works for commands which change the database.\n";
 
+    private static final String EXIT_MESSAGE = "Exit the program\n"
+            + "   Purpose: Exit the program.\n"
+            + "   Format: exit\n";
+
     public static final List<String> HELP_MESSAGES = new ArrayList<>(Arrays.asList(
+            HELP_MESSAGE,
             ADD_PATIENT_MESSAGE,
             FIND_PATIENT_MESSAGE,
             EDIT_PATIENT_MESSAGE,
@@ -113,8 +126,10 @@ public class HelpCommand extends Command {
             ADD_CARETAKER_MESSAGE,
             EDIT_CARETAKER_MESSAGE,
             DELETE_CARETAKER_MESSAGE,
+            SORT_APPT_MESSAGE,
             CLEAR_MESSAGE,
-            UNDO_MESSAGE
+            UNDO_MESSAGE,
+            EXIT_MESSAGE
     ));
 
     public static String getFormattedHelpMessages() {

@@ -77,12 +77,14 @@ Action | Description
     * `n/John Doe tag/High` ✅
     * `n/John Doe` ✅
 
-* Parameters can be in any order.<br>
+* Parameters with prefixes can be in any order.<br>
     * `n/John Doe tag/high` ✅
     * `tag/high n/John Doe` ✅
 
 * Extra parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
   e.g. if you type `clear 123`, it will be interpreted as `clear`.
+
+* When a command accepts an input prefix only once, entering it more than once will show an error about duplicate fields and the command will not run.
 
 * When a compulsory parameter is not provided, an error message regarding the missing parameter will appear, and the command will not be executed.
 
@@ -436,8 +438,12 @@ caretaker 3 n/Alice Tan p/81234567 r/Home Nurse
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must not already have a caretaker</td>
+      <td>"The patient at index X already has a caretaker."</td>
     </tr>
     <tr>
       <td><strong>NAME / PHONE</strong></td>
@@ -501,8 +507,12 @@ editcaretaker 2 n/Jane Ong r/Sister
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must already have a caretaker</td>
+      <td>"The patient at index X does not have a caretaker."</td>
     </tr>
     <tr>
       <td><strong>NAME / PHONE / ADDRESS / RELATIONSHIP</strong></td>
@@ -560,8 +570,12 @@ deletecaretaker 2
   </thead>
   <tbody>
     <tr>
-      <td><strong>INDEX</strong></td>
+      <td rowspan="2"><strong>INDEX</strong></td>
       <td colspan="2">See <a href="#index-parameter">Index Parameter</a></td>
+    </tr>
+    <tr>
+      <td>Target patient must already have a caretaker</td>
+      <td>"The patient at index X does not have a caretaker."</td>
     </tr>
   </tbody>
 </table>
@@ -630,6 +644,10 @@ note 3 note/Allergic reaction to penicillin - avoid in future treatments
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Notes are appended to existing notes, so you can add multiple notes to build a complete medical history for each patient.
+</div>
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Warning:**
+Only one `note/` prefix is allowed per command. If you provide multiple `note/` prefixes, MediSaveContact will stop the command and show "Multiple values specified for the following single-valued field(s): note/".
 </div>
 
 ### Editing a note : `editnote`
