@@ -287,9 +287,9 @@ Step 4. The command formats feedback (`Appointment created: <formatted appointme
 `editappt` and `deleteappt` follow the same lifecycle: parse input, locate the patient, validate the target appointment, produce an updated `Patient` instance, and persist it through the model. Undoing any of these commands restores the previous snapshot just like the undo walkthrough earlier.
 
 #### Command implementation notes
-- `AddressBookParser` tokenises raw CLI input and dispatches to the relevant `*AppointmentCommandParser`. Each parser enforces mandatory prefixes, rejects duplicates via `ArgumentMultimap#verifyNoDuplicatePrefixesFor(...)`, and converts user input into domain objects with `ParserUtil`. Parse-time failures throw `ParseException`, surfacing format errors before model work begins.
+- `AddressBookParser` tokenises raw CLI input and dispatches to the relevant `AppointmentCommandParser`. Each parser enforces mandatory prefixes, rejects duplicates via `ArgumentMultimap#verifyNoDuplicatePrefixesFor(...)`, and converts user input into domain objects with `ParserUtil`. Parse-time failures throw `ParseException`, surfacing format errors before model work begins.
 - `AddAppointmentCommand` constructs the appointment immediately, which ensures invalid dates/times fail fast and allows the same instance to be reused in the success message.
-- `EditAppointmentCommand` extends `AbstractEditCommand`. Its `EditAppointmentDescriptor` records only the mutated fields and provides `buildUpdatedAppointment(...)` to merge edits with the original appointment. `validateEdit(...)` performs type checks (patient vs. caretaker), ensures the appointment list is non-empty, and verifies the target index before any model mutation.
+- `EditAppointmentCommand` extends `AbstractEditCommand`. Its `EditAppointmentDescriptor` records only the mutated fields and provides `buildUpdatedAppointment(...)` to merge edits with the original appointment. `validateEdit(...)` performs type checks (patient vs. caretaker), verifies the appointment index is within valid bounds (1 to size of appointments list), and checks for duplicate date/time combinations before any model mutation.
 - `DeleteAppointmentCommand` extends `AbstractDeleteCommand`. After validation it copies the patient’s appointment list, removes the target entry, and delegates to the model to persist the updated patient.
 
 #### Model updates and undo support
@@ -298,7 +298,7 @@ Step 4. The command formats feedback (`Appointment created: <formatted appointme
 - `Patient` encapsulates appointment storage. Its mutators (`addAppointment`, `editAppointment`) copy the underlying list, apply the change, and sort the result, ensuring consumers never observe partially updated state.
 
 #### Validation and error handling
-- `Appointment` performs definitive validation: it parses `dd-MM-yyyy` and `HH:mm` values to `LocalDateTime` and rejects past timestamps via `MESSAGE_PAST_APPOINTMENT`. Optional notes are wrapped in `Note`, inheriting the same length and character checks as patient notes.
+- `Appointment` performs definitive validation: it parses `dd-MM-uuuu` and `HH:mm` values using strict `ResolverStyle.STRICT` mode to `LocalDateTime` and rejects past timestamps via `MESSAGE_PAST_APPOINTMENT`. The strict parsing ensures that invalid calendar dates (e.g., 31-02-2099) are rejected with `MESSAGE_INVALID_DATE_TIME`. Optional notes are wrapped in `Note`, inheriting the same length and character checks as patient notes.
 - Duplicate detection resides in the model layer rather than the parser so both CLI and future UI surfaces share the same safeguard. Attempts to schedule the same date/time for a patient trigger `MESSAGE_DUPLICATE_APPOINTMENT`.
 - Editing supports note removal by treating empty `note/` inputs as `EditAppointmentDescriptor#clearNote()`. The descriptor tracks this through the `noteCleared` flag and `isAnyFieldEdited()` prevents no-op updates from reaching the model.
 
@@ -639,3 +639,186 @@ Given below are instructions to test the app manually. They cover the core MediS
 
 * To return to the default sample data, delete `data/medisavecontact.json` before launching the application.
 * Alternatively, keep a copy of a known-good JSON file and overwrite the data directory after each scenario.
+           | view patients with ongoing medication                | I can check who needs regular follow-ups                |
+| `*`      | nurse               | export patient records to a text file                | I can back up my data                                   |
+| `*`      | nurse               | import patient records from a text file              | I can restore data if needed                            |
+| `*`      | nurse               | tag patients with labels (e.g., "diabetes", "rehab") | I can organise them by health needs                     |
+| `*`      | nurse               | search patients by tag                               | I can quickly find patients with similar conditions     |
+
+
+
+### Use cases
+
+(For all use cases below, the **System** is the `MediSaveContact` and the **Actor** is the `user`, unless specified otherwise)
+
+**Use case 1: Delete a person**
+
+**MSS**
+
+1.  User requests to list persons
+2.  MediSaveContact shows a list of persons
+3.  User requests to delete a specific person in the list
+4.  MediSaveContact deletes the person
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case 2: Add an appointment to a patient**
+
+**MSS**
+
+1. User requests to list persons
+2. MediSaveContact shows a list of persons
+3. User requests to update a specific person's appointment
+4. MediSaveContact updates the information
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The given date is invalid.
+
+    * 3b1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+**Use case 3: Add a medical note to a patient**
+
+**MSS**
+
+1. User requests to list persons
+2. MediSaveContact shows a list of persons
+3. User requests to update a specific person's medical note
+4. MediSaveContact updates the information
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The given note is empty.
+
+    * 3b1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+* 3c. The given note is too long.
+
+    * 3c1. MediSaveContact shows an error message.
+
+      Use case resumes at step 2.
+
+*{More to be added}*
+
+### Non-Functional Requirements
+### Business
+1. Single nurse profile can support <= 5000 patients
+2. A nurse cannot create two appointments that overlap for the same patient
+#### Constraints
+1. Release is one JAR <= 100 MB, runs via java -jar
+2. Features work 100% offline, no dependency on external servers
+#### Performance
+1. Listing up to 1000 patients render first screen in <300 ms and filter/search updates re-render in <150 ms
+2. Prompt can be typed in <2.5s from java -jar
+#### Quality
+1. User can perform commands without using a mouse
+2. Proper response to invalid commands (showing expected syntax, reason why commands are invalid, etc.)
+#### Technical
+1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+#### Process
+1. Project to be conducted in Brownfield increments, by every week, a new release of the product is made available
+#### Notes about project scope
+1. The product should maintain a single local profile, no access to the same data file by another user
+
+### Glossary
+
+
+* **Mainstream OS**: Windows, Linux, Unix, macOS
+* **JAR**: Java Archive -- A package file format used to aggregate many Java class files, associated metadata, and resources into a single file for distribution
+* **GUI**: Graphical User Interface -- A form of user interface that allows users to interact with their devices through graphical icons and visual indicators
+* **Patient records**: Information related to a patient (personal details, notes, appointments)
+* **Medical note**: A string field with a maximum length of 200 characters, intended for storing patient specific notes such as diagnosis and medications
+* **Appointment**: Patient's next appointment. Stores a DateTime object, and cannot be set to the past
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Instructions for manual testing**
+
+Given below are instructions to test the app manually.
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
+testers are expected to do more *exploratory* testing.
+
+</div>
+
+### Launch and shutdown
+
+1. Initial launch
+
+   1. Download the jar file and copy into an empty folder
+
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+
+1. Saving window preferences
+
+   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+
+   1. Re-launch the app by double-clicking the jar file.<br>
+       Expected: The most recent window size and location is retained.
+
+1. _{ more test cases …​ }_
+
+### Deleting a person
+
+1. Deleting a person while all persons are being shown
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+   1. Test case: `delete 1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+
+   1. Test case: `delete 0`<br>
+      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+
+   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
+
+1. _{ more test cases …​ }_
+
+### Saving data
+
+1. Dealing with missing/corrupted data files
+
+   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+
+1. _{ more test cases …​ }_
