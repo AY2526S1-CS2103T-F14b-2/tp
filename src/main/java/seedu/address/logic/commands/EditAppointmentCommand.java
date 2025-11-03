@@ -47,7 +47,6 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
             + "Appointment can only be edited for patients.";
     public static final String MESSAGE_INVALID_ITEM_INDEX = "The appointment at index %1$s is invalid. "
             + "Patient has %2$s appointment(s).";
-    public static final String MESSAGE_NO_APPOINTMENT = "Patient has no appointment to edit.";
 
     /**
      * Creates an EditAppointmentCommand to edit the specified appointment of the patient at the specified index.
@@ -82,13 +81,8 @@ public class EditAppointmentCommand extends AbstractEditCommand<Patient,
             throw new CommandException(String.format(MESSAGE_NOT_PATIENT, super.getIndex().getOneBased()));
         }
 
-        // Check if patient has appointment
-        List<Appointment> appointments = patientToEdit.getAppointment();
-        if (appointments.isEmpty()) {
-            throw new CommandException(MESSAGE_NO_APPOINTMENT);
-        }
-
         // Check if appointment index is valid
+        List<Appointment> appointments = patientToEdit.getAppointment();
         int appointmentIndex = editDescriptor.getAppointmentIndex();
         if (appointmentIndex < 1 || appointmentIndex > appointments.size()) {
             throw new CommandException(String.format(MESSAGE_INVALID_ITEM_INDEX,

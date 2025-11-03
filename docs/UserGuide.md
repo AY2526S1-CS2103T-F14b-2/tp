@@ -833,6 +833,11 @@ editappt 2 i/1 note/
       <td>"The appointment at index X is invalid. Patient has Y appointment(s)."</td>
     </tr>
     <tr>
+      <td rowspan="1"><strong>NEW_DATE / NEW_TIME / NEW_NOTE</strong></td>
+      <td>At least one of these parameters must be present</td>
+      <td>"At least one field to edit must be provided."</td>
+    </tr>
+    <tr>
       <td rowspan="3"><strong>NEW_DATE</strong> (Optional)</td>
       <td>Must follow DD-MM-YYYY format</td>
       <td>"Date and time should be in the format DD-MM-YYYY HH:MM."</td>
