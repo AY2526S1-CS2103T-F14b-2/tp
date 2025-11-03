@@ -14,6 +14,13 @@ import seedu.address.model.person.Person;
 public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
+    private static final String PHONE_ICON_CONST = "\uD83D\uDCDE ";
+    private static final String ADDRESS_ICON_CONST = "\uD83C\uDFE0 ";
+    private static final String PERSON_ICON_CONST = "\uD83D\uDC64 ";
+    private static final String CARETAKER_ICON_CONST = "\ud83d\udc65 ";
+    private static final String RELATIONSHIP_ICON_CONST = "\uD83D\uDC9E ";
+    private static final String NOTES_ICON_CONST = "\ud83d\udcdd ";
+    private static final String APPOINTMENT_ICON_CONST = "\ud83d\udcc5 ";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -36,11 +43,17 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private VBox notesContainer;
     @FXML
+    private Label notesHeader;
+    @FXML
     private VBox appointmentContainer;
+    @FXML
+    private Label AppointmentHeader;
     @FXML
     private VBox caretakerBox;
     @FXML
     private VBox caretakerContainer;
+    @FXML
+    private Label caretakerHeader;
     @FXML
     private Label caretakerName;
     @FXML
@@ -60,15 +73,17 @@ public class PersonCard extends UiPart<Region> {
         super(FXML);
         this.person = person;
         id.setText(displayedIndex + ". ");
-        name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
+        name.setText(PERSON_ICON_CONST + person.getName().fullName);
+        phone.setText(PHONE_ICON_CONST + person.getPhone().value);
+        address.setText(ADDRESS_ICON_CONST + person.getAddress().value);
         if (person instanceof Patient patient) {
             // Set notes for patients
             if (!patient.getNotes().isEmpty()) {
                 notesContainer.setVisible(true);
                 notesContainer.setManaged(true);
                 notesContainer.getChildren().clear();
+                notesHeader.setText(NOTES_ICON_CONST + " Notes");
+
                 var notes = patient.getNotes();
 
                 for (int i = 0; i < notes.size(); i++) {
@@ -93,6 +108,8 @@ public class PersonCard extends UiPart<Region> {
                 appointmentContainer.setVisible(true);
                 appointmentContainer.setManaged(true);
                 appointmentContainer.getChildren().clear();
+
+                AppointmentHeader.setText(APPOINTMENT_ICON_CONST + "Appointments");
                 var appts = patient.getAppointment();
 
                 for (int i = 0; i < appts.size(); i++) {
@@ -117,13 +134,14 @@ public class PersonCard extends UiPart<Region> {
             if (patient.getCaretaker() != null) {
                 caretakerBox.setVisible(true);
                 caretakerBox.setManaged(true);
+                caretakerHeader.setText(CARETAKER_ICON_CONST + "Caretaker");
 
                 var caretaker = patient.getCaretaker();
 
-                caretakerName.setText(caretaker.getName().fullName);
-                caretakerPhone.setText(caretaker.getPhone().value);
-                caretakerAddress.setText(caretaker.getAddress().value);
-                caretakerRelationship.setText(caretaker.getRelationship().value);
+                caretakerName.setText(PERSON_ICON_CONST + caretaker.getName().fullName);
+                caretakerPhone.setText(PHONE_ICON_CONST + caretaker.getPhone().value);
+                caretakerAddress.setText(ADDRESS_ICON_CONST + caretaker.getAddress().value);
+                caretakerRelationship.setText(RELATIONSHIP_ICON_CONST + caretaker.getRelationship().value);
             } else {
                 caretakerBox.setVisible(false);
                 caretakerBox.setManaged(false);
