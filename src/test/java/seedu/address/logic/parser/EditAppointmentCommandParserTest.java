@@ -119,6 +119,6 @@ public class EditAppointmentCommandParserTest {
                 + PREFIX_DATE + FUTURE_DATE + " "
                 + PREFIX_TIME + FUTURE_TIME;
         assertParseFailure(parser, userInput,
-        String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditAppointmentCommand.MESSAGE_USAGE));
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditAppointmentCommand.MESSAGE_USAGE));
     }
 }

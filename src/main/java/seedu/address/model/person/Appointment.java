@@ -56,6 +56,10 @@ public class Appointment implements Comparable<Appointment> {
         }
     }
 
+    public Appointment(String date, String time) {
+        this(date, time, null);
+    }
+
     private static LocalDateTime parseDateTime(String date, String time) {
         String candidate = date + " " + time;
         if (!DATE_TIME_PATTERN.matcher(candidate).matches()) {
@@ -67,10 +71,6 @@ public class Appointment implements Comparable<Appointment> {
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException(MESSAGE_INVALID_DATE_TIME);
         }
-    }
-
-    public Appointment(String date, String time) {
-        this(date, time, null);
     }
 
     /**
