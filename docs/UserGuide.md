@@ -355,12 +355,12 @@ editpatient 2 n/Betsy Crower tag/
 #### Outputs
 
 - Success:
-    - In Command Feedback Box: <br>"Patient edited: [changed fields]<br>For [Name]; Phone: [Phone]"
+    - In Command Feedback Box: <br>"Patient edited: [Name]; Phone: [Phone]; Address: [Address]"
 - Failure: Error messages above
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-You can remove all the person’s tags by typing `tag/` without
-    specifying any tags after it.
+You can remove the patient’s tag by typing `tag/` without
+    specifying any tag after it.
 </div>
 
 ### Deleting a patient: `deletepatient`
