@@ -68,7 +68,7 @@
           minWidth="200"
           maxWidth="200"
           HBox.hgrow="NEVER">
-      <Label fx:id="AppointmentHeader" text="Appointments" styleClass="section_header"/>
+      <Label fx:id="appointmentHeader" text="Appointments" styleClass="section_header"/>
       <VBox fx:id="appointmentContainer" spacing="3" />
     </VBox>
 

@@ -47,7 +47,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private VBox appointmentContainer;
     @FXML
-    private Label AppointmentHeader;
+    private Label appointmentHeader;
     @FXML
     private VBox caretakerBox;
     @FXML
@@ -109,7 +109,7 @@ public class PersonCard extends UiPart<Region> {
                 appointmentContainer.setManaged(true);
                 appointmentContainer.getChildren().clear();
 
-                AppointmentHeader.setText(APPOINTMENT_ICON_CONST + "Appointments");
+                appointmentHeader.setText(APPOINTMENT_ICON_CONST + "Appointments");
                 var appts = patient.getAppointment();
 
                 for (int i = 0; i < appts.size(); i++) {
