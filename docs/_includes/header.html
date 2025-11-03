@@ -24,9 +24,6 @@
             <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
             {%- endif -%}
           {%- endfor -%}
-          <a class="page-link" href="{{ '/DeveloperGuide.html#appointment-feature' | relative_url }}">
-            Appointment Implementation
-          </a>
           {%- if site.repository -%}
           <a class="page-link no-hover" href="https://github.com/{{site.repository}}">
             <img src="{{site.github_icon | relative_url}}" class="icon" alt="View on GitHub">
