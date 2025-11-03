@@ -589,6 +589,8 @@ Adds a note to a patient's record for tracking medical observations, treatment u
 
 `note INDEX note/NOTE`
 
+Only one `note/` prefix is accepted per command. 
+
 Example Commands :
 ```
 note 1 note/Patient shows improved blood sugar levels today.
