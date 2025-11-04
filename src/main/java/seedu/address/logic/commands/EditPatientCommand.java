@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -127,8 +128,7 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
 
     @Override
     protected void updateModelAfterEdit(Model model, Patient editedPatient) {
-        Set<Person> previous =
-                new java.util.HashSet<>(model.getFilteredPersonList());
+        Set<Person> previous = new HashSet<>(model.getFilteredPersonList());
 
         Predicate<Person> keepPreviousPlusEdited =
                 p -> previous.contains(p) || p.equals(editedPatient);
