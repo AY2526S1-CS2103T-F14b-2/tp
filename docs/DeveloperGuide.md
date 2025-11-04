@@ -182,8 +182,8 @@ These operations are exposed in the `Model` interface
 
 #### When we snapshot
 Only mutating operations lead to snapshots. The `ModelManager` methods that mutate the book call `update()`, then perform the change
-* Mutating examples which captures snapshot: `patient`, `deletenote`, `editappt`, `clear`
-* Non-mutating examples that does not capture snapshot: `list`, `find`, `help`, `sortappt`
+* Mutating examples which captures snapshot: `patient`, `deletenote`, `editappt`, `clear`, `sortappt`
+* Non-mutating examples that does not capture snapshot: `list`, `find`, `help`
 
 
 
