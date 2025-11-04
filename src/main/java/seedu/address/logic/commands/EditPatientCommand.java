@@ -45,6 +45,8 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Patient Edited: %s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_CARETAKER_ALREADY_EXISTS = "This person already exists as a "
+            + "caretaker in the address book";
     public static final String MESSAGE_NOT_PATIENT = "The person at index %1$s is not a patient. "
             + "edit can only be done on Patients.";
 
@@ -118,6 +120,10 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
             throws CommandException {
         if (!originalPatient.isSamePerson(editedPatient) && model.hasPerson(editedPatient)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        }
+
+        if (!originalPatient.isSamePerson(editedPatient) && model.existAsCaretaker(editedPatient)) {
+            throw new CommandException(MESSAGE_CARETAKER_ALREADY_EXISTS);
         }
     }
 
