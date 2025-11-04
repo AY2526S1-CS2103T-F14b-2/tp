@@ -223,7 +223,9 @@ public class ModelManager implements Model {
     @Override
     public void sortPersons(Comparator<? super Person> comparator) {
         requireNonNull(comparator);
+        addressBook.update();
         addressBook.getAddressBook().sortPersons(comparator);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
 
