@@ -438,7 +438,7 @@ public class AbstractEditCommandTest {
         }
 
         @Override
-        protected void updateModelAfterEdit(Model model) {
+        protected void updateModelAfterEdit(Model model, String editedI) {
             postUpdateCalled = true;
         }
 

@@ -63,7 +63,7 @@ public abstract class AbstractEditCommand<T, D> extends Command {
         updateModel(model, itemToEdit, editedItem);
 
         // Perform any post-edit updates
-        updateModelAfterEdit(model);
+        updateModelAfterEdit(model, editedItem);
 
         return new CommandResult(formatSuccessMessage(editedItem));
     }
@@ -143,7 +143,7 @@ public abstract class AbstractEditCommand<T, D> extends Command {
      *
      * @param model the model to update
      */
-    protected void updateModelAfterEdit(Model model) {
+    protected void updateModelAfterEdit(Model model, T editedItem) {
         // Default implementation does nothing - subclasses can override
     }
 

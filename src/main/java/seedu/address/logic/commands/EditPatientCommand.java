@@ -4,11 +4,13 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
@@ -19,6 +21,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Patient;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -124,8 +127,13 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
     }
 
     @Override
-    protected void updateModelAfterEdit(Model model) {
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    protected void updateModelAfterEdit(Model model, Patient editedPatient) {
+        Set<Person> previous = new HashSet<>(model.getFilteredPersonList());
+
+        Predicate<Person> keepPreviousPlusEdited =
+                p -> previous.contains(p) || p.equals(editedPatient);
+
+        model.updateFilteredPersonList(keepPreviousPlusEdited);
     }
 
     @Override
