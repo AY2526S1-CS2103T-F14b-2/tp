@@ -553,19 +553,19 @@ Given below are instructions to test the app manually. They cover the core MediS
 ### Managing caretakers
 
 1. **Assigning a caretaker**
-   1. With patients listed, pick one without a caretaker (or add a fresh patient).
-   2. Execute `caretaker INDEX n/Lee Wei Jun p/90001234 a/Blk 22 Pasir Ris r/Brother`.<br>
-      **Expected:** Patient card displays a caretaker section with the supplied details.
+    1. With patients listed, pick one without a caretaker (or add a fresh patient).
+    2. Execute `caretaker INDEX n/Lee Wei Jun p/90001234 a/Blk 22 Pasir Ris r/Brother`.<br>
+       **Expected:** Targeted Patient card displays a caretaker section with the supplied details.
 2. **Validation**
-   1. Run `caretaker INDEX n/` with a blank name.<br>
-      **Expected:** Validation error referencing the name constraint.
-   2. Run `caretaker INDEX ...` on the same patient again.<br>
-      **Expected:** Error stating the patient already has a caretaker.
+    1. Run `caretaker INDEX ...` on the same patient again.<br>
+       **Expected:** Error stating the patient already has a caretaker.
+    2. Run `caretaker INDEX n/ p/98329821 a/Yishun Ave 5 Block 105 #05-2046 r/Father` with a blank name, on a patient without a caretaker.<br>
+       **Expected:** Validation error referencing the name constraint.
 3. **Editing and removing caretaker**
-   1. Execute `editcaretaker INDEX p/98889999`.<br>
-      **Expected:** Caretaker phone updates in the UI and success message.
-   2. Execute `deletecaretaker INDEX`.<br>
-      **Expected:** Caretaker section disappears. Running the command again should return an error indicating no caretaker exists.
+    1. Execute `editcaretaker INDEX p/98889999`.<br>
+       **Expected:** Caretaker phone updates in the UI and success message.
+    2. Execute `deletecaretaker INDEX`.<br>
+       **Expected:** Caretaker section disappears. Running the command again should return an error indicating no caretaker exists.
 
 ### Managing notes
 
