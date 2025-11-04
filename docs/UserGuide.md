@@ -15,7 +15,7 @@ patient information during busy schedules.
 
 1. Ensure you have Java 17 or above installed in your computer, following this [guide](https://se-education.org/guides/tutorials/javaInstallation.html).
 
-1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases/download/v1.5/MediSaveContact.jar).
+1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases/download/v1.6/MediSaveContact.jar).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your MediSaveContact.
 
@@ -989,7 +989,7 @@ Exits the program.
 exit
 ```
 --------------------------------------------------------------------------------------------------------------------
-### Common Parameters Reference
+## Common Parameters Reference
 {: #common-parameters }
 
 Many commands share similar parameters with identical validation rules. Here are the common parameter types used throughout MediSaveContact:
@@ -1096,12 +1096,12 @@ Patient indices adapt to the current view. If you use the `find` command to filt
 
 
 --------------------------------------------------------------------------------------------------------------------
-### Saving the data
+## Saving the data
 
 MediSaveContact data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 --------------------------------------------------------------------------------------------------------------------
-### Editing the data file
+## Editing the data file
 
 MediSaveContact data are saved automatically as a JSON file `[JAR file location]/data/medisavecontact.json` after the first successful command. Advanced users are welcome to update data directly by editing that data file.
 
