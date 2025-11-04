@@ -159,6 +159,21 @@ public class EditPatientCommandTest {
     }
 
     @Test
+    public void execute_editPatientToExistingCaretaker_failure() {
+        // ALICE (index 0) has caretaker ALEXENDRA
+        // Try to edit BOB (index 1) to have same name/phone as ALEXENDRA
+        Patient alice = (Patient) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        
+        EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder()
+                .withName(alice.getCaretaker().getName().fullName)
+                .withPhone(alice.getCaretaker().getPhone().value)
+                .build();
+        EditPatientCommand editPatientCommand = new EditPatientCommand(INDEX_SECOND_PERSON, descriptor);
+
+        assertCommandFailure(editPatientCommand, model, EditPatientCommand.MESSAGE_CARETAKER_ALREADY_EXISTS);
+    }
+
+    @Test
     public void execute_invalidPersonIndexUnfilteredList_failure() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build();
