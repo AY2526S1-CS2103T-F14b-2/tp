@@ -880,6 +880,7 @@ sortappt
     - If no patients: "There are no patients in MediSaveBook to sort!"
     - If all patients have no appointment: "No appointments to sort!"
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:** To undo the sortappt command, use list command. </div>
 
 --------------------------------------------------------------------------------------------------------------------
 ### Locating patients by name : `find`
