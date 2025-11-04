@@ -15,7 +15,7 @@ patient information during busy schedules.
 
 1. Ensure you have Java 17 or above installed in your computer, following this [guide](https://se-education.org/guides/tutorials/javaInstallation.html).
 
-1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases/download/v1.6/MediSaveContact.jar).
+1. Download the latest `.jar` file [here](https://github.com/AY2526S1-CS2103T-F14b-2/tp/releases/download/v1.6b/MediSaveContact.jar).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your MediSaveContact.
 
