@@ -42,6 +42,7 @@ public class SortAppointmentCommand extends Command {
                 .map(p -> (Patient) p)
                 .map(Patient::getEarliestAppointmentDateTime)
                 .anyMatch(Optional::isPresent);
+
         if (!hasAppointments) {
             throw new CommandException(MESSAGE_NO_APPOINTMENTS);
         }
