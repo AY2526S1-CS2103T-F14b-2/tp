@@ -880,7 +880,6 @@ sortappt
     - If no patients: "There are no patients in MediSaveBook to sort!"
     - If all patients have no appointment: "No appointments to sort!"
 
-
 --------------------------------------------------------------------------------------------------------------------
 ### Locating patients by name : `find`
 
