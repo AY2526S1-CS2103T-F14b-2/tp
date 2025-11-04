@@ -121,7 +121,7 @@ public class EditPatientCommand extends AbstractEditCommand<Patient, EditPatient
         if (!originalPatient.isSamePerson(editedPatient) && model.hasPerson(editedPatient)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
-        
+
         if (!originalPatient.isSamePerson(editedPatient) && model.existAsCaretaker(editedPatient)) {
             throw new CommandException(MESSAGE_CARETAKER_ALREADY_EXISTS);
         }

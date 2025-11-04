@@ -163,7 +163,7 @@ public class EditPatientCommandTest {
         // ALICE (index 0) has caretaker ALEXENDRA
         // Try to edit BOB (index 1) to have same name/phone as ALEXENDRA
         Patient alice = (Patient) model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        
+
         EditPatientDescriptor descriptor = new EditPatientDescriptorBuilder()
                 .withName(alice.getCaretaker().getName().fullName)
                 .withPhone(alice.getCaretaker().getPhone().value)
